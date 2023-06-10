@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/radio-raact/static/css/main.cfbbfdc3.css",
-    "main.js": "/radio-raact/static/js/main.67b8a23f.js",
+    "main.js": "/radio-raact/static/js/main.a81e0d30.js",
     "static/media/img-soundpark-deep.jpg": "/radio-raact/static/media/img-soundpark-deep.d53d2e7c8ac8882c408b.jpg",
     "static/media/img-nrg-radio.jpg": "/radio-raact/static/media/img-nrg-radio.4fffca6e0ce549e411e0.jpg",
     "static/media/img-181.fm.jpg": "/radio-raact/static/media/img-181.fm.b2970b049dfd1d231aca.jpg",
     "static/media/img-kiss-fm.jpg": "/radio-raact/static/media/img-kiss-fm.1f0145879b48d1562e12.jpg",
     "index.html": "/radio-raact/index.html",
     "main.cfbbfdc3.css.map": "/radio-raact/static/css/main.cfbbfdc3.css.map",
-    "main.67b8a23f.js.map": "/radio-raact/static/js/main.67b8a23f.js.map"
+    "main.a81e0d30.js.map": "/radio-raact/static/js/main.a81e0d30.js.map"
   },
   "entrypoints": [
     "static/css/main.cfbbfdc3.css",
-    "static/js/main.67b8a23f.js"
+    "static/js/main.a81e0d30.js"
   ]
 }
