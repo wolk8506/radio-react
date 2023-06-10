@@ -48,18 +48,19 @@ export const Currency = () => {
   useEffect(() => {
     if (test) {
       console.log(1000);
+      axios
+        .request('https://api.monobank.ua/bank/currency')
+        .then(function (response) {
+          currencyA(response.data);
+        })
+        .catch(function (error) {
+          currencyA('error');
+          console.log('Error: ', error.message);
+        })
+        .finally(function () {});
     }
     // console.log(1000);
-    axios
-      .request('https://api.monobank.ua/bank/currency')
-      .then(function (response) {
-        currencyA(response.data);
-      })
-      .catch(function (error) {
-        currencyA('error');
-        console.log('Error: ', error.message);
-      })
-      .finally(function () {});
+
     setTest(true);
   }, [test]);
 
