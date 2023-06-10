@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import sprite from '../../images/sprite.svg';
+// import sprite from '../../images/sprite.svg';
 import axios from 'axios';
 
 export const Currency = () => {
@@ -69,7 +69,7 @@ export const Currency = () => {
   //   setInterval(currencyMono, 3600000);
   //   currencyUsd.innerHTML = `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`;
   //   currencyEur.innerHTML = `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`;
-  let timeout = 5000;
+  // let timeout = 5000;
 
   function currencyA(data) {
     // if (data === 'error') {
@@ -77,29 +77,23 @@ export const Currency = () => {
     //   setTimeout(currencyMono, timeout);
     //   return;
     // }
-
-    let arr = [];
-    data.map(i => {
-      if (i.currencyCodeB === 980) {
-        arr.push(i);
-      }
-    });
-
-    const USD = arr.find(el => el.currencyCodeA === 840);
-    const PLN = arr.find(el => el.currencyCodeA === 985);
-    const EUR = arr.find(el => el.currencyCodeA === 978);
-    const RUB = arr.find(el => el.currencyCodeA === 943);
-
-    eurTOusaSell = (EUR.rateSell / USD.rateSell).toFixed(4);
-    eurTOusaBuy = (EUR.rateBuy / USD.rateBuy).toFixed(4);
-    usdTOeurSell = (USD.rateSell / EUR.rateSell).toFixed(4);
-    usdTOeurBuy = (USD.rateBuy / EUR.rateBuy).toFixed(4);
-
-    console.log(eurTOusaSell, eurTOusaBuy, usdTOeurSell, usdTOeurBuy);
-
+    // let arr = [];
+    // data.map(i => {
+    //   if (i.currencyCodeB === 980) {
+    //     arr.push(i);
+    //   }
+    // });
+    // const USD = arr.find(el => el.currencyCodeA === 840);
+    // const PLN = arr.find(el => el.currencyCodeA === 985);
+    // const EUR = arr.find(el => el.currencyCodeA === 978);
+    // const RUB = arr.find(el => el.currencyCodeA === 943);
+    // eurTOusaSell = (EUR.rateSell / USD.rateSell).toFixed(4);
+    // eurTOusaBuy = (EUR.rateBuy / USD.rateBuy).toFixed(4);
+    // usdTOeurSell = (USD.rateSell / EUR.rateSell).toFixed(4);
+    // usdTOeurBuy = (USD.rateBuy / EUR.rateBuy).toFixed(4);
+    // console.log(eurTOusaSell, eurTOusaBuy, usdTOeurSell, usdTOeurBuy);
     // }
     // !!!!! MODAL OPEN/CLOSED -------------------------------------------------------------------------------
-
     //     openModalBtn.addEventListener('click', toggleModal);
     //     openModalBtn2.addEventListener('click', toggleModal);
     //     closeModalBtn.addEventListener('click', toggleModal);
@@ -113,12 +107,10 @@ export const Currency = () => {
     //         toggleModal();
     //       }
     //     });
-
     //     function toggleModal() {
     //       document.body.classList.toggle('modal-open');
     //       modal.classList.toggle('is-hidden');
     //     }
-
     //     btnConverter.oninput = function () {
     //       const data2 = [USD, EUR, PLN];
     //       table.classList.toggle('is-hidden2');
@@ -131,62 +123,50 @@ export const Currency = () => {
     //       converterHidden.classList.toggle('is-hidden3');
     //       nbu(data2);
     //     };
-
     //     let valueCurB = EUR.rateBuy;
     //     let valueCurA = 1;
-
     //     let inputOn1 = true;
     //     let inputOn2 = false;
     //     let expanrOn = false;
     //     let buyOn = true;
     //     let sellOn = false;
-
     //     const arr1 = ['UAH', 'EUR', 'USD', 'PLN'];
     //     const arr2 = ['EUR', 'UAH', 'USD', 'PLN'];
-
     //     expand.addEventListener('click', expandCurrency);
     //     function expandCurrency() {
     //       expanrOn = true;
     //       inputOn1 = true;
     //       f11();
     //     }
-
     //     buy.oninput = function () {
     //       buyOn = true;
     //       sellOn = false;
     //       inputOn1 = true;
     //       f11();
     //     };
-
     //     sell.oninput = function () {
     //       buyOn = false;
     //       sellOn = true;
     //       inputOn1 = true;
     //       f11();
     //     };
-
     //     selected.oninput = function () {
     //       inputOn1 = true;
     //       f11();
     //     };
-
     //     selected2.oninput = function () {
     //       inputOn1 = true;
     //       f11();
     //     };
-
     //     dataInput_1.oninput = function () {
     //       inputOn1 = true;
     //       f11();
     //     };
-
     //     dataInput_2.oninput = function () {
     //       inputOn2 = true;
     //       f11();
     //     };
-
     //     // !!!!!!!!!   РАБОТАЕТ ПРАВИЛЬНО   !!!!!!!!!!!!!!!!!!!!!!!!!!1
-
     //     function f11() {
     //       let a1 = [...arr1];
     //       let d1 = [...a1.splice(a1.indexOf(selected.value), 1), ...a1];
@@ -199,7 +179,6 @@ export const Currency = () => {
     //       const e2 = d2.indexOf(selected.value);
     //       d2.splice(e2, 1);
     //       // console.log('K7', d2);
-
     //       if (expanrOn) {
     //         let arr1_1 = [...d1];
     //         let arr2_1 = [...d2];
@@ -207,27 +186,22 @@ export const Currency = () => {
     //         d2 = arr1_1;
     //         expanrOn = false;
     //       }
-
     //       icon_currency_1.innerHTML = `
     //           <svg class="icon" width="64" height="48">
     //             <use href="${sprite}#icon-${d1[0]}"></use>
     //           </svg>`;
-
     //       selected.innerHTML = `
     //           <option value="${d1[0]}">${d1[0]}</option>
     //           <option value="${d1[1]}">${d1[1]}</option>
     //           <option value="${d1[2]}">${d1[2]}</option>`;
-
     //       icon_currency_2.innerHTML = `
     //           <svg class="icon" width="64" height="48">
     //             <use href="${sprite}#icon-${d2[0]}"></use>
     //           </svg>`;
-
     //       selected2.innerHTML = `
     //           <option value="${d2[0]}">${d2[0]}</option>
     //           <option value="${d2[1]}">${d2[1]}</option>
     //           <option value="${d2[2]}">${d2[2]}</option>`;
-
     //       if (selected.value === 'EUR') {
     //         if (buyOn) {
     //           valueCurA = EUR.rateBuy;
@@ -245,7 +219,6 @@ export const Currency = () => {
     //       } else if (selected.value === 'UAH') {
     //         valueCurA = 1;
     //       }
-
     //       if (selected2.value === 'UAH') {
     //         valueCurB = 1;
     //       } else if (selected2.value === 'USD') {
@@ -263,14 +236,11 @@ export const Currency = () => {
     //           valueCurB = EUR.rateSell;
     //         }
     //       }
-
     //       converterCurrency();
     //     }
-
     //     function converterCurrency() {
     //       let eee1 = dataInput_1.value.trim() * (valueCurA / valueCurB);
     //       let eee2 = dataInput_2.value.trim() * (valueCurB / valueCurA);
-
     //       if (inputOn1) {
     //         dataInput_2.value = eee1.toFixed(2);
     //         inputOn1 = false;
@@ -288,20 +258,14 @@ export const Currency = () => {
     //     .request(
     //       `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateSearch}&json`
     //     )
-
     //     .then(function (response) {
-
     //       dataNBU = response.data;
-
     //     })
     //     .catch(function (error) {
-
     //       console.log(error);
     //     })
     //     .finally(function () {
-
     //     });
-
     //   function nbu(data2) {
     //     const data = dataNBU;
     //     const USD = data.find(el => el.cc == 'USD').rate;
@@ -311,7 +275,6 @@ export const Currency = () => {
     //     console.log('НБУ USD', USD);
     //     console.log('НБУ USD', EUR);
     //     console.log('НБУ USD', PLN);
-
     //     table.innerHTML = `<table>
     //         <tr>
     //           <th>Валюта</th>
@@ -344,8 +307,8 @@ export const Currency = () => {
     <div>
       <div>
         <div className="currency">
-          <svg className="icon-USD" width="96" height="72">
-            <use href="${sprite}#icon-USD"></use>
+          <svg className="icon" width="96" height="72">
+            <use href=""></use>
           </svg>
           <div>
             <p className="currency-usd">
@@ -360,7 +323,7 @@ export const Currency = () => {
       </div>
 
       <div className="currency">
-        <svg className="icon-EUR" width="96" height="72">
+        <svg className="icon" width="96" height="72">
           <use href="{}#icon-EUR"></use>
         </svg>
         <div>
