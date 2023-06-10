@@ -49,7 +49,7 @@ export const Currency = () => {
     if (test) {
       console.log(1000);
     }
-    console.log(1000);
+    // console.log(1000);
     axios
       .request('https://api.monobank.ua/bank/currency')
       .then(function (response) {
@@ -60,11 +60,12 @@ export const Currency = () => {
         console.log('Error: ', error.message);
       })
       .finally(function () {});
+    setTest(true);
   }, [test]);
 
-  useEffect(() => {
-    setTest(true);
-  }, []);
+  // useEffect(() => {
+  //   setTest(true);
+  // }, []);
 
   //   setInterval(currencyMono, 3600000);
   //   currencyUsd.innerHTML = `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`;
