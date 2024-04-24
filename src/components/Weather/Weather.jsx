@@ -49,7 +49,7 @@ export const Weather = () => {
   const [moonrise, setMoonrise] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
   const [icon, setIcon] = useState('--');
-  const [last_updated, setLast_updated] = useState('--');
+  // const [last_updated, setLast_updated] = useState('--');
 
   const [value, setValue] = React.useState('0');
 
@@ -149,7 +149,7 @@ export const Weather = () => {
       setPrecip_mm(data.current.precip_mm); // Осадки мм
       const moonrise = data.forecast.forecastday[0].astro.moonrise;
       const moonset = data.forecast.forecastday[0].astro.moonset;
-      setLast_updated(data.current.last_updated);
+      // setLast_updated(data.current.last_updated);
 
       if (moonrise.slice(6) === 'PM') {
         setMoonrise(

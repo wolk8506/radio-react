@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CurrencyBanks } from './Currency/CurrencyBanks';
 import { playerStation } from 'store/actions';
-import { Arduino } from './Arduino/Arduino';
+// import { Arduino } from './Arduino/Arduino';
 
 export const App = () => {
   const CITY = useSelector(state => state.storeWeatherCity.city);
@@ -208,7 +208,7 @@ export const App = () => {
   );
 };
 
-const about = 'version: 0.1';
+const about = 'version: 0.2';
 console.log(
   `%c\n\n\n░██╗░░░░░░░██╗░█████╗░██╗░░░░░██╗░░██╗░█████╗░███████╗░█████╗░░█████╗░\n░██║░░██╗░░██║██╔══██╗██║░░░░░██║░██╔╝██╔══██╗██╔════╝██╔══██╗██╔═══╝░\n░╚██╗████╗██╔╝██║░░██║██║░░░░░█████═╝░╚█████╔╝██████╗░██║░░██║██████╗░\n░░████╔═████║░██║░░██║██║░░░░░██╔═██╗░██╔══██╗╚════██╗██║░░██║██╔══██╗\n░░╚██╔╝░╚██╔╝░╚█████╔╝███████╗██║░╚██╗╚█████╔╝██████╔╝╚█████╔╝╚█████╔╝\n░░░╚═╝░░░╚═╝░░░╚════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═════╝░░╚════╝░░╚════╝░\n\n\n${about}`,
   'font-family:monospace;color:#1976d2;font-size:12px;'

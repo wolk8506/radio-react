@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import sprite from '../../images/sprite.svg';
 import s from './WeatherDashboard.module.css';
@@ -11,9 +11,9 @@ export const WeatherDashboard = () => {
 
   const iconSVG = sprite;
 
-  const [country, setCountry] = useState('--');
-  const [city, setCity] = useState('--');
-  const [timeZone, setTimeZone] = useState('--');
+  // const [country, setCountry] = useState('--');
+  // const [city, setCity] = useState('--');
+  // const [timeZone, setTimeZone] = useState('--');
   const [temperature, setTemperature] = useState('--');
   const [conditionText, setConditionText] = useState('--');
   const [wind_ms, setWind_ms] = useState('--');
@@ -23,15 +23,15 @@ export const WeatherDashboard = () => {
   const [sunsetM, setSunsetM] = useState('--');
   const [pressure_mb, setPressure_mb] = useState('--');
   const [cloud, setCloud] = useState('--');
-  const [vis_km, setVis_km] = useState('--');
+  // const [vis_km, setVis_km] = useState('--');
   const [humidity, setHumidity] = useState('--');
   const [maxwind_ms, setMmaxwind_ms] = useState('--');
-  const [uv, setUv] = useState('--');
+  // const [uv, setUv] = useState('--');
   const [precip_mm, setPrecip_mm] = useState('--');
-  const [moonrise, setMoonrise] = useState('--:--');
-  const [moonset, setMoonset] = useState('--:--');
+  // const [moonrise, setMoonrise] = useState('--:--');
+  // const [moonset, setMoonset] = useState('--:--');
   const [icon, setIcon] = useState('--');
-  const [last_updated, setLast_updated] = useState('--');
+  // const [last_updated, setLast_updated] = useState('--');
 
   const date = new Date();
   const dayAndMonth = date.toLocaleDateString('ru-RU', {
@@ -44,9 +44,9 @@ export const WeatherDashboard = () => {
 
   useEffect(() => {
     if (data.location !== undefined) {
-      setCountry(data.location.country); //Страна
-      setCity(data.location.name); //Город
-      setTimeZone(data.location.tz_id); //Временная зона
+      // setCountry(data.location.country); //Страна
+      // setCity(data.location.name); //Город
+      // setTimeZone(data.location.tz_id); //Временная зона
       setTemperature(data.current.feelslike_c); //Текущая температура в градусах цельсия
       setConditionText(data.current.condition.text); //Погодные условия, описание
       setWind_ms((data.current.wind_kph / 3.6).toFixed(2)); //Скорость ветра в м/с
@@ -63,28 +63,28 @@ export const WeatherDashboard = () => {
       ); //Иконка погодных условий
       setPressure_mb(data.current.pressure_mb); //Давление мм рт сб
       setCloud(data.current.cloud); // Облачность
-      setVis_km(data.current.vis_km); // Видимость километров
+      // setVis_km(data.current.vis_km); // Видимость километров
       setHumidity(data.current.humidity); // Влажность
       setMmaxwind_ms(
         (data.forecast.forecastday[0].day.maxwind_kph / 3.6).toFixed(2)
       ); // Порывы ветра м/с
-      setUv(data.current.uv); // Ультрофиолет
+      // setUv(data.current.uv); // Ультрофиолет
       setPrecip_mm(data.current.precip_mm); // Осадки мм
-      const moonrise = data.forecast.forecastday[0].astro.moonrise;
-      const moonset = data.forecast.forecastday[0].astro.moonset;
-      setLast_updated(data.current.last_updated);
+      // const moonrise = data.forecast.forecastday[0].astro.moonrise;
+      // const moonset = data.forecast.forecastday[0].astro.moonset;
+      // setLast_updated(data.current.last_updated);
 
-      if (moonrise.slice(6) === 'PM') {
-        setMoonrise(
-          `${Number(moonrise.slice(0, 2)) + 12}:${moonrise.slice(3, 5)}`
-        );
-      } else setMoonrise(moonrise.slice(0, 5));
+      // if (moonrise.slice(6) === 'PM') {
+      //   setMoonrise(
+      //     `${Number(moonrise.slice(0, 2)) + 12}:${moonrise.slice(3, 5)}`
+      //   );
+      // } else setMoonrise(moonrise.slice(0, 5));
 
-      if (moonset.slice(6) === 'PM') {
-        setMoonset(
-          `${Number(moonset.slice(0, 2)) + 12}:${moonset.slice(3, 5)}`
-        );
-      } else setMoonset(moonset.slice(0, 5));
+      // if (moonset.slice(6) === 'PM') {
+      //   setMoonset(
+      //     `${Number(moonset.slice(0, 2)) + 12}:${moonset.slice(3, 5)}`
+      //   );
+      // } else setMoonset(moonset.slice(0, 5));
     }
   }, [data]);
 
