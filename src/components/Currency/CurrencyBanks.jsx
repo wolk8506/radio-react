@@ -166,118 +166,120 @@ export const CurrencyBanks = () => {
         </IconButton>
         <h2>Курс валют в банках</h2>
       </div>
-      <div className={s.tables}>
-        <TableContainer className={s.table} component={Paper}>
-          <Table sx={{ minWidth: 400 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" colSpan={2}>
-                  <div className={s.tableName}>
-                    <img
-                      src={BANK[valueBank1].image}
-                      alt={BANK[valueBank1].name}
-                      width={64}
-                    />
+      {BANK && (
+        <div className={s.tables}>
+          <TableContainer className={s.table} component={Paper}>
+            <Table sx={{ minWidth: 400 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" colSpan={2}>
+                    <div className={s.tableName}>
+                      <img
+                        src={BANK[valueBank1].image}
+                        alt={BANK[valueBank1].name}
+                        width={64}
+                      />
 
-                    <FormControl
-                      variant="standard"
-                      sx={{ m: 1, minWidth: 200 }}
-                    >
-                      <InputLabel id="demo-simple-select-standard-label">
-                        Банк
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={valueBank1}
-                        onChange={handleChangeBank1}
-                        label="Converter"
+                      <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 200 }}
                       >
-                        {listBank.map(i => (
-                          <MenuItem key={i.key} value={i.key}>
-                            {i.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell>Показатель</StyledTableCell>
-                <StyledTableCell align="right">Покупка</StyledTableCell>
-                <StyledTableCell align="right">Продажа</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <StyledTableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
+                        <InputLabel id="demo-simple-select-standard-label">
+                          Банк
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={valueBank1}
+                          onChange={handleChangeBank1}
+                          label="Converter"
+                        >
+                          {listBank.map(i => (
+                            <MenuItem key={i.key} value={i.key}>
+                              {i.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
                   </TableCell>
-                  <StyledTableCell align="right">{row.buy}</StyledTableCell>
-                  <StyledTableCell align="right">{row.sel}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer className={s.table} component={Paper}>
-          <Table sx={{ minWidth: 400 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" colSpan={2}>
-                  <div className={s.tableName}>
-                    <img
-                      src={BANK[valueBank2].image}
-                      alt={BANK[valueBank2].name}
-                      width={64}
-                    />
+                </TableRow>
+                <TableRow>
+                  <StyledTableCell>Показатель</StyledTableCell>
+                  <StyledTableCell align="right">Покупка</StyledTableCell>
+                  <StyledTableCell align="right">Продажа</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <StyledTableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <StyledTableCell align="right">{row.buy}</StyledTableCell>
+                    <StyledTableCell align="right">{row.sel}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TableContainer className={s.table} component={Paper}>
+            <Table sx={{ minWidth: 400 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" colSpan={2}>
+                    <div className={s.tableName}>
+                      <img
+                        src={BANK[valueBank2].image}
+                        alt={BANK[valueBank2].name}
+                        width={64}
+                      />
 
-                    <FormControl
-                      variant="standard"
-                      sx={{ m: 1, minWidth: 200 }}
-                    >
-                      <InputLabel id="demo-simple-select-standard-label">
-                        Банк
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={valueBank2}
-                        onChange={handleChangeBank2}
-                        label="Converter"
+                      <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 200 }}
                       >
-                        {listBank.map(i => (
-                          <MenuItem key={i.key} value={i.key}>
-                            {i.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <StyledTableCell>Показатель</StyledTableCell>
-                <StyledTableCell align="right">Покупка</StyledTableCell>
-                <StyledTableCell align="right">Продажа</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows2.map(row => (
-                <StyledTableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
+                        <InputLabel id="demo-simple-select-standard-label">
+                          Банк
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={valueBank2}
+                          onChange={handleChangeBank2}
+                          label="Converter"
+                        >
+                          {listBank.map(i => (
+                            <MenuItem key={i.key} value={i.key}>
+                              {i.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
                   </TableCell>
-                  <StyledTableCell align="right">{row.buy}</StyledTableCell>
-                  <StyledTableCell align="right">{row.sel}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+                </TableRow>
+                <TableRow>
+                  <StyledTableCell>Показатель</StyledTableCell>
+                  <StyledTableCell align="right">Покупка</StyledTableCell>
+                  <StyledTableCell align="right">Продажа</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows2.map(row => (
+                  <StyledTableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <StyledTableCell align="right">{row.buy}</StyledTableCell>
+                    <StyledTableCell align="right">{row.sel}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      )}
     </div>
   );
 };

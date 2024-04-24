@@ -23,7 +23,14 @@ import img_nrg_radio from '../images/station/img-nrg-radio.jpg';
 import img_soundpark_deep from '../images/station/img-soundpark-deep.jpg';
 import { CurrencyMono } from './Currency/CurrencyMono';
 
-import { getLocation, getMonoToday, getWeather } from 'store/thunks';
+import {
+  getKursTodayBanks,
+  getLocation,
+  getMonoToday,
+  getWeather,
+  getZVRCurrent,
+  getZVRPrevious,
+} from 'store/thunks';
 import { WeatherDashboard } from './Weather/WeatherDashboard';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -49,6 +56,9 @@ export const App = () => {
   // Запрос курса валют моно банк
   useEffect(() => {
     dispatch(getMonoToday());
+    dispatch(getKursTodayBanks());
+    dispatch(getZVRPrevious());
+    dispatch(getZVRCurrent());
   }, [dispatch]);
 
   const [value, setValue] = useState('1');
@@ -208,7 +218,7 @@ export const App = () => {
   );
 };
 
-const about = 'version: 0.2';
+const about = 'version: 0.3';
 console.log(
   `%c\n\n\n░██╗░░░░░░░██╗░█████╗░██╗░░░░░██╗░░██╗░█████╗░███████╗░█████╗░░█████╗░\n░██║░░██╗░░██║██╔══██╗██║░░░░░██║░██╔╝██╔══██╗██╔════╝██╔══██╗██╔═══╝░\n░╚██╗████╗██╔╝██║░░██║██║░░░░░█████═╝░╚█████╔╝██████╗░██║░░██║██████╗░\n░░████╔═████║░██║░░██║██║░░░░░██╔═██╗░██╔══██╗╚════██╗██║░░██║██╔══██╗\n░░╚██╔╝░╚██╔╝░╚█████╔╝███████╗██║░╚██╗╚█████╔╝██████╔╝╚█████╔╝╚█████╔╝\n░░░╚═╝░░░╚═╝░░░╚════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═════╝░░╚════╝░░╚════╝░\n\n\n${about}`,
   'font-family:monospace;color:#1976d2;font-size:12px;'
