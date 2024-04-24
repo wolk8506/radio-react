@@ -1,0 +1,43 @@
+/* *** Страница CurrencyMono  ***  */
+
+.nameSection {
+  display: flex;
+  align-items: center;
+}
+
+/* *  ------------------------  * */
+
+/* ???  Currency dashboard */
+.header {
+  padding: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  border-radius: 15px;
+}
+.currency {
+  display: flex;
+  align-items: center;
+}
+p {
+  margin: 0;
+}
+
+/* !!!!!!!!!!!!!!!!!!!!1 */
+.tables {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table {
+  max-width: 700px;
+  /* margin-left: 20px; */
+}
+
+.tableName {
+  display: flex;
+  align-items: center;
+}
+
+.tableName img {
+  margin-right: 15px;
+}
