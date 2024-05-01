@@ -14,8 +14,6 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 
-import { getMonoToday } from 'store/thunks';
-
 import { getZVRCurrent, getZVRPrevious } from 'store/thunks';
 
 import s from './Currency.module.css';
@@ -29,7 +27,8 @@ export const CurrencyZVR = () => {
 
   // Обновление курса валют
   const handleUpdateCurrency = () => {
-    dispatch(getMonoToday());
+    dispatch(getZVRPrevious());
+    dispatch(getZVRCurrent());
   };
 
   const storeData = useSelector(state => state.storeCurrencyZVRPrevious);
@@ -92,32 +91,37 @@ export const CurrencyZVR = () => {
     ),
   ];
 
-  const rows2 = [
-    createData(
-      'Прочие резервные активы',
-      storeData2.find(el => el.id_api === 'RES_OthReserveAssets').value
-    ),
-    createData(
-      'Резервная позиция в МВФ ',
-      storeData2.find(el => el.id_api === 'RES_IMFResPosition').value
-    ),
-    createData(
-      'Специальные права заимствования ',
-      storeData2.find(el => el.id_api === 'RES_SDRs').value
-    ),
-    createData(
-      'Золото ',
-      storeData2.find(el => el.id_api === 'RES_Gold').value
-    ),
-    createData(
-      'Резервы в иностранной валюте',
-      storeData2.find(el => el.id_api === 'RES_ForCurrencyAssets').value
-    ),
-    createData(
-      'Официальные резервные активы',
-      storeData2.find(el => el.id_api === 'RES_OffReserveAssets').value
-    ),
-  ];
+  let rows2 = [];
+  if (storeData2.length === 0) {
+    rows2 = [createData('Данные доступны после 6-го числа текущего месяца')];
+  } else {
+    rows2 = [
+      createData(
+        'Прочие резервные активы',
+        storeData2.find(el => el.id_api === 'RES_OthReserveAssets').value
+      ),
+      createData(
+        'Резервная позиция в МВФ ',
+        storeData2.find(el => el.id_api === 'RES_IMFResPosition').value
+      ),
+      createData(
+        'Специальные права заимствования ',
+        storeData2.find(el => el.id_api === 'RES_SDRs').value
+      ),
+      createData(
+        'Золото ',
+        storeData2.find(el => el.id_api === 'RES_Gold').value
+      ),
+      createData(
+        'Резервы в иностранной валюте',
+        storeData2.find(el => el.id_api === 'RES_ForCurrencyAssets').value
+      ),
+      createData(
+        'Официальные резервные активы',
+        storeData2.find(el => el.id_api === 'RES_OffReserveAssets').value
+      ),
+    ];
+  }
 
   return (
     <div>
