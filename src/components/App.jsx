@@ -200,7 +200,7 @@ export const App = () => {
 
             <Clock></Clock>
           </TabPanel>
-          <TabPanel value="2">
+          <TabPanel value="2" className="tab-panel">
             <CurrencyMono></CurrencyMono>
             <CurrencyBanks></CurrencyBanks>
             <CurrencyNBU></CurrencyNBU>
@@ -218,7 +218,7 @@ export const App = () => {
   );
 };
 
-const about = 'version: 0.3';
+const about = 'version: 0.5';
 console.log(
   `%c\n\n\n░██╗░░░░░░░██╗░█████╗░██╗░░░░░██╗░░██╗░█████╗░███████╗░█████╗░░█████╗░\n░██║░░██╗░░██║██╔══██╗██║░░░░░██║░██╔╝██╔══██╗██╔════╝██╔══██╗██╔═══╝░\n░╚██╗████╗██╔╝██║░░██║██║░░░░░█████═╝░╚█████╔╝██████╗░██║░░██║██████╗░\n░░████╔═████║░██║░░██║██║░░░░░██╔═██╗░██╔══██╗╚════██╗██║░░██║██╔══██╗\n░░╚██╔╝░╚██╔╝░╚█████╔╝███████╗██║░╚██╗╚█████╔╝██████╔╝╚█████╔╝╚█████╔╝\n░░░╚═╝░░░╚═╝░░░╚════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═════╝░░╚════╝░░╚════╝░\n\n\n${about}`,
   'font-family:monospace;color:#1976d2;font-size:12px;'

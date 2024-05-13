@@ -266,14 +266,14 @@ export const CurrencyMono = () => {
 
       <div>
         <Box
+          className={s.textFieldBlock}
           component="form"
-          sx={{
-            '& > :not(style)': { m: 1, width: '25ch' },
-          }}
+          // sx={{'& > :not(style)': { m: 1, width: '25ch' },}}
           noValidate
           autoComplete="off"
         >
           <TextField
+            className={s.textField}
             id="cur1"
             label=""
             type="number"
@@ -284,6 +284,7 @@ export const CurrencyMono = () => {
             step="1.00"
           />
           <TextField
+            className={s.textField}
             id="cor2"
             label=""
             type="number"
@@ -294,47 +295,61 @@ export const CurrencyMono = () => {
             step="1.00"
           />
         </Box>
-        <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-standard-label">Валюта</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={valueSelect1}
-            onChange={handleChange1}
-            label="Converter"
-          >
-            {d1.map(i => (
-              <MenuItem key={i} value={i}>
-                {i}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
 
-        <IconButton
-          color="primary"
-          aria-label="add to shopping cart"
-          onClick={handleExpanr}
-        >
-          <AutorenewIcon />
-        </IconButton>
-
-        <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-filled-label">Валюта</InputLabel>
-          <Select
-            labelId="demo-simple-select-filled-label"
-            id="demo-simple-select-filled"
-            value={valueSelect2}
-            onChange={handleChange2}
-            label="Converter"
+        <div className={s.currencyBTN}>
+          <FormControl
+            className={s.currencyBtnSelect}
+            variant="filled"
+            // sx={{ m: 1, minWidth: 200 }}
           >
-            {d2.map(i => (
-              <MenuItem key={i} value={i}>
-                {i}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-standard-label">
+              Валюта
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={valueSelect1}
+              onChange={handleChange1}
+              label="Converter"
+            >
+              {d1.map(i => (
+                <MenuItem key={i} value={i}>
+                  {i}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <IconButton
+            className={s.currencyBtnRevert}
+            color="primary"
+            aria-label="add to shopping cart"
+            onClick={handleExpanr}
+          >
+            <AutorenewIcon />
+          </IconButton>
+
+          <FormControl
+            className={s.currencyBtnSelect}
+            variant="filled"
+            // sx={{ m: 1, minWidth: 200 }}
+          >
+            <InputLabel id="demo-simple-select-filled-label">Валюта</InputLabel>
+            <Select
+              labelId="demo-simple-select-filled-label"
+              id="demo-simple-select-filled"
+              value={valueSelect2}
+              onChange={handleChange2}
+              label="Converter"
+            >
+              {d2.map(i => (
+                <MenuItem key={i} value={i}>
+                  {i}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
       </div>
 
       <div className={s.nameSection}>

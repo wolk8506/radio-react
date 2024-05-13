@@ -51,8 +51,6 @@ code {
 
 .first-panel {
   display: flex;
-  /* align-items: center; */
-  /* justify-content: space-evenly; */
   margin-bottom: 100px;
 }
 .first-panel > div {
@@ -61,8 +59,23 @@ code {
   width: calc(100% / 3);
 }
 
-@media screen and (max-width: 412px) {
+@media screen and (max-width: 720px) {
   .container {
-    max-width: 420px;
+    max-width: 100%;
+    padding: 0;
+  }
+  .first-panel > div {
+    width: 100%;
+  }
+  .first-panel {
+    flex-direction: column-reverse;
+  }
+  .player {
+    display: none;
+  }
+  .tab-panel {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 10 !important;
   }
 }

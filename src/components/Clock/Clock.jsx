@@ -494,7 +494,8 @@ export const Clock = () => {
   const setClock = () => {
     let day = new Date();
 
-    setHh(day.getHours() * 30);
+    setHh(day.getHours() * 30 + day.getMinutes() / 2);
+    // setHh(day.getHours() * 30);
     setMm(day.getMinutes() * deg);
     setSs(day.getSeconds() * deg);
   };

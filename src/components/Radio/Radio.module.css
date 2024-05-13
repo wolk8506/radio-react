@@ -43,9 +43,10 @@
   width: 60px;
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 720px) {
   .player {
-    max-width: 380px;
+    width: calc(100% - 10px);
+    padding: 0;
   }
 
   .player img {

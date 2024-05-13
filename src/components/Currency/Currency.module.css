@@ -5,6 +5,15 @@
   align-items: center;
 }
 
+.currencyBTN {
+  display: flex;
+  align-items: center;
+}
+
+.currencyBtnSelect {
+  width: 200px;
+}
+
 /* *  ------------------------  * */
 
 /* ???  Currency dashboard */
@@ -40,4 +49,31 @@ p {
 
 .tableName img {
   margin-right: 15px;
+}
+
+@media screen and (max-width: 720px) {
+  .currencyBlock {
+    width: calc(100% - 10px);
+  }
+  .tables {
+    flex-direction: column;
+  }
+  .table {
+    margin-bottom: 10px;
+  }
+  .currencyBTN {
+    justify-content: space-around;
+  }
+  .currencyBtnSelect {
+    /* width: 100px !important; */
+    width: calc((100% - 60px) / 2);
+  }
+  .textFieldBlock {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  .textField {
+    width: calc((100% - 20px) / 2);
+  }
 }

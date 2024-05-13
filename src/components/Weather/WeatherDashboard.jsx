@@ -95,7 +95,7 @@ export const WeatherDashboard = () => {
   };
 
   return (
-    <div>
+    <div className={s.weatherBlock}>
       <div className={s.blockDay}>
         <div className={s.blockDayLeft}>
           <p>{dayAndMonth}</p>

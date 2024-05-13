@@ -38,7 +38,7 @@ export const Currency = () => {
   ]);
 
   return (
-    <>
+    <div className={s.currencyBlock}>
       <div className={s.header}>
         <div className={s.currency}>
           <svg className={s.icon} width="96" height="72">
@@ -70,6 +70,6 @@ export const Currency = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

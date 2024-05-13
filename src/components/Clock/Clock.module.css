@@ -132,3 +132,18 @@
   cursor: pointer;
   transition: all ease 0.3s;
 }
+
+@media screen and (max-width: 420px) {
+  /* .container {
+    max-width: 420px;
+  }
+  .first-panel > div {
+    width: 100%;
+  }
+  .first-panel {
+    flex-direction: column-reverse;
+  } */
+  .calendarBlock {
+    display: none;
+  }
+}
