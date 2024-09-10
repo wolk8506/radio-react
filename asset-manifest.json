@@ -1,18 +1,24 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.5a98dec7.css",
-    "main.js": "/radio-react/static/js/main.e228460d.js",
+    "main.css": "/radio-react/static/css/main.d27b89f2.css",
+    "main.js": "/radio-react/static/js/main.d3e7e862.js",
+    "static/media/dotf1.ttf": "/radio-react/static/media/dotf1.b959cb0ac57821ab6a89.ttf",
     "static/media/img-soundpark-deep.jpg": "/radio-react/static/media/img-soundpark-deep.d53d2e7c8ac8882c408b.jpg",
     "static/media/img-nrg-radio.jpg": "/radio-react/static/media/img-nrg-radio.4fffca6e0ce549e411e0.jpg",
+    "static/media/square_dot_digital-7.ttf": "/radio-react/static/media/square_dot_digital-7.3787f671fbe7bb7b16da.ttf",
     "static/media/sprite.svg": "/radio-react/static/media/sprite.cac35297edb3120ce5542c5ee507cfe9.svg",
+    "static/media/verminvibesreduxrusbylyajk.otf": "/radio-react/static/media/verminvibesreduxrusbylyajk.cd7fb0c29b14d66ad3c9.otf",
     "static/media/img-181.fm.jpg": "/radio-react/static/media/img-181.fm.b2970b049dfd1d231aca.jpg",
     "static/media/img-kiss-fm.jpg": "/radio-react/static/media/img-kiss-fm.1f0145879b48d1562e12.jpg",
+    "static/media/untitled14.svg": "/radio-react/static/media/untitled14.73d02036e25304407c17bd7978df38f5.svg",
     "index.html": "/radio-react/index.html",
-    "main.5a98dec7.css.map": "/radio-react/static/css/main.5a98dec7.css.map",
-    "main.e228460d.js.map": "/radio-react/static/js/main.e228460d.js.map"
+    "static/media/untitled20.svg": "/radio-react/static/media/untitled20.b253594f92544b898867ad6cb4ad0aa1.svg",
+    "static/media/arrow.svg": "/radio-react/static/media/arrow.82a5a69d13cf57ca52c2aea69f2d7b6f.svg",
+    "main.d27b89f2.css.map": "/radio-react/static/css/main.d27b89f2.css.map",
+    "main.d3e7e862.js.map": "/radio-react/static/js/main.d3e7e862.js.map"
   },
   "entrypoints": [
-    "static/css/main.5a98dec7.css",
-    "static/js/main.e228460d.js"
+    "static/css/main.d27b89f2.css",
+    "static/js/main.d3e7e862.js"
   ]
 }
