@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import sprite from '../../images/sprite.svg';
+// import sprite from '../../images/sprite.svg';
 // import s from './WeatherDashboard.module.css';
 import { Compas } from './Compas';
 import { Humidity } from './Humidity';
@@ -17,7 +17,7 @@ export const Weather = () => {
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}?key=D6MDZY6JMNHMG6CBQANG3GNHD&lang=ru&unitGroup=metric`;
-  const iconSVG = sprite;
+  // const iconSVG = sprite;
   const urlImage = 'https://www.visualcrossing.com/img/';
 
   const [image, setImage] = useState(`${urlImage}clear-day.svg`);
