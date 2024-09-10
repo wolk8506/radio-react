@@ -1,0 +1,163 @@
+@import 'scss/variables';
+@import 'scss/btn';
+@import 'components/app';
+
+@import 'components/Main/main';
+@import 'components/Main/currency';
+@import 'components/Main/event';
+@import 'components/Main/radio';
+@import 'components/Main/clock';
+@import 'components/Main/compas';
+@import 'components/Main/weather-dashboard';
+@import 'components/Main/wind-gust';
+
+@import-normalize; /* bring in normalize.css styles */
+
+@font-face {
+  font-family: 'Square Dot Digital-7';
+  font-style: normal;
+  font-weight: 400;
+  src: local('SquareDotDigital-7'),
+    url(./fonts/square_dot_digital-7.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Dotf1';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Dotf1'), url(./fonts/dotf1.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Vermin Vibes Redux(RUS BY LYAJK'),
+    url(./fonts/verminvibesreduxrusbylyajk.otf) format('truetype');
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $color-background-1;
+  color: $color-2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+  width: 10px; /* Ширина всего элемента навигации */
+}
+
+body::-webkit-scrollbar-track {
+  background: $color-background-1; /* Цвет дорожки */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $color-2; /* Цвет бегунка */
+  border-radius: 20px; /* Округление бегунка */
+  // border: 3px solid #050c26; /* Оформление границ бегунка */
+}
+
+.container {
+  position: relative;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
+}
+
+.player {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-left: auto;
+  display: block;
+  display: flex;
+  align-items: center;
+}
+.player p {
+  margin-left: 20px;
+}
+
+.first-panel {
+  display: flex;
+  margin-bottom: 40px;
+}
+.first-panel > div {
+  display: block;
+  margin: 5px;
+  width: calc(100% / 3);
+}
+
+.tabs button {
+  color: $color-2 !important;
+}
+
+@media screen and (max-width: 720px) {
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+  .first-panel > div {
+    width: 100%;
+  }
+  .first-panel {
+    flex-direction: column-reverse;
+  }
+  .player {
+    display: none;
+  }
+  .tab-panel {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 10 !important;
+  }
+}
+
+// !!!!!  C U R R E N C Y  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#cur1,
+#cor2,
+#demo-simple-select-standard,
+#demo-simple-select-standard-label,
+#demo-simple-select-filled-label,
+#demo-simple-select-filled {
+  // color: aliceblue !important;
+  border-color: antiquewhite !important;
+}
+
+.converter-block {
+  box-shadow: $box-shadow-1;
+  background: $color-background-4;
+  padding: 30px;
+  width: 500px;
+  border-radius: 15px;
+  margin: 20px;
+}
+
+.btn-block {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
+.btn-radio {
+  display: block;
+  width: 50px;
+  border: none;
+  color: $color-3;
+  text-shadow: 0 0 15px rgba(225, 150, 70, 0.5);
+  font-size: 26px;
+  text-align: center;
+}

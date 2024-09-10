@@ -11,6 +11,7 @@ export const ZVR_CURRENT = 'ZVR_CURRENT';
 export const LOCATION = 'LOCATION';
 export const KURS_TODAY_BANKS = 'KURS_TODAY_BANKS';
 export const PLAYER_STATION = 'PLAYER_STATION';
+export const CURRENCY_YESTERDAY = 'CURRENCY_YESTERDAY';
 // PLAYER_STATION
 
 const makeActionCreater = (type, keys) => {
@@ -34,6 +35,9 @@ export const location = makeActionCreater(LOCATION, ['city']);
 export const kursTodayBanks = makeActionCreater(KURS_TODAY_BANKS, ['data']);
 
 export const weatherCity = makeActionCreater(WEATHER_CITY, ['city']);
+export const currencyYesterday = makeActionCreater(CURRENCY_YESTERDAY, [
+  'currencyYesterday',
+]);
 export const addWeatherCity = makeActionCreater(ADD_WEATHER_CITY, ['city2']);
 export const weather = makeActionCreater(WEATHER, ['data']);
 export const weather_15 = makeActionCreater(WEATHER_15, ['data']);

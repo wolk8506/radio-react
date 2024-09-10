@@ -1,0 +1,198 @@
+//* *  ----------------------------------------------------- */
+//* *  ----------------------------------------------------- */
+//* *  ----------------------------------------------------- */
+//* *  ----------------------------------------------------- */
+//* *  ----------------------------------------------------- */
+//* *  ----------------------------------------------------- */
+//* *  -------- C O M P A S --------------------------------------------- */
+
+#clock {
+  width: 100%;
+  height: 100%;
+  transform: translate(0%, 0%);
+  border-radius: 50%;
+}
+
+#marks {
+  list-style: none;
+  z-index: 4;
+}
+#marks li {
+  display: inline-block;
+  width: 2px;
+  height: 2.5%;
+  margin-bottom: 45%;
+  background: $color-1;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -2.5% 0 0 -1px;
+  vertical-align: top;
+
+  box-shadow: -5% 0 $color-1;
+  transform-origin: 50% 100%;
+  transform: rotate(15deg) translateY(-1800%);
+}
+#marks .large {
+  width: 5px;
+  height: 5%;
+  margin-bottom: 40%;
+  background: $color-background-4;
+
+  margin: -5% 0 0 -2.5px;
+  transform: rotate(0deg) translateY(-800%);
+}
+
+#marks .char {
+  width: 5px;
+  height: 5%;
+  margin-bottom: 40%;
+  background: transparent;
+
+  margin: -5% 0 0 -2.5px;
+  transform: rotate(0deg) translateY(-800%);
+}
+
+#marks .char p {
+  position: absolute;
+  top: -200%;
+  left: -70%;
+}
+#marks li:nth-child(7) p {
+  left: -60%;
+}
+
+#marks li:nth-child(13) p {
+  left: -110%;
+}
+
+#marks li:nth-child(19) p {
+  left: -50%;
+}
+
+#marks li:nth-child(3) {
+  transform: rotate(30deg) translateY(-1800%);
+}
+
+#marks li:nth-child(4) {
+  transform: rotate(45deg) translateY(-800%);
+}
+
+#marks li:nth-child(5) {
+  transform: rotate(60deg) translateY(-1800%);
+}
+
+#marks li:nth-child(6) {
+  transform: rotate(75deg) translateY(-1800%);
+}
+
+#marks li:nth-child(7) {
+  transform: rotate(90deg) translateY(-800%);
+}
+
+#marks li:nth-child(8) {
+  transform: rotate(105deg) translateY(-1800%);
+}
+
+#marks li:nth-child(9) {
+  transform: rotate(120deg) translateY(-1800%);
+}
+
+#marks li:nth-child(10) {
+  transform: rotate(135deg) translateY(-800%);
+}
+
+#marks li:nth-child(11) {
+  transform: rotate(150deg) translateY(-1800%);
+}
+
+#marks li:nth-child(12) {
+  transform: rotate(165deg) translateY(-1800%);
+}
+
+#marks li:nth-child(13) {
+  transform: rotate(180deg) translateY(-800%);
+}
+
+#marks li:nth-child(14) {
+  transform: rotate(195deg) translateY(-1800%);
+}
+
+#marks li:nth-child(15) {
+  transform: rotate(210deg) translateY(-1800%);
+}
+
+#marks li:nth-child(16) {
+  transform: rotate(225deg) translateY(-800%);
+}
+
+#marks li:nth-child(17) {
+  transform: rotate(240deg) translateY(-1800%);
+}
+
+#marks li:nth-child(18) {
+  transform: rotate(255deg) translateY(-1800%);
+}
+
+#marks li:nth-child(19) {
+  transform: rotate(270deg) translateY(-800%);
+}
+
+#marks li:nth-child(20) {
+  transform: rotate(285deg) translateY(-1800%);
+}
+
+#marks li:nth-child(21) {
+  transform: rotate(300deg) translateY(-1800%);
+}
+
+#marks li:nth-child(22) {
+  transform: rotate(315deg) translateY(-800%);
+}
+
+#marks li:nth-child(23) {
+  transform: rotate(330deg) translateY(-1800%);
+}
+
+#marks li:nth-child(24) {
+  transform: rotate(345deg) translateY(-1800%);
+}
+
+#clock p {
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------- */
+
+#arrow-pointer {
+  position: absolute;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.arrow_block {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.arrow_text {
+  font-size: 16px;
+  font-weight: 700;
+  color: $color-1;
+  width: 42px;
+  height: 42px;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border-radius: 50%;
+  padding: 5px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  background: $color-background-5;
+}

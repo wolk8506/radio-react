@@ -115,9 +115,9 @@ export const Weather = () => {
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  const handleRadioChange = event => {
-    setValue(event.target.value);
-  };
+  // const handleRadioChange = event => {
+  //   setValue(event.target.value);
+  // };
 
   useEffect(() => {
     if (data.location !== undefined) {
@@ -211,6 +211,14 @@ export const Weather = () => {
     setDataDays(data1);
   }, [data15.days, dataLast.days, dataLast.length, moment]);
 
+  const [btnActiv, setBtnActiv] = useState('0');
+
+  const btnRadio = e => {
+    setBtnActiv(e.target.value);
+    setValue(e.target.value);
+    // console.log('btn click', e.target.value);
+  };
+
   // !!!!!! Стили
 
   const styleWindW = {
@@ -218,7 +226,7 @@ export const Weather = () => {
   };
 
   const styleDayW = {
-    background: `rgba(255, 255, 255, 0.3)`,
+    background: `rgba(255, 255, 255, 0.15)`,
   };
   const styleDayD = {
     background: `rgba(0, 0, 0, 0.15)`,
@@ -261,10 +269,7 @@ export const Weather = () => {
               <SearchIcon fontSize="inherit" onClick={handleSearch} />
             </IconButton>
           </Stack>
-          <FormControl>
-            {/* <FormLabel id="demo-row-radio-buttons-group-label">
-              Gender
-            </FormLabel> */}
+          {/* <FormControl>
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
@@ -284,7 +289,42 @@ export const Weather = () => {
               />
               <FormControlLabel value="2" control={<Radio />} label="Other" />
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
+
+          <div className="btn-block">
+            <button
+              className={
+                btnActiv === '0' ? 'btn-radio toggle_on' : 'btn-radio toggle'
+              }
+              type="button"
+              value="0"
+              onClick={btnRadio}
+            >
+              🌦
+            </button>
+
+            <button
+              className={
+                btnActiv === '1' ? 'btn-radio toggle_on' : 'btn-radio toggle'
+              }
+              type="button"
+              value="1"
+              onClick={btnRadio}
+            >
+              🌪
+            </button>
+
+            <button
+              className={
+                btnActiv === '2' ? 'btn-radio toggle_on' : 'btn-radio toggle'
+              }
+              type="button"
+              value="2"
+              onClick={btnRadio}
+            >
+              🌡
+            </button>
+          </div>
         </div>
         <div className={s.blockDayRight}>
           <div>

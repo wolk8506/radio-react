@@ -1,0 +1,72 @@
+.maim-player {
+  border-radius: 15px;
+  padding: 10px;
+  width: 100%;
+  height: 160px;
+  color: $color-2;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: $color-background-6;
+  box-shadow: $box-shadow-1;
+
+  .logoRadio {
+    border-radius: 15px;
+    width: 128px;
+    height: 128px;
+    box-shadow: $box-shadow-btn-1;
+  }
+
+  .selectRadioStation > div {
+    text-align: center;
+    color: $color-2;
+    border-radius: 15px;
+    height: 40px;
+    margin-top: 20px;
+    box-shadow: $box-shadow-btn-1;
+  }
+
+  .selectRadioStation div img {
+    margin-right: 10px;
+    display: none;
+  }
+  .selectRadioStation {
+    width: 200px;
+  }
+
+  .maim-player__clock-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .clock-block__clock {
+      font-family: 'Orbitron', sans-serif;
+      width: 60px;
+      text-align: center;
+      font-size: 26px;
+      text-shadow: $color-text-shadow;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    & .player {
+      width: calc(100% - 10px);
+      padding: 0;
+    }
+
+    & .player img {
+      width: 64px;
+      height: 64px;
+    }
+    .selectRadioStation {
+      width: 150px;
+    }
+
+    .volume {
+      width: 150px;
+    }
+    .clock {
+      display: none;
+    }
+  }
+}

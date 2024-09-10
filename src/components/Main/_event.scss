@@ -1,0 +1,77 @@
+.graph {
+  width: 495px;
+  min-height: 281px;
+  background: $color-background-2;
+
+  position: relative;
+  margin-right: 7px;
+
+  color: $color-2;
+  text-shadow: 0 0 10px rgba(225, 150, 70, 0.5);
+  font-size: 32px;
+
+  border-radius: 7px;
+  box-shadow: $box-shadow-1;
+  overflow: hidden;
+}
+.graph > div {
+  position: relative;
+}
+.graph:after {
+  content: '';
+  width: 400px;
+  height: 600px;
+
+  position: absolute;
+  left: -150px;
+  top: -125px;
+
+  background: $color-background-3;
+  background: linear-gradient(
+    -25deg,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+
+  -webkit-transform: rotate(25deg);
+  -ms-transform: rotate(25deg);
+  transform: rotate(25deg);
+}
+.graph h1 {
+  text-align: center;
+  font-size: 26px;
+  margin: 0;
+  border-bottom: 2px solid #27292d;
+  font-weight: 500;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+.days {
+  margin-top: 20px;
+  margin-left: 20px;
+  overflow-y: scroll;
+  height: 200px;
+
+  // scrollbar-color: hsl(0 0% 50%);
+  .event-item {
+    margin-left: 20px;
+    list-style: circle;
+    font-size: 18px;
+    vertical-align: bottom;
+    fill: $color-2;
+    font-family: 'Montserrat Alternates', sans-serif;
+  }
+}
+
+.days::-webkit-scrollbar {
+  width: 10px; /* Ширина всего элемента навигации */
+}
+
+.days::-webkit-scrollbar-track {
+  background: $color-background-1; /* Цвет дорожки */
+}
+
+.days::-webkit-scrollbar-thumb {
+  background-color: $color-2; /* Цвет бегунка */
+  border-radius: 20px; /* Округление бегунка */
+  // border: 3px solid #050c26; /* Оформление границ бегунка */
+}

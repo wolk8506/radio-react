@@ -11,6 +11,7 @@ import {
   PLAYER_STATION,
   LOCATION,
   KURS_TODAY_BANKS,
+  CURRENCY_YESTERDAY,
 } from './actions';
 
 const initState = {
@@ -21,6 +22,10 @@ const initState = {
 export const weatherCityReducer = (state = initState, action) => {
   switch (action.type) {
     case WEATHER_CITY: {
+      const item = action.payload;
+      return { ...state, ...item };
+    }
+    case CURRENCY_YESTERDAY: {
       const item = action.payload;
       return { ...state, ...item };
     }

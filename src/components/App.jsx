@@ -1,10 +1,19 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { playerStation } from 'store/actions';
+import {
+  getKursTodayBanks,
+  getMonoToday,
+  getZVRCurrent,
+  getZVRPrevious,
+} from 'store/thunks';
+
 import { CurrencyNBU } from './Currency/CurrencyNBU';
 import { CurrencyZVR } from './Currency/CurrencyZVR';
 import { Weather } from './Weather/Weather';
-import { Currency } from './Currency/Currency';
-import { Radio } from './Radio/Radio';
 import { useEffect, useState } from 'react';
-import { Clock } from './Clock/Clock';
+import { Main } from './Main/Main';
+import { CurrencyMono } from './Currency/CurrencyMono';
+import { CurrencyBanks } from './Currency/CurrencyBanks';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -21,37 +30,15 @@ import img_181_fm from '../images/station/img-181.fm.jpg';
 import img_kiss_fm from '../images/station/img-kiss-fm.jpg';
 import img_nrg_radio from '../images/station/img-nrg-radio.jpg';
 import img_soundpark_deep from '../images/station/img-soundpark-deep.jpg';
-import { CurrencyMono } from './Currency/CurrencyMono';
 
-import {
-  getKursTodayBanks,
-  getLocation,
-  getMonoToday,
-  getWeather,
-  getZVRCurrent,
-  getZVRPrevious,
-} from 'store/thunks';
-import { WeatherDashboard } from './Weather/WeatherDashboard';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { CurrencyBanks } from './Currency/CurrencyBanks';
-import { playerStation } from 'store/actions';
-// import { Arduino } from './Arduino/Arduino';
+import { info } from './info';
 
 export const App = () => {
-  const CITY = useSelector(state => state.storeWeatherCity.city);
   const PLAYER_STATION = useSelector(
     state => state.storeWeatherCity.playerStation
   );
 
   const dispatch = useDispatch();
-  // Запрос погоды, если первый раз, то погоду определяет по IP, делеее берет локацию из store
-  useEffect(() => {
-    const URL_WEATHER = `https://api.weatherapi.com/v1/forecast.json?key=02f4d3b9a4c141c6b73150514232405&q=${CITY}&days=14&lang=ru`;
-    if (CITY === null) {
-      dispatch(getLocation()); //Определение локации
-    } else dispatch(getWeather(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
-  }, [CITY, dispatch]);
 
   // Запрос курса валют моно банк
   useEffect(() => {
@@ -71,6 +58,8 @@ export const App = () => {
   const [volume, setVolume] = useState(80);
   const [station, setStation] = useState(PLAYER_STATION);
   const [playPause, setPlayPause] = useState(true);
+  const [playTime, setPlayTime] = useState(0);
+  const [pauseEvent, setPauseEvent] = useState(true);
   const radioStation = [
     'https://listen.181fm.com/181-rock_128k.mp3',
     'https://getradio.me/spdeep',
@@ -123,36 +112,40 @@ export const App = () => {
     audio.play();
   }
 
-  const [timerS, setTimerS] = useState(0);
-  const [playTime, setPlayTime] = useState();
-
   useEffect(() => {
-    if (audio) {
-      var s = parseInt(audio.currentTime % 60);
-      var m = parseInt((audio.currentTime / 60) % 60);
-      setPlayTime(`${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`);
+    if (!pauseEvent) {
+      setPlayPause(false);
     }
-  }, [audio, playTime, timerS]);
+    if (pauseEvent) {
+      setPlayPause(true);
+    }
+  }, [pauseEvent]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimerS(timerS + 1);
-    }, 1000);
+      if (audio) {
+        var s = parseInt(audio.currentTime % 60);
+        var m = parseInt((audio.currentTime / 60) % 60);
+        setPlayTime(`${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`);
+        setPauseEvent(audio.paused);
+      }
+    }, 500);
     return () => clearInterval(interval);
-  }, [timerS]);
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-  // !! --------------------------------------------------
+  }, [audio, pauseEvent]);
 
   return (
     <div className="container">
       <Box sx={{ width: '100%', typography: 'body1' }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <TabList
+              className="tabs"
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+            >
               <Tab label="Главная" value="1" />
               <Tab label="Курс валют" value="2" />
               <Tab label="Погода" value="3" />
-              {/* <Tab label="Arduino" value="4" /> */}
             </TabList>
             <div className="player">
               <CardMedia
@@ -177,30 +170,18 @@ export const App = () => {
               </Stack>
             </div>
           </Box>
-          <TabPanel value="1" className="tab-panel">
-            <div className="first-panel">
-              <div>
-                <Currency></Currency>
-              </div>
-              <div>
-                <WeatherDashboard></WeatherDashboard>
-              </div>
-              <div>
-                <Radio
-                  onHandlePlayPause={handlePlayPause}
-                  onPlayPause={playPause}
-                  onHandleStahion={handleStahion}
-                  onStation={station}
-                  onHandleVolume={handleVolume}
-                  onVolume={volume}
-                  onPlayTime={playTime}
-                ></Radio>
-              </div>
-            </div>
-
-            <Clock></Clock>
+          <TabPanel value="1">
+            <Main
+              onHandlePlayPause={handlePlayPause}
+              onPlayPause={playPause}
+              onHandleStahion={handleStahion}
+              onStation={station}
+              onHandleVolume={handleVolume}
+              onVolume={volume}
+              onPlayTime={playTime}
+            ></Main>
           </TabPanel>
-          <TabPanel value="2" className="tab-panel">
+          <TabPanel value="2">
             <CurrencyMono></CurrencyMono>
             <CurrencyBanks></CurrencyBanks>
             <CurrencyNBU></CurrencyNBU>
@@ -209,17 +190,10 @@ export const App = () => {
           <TabPanel value="3">
             <Weather></Weather>
           </TabPanel>
-          {/* <TabPanel value="4">
-            <Arduino></Arduino>
-          </TabPanel> */}
         </TabContext>
       </Box>
     </div>
   );
 };
 
-const about = 'version: 0.5';
-console.log(
-  `%c\n\n\n░██╗░░░░░░░██╗░█████╗░██╗░░░░░██╗░░██╗░█████╗░███████╗░█████╗░░█████╗░\n░██║░░██╗░░██║██╔══██╗██║░░░░░██║░██╔╝██╔══██╗██╔════╝██╔══██╗██╔═══╝░\n░╚██╗████╗██╔╝██║░░██║██║░░░░░█████═╝░╚█████╔╝██████╗░██║░░██║██████╗░\n░░████╔═████║░██║░░██║██║░░░░░██╔═██╗░██╔══██╗╚════██╗██║░░██║██╔══██╗\n░░╚██╔╝░╚██╔╝░╚█████╔╝███████╗██║░╚██╗╚█████╔╝██████╔╝╚█████╔╝╚█████╔╝\n░░░╚═╝░░░╚═╝░░░╚════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═════╝░░╚════╝░░╚════╝░\n\n\n${about}`,
-  'font-family:monospace;color:#1976d2;font-size:12px;'
-);
+console.log(info, 'font-family:monospace;color:#1976d2;font-size:12px;');

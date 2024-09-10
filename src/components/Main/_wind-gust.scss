@@ -1,0 +1,42 @@
+.img_q1_q2 {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  top: -40%;
+}
+
+.img_q1 {
+  animation: 5s linear 1s normal none infinite running rot;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 80px;
+  height: 80px;
+  display: block;
+}
+
+.img_q2 {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  display: block;
+
+  width: 80px;
+  height: 80px;
+}
+.img_q2 img,
+.img_q1 img {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+
+.img_text {
+  top: 165%;
+  position: absolute;
+  display: flex;
+  width: 110%;
+  align-items: center;
+  justify-content: space-evenly;
+}

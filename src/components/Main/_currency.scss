@@ -1,0 +1,113 @@
+// .currency-main > div {
+//   width: 50%;
+//   padding-left: 15px;
+//   // border: solid 1px red;
+// }
+
+.currency-main p,
+.currency-main h2 {
+  font-family: 'Montserrat Alternates', sans-serif;
+  // border: solid 1px greenyellow;
+}
+
+.currency-main p span {
+  font-size: 18px;
+  color: $color-3;
+  font-family: 'Dotf1';
+  // font-family: 'Montserrat Alternates', sans-serif;
+  &.arrow--up {
+    color: green;
+    width: 10px;
+  }
+
+  &.arrow--dn {
+    // display: block;
+    color: red;
+    width: 10px;
+  }
+}
+
+.currency-main {
+  padding: 5px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: $box-shadow-1;
+}
+
+.currency-main__title {
+  border-bottom: 2px solid #27292d;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  h2 {
+    width: calc(100% / 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.currency-main__items {
+  width: 100%;
+}
+.currency-main__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  p {
+    width: calc(100% / 3);
+  }
+  p:nth-child(2) {
+    display: flex;
+    padding-right: 20px;
+    justify-content: flex-end;
+  }
+  p:nth-child(3) {
+    display: flex;
+    padding-right: 20px;
+    justify-content: flex-end;
+  }
+}
+
+.name-currency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 720px) {
+  .currencyBlock {
+    width: calc(100% - 10px);
+  }
+}
+
+[data-tooltip] {
+  position: relative; /* Относительное позиционирование */
+}
+[data-tooltip]::after {
+  font-size: 14px;
+  content: attr(data-tooltip); /* Выводим текст */
+  position: absolute; /* Абсолютное позиционирование */
+  // width: 50px; /* Ширина подсказки */
+  left: 0;
+  top: 0; /* Положение подсказки */
+  background: $color-background-6; /* Синий цвет фона */
+  color: #fff; /* Цвет текста */
+  padding: 0.5em; /* Поля вокруг текста */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+  pointer-events: none; /* Подсказка */
+  opacity: 0; /* Подсказка невидима */
+  transition: 1s; /* Время появления подсказки */
+  border-radius: 15px;
+  z-index: 1;
+}
+[data-tooltip]:hover::after {
+  opacity: 1; /* Показываем подсказку */
+  top: 2em; /* Положение подсказки */
+}

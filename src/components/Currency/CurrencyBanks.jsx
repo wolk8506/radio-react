@@ -43,6 +43,7 @@ export const CurrencyBanks = () => {
 
   useEffect(() => {
     const arr = [];
+
     for (let key in BANK) {
       if (BANK.hasOwnProperty(key)) {
         arr.push({ key: key, name: BANK[key].name });
@@ -80,9 +81,6 @@ export const CurrencyBanks = () => {
     },
   }));
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  useEffect(() => {
-    console.log(BANK);
-  }, [BANK]);
 
   function createData(name: string, buy: number, sel: number) {
     return { name, buy, sel };

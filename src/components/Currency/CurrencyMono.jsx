@@ -264,7 +264,7 @@ export const CurrencyMono = () => {
         <h2>Конвертер валют</h2>
       </div>
 
-      <div>
+      <div className="converter-block">
         <Box
           className={s.textFieldBlock}
           component="form"
@@ -282,6 +282,7 @@ export const CurrencyMono = () => {
             onChange={handleConvert1}
             variant="standard"
             step="1.00"
+            // color="warning"
           />
           <TextField
             className={s.textField}
@@ -293,6 +294,8 @@ export const CurrencyMono = () => {
             onChange={handleConvert2}
             variant="standard"
             step="1.00"
+            // color="warning"
+            // style={{ color: '#fff' }}
           />
         </Box>
 
@@ -311,6 +314,7 @@ export const CurrencyMono = () => {
               value={valueSelect1}
               onChange={handleChange1}
               label="Converter"
+              // color="warning"
             >
               {d1.map(i => (
                 <MenuItem key={i} value={i}>
@@ -341,6 +345,7 @@ export const CurrencyMono = () => {
               value={valueSelect2}
               onChange={handleChange2}
               label="Converter"
+              // color="warning"
             >
               {d2.map(i => (
                 <MenuItem key={i} value={i}>

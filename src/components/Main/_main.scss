@@ -1,0 +1,15 @@
+.main {
+  height: 80vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main__block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main__element {
+  display: flex;
+}
