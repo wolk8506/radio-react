@@ -133,7 +133,7 @@ export const Currency = () => {
         if (i.data === '01-01-2024') {
           setArr_yesterday(arr_today);
         }
-        // return i;
+        return i;
       });
     }
   }, [arr_today, dataCurrency, yesterday]);
