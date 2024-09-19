@@ -20,7 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-const { REACT_APP_WEATHER_API_KEY_2 } = process.env;
+// const { REACT_APP_WEATHER_API_KEY_2 } = process.env;
 
 moment().locale('ru');
 
@@ -61,6 +61,7 @@ export const Weather = () => {
   const btnRadio = e => setBtnActiv(e.target.value);
 
   useEffect(() => {
+    const REACT_APP_WEATHER_API_KEY_2 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
     const URL_LAST_DAY = `${BASE_URL}${CITY}/last6days?key=${REACT_APP_WEATHER_API_KEY_2}&include=days&lang=ru&unitGroup=metric`;
     const URL_WEATHER15 = `${BASE_URL}${CITY}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric`;
     const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
