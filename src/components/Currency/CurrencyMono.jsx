@@ -275,19 +275,19 @@ export const CurrencyMono = () => {
           <TextField
             className={s.textField}
             id="cur1"
-            label=""
+            // label=""
             type="number"
             min="0"
             value={valueText1}
             onChange={handleConvert1}
             variant="standard"
             step="1.00"
-            // color="warning"
+            color="warning"
           />
           <TextField
             className={s.textField}
             id="cor2"
-            label=""
+            // label=""
             type="number"
             min="0"
             value={valueText2}

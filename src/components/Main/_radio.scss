@@ -7,8 +7,8 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: $color-background-6;
-  box-shadow: $box-shadow-1;
+  background: $color-background-5;
+  // box-shadow: $box-shadow-1;
 
   .logoRadio {
     border-radius: 15px;
@@ -49,6 +49,9 @@
   }
 
   @media screen and (max-width: 720px) {
+    & .maim-player {
+      // height: 200px;
+    }
     & .player {
       width: calc(100% - 10px);
       padding: 0;
@@ -62,9 +65,11 @@
       width: 150px;
     }
 
-    .volume {
-      width: 150px;
+    .logoRadio {
+      width: 96px;
+      height: 96px;
     }
+
     .clock {
       display: none;
     }

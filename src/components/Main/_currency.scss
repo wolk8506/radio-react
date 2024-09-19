@@ -35,7 +35,8 @@
   flex-direction: column;
   width: 100%;
   border-radius: 15px;
-  box-shadow: $box-shadow-1;
+  background: $color-background-5;
+  // box-shadow: $box-shadow-1;
 }
 
 .currency-main__title {
@@ -83,7 +84,7 @@
 
 @media screen and (max-width: 720px) {
   .currencyBlock {
-    width: calc(100% - 10px);
+    width: 100%;
   }
 }
 

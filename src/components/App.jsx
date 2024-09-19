@@ -12,6 +12,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import InfoIcon from '@mui/icons-material/Info';
+import { Info } from './Info/Info';
 
 export const App = () => {
   const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
@@ -123,7 +124,7 @@ export const App = () => {
         {btnTab === '0' && <Main onAudio={audio}></Main>}
         {btnTab === '1' && <CurrencyIndex></CurrencyIndex>}
         {btnTab === '2' && <Weather></Weather>}
-        {btnTab === '3' && <div className="about">radio version 0.7</div>}
+        {btnTab === '3' && <Info></Info>}
       </div>
     </div>
   );

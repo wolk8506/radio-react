@@ -195,6 +195,7 @@ export const Weather = () => {
         <div className="blockDayCentr">
           <Stack direction="row" alignItems="center" spacing={1}>
             <IconButton
+              className="btn-ico"
               aria-label="location"
               size="large"
               onClick={handleLocation}
@@ -215,6 +216,7 @@ export const Weather = () => {
 
             <IconButton aria-label="delete" size="large">
               <SearchIcon
+                className="btn-ico"
                 color="warning"
                 fontSize="inherit"
                 onClick={handleSearch}
@@ -371,9 +373,10 @@ export const Weather = () => {
 
               {btnActiv === '0' && (
                 <>
-                  <p>Температура ср. {i.temp} </p>
-                  <p>Температура макс. {i.tempmax} </p>
-                  <p>Температура мин. {i.tempmin} </p>
+                  <h4>Температура</h4>
+                  <p>средняя {i.temp} </p>
+                  <p>максимальная {i.tempmax} </p>
+                  <p>минимальная {i.tempmin} </p>
                 </>
               )}
 

@@ -11,8 +11,12 @@
 @import 'components/Main/weather-dashboard';
 @import 'components/Main/wind-gust';
 
+@import 'components/Currency/currency-mono';
+
 @import 'components/Weather/weather';
 @import 'components/Weather/chart-weather';
+
+@import 'components/Info/info';
 
 @import-normalize; /* bring in normalize.css styles */
 
@@ -130,24 +134,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 // !!!!!  C U R R E N C Y  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#cur1,
-#cor2,
-#demo-simple-select-standard,
-#demo-simple-select-standard-label,
-#demo-simple-select-filled-label,
-#demo-simple-select-filled {
-  // color: aliceblue !important;
-  border-color: antiquewhite !important;
-}
-
-.converter-block {
-  box-shadow: $box-shadow-1;
-  background: $color-background-4;
-  padding: 30px;
-  width: 500px;
-  border-radius: 15px;
-  margin: 20px;
-}
 
 .btn-block {
   display: flex;

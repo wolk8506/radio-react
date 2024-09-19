@@ -11,7 +11,7 @@
   font-size: 32px;
 
   border-radius: 7px;
-  box-shadow: $box-shadow-1;
+  // box-shadow: $box-shadow-1;
   overflow: hidden;
 }
 .graph > div {
@@ -77,4 +77,9 @@
   background-color: $color-2; /* Цвет бегунка */
   border-radius: 20px; /* Округление бегунка */
   // border: 3px solid #050c26; /* Оформление границ бегунка */
+}
+@media screen and (max-width: 720px) {
+  .graph {
+    width: 100%;
+  }
 }
