@@ -17,26 +17,26 @@
 .graph > div {
   position: relative;
 }
-.graph:after {
-  content: '';
-  width: 400px;
-  height: 600px;
+// .graph:after {
+//   content: '';
+//   width: 400px;
+//   height: 600px;
 
-  position: absolute;
-  left: -150px;
-  top: -125px;
+//   position: absolute;
+//   left: -150px;
+//   top: -125px;
 
-  background: $color-background-3;
-  background: linear-gradient(
-    -25deg,
-    rgba(255, 255, 255, 0) 25%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
+//   background: $color-background-3;
+//   background: linear-gradient(
+//     -25deg,
+//     rgba(255, 255, 255, 0) 25%,
+//     rgba(255, 255, 255, 0.1) 100%
+//   );
 
-  -webkit-transform: rotate(25deg);
-  -ms-transform: rotate(25deg);
-  transform: rotate(25deg);
-}
+//   -webkit-transform: rotate(25deg);
+//   -ms-transform: rotate(25deg);
+//   transform: rotate(25deg);
+// }
 .graph h1 {
   text-align: center;
   font-size: 26px;
@@ -52,6 +52,9 @@
   height: 200px;
 
   // scrollbar-color: hsl(0 0% 50%);
+  .event-item + .event-item {
+    margin-top: 15px;
+  }
   .event-item {
     margin-left: 20px;
     list-style: circle;

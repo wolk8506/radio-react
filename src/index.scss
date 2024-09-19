@@ -11,6 +11,9 @@
 @import 'components/Main/weather-dashboard';
 @import 'components/Main/wind-gust';
 
+@import 'components/Weather/weather';
+@import 'components/Weather/chart-weather';
+
 @import-normalize; /* bring in normalize.css styles */
 
 @font-face {

@@ -12,7 +12,7 @@ import { WindGust } from './WindGust';
 import { getLocation, getWeather15 } from 'store/thunks';
 
 export const Weather = () => {
-  const CITY = useSelector(state => state.storeWeatherCity.city);
+  const CITY = useSelector(state => state.storeData.city);
   const data = useSelector(state => state.storeWeather15);
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ export const Weather = () => {
       setChangeTemperature(false);
       //Запрос на погоду после определения локации и все последующие запросы
       dispatch(getWeather15(URL_WEATHER));
-    }, 900000);
+    }, 1800000);
 
     return () => clearInterval(interval);
   }, [URL_WEATHER, dispatch]);

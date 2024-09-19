@@ -12,31 +12,47 @@ export const WindGust = () => {
   const data = useSelector(state => state.storeWeather15);
   const iconSVG = sprite;
 
-  const [maxwind_ms, setMmaxwind_ms] = useState(0);
+  const [maxwind_ms, setMaxwind_ms] = useState(19.9);
+  const [rotationSpeed, setRotationSpeed] = useState(0);
 
   useEffect(() => {
-    if (data.currentConditions !== undefined) {
-      setMmaxwind_ms(
+    setMaxwind_ms(
+      Number(
         (data.days[0].hours[moment().format('H')].windgust / 3.6).toFixed(1)
-      ); // Порывы ветра м/с
-    }
+      )
+    ); // Порывы ветра м/с
   }, [data]);
 
   // !!!!!! Стили
 
+  useEffect(() => {
+    if (maxwind_ms > 30) {
+      setRotationSpeed((40 - maxwind_ms) * 0.02 + 0.2);
+    } else if (maxwind_ms > 20) {
+      setRotationSpeed((30 - maxwind_ms) * 0.04 + 0.4);
+    } else if (maxwind_ms > 10) {
+      setRotationSpeed((20 - maxwind_ms) * 0.02 + 0.8);
+    } else {
+      setRotationSpeed(11 - maxwind_ms);
+    }
+  }, [maxwind_ms]);
+
+  // console.log('wind: ', rotationSpeed);
+  // console.log('wind: ', rotationSpeed);
+
   const styleWindW = {
-    animationDuration: `${11 - Number(maxwind_ms)}s`,
+    animationDuration: `${rotationSpeed}s`,
   };
 
   return (
-    <div className="img_q1_q2">
-      <div className="img_q1" style={styleWindW}>
+    <div className="wind-block">
+      <div className="blades" style={styleWindW}>
         <img src={q1} alt="hh" width={100} />
       </div>
-      <div className="img_q2">
+      <div className="frame">
         <img src={q2} alt="hh" width={100} />
       </div>
-      <p className="img_text">
+      <p className="img-text">
         <svg className="icon" width="24" height="24">
           <use href={`${iconSVG}#icon-wind`}></use>
         </svg>

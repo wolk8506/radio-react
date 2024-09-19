@@ -1,0 +1,154 @@
+html,
+body,
+#root,
+.app {
+  width: 100%;
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  flex-direction: row;
+
+  .sidebar {
+    height: 98%;
+    margin: 10px 10px 10px 0px;
+    background: $color-background-5;
+
+    position: fixed;
+    width: 110px;
+    transition: all 0.5s;
+    display: flex;
+
+    .menu-btn {
+      background: $color-background-5;
+    }
+
+    .menu-open {
+      border-radius: 0px 15px 15px 0px;
+      display: block;
+      background: #000;
+      width: 200px;
+      transform: translateX(-115px);
+      z-index: -1;
+      transition: transform 0.5s;
+      padding-right: 15px;
+
+      .menu-open-text {
+        font-size: 18px;
+      }
+    }
+    .menu-open {
+      background: $color-background-5;
+    }
+    .menu-open > div div {
+      height: 50px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .menu-open > div div:nth-child(1),
+    .menu-open > div div:nth-child(2) {
+      height: 110px;
+      margin-top: 0px;
+    }
+    .menu-open > div div:nth-child(3) {
+      margin-top: 30px;
+    }
+    .menu-open > div div:nth-child(4),
+    .menu-open > div div:nth-child(5),
+    .menu-open > div div:nth-child(6) {
+      margin-top: 40px;
+    }
+  }
+
+  .navigation-btn + .navigation-btn {
+    margin-top: 30px;
+  }
+
+  .sidebar-menu,
+  .sidebar-player {
+    position: relative;
+    padding: 20px;
+  }
+
+  .navigation-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+
+    button {
+      background: none;
+      border: none;
+      border-radius: 50%;
+      padding: 15px;
+      cursor: pointer;
+    }
+  }
+
+  .btn-ico {
+    color: $color-3;
+    font-size: 32px;
+  }
+
+  .navigation {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .station-name {
+    display: none;
+  }
+
+  .sidebar.menu_on {
+    .menu-open {
+      background: $color-background-5;
+      transform: translateX(0px);
+    }
+    .menu-open > div div {
+      height: 50px;
+      width: 120px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .menu-open > div div:nth-child(1),
+    .menu-open > div div:nth-child(2) {
+      height: 110px;
+      margin-top: 0px;
+    }
+    .menu-open > div div:nth-child(3) {
+      margin-top: 30px;
+    }
+    .menu-open > div div:nth-child(4),
+    .menu-open > div div:nth-child(5),
+    .menu-open > div div:nth-child(6) {
+      margin-top: 40px;
+    }
+  }
+
+  .content {
+    padding: 40px;
+    width: calc(100% - 160px);
+    height: 100%;
+    margin-left: 145px;
+    transition: all 0.5s;
+
+    .about {
+      font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
+      font-size: 72px;
+      text-align: center;
+    }
+  }
+  .content.content--menuOpen {
+    margin-left: 245px;
+  }
+}
+
+.css-18nu0jg-MuiFormLabel-root-MuiInputLabel-root,
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: #fce3af !important;
+}

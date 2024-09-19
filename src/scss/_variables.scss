@@ -65,3 +65,33 @@ $box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1), 0 0 0 5px #1c1e1f,
     transform: rotate(360deg);
   }
 }
+// *****  A N I M A T I O N  *****
+
+@mixin animation-slider($property) {
+  transition-property: $property;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin animation($property) {
+  transition-property: $property;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// *****  B U T T O N  *****
+
+%button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 24px;
+  min-width: 62.4px;
+  font-style: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.31;
+  border: none;
+  border-radius: 22px;
+}

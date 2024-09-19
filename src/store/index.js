@@ -12,26 +12,21 @@ import {
 import storage from 'redux-persist/lib/storage';
 import {
   kursTodayBanksReducer,
-  weatherCityReducer,
+  data,
   currencyNBUtodayReducer,
   currencyMonoTodayReducer,
   currencyNBUtomorrowReducer,
   currencyZVRPreviousReducer,
   currencyZVRCurrentReducer,
-  weatherReducer,
+  weatherElements,
   weather15Reducer,
   weatherLastDayReducer,
 } from './reducer';
 
-// import { applyMiddleware, createStore } from 'redux';
-// import { logger } from 'middleware/logger';
-// import { sheduler } from 'middleware/scheduler';
-// import { thunk } from 'redux-thunk';
-
 export const rootReducer = combineReducers({
   storeKursTodayBanks: kursTodayBanksReducer,
-  storeWeatherCity: weatherCityReducer,
-  storeWeather: weatherReducer,
+  storeData: data,
+  storeWeatherElements: weatherElements,
   storeWeather15: weather15Reducer,
   storeWeatherLastDay: weatherLastDayReducer,
   storeCurrencyMonoToday: currencyMonoTodayReducer,

@@ -66,30 +66,35 @@ export const CurrencyZVR = () => {
   ) {
     return { name, value, fat, carbs, protein };
   }
-
-  const rows = [
-    createData(
-      'Прочие резервные активы',
-      storeData.find(el => el.id_api === 'RES_OthReserveAssets').value
-    ),
-    createData(
-      'Резервная позиция в МВФ ',
-      storeData.find(el => el.id_api === 'RES_IMFResPosition').value
-    ),
-    createData(
-      'Специальные права заимствования ',
-      storeData.find(el => el.id_api === 'RES_SDRs').value
-    ),
-    createData('Золото ', storeData.find(el => el.id_api === 'RES_Gold').value),
-    createData(
-      'Резервы в иностранной валюте',
-      storeData.find(el => el.id_api === 'RES_ForCurrencyAssets').value
-    ),
-    createData(
-      'Официальные резервные активы',
-      storeData.find(el => el.id_api === 'RES_OffReserveAssets').value
-    ),
-  ];
+  let rows = [createData('Данные доступны после 6-го числа текущего месяца')];
+  if (storeData.length !== 0) {
+    rows = [
+      createData(
+        'Прочие резервные активы',
+        storeData.find(el => el.id_api === 'RES_OthReserveAssets').value
+      ),
+      createData(
+        'Резервная позиция в МВФ ',
+        storeData.find(el => el.id_api === 'RES_IMFResPosition').value
+      ),
+      createData(
+        'Специальные права заимствования ',
+        storeData.find(el => el.id_api === 'RES_SDRs').value
+      ),
+      createData(
+        'Золото ',
+        storeData.find(el => el.id_api === 'RES_Gold').value
+      ),
+      createData(
+        'Резервы в иностранной валюте',
+        storeData.find(el => el.id_api === 'RES_ForCurrencyAssets').value
+      ),
+      createData(
+        'Официальные резервные активы',
+        storeData.find(el => el.id_api === 'RES_OffReserveAssets').value
+      ),
+    ];
+  }
 
   let rows2 = [];
   if (storeData2.length === 0) {

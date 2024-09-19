@@ -1,6 +1,5 @@
 import {
   WEATHER_CITY,
-  WEATHER,
   CURRENCY_MONO,
   NBU_TODAY,
   NBU_TOMORROW,
@@ -12,14 +11,23 @@ import {
   LOCATION,
   KURS_TODAY_BANKS,
   CURRENCY_YESTERDAY,
+  PLAYER_PLAY,
+  WEATHER_ELEMENTS,
 } from './actions';
+
+import {
+  initStateWeather15,
+  initStateWeatherElements,
+  initStateWeatherLastDay,
+} from './init-state-mock';
 
 const initState = {
   playerStation: 0,
   city: null,
+  playerPlay: false,
 };
 
-export const weatherCityReducer = (state = initState, action) => {
+export const data = (state = initState, action) => {
   switch (action.type) {
     case WEATHER_CITY: {
       const item = action.payload;
@@ -33,9 +41,13 @@ export const weatherCityReducer = (state = initState, action) => {
       const item = action.payload;
       return { ...state, ...item };
     }
+    case PLAYER_PLAY: {
+      const item = action.payload;
+      return { ...state, ...item };
+    }
     case LOCATION: {
       const item = action.payload;
-      return { ...state, ...{ city: `${item.latitude},${item.longitude}` } };
+      return { ...state, ...{ city: item.city } };
     }
     default:
       return state;
@@ -45,7 +57,7 @@ export const weatherCityReducer = (state = initState, action) => {
 export const kursTodayBanksReducer = (state = [], action) => {
   switch (action.type) {
     case KURS_TODAY_BANKS: {
-      const items = action.payload;
+      const items = action.payload.data.exchangers;
       return items;
     }
     default:
@@ -53,33 +65,36 @@ export const kursTodayBanksReducer = (state = [], action) => {
   }
 };
 
-export const weatherReducer = (state = [], action) => {
+export const weatherElements = (state = initStateWeatherElements, action) => {
   switch (action.type) {
-    case WEATHER: {
+    case WEATHER_ELEMENTS: {
       const items = action.payload;
-      return items;
+      return { ...state, ...items };
     }
     default:
       return state;
   }
 };
 
-export const weather15Reducer = (state = [], action) => {
+export const weather15Reducer = (state = initStateWeather15, action) => {
   switch (action.type) {
     case WEATHER_15: {
       const items = action.payload;
-      return items;
+      return { ...state, ...items };
     }
     default:
       return state;
   }
 };
 
-export const weatherLastDayReducer = (state = [], action) => {
+export const weatherLastDayReducer = (
+  state = initStateWeatherLastDay,
+  action
+) => {
   switch (action.type) {
     case WEATHER_LAST_DAY: {
       const items = action.payload;
-      return items;
+      return { ...state, ...items };
     }
     default:
       return state;

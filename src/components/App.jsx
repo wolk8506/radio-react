@@ -1,197 +1,130 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { playerStation } from 'store/actions';
-import {
-  getKursTodayBanks,
-  getMonoToday,
-  getZVRCurrent,
-  getZVRPrevious,
-} from 'store/thunks';
-
-import { CurrencyNBU } from './Currency/CurrencyNBU';
-import { CurrencyZVR } from './Currency/CurrencyZVR';
-import { Weather } from './Weather/Weather';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { RadioMini } from './Main/Radio-mini';
 import { Main } from './Main/Main';
-import { CurrencyMono } from './Currency/CurrencyMono';
-import { CurrencyBanks } from './Currency/CurrencyBanks';
-
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import CardMedia from '@mui/material/CardMedia';
-
-import img_181_fm from '../images/station/img-181.fm.jpg';
-import img_kiss_fm from '../images/station/img-kiss-fm.jpg';
-import img_nrg_radio from '../images/station/img-nrg-radio.jpg';
-import img_soundpark_deep from '../images/station/img-soundpark-deep.jpg';
-
+import { CurrencyIndex } from './Currency/Currency-index';
+import { Weather } from './Weather/Weather';
 import { info } from './info';
 
+import DensityMediumIcon from '@mui/icons-material/DensityMedium';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+import InfoIcon from '@mui/icons-material/Info';
+
 export const App = () => {
-  const PLAYER_STATION = useSelector(
-    state => state.storeWeatherCity.playerStation
-  );
-
-  const dispatch = useDispatch();
-
-  // Запрос курса валют моно банк
-  useEffect(() => {
-    dispatch(getMonoToday());
-    dispatch(getKursTodayBanks());
-    dispatch(getZVRPrevious());
-    dispatch(getZVRCurrent());
-  }, [dispatch]);
-
-  const [value, setValue] = useState('1');
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  // !! player -- - - - - - - - - - - - - - - - - - - - -
+  const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
   const [audio, setAudio] = useState();
-  const [volume, setVolume] = useState(80);
-  const [station, setStation] = useState(PLAYER_STATION);
-  const [playPause, setPlayPause] = useState(true);
-  const [playTime, setPlayTime] = useState(0);
-  const [pauseEvent, setPauseEvent] = useState(true);
-  const radioStation = [
-    'https://listen.181fm.com/181-rock_128k.mp3',
-    'https://getradio.me/spdeep',
-    'https://pub0202.101.ru:8443/stream/air/aac/64/99',
-    'https://link.smmbox.ru/http://online.kissfm.ua/KissFM_HD',
-  ];
-  const logo = [img_181_fm, img_soundpark_deep, img_nrg_radio, img_kiss_fm];
+  const [btnTab, setBtnTab] = useState('0');
+  const [btnMenu, setBtnMenu] = useState(false);
+  const [classBtn_0, setClassBtn_0] = useState('navigation-btn toggle');
+  const [classBtn_1, setClassBtn_1] = useState('navigation-btn toggle');
+  const [classBtn_2, setClassBtn_2] = useState('navigation-btn toggle');
+  const [classBtn_3, setClassBtn_3] = useState('navigation-btn toggle');
+  const [classBtn_menu, setClassBtn_menu] = useState('');
+  const [content_menuOpen, setContent_menuOpen] = useState('');
   const radioStationName = [
     'Rock 181',
     'SOUNDPARK DEEP',
     'Радио Energy',
     'KissFM_HD',
   ];
-  // Создание Audio для запуска радио
-  useEffect(() => {
-    let audio = new Audio();
-    setAudio(audio);
-  }, []);
 
-  function handlePlayPause() {
-    setPlayPause(!playPause);
-    if (playPause) {
-      play();
-    } else {
-      audio.pause();
-    }
-  }
-
-  const handleVolume = (e, newValue) => {
-    setVolume(newValue);
-    audio.volume = parseFloat(e.target.value / 100);
+  const handleBtnTab = e => {
+    setBtnTab(e.currentTarget.value);
   };
 
-  const handleStahion = e => {
-    changeStation(e.target.value);
-    setStation(e.target.value);
-    dispatch(playerStation(e.target.value));
+  const handleMenu = () => {
+    setBtnMenu(!btnMenu);
+    console.log('menu');
   };
 
-  function changeStation(value, stationName) {
-    setPlayPause(true);
-    audio.pause();
-    audio.src = radioStation[value];
-    audio.play();
-    setPlayPause(false);
-  }
+  useEffect(() => {
+    setClassBtn_menu(`${btnMenu ? 'menu_on' : ''}`);
+    setContent_menuOpen(`${btnMenu ? 'content--menuOpen' : ''}`);
+  }, [btnMenu]);
 
-  function play() {
-    audio.src = radioStation[station];
-    audio.play();
-  }
+  useEffect(() => setAudio(new Audio()), []);
 
   useEffect(() => {
-    if (!pauseEvent) {
-      setPlayPause(false);
-    }
-    if (pauseEvent) {
-      setPlayPause(true);
-    }
-  }, [pauseEvent]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (audio) {
-        var s = parseInt(audio.currentTime % 60);
-        var m = parseInt((audio.currentTime / 60) % 60);
-        setPlayTime(`${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`);
-        setPauseEvent(audio.paused);
-      }
-    }, 500);
-    return () => clearInterval(interval);
-  }, [audio, pauseEvent]);
+    setClassBtn_0(`navigation-btn ${btnTab === '0' ? 'toggle_on' : 'toggle'}`);
+    setClassBtn_1(`navigation-btn ${btnTab === '1' ? 'toggle_on' : 'toggle'}`);
+    setClassBtn_2(`navigation-btn ${btnTab === '2' ? 'toggle_on' : 'toggle'}`);
+    setClassBtn_3(`navigation-btn ${btnTab === '3' ? 'toggle_on' : 'toggle'}`);
+  }, [btnTab]);
 
   return (
-    <div className="container">
-      <Box sx={{ width: '100%', typography: 'body1' }}>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList
-              className="tabs"
-              onChange={handleChange}
-              aria-label="lab API tabs example"
+    <div className="app">
+      <div className={`sidebar ${classBtn_menu}`}>
+        <div className="menu-btn">
+          <div className={`sidebar-menu`}>
+            <button
+              className="toggle btn-menu navigation-btn"
+              onClick={handleMenu}
             >
-              <Tab label="Главная" value="1" />
-              <Tab label="Курс валют" value="2" />
-              <Tab label="Погода" value="3" />
-            </TabList>
-            <div className="player">
-              <CardMedia
-                component="img"
-                sx={{ width: 48 }}
-                image={logo[station]}
-                alt="Live from space album cover"
-              />
-              <p>{radioStationName[station]}</p>
-              <Stack alignItems="center">
-                <IconButton
-                  size="large"
-                  onClick={handlePlayPause}
-                  sx={{ color: '#ffffff' }}
-                >
-                  {playPause ? (
-                    <PlayArrowIcon sx={{ fontSize: 40 }} />
-                  ) : (
-                    <PauseIcon sx={{ fontSize: 40 }} />
-                  )}
-                </IconButton>
-              </Stack>
+              <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
+            </button>
+          </div>
+          <div className="sidebar-player">
+            <RadioMini onAudio={audio}></RadioMini>
+          </div>
+
+          <div className="navigation">
+            <div className={classBtn_0}>
+              <button type="button" value="0" onClick={handleBtnTab}>
+                <HomeIcon className="btn-ico" />
+              </button>
             </div>
-          </Box>
-          <TabPanel value="1">
-            <Main
-              onHandlePlayPause={handlePlayPause}
-              onPlayPause={playPause}
-              onHandleStahion={handleStahion}
-              onStation={station}
-              onHandleVolume={handleVolume}
-              onVolume={volume}
-              onPlayTime={playTime}
-            ></Main>
-          </TabPanel>
-          <TabPanel value="2">
-            <CurrencyMono></CurrencyMono>
-            <CurrencyBanks></CurrencyBanks>
-            <CurrencyNBU></CurrencyNBU>
-            <CurrencyZVR></CurrencyZVR>
-          </TabPanel>
-          <TabPanel value="3">
-            <Weather></Weather>
-          </TabPanel>
-        </TabContext>
-      </Box>
+            <div className={classBtn_1}>
+              <button type="button" value="1" onClick={handleBtnTab}>
+                <AccountBalanceIcon className="btn-ico" />
+              </button>
+            </div>
+            <div className={classBtn_2}>
+              <button type="button" value="2" onClick={handleBtnTab}>
+                <ThunderstormIcon className="btn-ico" />
+              </button>
+            </div>
+            <div className={classBtn_3}>
+              <button type="button" value="3" onClick={handleBtnTab}>
+                <InfoIcon className="btn-ico" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="menu-open">
+          <div>
+            <div>
+              <p className="menu-open-text">Меню</p>
+            </div>
+            <div>
+              <p className="menu-open-text">
+                {radioStationName[PLAYER_STATION]}
+              </p>
+            </div>
+            <div>
+              <p className="menu-open-text">Главная</p>
+            </div>
+            <div>
+              <p className="menu-open-text">Курс валют</p>
+            </div>
+            <div>
+              <p className="menu-open-text">Погода</p>
+            </div>
+            <div>
+              <p className="menu-open-text">Инфо</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`content ${content_menuOpen}`}>
+        {btnTab === '0' && <Main onAudio={audio}></Main>}
+        {btnTab === '1' && <CurrencyIndex></CurrencyIndex>}
+        {btnTab === '2' && <Weather></Weather>}
+        {btnTab === '3' && <div className="about">radio version 0.7</div>}
+      </div>
     </div>
   );
 };

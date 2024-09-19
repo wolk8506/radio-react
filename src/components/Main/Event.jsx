@@ -28,11 +28,6 @@ export const Event = () => {
               {i}
             </li>
           ))}
-          {/* {event.map(i => (
-            <li className="event-item" key={i}>
-              {i}
-            </li>
-          ))} */}
         </ul>
       </div>
     </section>

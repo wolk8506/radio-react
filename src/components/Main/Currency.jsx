@@ -10,9 +10,7 @@ import sprite from '../../images/sprite.svg';
 
 export const Currency = () => {
   const dataMono = useSelector(state => state.storeCurrencyMonoToday);
-  const dataCurrency = useSelector(
-    state => state.storeWeatherCity.currencyYesterday
-  );
+  const dataCurrency = useSelector(state => state.storeData.currencyYesterday);
 
   const dispatch = useDispatch();
 
@@ -27,6 +25,8 @@ export const Currency = () => {
   const [EUR_rateBuy, setEUR_rateBuy] = useState(0);
   const [USD_rateSell, setUSD_rateSell] = useState(0);
   const [EUR_rateSell, setEUR_rateSell] = useState(0);
+
+  useEffect(() => dispatch(getMonoToday()), [dispatch]);
 
   useEffect(() => {
     if (dataMono.length !== 0) {

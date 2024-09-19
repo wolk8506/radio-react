@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 export function Clouds() {
   return React.createElement(
@@ -70,8 +71,9 @@ function DemoF() {
   const data = useSelector(state => state.storeWeather15);
   const [value, setCloud] = useState(0);
   useEffect(() => {
+    const hour = moment().format('H');
     if (data.currentConditions !== undefined) {
-      setCloud(data.currentConditions.cloudcover); // Облачность
+      setCloud(data.days[0].hours[hour].cloudcover); // Облачность
     }
   }, [data]);
 

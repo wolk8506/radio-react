@@ -6,15 +6,7 @@ import { Currency } from './Currency';
 import { Clock } from './Clock';
 import { Event } from './Event';
 
-export const Main = ({
-  onHandlePlayPause,
-  onPlayPause,
-  onHandleStahion,
-  onStation,
-  onHandleVolume,
-  onVolume,
-  onPlayTime,
-}) => {
+export const Main = ({ onAudio }) => {
   return (
     <div className="main">
       <div className="main__block">
@@ -26,15 +18,7 @@ export const Main = ({
         </div>
       </div>
       <div className="main__block">
-        <Radio
-          onHandlePlayPause={onHandlePlayPause}
-          onPlayPause={onPlayPause}
-          onHandleStahion={onHandleStahion}
-          onStation={onStation}
-          onHandleVolume={onHandleVolume}
-          onVolume={onVolume}
-          onPlayTime={onPlayTime}
-        ></Radio>
+        <Radio onAudio={onAudio}></Radio>
         <Currency></Currency>
         <Event></Event>
       </div>

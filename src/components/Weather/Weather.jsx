@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getWeather, getWeather15, getWeatherLastDay } from 'store/thunks';
+import {
+  getWeather15,
+  getWeatherLastDay,
+  getWeatherElements,
+  getLocation,
+} from 'store/thunks';
 import { weatherCity } from 'store/actions';
 import sprite from '../../images/sprite.svg';
-import s from './Weather.module.css';
+import { ChartWeather } from './ChartWeather';
+import moment from 'moment';
 
 import SearchIcon from '@mui/icons-material/Search';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
@@ -13,22 +19,23 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-// import Radio from '@mui/material/Radio';
-// import RadioGroup from '@mui/material/RadioGroup';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import FormControl from '@mui/material/FormControl';
+
+const { REACT_APP_WEATHER_API_KEY_2 } = process.env;
+
+moment().locale('ru');
 
 export const Weather = () => {
-  const data = useSelector(state => state.storeWeather);
+  const dispatch = useDispatch();
+  const dataEvents = useSelector(state => state.storeWeatherElements);
   const data15 = useSelector(state => state.storeWeather15);
   const dataLast = useSelector(state => state.storeWeatherLastDay);
-  const CITY = useSelector(state => state.storeWeatherCity.city);
+  const CITY = useSelector(state => state.storeData.city);
+  const urlImage = 'https://www.visualcrossing.com/img/';
+  const BASE_URL =
+    'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 
-  const dispatch = useDispatch();
   const iconSVG = sprite;
   const [valueCity, setValueCity] = useState('');
-  // const [meLocation, setMeLocation] = useState('Минск');
-
   const [country, setCountry] = useState('--');
   const [city, setCity] = useState('--');
   const [timeZone, setTimeZone] = useState('--');
@@ -37,8 +44,7 @@ export const Weather = () => {
   const [wind_ms, setWind_ms] = useState('--');
   const [wind_degree, setWind_degree] = useState(0);
   const [sunrise, setSunrise] = useState('--');
-  const [sunsetH, setSunsetH] = useState('--');
-  const [sunsetM, setSunsetM] = useState('--');
+  const [sunset, setSunset] = useState('--');
   const [pressure_mb, setPressure_mb] = useState('--');
   const [cloud, setCloud] = useState('--');
   const [vis_km, setVis_km] = useState('--');
@@ -49,23 +55,17 @@ export const Weather = () => {
   const [moonrise, setMoonrise] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
   const [icon, setIcon] = useState('--');
-  // const [last_updated, setLast_updated] = useState('--');
+  const [dataDays, setDataDays] = useState([]);
+  const [btnActiv, setBtnActiv] = useState('0');
 
-  const [value, setValue] = React.useState('0');
-
-  const date = new Date();
-  const dayAndMonth = date.toLocaleDateString('ru-RU', {
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-  });
-  var moment = require('moment');
+  const btnRadio = e => setBtnActiv(e.target.value);
 
   useEffect(() => {
-    const URL_LAST_DAY = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/last6days?key=D6MDZY6JMNHMG6CBQANG3GNHD&include=days&lang=ru&unitGroup=metric`;
-    const URL_WEATHER = `https://api.weatherapi.com/v1/forecast.json?key=02f4d3b9a4c141c6b73150514232405&q=${CITY}&days=14&lang=ru`;
-    const URL_WEATHER15 = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}?key=D6MDZY6JMNHMG6CBQANG3GNHD&lang=ru&unitGroup=metric`;
-    dispatch(getWeather(URL_WEATHER));
+    const URL_LAST_DAY = `${BASE_URL}${CITY}/last6days?key=${REACT_APP_WEATHER_API_KEY_2}&include=days&lang=ru&unitGroup=metric`;
+    const URL_WEATHER15 = `${BASE_URL}${CITY}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric`;
+    const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
+
+    dispatch(getWeatherElements(URL_WEATHER_ELEMENTS));
     dispatch(getWeather15(URL_WEATHER15));
     dispatch(getWeatherLastDay(URL_LAST_DAY));
   }, [CITY, dispatch]);
@@ -89,86 +89,39 @@ export const Weather = () => {
   }
 
   function handleLocation() {
-    locationWeather(valueCity);
+    dispatch(getLocation());
   }
+
   function handleCity(e) {
     setValueCity(e.target.value);
   }
 
-  function locationWeather() {
-    function success(position) {
-      dispatch(
-        weatherCity(`${position.coords.latitude},${position.coords.longitude}`)
-      );
-    }
+  useEffect(() => {
+    const hour = moment().format('H');
 
-    function error() {
-      console.log('Невозможно получить ваше местоположение');
-    }
-
-    if (!navigator.geolocation) {
-      alert('Geolocation не поддерживается вашим браузером');
-    } else {
-      navigator.geolocation.getCurrentPosition(success, error);
-    }
-  }
-
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-  // const handleRadioChange = event => {
-  //   setValue(event.target.value);
-  // };
+    setTimeZone(data15.timezone); //Временная зона
+    setCountry(data15.resolvedAddress.split(', ')[1]); //Страна
+    setCity(data15.address); //Город
+    setConditionText(data15.days[0].hours[hour].conditions); //Погодные условия, описание
+    setTemperature(data15.days[0].hours[hour].temp); //Текущая температура в градусах цельсия
+    setIcon(`${urlImage}${data15.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
+    setUv(data15.days[0].hours[hour].uvindex); // Ультрофиолет
+    setPressure_mb(data15.days[0].hours[hour].pressure); //Давление мм рт сб
+    setVis_km(data15.days[0].hours[hour].visibility); // Видимость километров
+    setHumidity(data15.days[0].hours[hour].humidity); // Влажность
+    setPrecip_mm(data15.days[0].hours[hour].precip); // Осадки мм
+    setWind_degree(data15.days[0].hours[hour].winddir); //Направление ветра в градусах   data.current.wind_degree + 136,
+    setWind_ms((data15.days[0].hours[hour].windspeed / 3.6).toFixed(2)); //Скорость ветра в м/с
+    setCloud(data15.days[0].hours[hour].cloudcover); // Облачность
+    setMmaxwind_ms((data15.days[0].hours[hour].windgust / 3.6).toFixed(2)); // Порывы ветра м/с
+  }, [data15]);
 
   useEffect(() => {
-    if (data.location !== undefined) {
-      setCountry(data.location.country); //Страна
-      setCity(data.location.name); //Город
-      setTimeZone(data.location.tz_id); //Временная зона
-      setTemperature(data.current.feelslike_c); //Текущая температура в градусах цельсия
-      setConditionText(data.current.condition.text); //Погодные условия, описание
-      setWind_ms((data.current.wind_kph / 3.6).toFixed(2)); //Скорость ветра в м/с
-      setWind_degree(data.current.wind_degree); //Направление ветра в градусах   data.current.wind_degree + 136,
-      setSunrise(data.forecast.forecastday[0].astro.sunrise.slice(0, -3)); //Время рассвета
-      setSunsetH(
-        Number(data.forecast.forecastday[0].astro.sunset.slice(0, 2)) + 12
-      ); //Время заката - часы
-      setSunsetM(data.forecast.forecastday[0].astro.sunset.slice(3, -3)); //Время заката - минуты
-      setIcon(
-        `//cdn.weatherapi.com/weather/128x128${data.current.condition.icon.slice(
-          34
-        )}`
-      ); //Иконка погодных условий
-      setPressure_mb(data.current.pressure_mb); //Давление мм рт сб
-      setCloud(data.current.cloud); // Облачность
-      setVis_km(data.current.vis_km); // Видимость километров
-      setHumidity(data.current.humidity); // Влажность
-      setMmaxwind_ms(
-        (data.forecast.forecastday[0].day.maxwind_kph / 3.6).toFixed(2)
-      ); // Порывы ветра м/с
-      setUv(data.current.uv); // Ультрофиолет
-      setPrecip_mm(data.current.precip_mm); // Осадки мм
-      const moonrise = data.forecast.forecastday[0].astro.moonrise;
-      const moonset = data.forecast.forecastday[0].astro.moonset;
-      // setLast_updated(data.current.last_updated);
-
-      if (moonrise.slice(6) === 'PM') {
-        setMoonrise(
-          `${Number(moonrise.slice(0, 2)) + 12}:${moonrise.slice(3, 5)}`
-        );
-      } else setMoonrise(moonrise.slice(0, 5));
-
-      if (moonset.slice(6) === 'PM') {
-        setMoonset(
-          `${Number(moonset.slice(0, 2)) + 12}:${moonset.slice(3, 5)}`
-        );
-      } else setMoonset(moonset.slice(0, 5));
-    }
-  }, [data]);
-
-  //
-  // ???
-  //  -----------------------------------------------------------------
-  const [dataDays, setDataDays] = useState([]);
+    setMoonrise(dataEvents.days[0].moonrise);
+    setMoonset(dataEvents.days[0].moonset);
+    setSunrise(dataEvents.days[0].sunrise); //Время рассвета
+    setSunset(dataEvents.days[0].sunset); //Время заката
+  }, [dataEvents]);
 
   useEffect(() => {
     let key = 0;
@@ -209,15 +162,7 @@ export const Weather = () => {
       }
     }
     setDataDays(data1);
-  }, [data15.days, dataLast.days, dataLast.length, moment]);
-
-  const [btnActiv, setBtnActiv] = useState('0');
-
-  const btnRadio = e => {
-    setBtnActiv(e.target.value);
-    setValue(e.target.value);
-    // console.log('btn click', e.target.value);
-  };
+  }, [data15.days, dataLast.days, dataLast.length]);
 
   // !!!!!! Стили
 
@@ -233,25 +178,26 @@ export const Weather = () => {
   };
 
   return (
-    <div>
-      <div className={s.blockDay}>
+    <div className="weather">
+      <div className="blockDay">
         {/* !!!!! Погода на текущий день */}
-        <div className={s.blockDayLeft}>
+        <div className="blockDayLeft">
           <p>
-            {timeZone}, {dayAndMonth}
+            {timeZone}, {moment().format('dddd DD MMMM')}
           </p>
           <div>
             <img src={icon} widh="128" alt="icon" />
             <p>{temperature}°</p>
           </div>
-          <p className={s.conditionText}>{conditionText}</p>
+          <p className="conditionText">{conditionText}</p>
         </div>
-        <div className={s.blockDayCentr}>
+        <div className="blockDayCentr">
           <Stack direction="row" alignItems="center" spacing={1}>
             <IconButton
               aria-label="location"
               size="large"
               onClick={handleLocation}
+              color="warning"
             >
               <GpsFixedIcon fontSize="inherit" />
             </IconButton>
@@ -263,33 +209,17 @@ export const Weather = () => {
               variant="standard"
               onInput={handleCity}
               onKeyDown={handleSearch}
+              color="warning"
             />
 
             <IconButton aria-label="delete" size="large">
-              <SearchIcon fontSize="inherit" onClick={handleSearch} />
+              <SearchIcon
+                color="warning"
+                fontSize="inherit"
+                onClick={handleSearch}
+              />
             </IconButton>
           </Stack>
-          {/* <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={value}
-              onChange={handleRadioChange}
-            >
-              <FormControlLabel
-                value="0"
-                control={<Radio />}
-                label="Погодные условия"
-              />
-              <FormControlLabel
-                value="1"
-                control={<Radio />}
-                label="Температура"
-              />
-              <FormControlLabel value="2" control={<Radio />} label="Other" />
-            </RadioGroup>
-          </FormControl> */}
 
           <div className="btn-block">
             <button
@@ -300,9 +230,8 @@ export const Weather = () => {
               value="0"
               onClick={btnRadio}
             >
-              🌦
+              🌡
             </button>
-
             <button
               className={
                 btnActiv === '1' ? 'btn-radio toggle_on' : 'btn-radio toggle'
@@ -311,7 +240,7 @@ export const Weather = () => {
               value="1"
               onClick={btnRadio}
             >
-              🌪
+              🌦
             </button>
 
             <button
@@ -322,58 +251,59 @@ export const Weather = () => {
               value="2"
               onClick={btnRadio}
             >
-              🌡
+              🌪
             </button>
           </div>
         </div>
-        <div className={s.blockDayRight}>
+
+        <div className="blockDayRight">
           <div>
-            <p title="Восход солнца" className={s.conditionBlockItem}>
+            <p title="Восход солнца" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-sunrise`}></use>
               </svg>
               {sunrise}
             </p>
-            <p title="Закат солнца" className={s.conditionBlockItem}>
+            <p title="Закат солнца" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-sunset`}></use>
               </svg>
-              {sunsetH}:{sunsetM}
+              {sunset}
             </p>
-            <p title="Восход луны" className={s.conditionBlockItem}>
+            <p title="Восход луны" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-moonrise`}></use>
               </svg>
               {moonrise}
             </p>
-            <p title="Закат луны" className={s.conditionBlockItem}>
+            <p title="Закат луны" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-moonset`}></use>
               </svg>
               {moonset}
             </p>
           </div>
-          <div className={s.conditionBlockSmall}>
-            <p title="Количество осадков" className={s.conditionBlockItem}>
+          <div className="conditionBlockSmall">
+            <p title="Количество осадков" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-umbrella`}></use>
               </svg>
               {precip_mm} мм
             </p>
 
-            <p title="Облачность" className={s.conditionBlockItem}>
+            <p title="Облачность" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-clouds`}></use>
               </svg>
               {cloud} %
             </p>
-            <p title="Видимость" className={s.conditionBlockItem}>
+            <p title="Видимость" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-eye3`}></use>
               </svg>
               {vis_km} км
             </p>
-            <p title="Влажность" className={s.conditionBlockItem}>
+            <p title="Влажность" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-raindrop1`}></use>
               </svg>
@@ -384,7 +314,7 @@ export const Weather = () => {
           <div>
             <p
               title="Скорость и направление ветра"
-              className={s.conditionBlockItem}
+              className="conditionBlockItem"
             >
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-air-sock`}></use>
@@ -394,20 +324,20 @@ export const Weather = () => {
                 <use href={`${iconSVG}#icon-wind-w`}></use>
               </svg>
             </p>
-            <p title="Ультрофиолет" className={s.conditionBlockItem}>
+            <p title="Ультрофиолет" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-sun`}></use>
               </svg>
               {uv}/10 UV
             </p>
-            <p title="Порывы ветра" className={s.conditionBlockItem}>
+            <p title="Порывы ветра" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-wind`}></use>
               </svg>
               {maxwind_ms} м/с
             </p>
 
-            <p title="Давление" className={s.conditionBlockItem}>
+            <p title="Давление" className="conditionBlockItem">
               <svg width="32" height="32">
                 <use href={`${iconSVG}#icon-barometer`}></use>
               </svg>
@@ -416,12 +346,14 @@ export const Weather = () => {
           </div>
         </div>
       </div>
+
+      <ChartWeather value={btnActiv}></ChartWeather>
       {dataDays ? (
-        <div className={s.daysBlock}>
+        <div className="daysBlock">
           {dataDays.map(i => (
             <div
               key={i.key}
-              className={s.dayCard}
+              className="dayCard"
               style={i.dayEnable ? styleDayW : styleDayD}
             >
               <p>{moment(i.datetime).format('dddd DD MMMM')}</p>
@@ -436,24 +368,25 @@ export const Weather = () => {
                 </div>
               </div>
 
-              {value === '0' && (
+              {btnActiv === '0' && (
+                <>
+                  <p>Температура ср. {i.temp} </p>
+                  <p>Температура макс. {i.tempmax} </p>
+                  <p>Температура мин. {i.tempmin} </p>
+                </>
+              )}
+
+              {btnActiv === '1' && (
                 <>
                   <p> {i.conditions} </p>
                   <p> {i.description} </p>
                 </>
               )}
-              {value === '1' && (
+              {btnActiv === '2' && (
                 <>
                   <p>Облачность {i.humidity}% </p>
                   <p>Давление {i.pressure} </p>
                   <p>UV {i.uvindex} </p>
-                </>
-              )}
-              {value === '2' && (
-                <>
-                  <p>Температура ср. {i.temp} </p>
-                  <p>Температура макс. {i.tempmax} </p>
-                  <p>Температура мин. {i.tempmin} </p>
                 </>
               )}
 
@@ -462,7 +395,7 @@ export const Weather = () => {
           ))}
         </div>
       ) : (
-        <div className={s.spinner}>
+        <div className="spinner">
           <Box sx={{ display: 'flex' }}>
             <CircularProgress />
           </Box>

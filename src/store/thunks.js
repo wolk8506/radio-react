@@ -1,6 +1,6 @@
 import { requestByURL } from 'api/request';
 import {
-  WEATHER,
+  // WEATHER,
   CURRENCY_MONO,
   NBU_TODAY,
   NBU_TOMORROW,
@@ -11,6 +11,7 @@ import {
   LOCATION,
   // PLAYER_STATION,
   KURS_TODAY_BANKS,
+  WEATHER_ELEMENTS,
 } from './actions';
 
 var moment = require('moment');
@@ -70,6 +71,7 @@ export const getKursTodayBanks = () => {
 export const getLocation = () => {
   return dispatch => {
     requestByURL(URL_LOCATION).then(data => {
+      console.log(data);
       dispatch({
         type: LOCATION,
         payload: data,
@@ -78,11 +80,24 @@ export const getLocation = () => {
   };
 };
 
-export const getWeather = URL_WEATHER => {
+// export const getWeather = URL_WEATHER => {
+//   return dispatch => {
+//     requestByURL(URL_WEATHER).then(data => {
+//       dispatch({
+//         type: WEATHER,
+//         payload: data,
+//       });
+//     });
+//   };
+// };
+
+// WEATHER_ELEMENTS
+
+export const getWeatherElements = URL => {
   return dispatch => {
-    requestByURL(URL_WEATHER).then(data => {
+    requestByURL(URL).then(data => {
       dispatch({
-        type: WEATHER,
+        type: WEATHER_ELEMENTS,
         payload: data,
       });
     });
