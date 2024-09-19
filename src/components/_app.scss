@@ -158,10 +158,12 @@ body,
     .sidebar {
       position: absolute;
       z-index: 1;
-      width: 100%;
+      width: 99vw;
       height: 100px;
       margin: 0;
       position: fixed;
+      margin-right: auto;
+      margin-left: auto;
 
       .sidebar-menu {
         display: none;
