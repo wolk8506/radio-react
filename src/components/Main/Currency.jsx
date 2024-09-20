@@ -5,6 +5,9 @@ import { currencyYesterday } from 'store/actions';
 import { getMonoToday } from 'store/thunks';
 import moment from 'moment';
 
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
 // import s from './Currency.module.css';
 import sprite from '../../images/sprite.svg';
 
@@ -220,53 +223,69 @@ export const Currency = () => {
       };
       const arr_arrow = {
         usd_uah_buy_arrow:
-          arr_change.usd_uah_buy_change > 0
-            ? '🠝'
-            : arr_change.usd_uah_buy_change === 0
-            ? ''
-            : '🠟',
+          arr_change.usd_uah_buy_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.usd_uah_buy_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         usd_eur_buy_arrow:
-          arr_change.usd_eur_buy_change > 0
-            ? '🠝'
-            : arr_change.usd_eur_buy_change === 0
-            ? ''
-            : '🠟',
+          arr_change.usd_eur_buy_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.usd_eur_buy_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         eur_uah_buy_arrow:
-          arr_change.eur_uah_buy_change > 0
-            ? '🠝'
-            : arr_change.eur_uah_buy_change === 0
-            ? ''
-            : '🠟',
+          arr_change.eur_uah_buy_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.eur_uah_buy_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         eur_usd_buy_arrow:
-          arr_change.eur_usd_buy_change > 0
-            ? '🠝'
-            : arr_change.eur_usd_buy_change === 0
-            ? ''
-            : '🠟',
+          arr_change.eur_usd_buy_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.eur_usd_buy_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         usd_uah_sell_arrow:
-          arr_change.usd_uah_sell_change > 0
-            ? '🠝'
-            : arr_change.usd_uah_sell_change === 0
-            ? ''
-            : '🠟',
+          arr_change.usd_uah_sell_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.usd_uah_sell_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         usd_eur_sell_arrow:
-          arr_change.usd_eur_sell_change > 0
-            ? '🠝'
-            : arr_change.usd_eur_sell_change === 0
-            ? ''
-            : '🠟',
+          arr_change.usd_eur_sell_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.usd_eur_sell_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         eur_uah_sell_arrow:
-          arr_change.eur_uah_sell_change > 0
-            ? '🠝'
-            : arr_change.eur_uah_sell_change === 0
-            ? ''
-            : '🠟',
+          arr_change.eur_uah_sell_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.eur_uah_sell_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
         eur_usd_sell_arrow:
-          arr_change.eur_usd_sell_change > 0
-            ? '🠝'
-            : arr_change.eur_usd_sell_change === 0
-            ? ''
-            : '🠟',
+          arr_change.eur_usd_sell_change > 0 ? (
+            <ArrowUpwardIcon />
+          ) : arr_change.eur_usd_sell_change === 0 ? (
+            ''
+          ) : (
+            <ArrowDownwardIcon />
+          ),
       };
       setArr_change(arr_change);
       setArr_arrow(arr_arrow);

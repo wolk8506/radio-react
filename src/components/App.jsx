@@ -21,7 +21,7 @@ export const App = () => {
   const [audio, setAudio] = useState();
   const [btnTab, setBtnTab] = useState('0');
   const [btnMenu, setBtnMenu] = useState(false);
-  const [btnMenuMobile, setBtnMenuMobile] = useState(false);
+  const [btnMenuMobile, setBtnMenuMobile] = useState(true);
   const [classListMenuMobile, setClassListMenuMobile] =
     useState('mobile-menu__list');
   const [classBtn_0, setClassBtn_0] = useState('navigation-btn toggle');

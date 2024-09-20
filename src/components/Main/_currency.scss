@@ -25,20 +25,21 @@
     align-items: center;
 
     p {
-      width: calc((100% - 30px) / 3);
+      width: calc((100% - 40px) / 3);
       text-align: right;
-
-      // font-family: 'Dotf1';
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
 
       span.arrow--up {
         color: green;
-        width: 10px;
+        width: 5px;
         margin-left: 5px;
       }
 
       span.arrow--dn {
         color: red;
-        width: 10px;
+        width: 5px;
         margin-left: 5px;
       }
     }
