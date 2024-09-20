@@ -9,6 +9,11 @@
 // //   fill: $color-2 !important;
 // }
 
+form {
+  display: flex;
+  align-items: center;
+}
+
 #demo-simple-select-standard-label,
 #demo-simple-select-filled-label {
   color: $color-2 !important;
