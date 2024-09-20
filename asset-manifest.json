@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.ecc4d662.css",
-    "main.js": "/radio-react/static/js/main.47d9ad5f.js",
+    "main.css": "/radio-react/static/css/main.e68cc2ac.css",
+    "main.js": "/radio-react/static/js/main.e6b074b9.js",
     "static/media/dotf1.ttf": "/radio-react/static/media/dotf1.b959cb0ac57821ab6a89.ttf",
     "static/media/img-soundpark-deep.jpg": "/radio-react/static/media/img-soundpark-deep.d53d2e7c8ac8882c408b.jpg",
     "static/media/img-nrg-radio.jpg": "/radio-react/static/media/img-nrg-radio.4fffca6e0ce549e411e0.jpg",
@@ -14,11 +14,11 @@
     "index.html": "/radio-react/index.html",
     "static/media/untitled20.svg": "/radio-react/static/media/untitled20.b253594f92544b898867ad6cb4ad0aa1.svg",
     "static/media/arrow.svg": "/radio-react/static/media/arrow.82a5a69d13cf57ca52c2aea69f2d7b6f.svg",
-    "main.ecc4d662.css.map": "/radio-react/static/css/main.ecc4d662.css.map",
-    "main.47d9ad5f.js.map": "/radio-react/static/js/main.47d9ad5f.js.map"
+    "main.e68cc2ac.css.map": "/radio-react/static/css/main.e68cc2ac.css.map",
+    "main.e6b074b9.js.map": "/radio-react/static/js/main.e6b074b9.js.map"
   },
   "entrypoints": [
-    "static/css/main.ecc4d662.css",
-    "static/js/main.47d9ad5f.js"
+    "static/css/main.e68cc2ac.css",
+    "static/js/main.e6b074b9.js"
   ]
 }
