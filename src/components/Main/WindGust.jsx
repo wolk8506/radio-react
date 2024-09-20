@@ -37,9 +37,6 @@ export const WindGust = () => {
     }
   }, [maxwind_ms]);
 
-  // console.log('wind: ', rotationSpeed);
-  // console.log('wind: ', rotationSpeed);
-
   const styleWindW = {
     animationDuration: `${rotationSpeed}s`,
   };

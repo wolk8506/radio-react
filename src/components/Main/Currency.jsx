@@ -276,7 +276,7 @@ export const Currency = () => {
 
   return (
     <div className="currency-main">
-      <title>:hover</title>
+      {/* <title>:hover</title> */}
 
       <div className="currency-main__title">
         <h2>валюта</h2>
@@ -285,7 +285,7 @@ export const Currency = () => {
       </div>
       <div className="currency-main__items">
         <div className="currency-main__item">
-          <p className="name-currency">
+          <p className="currency-text name-currency">
             <svg className="icon" width="32" height="32">
               <use href={`${iconSVG}#icon-USD`}></use>
             </svg>
@@ -294,7 +294,7 @@ export const Currency = () => {
               <use href={`${iconSVG}#icon-UAH`}></use>
             </svg>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{USD_rateBuy}</span>
             <span
               className={
@@ -305,7 +305,7 @@ export const Currency = () => {
               {arr_arrow.usd_uah_buy_arrow}
             </span>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{USD_rateSell}</span>
             <span
               className={
@@ -319,7 +319,7 @@ export const Currency = () => {
         </div>
 
         <div className="currency-main__item">
-          <p className="name-currency">
+          <p className="currency-text name-currency">
             <svg className="icon" width="32" height="32">
               <use href={`${iconSVG}#icon-EUR`}></use>
             </svg>
@@ -328,7 +328,7 @@ export const Currency = () => {
               <use href={`${iconSVG}#icon-UAH`}></use>
             </svg>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{EUR_rateBuy}</span>
             <span
               className={
@@ -339,7 +339,7 @@ export const Currency = () => {
               {arr_arrow.eur_uah_buy_arrow}
             </span>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{EUR_rateSell}</span>
             <span
               className={
@@ -352,7 +352,7 @@ export const Currency = () => {
           </p>
         </div>
         <div className="currency-main__item">
-          <p className="name-currency">
+          <p className="currency-text name-currency">
             <svg className="icon" width="32" height="32">
               <use href={`${iconSVG}#icon-USD`}></use>
             </svg>
@@ -361,7 +361,7 @@ export const Currency = () => {
               <use href={`${iconSVG}#icon-EUR`}></use>
             </svg>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{usdTOeurSell}</span>
             <span
               className={
@@ -372,7 +372,7 @@ export const Currency = () => {
               {arr_arrow.usd_eur_buy_arrow}
             </span>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{usdTOeurBuy}</span>
             <span
               className={
@@ -385,7 +385,7 @@ export const Currency = () => {
           </p>
         </div>
         <div className="currency-main__item">
-          <p className="name-currency">
+          <p className="currency-text name-currency">
             <svg className="icon" width="32" height="32">
               <use href={`${iconSVG}#icon-EUR`}></use>
             </svg>
@@ -394,7 +394,7 @@ export const Currency = () => {
               <use href={`${iconSVG}#icon-USD`}></use>
             </svg>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{eurTOusaSell}</span>
             <span
               className={
@@ -405,7 +405,7 @@ export const Currency = () => {
               {arr_arrow.eur_usd_buy_arrow}
             </span>
           </p>
-          <p>
+          <p className="currency-text">
             <span>{eurTOusaBuy}</span>
             <span
               className={
