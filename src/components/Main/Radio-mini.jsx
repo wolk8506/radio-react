@@ -7,6 +7,7 @@ import * as React from 'react';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import IconButton from '@mui/material/IconButton';
 
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -65,9 +66,11 @@ export const RadioMini = ({ onAudio }) => {
 
   return (
     //  className="navigation-btn"
-    <div>
-      <button
-        className={`navigation-btn ${playPause ? 'toggle' : 'toggle_on'}`}
+    <>
+      <IconButton
+        // className={`navigation-btn ${playPause ? 'toggle' : 'toggle_on'}`}
+        className="navigation-btn"
+        type="button"
         onClick={onPlay}
       >
         {playPause ? (
@@ -75,7 +78,7 @@ export const RadioMini = ({ onAudio }) => {
         ) : (
           <PauseIcon className="btn-ico" />
         )}
-      </button>
-    </div>
+      </IconButton>
+    </>
   );
 };

@@ -14,7 +14,12 @@ export const PLAYER_STATION = 'PLAYER_STATION';
 export const CURRENCY_YESTERDAY = 'CURRENCY_YESTERDAY';
 export const PLAYER_PLAY = 'PLAYER_PLAY';
 export const WEATHER_ELEMENTS = 'WEATHER_ELEMENTS';
-// PLAYER_STATION
+export const THEME_CHANGE = 'THEME_CHANGE';
+export const THEME_AUTO_CHANGE = 'THEME_AUTO_CHANGE';
+export const KURS_TODAY_BANKS_STATUS = 'KURS_TODAY_BANKS_STATUS';
+export const CURRENCY_MONO_STATUS = 'CURRENCY_MONO_STATUS';
+export const NBU_TOMORROW_STATUS = 'NBU_TOMORROW_STATUS';
+export const NBU_TODAY_STATUS = 'NBU_TODAY_STATUS';
 
 const makeActionCreater = (type, keys) => {
   return (...values) => {
@@ -29,27 +34,45 @@ const makeActionCreater = (type, keys) => {
   };
 };
 
+export const changeThemeAuto = makeActionCreater(THEME_AUTO_CHANGE, [
+  'themeAutoChange',
+]);
+export const changeTheme = makeActionCreater(THEME_CHANGE, ['theme']);
+
 export const playerStation = makeActionCreater(PLAYER_STATION, [
   'playerStation',
 ]);
 export const playerPlay = makeActionCreater(PLAYER_PLAY, ['playerPlay']);
 
-// playPause
 export const location = makeActionCreater(LOCATION, ['city']);
 
 export const kursTodayBanks = makeActionCreater(KURS_TODAY_BANKS, ['data']);
+export const kursTodayBanksStatus = makeActionCreater(KURS_TODAY_BANKS_STATUS, [
+  'status',
+]);
 
 export const weatherCity = makeActionCreater(WEATHER_CITY, ['city']);
 export const currencyYesterday = makeActionCreater(CURRENCY_YESTERDAY, [
   'currencyYesterday',
 ]);
 export const addWeatherCity = makeActionCreater(ADD_WEATHER_CITY, ['city2']);
-// export const weather = makeActionCreater(WEATHER, ['data']);
 
 export const weather_elements = makeActionCreater(WEATHER_ELEMENTS, ['data']);
 export const weather_15 = makeActionCreater(WEATHER_15, ['data']);
 export const weather_last_day = makeActionCreater(WEATHER_LAST_DAY, ['data']);
 export const currencyMonoToday = makeActionCreater(CURRENCY_MONO, ['data']);
+export const currencyMonoTodayStatus = makeActionCreater(CURRENCY_MONO_STATUS, [
+  'status',
+]);
+
+export const currencyNBUtomorrowStatus = makeActionCreater(
+  NBU_TOMORROW_STATUS,
+  ['status']
+);
+export const currencyNBUtodayStatus = makeActionCreater(NBU_TODAY_STATUS, [
+  'status',
+]);
+
 export const currencyNBUtoday = makeActionCreater(NBU_TODAY, ['data']);
 export const currencyNBUtomorrow = makeActionCreater(NBU_TOMORROW, ['data']);
 export const currencyZVRPrevious = makeActionCreater(ZVR_PREVIOUS, ['data']);

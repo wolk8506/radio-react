@@ -23,12 +23,18 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 import { getMonoToday } from 'store/thunks';
 
-import s from './Currency.module.css';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { currencyMonoTodayStatus } from 'store/actions';
 
 export const CurrencyMono = () => {
   var moment = require('moment');
   // Данные курса валют из запроса
-  const dataMono = useSelector(state => state.storeCurrencyMonoToday);
+  const dataMono = useSelector(state => state.storeCurrencyMonoToday.data);
+  const TIME = useSelector(state => state.storeCurrencyMonoToday.time);
+  const STATUS = useSelector(state => state.storeCurrencyMonoToday.status);
+  // const TIME = '2024-09-23';
+  // const STATUS = true;
 
   // Найденные значения в ответе курса
   const [USD, setUSD] = useState([]);
@@ -233,7 +239,7 @@ export const CurrencyMono = () => {
     },
   }));
 
-  function createData(name: string, rateBuy: number, rateSell: number) {
+  function createData(name, rateBuy, rateSell) {
     return { name, rateBuy, rateSell };
   }
 
@@ -249,11 +255,12 @@ export const CurrencyMono = () => {
   const dispatch = useDispatch();
   const handleUpdateCurrency = () => {
     dispatch(getMonoToday());
+    dispatch(currencyMonoTodayStatus(false));
   };
 
   return (
     <div>
-      <div className={s.nameSection}>
+      <div className="nameSection">
         <IconButton
           color="primary"
           aria-label="add to shopping cart"
@@ -261,19 +268,24 @@ export const CurrencyMono = () => {
         >
           <AutorenewIcon />
         </IconButton>
-        <h2>Конвертер валют</h2>
+        <h2>Конвертер валют. Время обновления {TIME}</h2>
+        {STATUS ? (
+          <CheckCircleOutlineIcon color="success" />
+        ) : (
+          <WarningAmberIcon color="warning" />
+        )}
       </div>
 
       <div className="converter-block">
         <Box
-          className={s.textFieldBlock}
+          className="textFieldBlock"
           component="form"
           // sx={{'& > :not(style)': { m: 1, width: '25ch' },}}
           noValidate
           autoComplete="off"
         >
           <TextField
-            className={s.textField}
+            className="textField"
             id="cur1"
             // label=""
             type="number"
@@ -285,7 +297,7 @@ export const CurrencyMono = () => {
             color="warning"
           />
           <TextField
-            className={s.textField}
+            className="textField"
             id="cor2"
             // label=""
             type="number"
@@ -299,9 +311,9 @@ export const CurrencyMono = () => {
           />
         </Box>
 
-        <div className={s.currencyBTN}>
+        <div className="currencyBTN">
           <FormControl
-            className={s.currencyBtnSelect}
+            className="currencyBtnSelect"
             variant="filled"
             // sx={{ m: 1, minWidth: 200 }}
           >
@@ -325,7 +337,7 @@ export const CurrencyMono = () => {
           </FormControl>
 
           <IconButton
-            className={s.currencyBtnRevert}
+            className="currencyBtnRevert"
             color="primary"
             aria-label="add to shopping cart"
             onClick={handleExpanr}
@@ -334,7 +346,7 @@ export const CurrencyMono = () => {
           </IconButton>
 
           <FormControl
-            className={s.currencyBtnSelect}
+            className="currencyBtnSelect"
             variant="filled"
             // sx={{ m: 1, minWidth: 200 }}
           >
@@ -357,7 +369,7 @@ export const CurrencyMono = () => {
         </div>
       </div>
 
-      <div className={s.nameSection}>
+      <div className="nameSection">
         <IconButton
           color="primary"
           aria-label="add to shopping cart"
@@ -365,7 +377,14 @@ export const CurrencyMono = () => {
         >
           <AutorenewIcon />
         </IconButton>
-        <h2>Курс MONObank на {dateToday}</h2>
+        <h2>
+          Курс MONObank на {dateToday}. Время обновления {TIME}
+        </h2>
+        {STATUS ? (
+          <CheckCircleOutlineIcon color="success" />
+        ) : (
+          <WarningAmberIcon color="warning" />
+        )}
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">

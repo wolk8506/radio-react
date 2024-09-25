@@ -4,11 +4,6 @@
   border-color: $color-3 !important;
 }
 
-// #demo-simple-select-standard,
-// #demo-simple-select-filled {
-// //   fill: $color-2 !important;
-// }
-
 form {
   display: flex;
   align-items: center;
@@ -25,8 +20,6 @@ form {
 
 #cur1,
 #cor2 {
-  // color: aliceblue !important;
-  //   border-bottom: 1px solid rgb(241, 144, 16) !important;
   background: $color-background-1;
   border-radius: 15px;
   padding: 10px;
@@ -34,7 +27,6 @@ form {
 }
 
 .converter-block {
-  //   box-shadow: $box-shadow-1;
   background: $color-background-5;
   padding: 30px;
   width: 500px;
@@ -44,7 +36,6 @@ form {
 
 @media screen and (max-width: 720px) {
   .converter-block {
-    //   box-shadow: $box-shadow-1;
     background: $color-background-5;
     padding: 15px;
     width: 100%;

@@ -1,11 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import {
-  getKursTodayBanks,
-  getMonoToday,
-  getZVRCurrent,
-  getZVRPrevious,
-} from 'store/thunks';
+import { getMonoToday } from 'store/thunks';
 
 import { CurrencyNBU } from './CurrencyNBU';
 import { CurrencyZVR } from './CurrencyZVR';
@@ -17,12 +12,7 @@ export const CurrencyIndex = () => {
 
   // Запрос курса валют моно банк
   useEffect(() => {
-    console.log(11);
     dispatch(getMonoToday());
-    dispatch(getKursTodayBanks());
-    dispatch(getZVRPrevious());
-    dispatch(getZVRCurrent());
-    console.log(22);
   }, [dispatch]);
 
   return (

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Media from 'react-media';
+import { useTheme } from 'hooks/use-theme';
 
 import { RadioMini } from './Main/Radio-mini';
 import { Main } from './Main/Main';
@@ -15,6 +16,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import InfoIcon from '@mui/icons-material/Info';
 import { Info } from './Info/Info';
+import IconButton from '@mui/material/IconButton';
 
 export const App = () => {
   const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
@@ -53,7 +55,6 @@ export const App = () => {
   };
 
   useEffect(() => {
-    // setClassListMenuMobile('mobile-menu__list');
     setClassListMenuMobile(
       `${
         btnMenuMobile
@@ -71,11 +72,23 @@ export const App = () => {
   useEffect(() => setAudio(new Audio()), []);
 
   useEffect(() => {
-    setClassBtn_0(`navigation-btn ${btnTab === '0' ? 'toggle_on' : 'toggle'}`);
-    setClassBtn_1(`navigation-btn ${btnTab === '1' ? 'toggle_on' : 'toggle'}`);
-    setClassBtn_2(`navigation-btn ${btnTab === '2' ? 'toggle_on' : 'toggle'}`);
-    setClassBtn_3(`navigation-btn ${btnTab === '3' ? 'toggle_on' : 'toggle'}`);
+    setClassBtn_0(btnTab === '0' ? 'activ' : '');
+    setClassBtn_1(btnTab === '1' ? 'activ' : '');
+    setClassBtn_2(btnTab === '2' ? 'activ' : '');
+    setClassBtn_3(btnTab === '3' ? 'activ' : '');
   }, [btnTab]);
+
+  // * Theme -----------------------------------
+  // eslint-disable-next-line no-unused-vars
+  const { theme, setTheme } = useTheme();
+
+  const THEME = useSelector(state => state.storeData.theme);
+
+  useEffect(() => {
+    setTheme(THEME);
+  }, [THEME, setTheme]);
+
+  // *  ----------------------------------------
 
   return (
     <div className="app">
@@ -97,81 +110,144 @@ export const App = () => {
                 </div>
                 <div className={classListMenuMobile}>
                   <button type="button" value="0" onClick={handleBtnTab}>
+                    <HomeIcon className="btn-ico" />
                     Главная
                   </button>
                   <button type="button" value="1" onClick={handleBtnTab}>
+                    <AccountBalanceIcon className="btn-ico" />
                     Курс валют
                   </button>
                   <button type="button" value="2" onClick={handleBtnTab}>
+                    <ThunderstormIcon className="btn-ico" />
                     Погода
                   </button>
                   <button type="button" value="3" onClick={handleBtnTab}>
+                    <InfoIcon className="btn-ico" />
                     Инфо
                   </button>
                 </div>
               </div>
             )}
-            {matches.medium && <p>I am medium!</p>}
-            {matches.large && (
+            {matches.medium && (
               <div className={`sidebar ${classBtn_menu}`}>
                 <div className="menu-btn">
-                  <div className={`sidebar-menu`}>
-                    <button
-                      className="toggle btn-menu navigation-btn"
-                      onClick={handleMenu}
-                    >
-                      <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
-                    </button>
-                  </div>
-                  <div className="sidebar-player">
-                    <RadioMini onAudio={audio}></RadioMini>
-                  </div>
+                  <IconButton className="navigation-btn" onClick={handleMenu}>
+                    <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
+                  </IconButton>
 
-                  <div className="navigation">
-                    <div className={classBtn_0}>
-                      <button type="button" value="0" onClick={handleBtnTab}>
-                        <HomeIcon className="btn-ico" />
-                      </button>
-                    </div>
-                    <div className={classBtn_1}>
-                      <button type="button" value="1" onClick={handleBtnTab}>
-                        <AccountBalanceIcon className="btn-ico" />
-                      </button>
-                    </div>
-                    <div className={classBtn_2}>
-                      <button type="button" value="2" onClick={handleBtnTab}>
-                        <ThunderstormIcon className="btn-ico" />
-                      </button>
-                    </div>
-                    <div className={classBtn_3}>
-                      <button type="button" value="3" onClick={handleBtnTab}>
-                        <InfoIcon className="btn-ico" />
-                      </button>
-                    </div>
-                  </div>
+                  <RadioMini
+                    className="navigation-btn"
+                    onAudio={audio}
+                  ></RadioMini>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_0}`}
+                    type="button"
+                    value="0"
+                    onClick={handleBtnTab}
+                  >
+                    <HomeIcon className="btn-ico" />
+                  </IconButton>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_1}`}
+                    type="button"
+                    value="1"
+                    onClick={handleBtnTab}
+                  >
+                    <AccountBalanceIcon className="btn-ico" />
+                  </IconButton>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_2}`}
+                    type="button"
+                    value="2"
+                    onClick={handleBtnTab}
+                  >
+                    <ThunderstormIcon className="btn-ico" />
+                  </IconButton>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_3}`}
+                    type="button"
+                    value="3"
+                    onClick={handleBtnTab}
+                  >
+                    <InfoIcon className="btn-ico" />
+                  </IconButton>
                 </div>
                 <div className="menu-open">
                   <div>
-                    <div>
-                      <p className="menu-open-text">Меню</p>
-                    </div>
-                    <div>
-                      <p className="menu-open-text">
-                        {radioStationName[PLAYER_STATION]}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="menu-open-text">Главная</p>
-                    </div>
-                    <div>
-                      <p className="menu-open-text">Курс валют</p>
-                    </div>
-                    <div>
-                      <p className="menu-open-text">Погода</p>
-                    </div>
-                    <div>
-                      <p className="menu-open-text">Инфо</p>
-                    </div>
+                    <p className="menu-open-text">Меню</p>
+                    <p className="menu-open-text">
+                      {radioStationName[PLAYER_STATION]}
+                    </p>
+                    <p className={`menu-open-text ${classBtn_0}`}>Главная</p>
+                    <p className={`menu-open-text ${classBtn_1}`}>Курс валют</p>
+                    <p className={`menu-open-text ${classBtn_2}`}>Погода</p>
+                    <p className={`menu-open-text ${classBtn_3}`}>Инфо</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            {matches.large && (
+              <div className={`sidebar ${classBtn_menu}`}>
+                <div className="menu-btn">
+                  <IconButton className="navigation-btn" onClick={handleMenu}>
+                    <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
+                  </IconButton>
+
+                  <RadioMini
+                    className="navigation-btn"
+                    onAudio={audio}
+                  ></RadioMini>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_0}`}
+                    type="button"
+                    value="0"
+                    onClick={handleBtnTab}
+                  >
+                    <HomeIcon className="btn-ico" />
+                  </IconButton>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_1}`}
+                    type="button"
+                    value="1"
+                    onClick={handleBtnTab}
+                  >
+                    <AccountBalanceIcon className="btn-ico" />
+                  </IconButton>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_2}`}
+                    type="button"
+                    value="2"
+                    onClick={handleBtnTab}
+                  >
+                    <ThunderstormIcon className="btn-ico" />
+                  </IconButton>
+
+                  <IconButton
+                    className={`navigation-btn ${classBtn_3}`}
+                    type="button"
+                    value="3"
+                    onClick={handleBtnTab}
+                  >
+                    <InfoIcon className="btn-ico" />
+                  </IconButton>
+                </div>
+                <div className="menu-open">
+                  <div>
+                    <p className="menu-open-text">Меню</p>
+                    <p className="menu-open-text">
+                      {radioStationName[PLAYER_STATION]}
+                    </p>
+                    <p className={`menu-open-text ${classBtn_0}`}>Главная</p>
+                    <p className={`menu-open-text ${classBtn_1}`}>Курс валют</p>
+                    <p className={`menu-open-text ${classBtn_2}`}>Погода</p>
+                    <p className={`menu-open-text ${classBtn_3}`}>Инфо</p>
                   </div>
                 </div>
               </div>

@@ -1,8 +1,11 @@
-/* *** Страница CurrencyMono  ***  */
+// * *** Страница CurrencyMono  ***  */
 
 .nameSection {
   display: flex;
   align-items: center;
+}
+.nameSection h2 {
+  margin-right: 10px;
 }
 
 .currencyBTN {
@@ -14,7 +17,7 @@
   width: 200px;
 }
 
-/* *  ------------------------  * */
+// * *  ------------------------  * */
 .tables {
   display: flex;
   justify-content: space-between;
@@ -22,20 +25,25 @@
 
 .table {
   max-width: 700px;
-  /* margin-left: 20px; */
 }
 
 .tableName {
   display: flex;
   align-items: center;
+  padding: 10px;
 }
 
 .tableName img {
   margin-right: 15px;
 }
 
-.textField {
-  color: brown !important;
+.MuiTableCell-head {
+  background-color: $color-background-10 !important;
+  color: $color-2 !important;
+}
+
+.MuiPaper-root {
+  border-radius: 15px !important;
 }
 
 @media screen and (max-width: 720px) {
@@ -49,7 +57,6 @@
     justify-content: space-around;
   }
   .currencyBtnSelect {
-    /* width: 100px !important; */
     width: calc((100% - 60px) / 2);
   }
   .textFieldBlock {

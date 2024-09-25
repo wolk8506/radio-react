@@ -19,6 +19,7 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { Tiles } from './Tiles';
 
 // const { REACT_APP_WEATHER_API_KEY_2 } = process.env;
 
@@ -57,6 +58,8 @@ export const Weather = () => {
   const [icon, setIcon] = useState('--');
   const [dataDays, setDataDays] = useState([]);
   const [btnActiv, setBtnActiv] = useState('0');
+  const [moonPhase, setMoonPhase] = useState('0');
+  const [dew, setDew] = useState(0);
 
   const btnRadio = e => setBtnActiv(e.target.value);
 
@@ -115,11 +118,13 @@ export const Weather = () => {
     setWind_ms((data15.days[0].hours[hour].windspeed / 3.6).toFixed(2)); //Скорость ветра в м/с
     setCloud(data15.days[0].hours[hour].cloudcover); // Облачность
     setMmaxwind_ms((data15.days[0].hours[hour].windgust / 3.6).toFixed(2)); // Порывы ветра м/с
+    setDew(data15.days[0].hours[hour].dew);
   }, [data15]);
 
   useEffect(() => {
     setMoonrise(dataEvents.days[0].moonrise);
     setMoonset(dataEvents.days[0].moonset);
+    setMoonPhase(dataEvents.days[0].moonphase); //Фаза луны
     setSunrise(dataEvents.days[0].sunrise); //Время рассвета
     setSunset(dataEvents.days[0].sunset); //Время заката
   }, [dataEvents]);
@@ -171,17 +176,9 @@ export const Weather = () => {
     transform: `rotate(${wind_degree}deg)`,
   };
 
-  const styleDayW = {
-    background: `rgba(255, 255, 255, 0.15)`,
-  };
-  const styleDayD = {
-    background: `rgba(0, 0, 0, 0.15)`,
-  };
-
   return (
     <div className="weather">
       <div className="blockDay">
-        {/* !!!!! Погода на текущий день */}
         <div className="blockDayLeft">
           <p>
             {timeZone}, {moment().format('dddd DD MMMM')}
@@ -195,13 +192,11 @@ export const Weather = () => {
         <div className="blockDayCentr">
           <Stack direction="row" alignItems="center" spacing={1}>
             <IconButton
-              className="btn-ico"
               aria-label="location"
               size="large"
               onClick={handleLocation}
-              color="warning"
             >
-              <GpsFixedIcon fontSize="inherit" />
+              <GpsFixedIcon className="btn-ico" fontSize="inherit" />
             </IconButton>
 
             <TextField
@@ -217,7 +212,6 @@ export const Weather = () => {
             <IconButton aria-label="delete" size="large">
               <SearchIcon
                 className="btn-ico"
-                color="warning"
                 fontSize="inherit"
                 onClick={handleSearch}
               />
@@ -356,8 +350,9 @@ export const Weather = () => {
           {dataDays.map(i => (
             <div
               key={i.key}
-              className="dayCard"
-              style={i.dayEnable ? styleDayW : styleDayD}
+              className={
+                i.dayEnable ? 'dayCard dayCard--off' : 'dayCard dayCard--on'
+              }
             >
               <p>{moment(i.datetime).format('dddd DD MMMM')}</p>
               <div>
@@ -405,6 +400,15 @@ export const Weather = () => {
           </Box>
         </div>
       )}
+      <Tiles
+        moonPhase={moonPhase}
+        sunrise={sunrise}
+        sunset={sunset}
+        moonrise={moonrise}
+        moonset={moonset}
+        humidity={humidity}
+        dew={dew}
+      ></Tiles>
     </div>
   );
 };

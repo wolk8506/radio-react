@@ -5,9 +5,6 @@ import moment from 'moment';
 
 import sprite from '../../images/sprite.svg';
 
-import q1 from './img/untitled14.svg';
-import q2 from './img/untitled20.svg';
-
 export const WindGust = () => {
   const data = useSelector(state => state.storeWeather15);
   const iconSVG = sprite;
@@ -44,10 +41,14 @@ export const WindGust = () => {
   return (
     <div className="wind-block">
       <div className="blades" style={styleWindW}>
-        <img src={q1} alt="hh" width={100} />
+        <svg className="icon" width="80" height="80">
+          <use href={`${iconSVG}#icon-blades`}></use>
+        </svg>
       </div>
       <div className="frame">
-        <img src={q2} alt="hh" width={100} />
+        <svg className="icon-frame" width="80" height="80">
+          <use href={`${iconSVG}#icon-frame`}></use>
+        </svg>
       </div>
       <p className="img-text">
         <svg className="icon" width="24" height="24">

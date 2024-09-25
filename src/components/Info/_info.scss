@@ -1,0 +1,15 @@
+.about {
+  font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
+  font-size: 72px;
+  text-align: center;
+}
+
+.settings {
+  width: 380px;
+  display: flex;
+  justify-content: space-between;
+
+  label {
+    color: $color-2;
+  }
+}

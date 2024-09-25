@@ -32,69 +32,18 @@
       justify-content: flex-end;
 
       span.arrow--up {
-        color: green;
+        color: $color-4;
         width: 5px;
         margin-left: 5px;
       }
 
       span.arrow--dn {
-        color: red;
+        color: $color-5;
         width: 5px;
         margin-left: 5px;
       }
     }
   }
-  // box-shadow: $box-shadow-1;
-
-  // .currency-main .currency-text,
-  // .currency-main h2 {
-  //   font-family: 'Montserrat Alternates', sans-serif;
-  //   // border: solid 1px greenyellow;
-  // }
-
-  // .currency-main .currency-text span {
-  //   font-size: 18px;
-  //   color: $color-3;
-  //   font-family: 'Dotf1';
-  //   // font-family: 'Montserrat Alternates', sans-serif;
-
-  // }
-
-  // .currency-main__title {
-  //   border-bottom: 2px solid #27292d;
-  //   margin-bottom: 15px;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: space-evenly;
-
-  // }
-
-  // .currency-main__item {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: space-evenly;
-
-  //   .currency-text {
-  //     width: calc((100% - 80px) / 3);
-  //   }
-
-  //   .currency-text:nth-child(2) {
-  //     display: flex;
-  //     padding-right: 20px;
-  //     justify-content: flex-end;
-  //   }
-  //   .currency-text:nth-child(3) {
-  //     display: flex;
-  //     padding-right: 20px;
-  //     justify-content: flex-end;
-  //   }
-  // }
-
-  // .name-currency {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  // }
 
   @media screen and (min-width: 720px) {
     .currency-main__item {
@@ -105,25 +54,18 @@
         width: calc((100%) / 3);
         text-align: right;
 
-        span:nth-child(1) {
-          // font-family: 'Dotf1';
-          // text-align: right;
-        }
-
         span {
           font-family: 'Dotf1';
           text-align: right;
         }
 
         span.arrow--up {
-          color: green;
           width: 10px;
           margin-left: 5px;
           margin-right: 25px;
         }
 
         span.arrow--dn {
-          color: red;
           width: 10px;
           margin-left: 5px;
           margin-right: 25px;
@@ -134,49 +76,30 @@
         text-align: center;
       }
     }
-    // .currencyBlock {
-    //   width: 100%;
-    // }
-
-    // .currency-main h2 {
-    //   font-size: 14px;
-    // }
-    // .currency-main > .currency-text {
-    //   font-size: 8px;
-    // }
-
-    // .currency-main .currency-text span {
-    //   font-size: 14px;
-    // }
-
-    // .currency-main__item > .currency-text {
-    //   // width: calc((100% - 180px) / 3);
-    //   // width: 100px;
-    // }
   }
 
   [data-tooltip] {
-    position: relative; /* Относительное позиционирование */
+    position: relative; //* Относительное позиционирование */
   }
   [data-tooltip]::after {
     font-size: 14px;
-    content: attr(data-tooltip); /* Выводим текст */
-    position: absolute; /* Абсолютное позиционирование */
-    // width: 50px; /* Ширина подсказки */
+    content: attr(data-tooltip); //* Выводим текст */
+    position: absolute; //* Абсолютное позиционирование */
+    // width: 50px; //* Ширина подсказки */
     left: 0;
-    top: 0; /* Положение подсказки */
-    background: $color-background-6; /* Синий цвет фона */
-    color: #fff; /* Цвет текста */
-    padding: 0.5em; /* Поля вокруг текста */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
-    pointer-events: none; /* Подсказка */
-    opacity: 0; /* Подсказка невидима */
-    transition: 1s; /* Время появления подсказки */
+    top: 0; //* Положение подсказки */
+    background: $color-background-6; //* Синий цвет фона */
+    color: $color-1; //* Цвет текста */
+    padding: 0.5em; //* Поля вокруг текста */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); //* Параметры тени */
+    pointer-events: none; //* Подсказка */
+    opacity: 0; //* Подсказка невидима */
+    transition: 1s; //* Время появления подсказки */
     border-radius: 15px;
     z-index: 1;
   }
   [data-tooltip]:hover::after {
-    opacity: 1; /* Показываем подсказку */
-    top: 2em; /* Положение подсказки */
+    opacity: 1; //* Показываем подсказку */
+    top: 2em; //* Положение подсказки */
   }
 }

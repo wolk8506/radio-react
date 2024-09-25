@@ -16,8 +16,6 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 import { getZVRCurrent, getZVRPrevious } from 'store/thunks';
 
-import s from './Currency.module.css';
-
 export const CurrencyZVR = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -57,13 +55,7 @@ export const CurrencyZVR = () => {
     },
   }));
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  function createData(
-    name: string,
-    value: number,
-    fat: number,
-    carbs: number,
-    protein: number
-  ) {
+  function createData(name, value, fat, carbs, protein) {
     return { name, value, fat, carbs, protein };
   }
   let rows = [createData('Данные доступны после 6-го числа текущего месяца')];
@@ -130,7 +122,7 @@ export const CurrencyZVR = () => {
 
   return (
     <div>
-      <div className={s.nameSection}>
+      <div className="nameSection">
         <IconButton
           color="primary"
           aria-label="add to shopping cart"
@@ -138,10 +130,10 @@ export const CurrencyZVR = () => {
         >
           <AutorenewIcon />
         </IconButton>
-        <h2>Конвертер валют</h2>
+        <h2>Золото-валютные резервы</h2>
       </div>
-      <div className={s.tables}>
-        <TableContainer className={s.table} component={Paper}>
+      <div className="tables">
+        <TableContainer className="table" component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -166,7 +158,7 @@ export const CurrencyZVR = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TableContainer className={s.table} component={Paper}>
+        <TableContainer className="table" component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
               <TableRow>

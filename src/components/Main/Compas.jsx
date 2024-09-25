@@ -2,12 +2,13 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import arrow from './img/arrow.svg';
+import sprite from '../../images/sprite.svg';
+// import arrow from './img/arrow.svg';
 
 export const Compas = () => {
   const data = useSelector(state => state.storeWeather15);
 
-  // const iconSVG = sprite;
+  const iconSVG = sprite;
 
   const [wind_degree, setWind_degree] = useState(0);
   const [wind_ms, setWind_ms] = useState('--');
@@ -65,7 +66,10 @@ export const Compas = () => {
         <li></li>
       </ul>
       <div className="arrow_block" style={styleWindW}>
-        <img src={arrow} alt="arrow" id="arrow-pointer" />
+        {/* <img src={arrow} alt="arrow" id="arrow-pointer" /> */}
+        <svg className="icon">
+          <use href={`${iconSVG}#icon-arrow`}></use>
+        </svg>
       </div>
       <div className="arrow_text">
         <p>{wind_ms}</p>

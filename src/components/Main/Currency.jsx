@@ -12,7 +12,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import sprite from '../../images/sprite.svg';
 
 export const Currency = () => {
-  const dataMono = useSelector(state => state.storeCurrencyMonoToday);
+  const dataMono = useSelector(state => state.storeCurrencyMonoToday.data);
   const dataCurrency = useSelector(state => state.storeData.currencyYesterday);
 
   const dispatch = useDispatch();
@@ -32,32 +32,32 @@ export const Currency = () => {
   useEffect(() => dispatch(getMonoToday()), [dispatch]);
 
   useEffect(() => {
-    if (dataMono.length !== 0) {
-      function threeDecimalPlaces(text) {
-        const arr = text.split('.');
-        let a = arr[0];
-        let b;
+    // if (dataMono.length !== 0) {
+    function threeDecimalPlaces(text) {
+      const arr = text.split('.');
+      let a = arr[0];
+      let b;
 
-        if (arr[1] === undefined) b = `0000`;
-        else if (arr[1].length === 1) b = `${arr[1]}000`;
-        else if (arr[1].length === 2) b = `${arr[1]}00`;
-        else if (arr[1].length === 3) b = `${arr[1]}0`;
-        else if (arr[1].length === 4) b = `${arr[1]}`;
-        let c = `${a}.${b}`;
+      if (arr[1] === undefined) b = `0000`;
+      else if (arr[1].length === 1) b = `${arr[1]}000`;
+      else if (arr[1].length === 2) b = `${arr[1]}00`;
+      else if (arr[1].length === 3) b = `${arr[1]}0`;
+      else if (arr[1].length === 4) b = `${arr[1]}`;
+      let c = `${a}.${b}`;
 
-        return c;
-      }
-      setUSD_rateBuy(threeDecimalPlaces(String(USD.rateBuy)));
-      setEUR_rateBuy(threeDecimalPlaces(String(EUR.rateBuy)));
-      setUSD_rateSell(threeDecimalPlaces(String(USD.rateSell)));
-      setEUR_rateSell(threeDecimalPlaces(String(EUR.rateSell)));
-      setUSD(dataMono.find(el => el.currencyCodeA === 840));
-      setEUR(dataMono.find(el => el.currencyCodeA === 978));
-      setEurTOusaSell((EUR.rateSell / USD.rateSell).toFixed(4));
-      setEurTOusaBuy((EUR.rateBuy / USD.rateBuy).toFixed(4));
-      setUsdTOeurSell((USD.rateSell / EUR.rateSell).toFixed(4));
-      setUsdTOeurBuy((USD.rateBuy / EUR.rateBuy).toFixed(4));
+      return c;
     }
+    setUSD_rateBuy(threeDecimalPlaces(String(USD.rateBuy)));
+    setEUR_rateBuy(threeDecimalPlaces(String(EUR.rateBuy)));
+    setUSD_rateSell(threeDecimalPlaces(String(USD.rateSell)));
+    setEUR_rateSell(threeDecimalPlaces(String(EUR.rateSell)));
+    setUSD(dataMono.find(el => el.currencyCodeA === 840));
+    setEUR(dataMono.find(el => el.currencyCodeA === 978));
+    setEurTOusaSell((EUR.rateSell / USD.rateSell).toFixed(4));
+    setEurTOusaBuy((EUR.rateBuy / USD.rateBuy).toFixed(4));
+    setUsdTOeurSell((USD.rateSell / EUR.rateSell).toFixed(4));
+    setUsdTOeurBuy((USD.rateBuy / EUR.rateBuy).toFixed(4));
+    // }
   }, [
     EUR.rateBuy,
     EUR.rateSell,
@@ -96,28 +96,27 @@ export const Currency = () => {
   });
 
   useEffect(() => {
-    if (dataMono.length !== 0) {
-      const arr = {
-        data: today,
-        // data: '07-09-2024',
-        usd_uah_buy: USD.rateBuy,
-        usd_eur_buy: usdTOeurSell,
-        eur_uah_buy: EUR.rateBuy,
-        eur_usd_buy: eurTOusaSell,
+    // if (dataMono.length !== 0) {
+    const arr = {
+      data: today,
+      // data: '07-09-2024',
+      usd_uah_buy: USD.rateBuy,
+      usd_eur_buy: usdTOeurSell,
+      eur_uah_buy: EUR.rateBuy,
+      eur_usd_buy: eurTOusaSell,
 
-        usd_uah_sell: USD.rateSell,
-        usd_eur_sell: usdTOeurBuy,
-        eur_uah_sell: EUR.rateSell,
-        eur_usd_sell: eurTOusaBuy,
-      };
-      setArr_today(arr);
-    }
+      usd_uah_sell: USD.rateSell,
+      usd_eur_sell: usdTOeurBuy,
+      eur_uah_sell: EUR.rateSell,
+      eur_usd_sell: eurTOusaBuy,
+    };
+    setArr_today(arr);
+    // }
   }, [
     EUR.rateBuy,
     EUR.rateSell,
     USD.rateBuy,
     USD.rateSell,
-    dataMono.length,
     eurTOusaBuy,
     eurTOusaSell,
     today,

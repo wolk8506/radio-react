@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+
+import { getKursTodayBanks } from 'store/thunks';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -15,12 +18,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { kursTodayBanksStatus } from 'store/actions';
 
-import s from './Currency.module.css';
-import { useEffect } from 'react';
-import { useState } from 'react';
-
-import { getKursTodayBanks } from 'store/thunks';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 export const CurrencyBanks = () => {
   const dispatch = useDispatch();
@@ -32,24 +33,28 @@ export const CurrencyBanks = () => {
   // Обновление курса валют
   const handleUpdateCurrency = () => {
     dispatch(getKursTodayBanks());
+    dispatch(kursTodayBanksStatus(false));
   };
-  const BANK = useSelector(state => state.storeKursTodayBanks);
+  const BANK = useSelector(state => state.storeKursTodayBanks.data);
+  const TIME = useSelector(state => state.storeKursTodayBanks.time);
+  const STATUS = useSelector(state => state.storeKursTodayBanks.status);
+
+  console.log('STATUS', STATUS);
+
   // !!! Контроллер выбора банка    !!!
   const [valueBank1, setValueBank1] = useState('12');
   const [valueBank2, setValueBank2] = useState('0');
   const [listBank, setListBank] = useState([]);
 
   useEffect(() => {
-    if (BANK.length !== 0) {
-      const arr = [];
+    const arr = [];
 
-      for (let key in BANK) {
-        if (BANK.hasOwnProperty(key)) {
-          arr.push({ key: key, name: BANK[key].name });
-        }
+    for (let key in BANK) {
+      if (BANK.hasOwnProperty(key)) {
+        arr.push({ key: key, name: BANK[key].name });
       }
-      setListBank(arr);
     }
+    setListBank(arr);
   }, [BANK]);
 
   const handleChangeBank1 = e => {
@@ -75,91 +80,84 @@ export const CurrencyBanks = () => {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
       border: 0,
     },
   }));
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  function createData(name: string, buy: number, sel: number) {
+  function createData(name, buy, sel) {
     return { name, buy, sel };
   }
-  let rows = [];
-  console.log(BANK);
-  if (BANK.length !== 0) {
-    rows = [
-      createData(
-        'Евро',
-        BANK[valueBank1].rates.eur.buy,
-        BANK[valueBank1].rates.eur.sel
-      ),
-      createData(
-        'Доллар',
-        BANK[valueBank1].rates.usd.buy,
-        BANK[valueBank1].rates.usd.sel
-      ),
-      createData(
-        'Злотый',
-        BANK[valueBank1].rates.pln.buy,
-        BANK[valueBank1].rates.pln.sel
-      ),
-      createData(
-        'Фунт стерлингов',
-        BANK[valueBank1].rates.gbp.buy,
-        BANK[valueBank1].rates.gbp.sel
-      ),
-      createData(
-        'Российский рубль',
-        BANK[valueBank1].rates.rur.buy,
-        BANK[valueBank1].rates.rur.sel
-      ),
-      createData(
-        'Швейцарский франк',
-        BANK[valueBank1].rates.chf.buy,
-        BANK[valueBank1].rates.chf.sel
-      ),
-    ];
-  }
+  let rows = [
+    createData(
+      'Евро',
+      BANK[valueBank1].rates.eur.buy,
+      BANK[valueBank1].rates.eur.sel
+    ),
+    createData(
+      'Доллар',
+      BANK[valueBank1].rates.usd.buy,
+      BANK[valueBank1].rates.usd.sel
+    ),
+    createData(
+      'Злотый',
+      BANK[valueBank1].rates.pln.buy,
+      BANK[valueBank1].rates.pln.sel
+    ),
+    createData(
+      'Фунт стерлингов',
+      BANK[valueBank1].rates.gbp.buy,
+      BANK[valueBank1].rates.gbp.sel
+    ),
+    createData(
+      'Российский рубль',
+      BANK[valueBank1].rates.rur.buy,
+      BANK[valueBank1].rates.rur.sel
+    ),
+    createData(
+      'Швейцарский франк',
+      BANK[valueBank1].rates.chf.buy,
+      BANK[valueBank1].rates.chf.sel
+    ),
+  ];
 
-  let rows2 = [];
-  if (BANK.length !== 0) {
-    rows2 = [
-      createData(
-        'Евро',
-        BANK[valueBank2].rates.eur.buy,
-        BANK[valueBank2].rates.eur.sel
-      ),
-      createData(
-        'Доллар',
-        BANK[valueBank2].rates.usd.buy,
-        BANK[valueBank2].rates.usd.sel
-      ),
-      createData(
-        'Злотый',
-        BANK[valueBank2].rates.pln.buy,
-        BANK[valueBank2].rates.pln.sel
-      ),
-      createData(
-        'Фунт стерлингов',
-        BANK[valueBank2].rates.gbp.buy,
-        BANK[valueBank2].rates.gbp.sel
-      ),
-      createData(
-        'Российский рубль',
-        BANK[valueBank2].rates.rur.buy,
-        BANK[valueBank2].rates.rur.sel
-      ),
-      createData(
-        'Швейцарский франк',
-        BANK[valueBank2].rates.chf.buy,
-        BANK[valueBank2].rates.chf.sel
-      ),
-    ];
-  }
+  let rows2 = [
+    createData(
+      'Евро',
+      BANK[valueBank2].rates.eur.buy,
+      BANK[valueBank2].rates.eur.sel
+    ),
+    createData(
+      'Доллар',
+      BANK[valueBank2].rates.usd.buy,
+      BANK[valueBank2].rates.usd.sel
+    ),
+    createData(
+      'Злотый',
+      BANK[valueBank2].rates.pln.buy,
+      BANK[valueBank2].rates.pln.sel
+    ),
+    createData(
+      'Фунт стерлингов',
+      BANK[valueBank2].rates.gbp.buy,
+      BANK[valueBank2].rates.gbp.sel
+    ),
+    createData(
+      'Российский рубль',
+      BANK[valueBank2].rates.rur.buy,
+      BANK[valueBank2].rates.rur.sel
+    ),
+    createData(
+      'Швейцарский франк',
+      BANK[valueBank2].rates.chf.buy,
+      BANK[valueBank2].rates.chf.sel
+    ),
+  ];
+
   return (
     <div>
-      <div className={s.nameSection}>
+      <div className="nameSection">
         <IconButton
           color="primary"
           aria-label="add to shopping cart"
@@ -167,122 +165,116 @@ export const CurrencyBanks = () => {
         >
           <AutorenewIcon />
         </IconButton>
-        <h2>Курс валют в банках</h2>
+        <h2>Курс валют в банках. Время обновления {TIME}</h2>
+        {STATUS ? (
+          <CheckCircleOutlineIcon color="success" />
+        ) : (
+          <WarningAmberIcon color="warning" />
+        )}
       </div>
-      {BANK.length !== 0 && (
-        <div className={s.tables}>
-          <TableContainer className={s.table} component={Paper}>
-            <Table sx={{ minWidth: 400 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" colSpan={2}>
-                    <div className={s.tableName}>
-                      <img
-                        src={BANK[valueBank1].image}
-                        alt={BANK[valueBank1].name}
-                        width={64}
-                      />
 
-                      <FormControl
-                        variant="standard"
-                        sx={{ m: 1, minWidth: 200 }}
-                      >
-                        <InputLabel id="demo-simple-select-standard-label">
-                          Банк
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          value={valueBank1}
-                          onChange={handleChangeBank1}
-                          label="Converter"
-                        >
-                          {listBank.map(i => (
-                            <MenuItem key={i.key} value={i.key}>
-                              {i.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <StyledTableCell>Показатель</StyledTableCell>
-                  <StyledTableCell align="right">Покупка</StyledTableCell>
-                  <StyledTableCell align="right">Продажа</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map(row => (
-                  <StyledTableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <StyledTableCell align="right">{row.buy}</StyledTableCell>
-                    <StyledTableCell align="right">{row.sel}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TableContainer className={s.table} component={Paper}>
-            <Table sx={{ minWidth: 400 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" colSpan={2}>
-                    <div className={s.tableName}>
-                      <img
-                        src={BANK[valueBank2].image}
-                        alt={BANK[valueBank2].name}
-                        width={64}
-                      />
+      <div className="tables">
+        <TableContainer className="table" component={Paper}>
+          <Table sx={{ minWidth: 400 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <div className="tableName">
+                  <img
+                    src={BANK[valueBank1].image}
+                    alt={BANK[valueBank1].name}
+                    width={64}
+                  />
 
-                      <FormControl
-                        variant="standard"
-                        sx={{ m: 1, minWidth: 200 }}
-                      >
-                        <InputLabel id="demo-simple-select-standard-label">
-                          Банк
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          value={valueBank2}
-                          onChange={handleChangeBank2}
-                          label="Converter"
-                        >
-                          {listBank.map(i => (
-                            <MenuItem key={i.key} value={i.key}>
-                              {i.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      Банк
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      value={valueBank1}
+                      onChange={handleChangeBank1}
+                      label="Converter"
+                    >
+                      {listBank.map(i => (
+                        <MenuItem key={i.key} value={i.key}>
+                          {i.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+              </TableRow>
+              <TableRow>
+                <StyledTableCell>Показатель</StyledTableCell>
+                <StyledTableCell align="right">Покупка</StyledTableCell>
+                <StyledTableCell align="right">Продажа</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map(row => (
+                <StyledTableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
                   </TableCell>
-                </TableRow>
-                <TableRow>
-                  <StyledTableCell>Показатель</StyledTableCell>
-                  <StyledTableCell align="right">Покупка</StyledTableCell>
-                  <StyledTableCell align="right">Продажа</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows2.map(row => (
-                  <StyledTableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <StyledTableCell align="right">{row.buy}</StyledTableCell>
-                    <StyledTableCell align="right">{row.sel}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      )}
+                  <StyledTableCell align="right">{row.buy}</StyledTableCell>
+                  <StyledTableCell align="right">{row.sel}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TableContainer className="table" component={Paper}>
+          <Table sx={{ minWidth: 400 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <div className="tableName">
+                  <img
+                    src={BANK[valueBank2].image}
+                    alt={BANK[valueBank2].name}
+                    width={64}
+                  />
+
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      Банк
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      value={valueBank2}
+                      onChange={handleChangeBank2}
+                      label="Converter"
+                    >
+                      {listBank.map(i => (
+                        <MenuItem key={i.key} value={i.key}>
+                          {i.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+              </TableRow>
+              <TableRow>
+                <StyledTableCell>Показатель</StyledTableCell>
+                <StyledTableCell align="right">Покупка</StyledTableCell>
+                <StyledTableCell align="right">Продажа</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows2.map(row => (
+                <StyledTableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <StyledTableCell align="right">{row.buy}</StyledTableCell>
+                  <StyledTableCell align="right">{row.sel}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
 };

@@ -9,12 +9,13 @@ import {
   WEATHER_15,
   WEATHER_LAST_DAY,
   LOCATION,
-  // PLAYER_STATION,
   KURS_TODAY_BANKS,
   WEATHER_ELEMENTS,
 } from './actions';
 
-var moment = require('moment');
+import moment from 'moment';
+moment().locale('ru');
+
 let dateTomorrow = '';
 const dateToday = moment().format('YYYYMMDD');
 const monthPrevious = moment().add(-1, 'months').format('YYYYMM');
@@ -71,7 +72,7 @@ export const getKursTodayBanks = () => {
 export const getLocation = () => {
   return dispatch => {
     requestByURL(URL_LOCATION).then(data => {
-      console.log(data);
+      // console.log(data);
       dispatch({
         type: LOCATION,
         payload: data,
@@ -79,19 +80,6 @@ export const getLocation = () => {
     });
   };
 };
-
-// export const getWeather = URL_WEATHER => {
-//   return dispatch => {
-//     requestByURL(URL_WEATHER).then(data => {
-//       dispatch({
-//         type: WEATHER,
-//         payload: data,
-//       });
-//     });
-//   };
-// };
-
-// WEATHER_ELEMENTS
 
 export const getWeatherElements = URL => {
   return dispatch => {
@@ -129,6 +117,8 @@ export const getWeatherLastDay = URL_WEATHER15 => {
 export const getMonoToday = () => {
   return dispatch => {
     requestByURL(URL_MONO_TODAY).then(data => {
+      console.log('URL_MONO_TODAY', data);
+      if (data === undefined) return;
       dispatch({
         type: CURRENCY_MONO,
         payload: data,

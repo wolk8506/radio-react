@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+const color_1 = 'pribor-color-1';
+const color_2 = 'pribor-color-2';
+
 export function Humidity() {
   return /*#__PURE__*/ React.createElement(
     React.Fragment,
@@ -56,7 +59,7 @@ function deriveData(index, value) {
   const x2 = r2 * cc;
   const y2 = r2 * ss;
 
-  const color = Math.ceil(value * (41 / 100)) > index ? '#e19646' : '#E8EBF9';
+  const color = Math.ceil(value * (41 / 100)) > index ? color_1 : color_2;
   return { x1, y1, x2, y2, color };
 }
 
@@ -67,7 +70,8 @@ function Tick({ index, value }) {
     y1: y1,
     x2: x2,
     y2: y2,
-    stroke: color,
+    // stroke: color,
+    className: color,
     strokeWidth: '3',
     strokeLinecap: 'round',
   });

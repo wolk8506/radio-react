@@ -7,7 +7,7 @@
 .toggle_on {
   width: 50px;
   height: 50px;
-  background: #212325;
+  background: $color-background-7;
   cursor: pointer;
   display: inline-block;
   position: relative;
@@ -15,7 +15,6 @@
   border-radius: 50%;
   box-shadow: $box-shadow-btn-1;
   transition: all 0.3s;
-  // z-index: 1;
 }
 
 .toggle_on {
@@ -30,7 +29,7 @@
 }
 .btn_play p {
   color: $color-3;
-  text-shadow: 0 0 15px rgba(225, 150, 70, 0.5);
+  text-shadow: 0 0 15px $color-text-shadow;
   font-size: 26px;
   text-align: center;
 }
@@ -40,5 +39,72 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  fill: #fce3af;
+  fill: $color-3;
+}
+
+// **********************************************************************************************
+:root {
+  --rotationtime: 0.55s;
+}
+
+@keyframes rotatebottom {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotateX(0) translateY(0px);
+  }
+  100% {
+    transform: rotateX(-180deg) translateY(-10px);
+  }
+}
+
+@keyframes rot {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+// *****  A N I M A T I O N  *****
+
+@mixin animation-slider($property) {
+  transition-property: $property;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin animation($property) {
+  transition-property: $property;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// *****  B U T T O N  *****
+
+%button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 24px;
+  min-width: 62.4px;
+  font-style: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.31;
+  border: none;
+  border-radius: 22px;
 }

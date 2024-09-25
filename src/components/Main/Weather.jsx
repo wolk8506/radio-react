@@ -76,7 +76,7 @@ export const Weather = () => {
   return (
     <>
       <div className="wrapper">
-        <div className="clock">
+        <div className="weather-dashboard">
           <div className="flipper">
             <div className="gear"></div>
             <div className="gear"></div>
