@@ -3,7 +3,7 @@
     color: $color-1;
   }
 
-  .blockDay {
+  .weather__day {
     background: $color-background-5;
     padding: 20px;
     border-radius: 15px;
@@ -17,7 +17,7 @@
     color: $color-2 !important;
   }
 
-  .blockDay > div {
+  .weather__day > div {
     width: calc(100% / 3);
   }
 
@@ -162,20 +162,22 @@
   }
 }
 @media screen and (max-width: 720px) {
-  .dayCard {
-    width: 100%;
-  }
-  .blockDay {
-    flex-direction: column;
-  }
+  .weather {
+    .dayCard {
+      width: 100%;
+    }
+    .weather__day {
+      flex-direction: column;
+    }
 
-  .blockDay > div {
-    width: 100%;
-  }
+    .weather__day > div {
+      width: 100%;
+    }
 
-  .blockDayRight {
-    display: flex;
-    justify-content: space-around;
-    width: calc(100% - 10px);
+    .blockDayRight {
+      display: flex;
+      justify-content: space-around;
+      width: calc(100% - 10px);
+    }
   }
 }

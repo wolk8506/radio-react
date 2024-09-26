@@ -178,7 +178,7 @@ export const Weather = () => {
 
   return (
     <div className="weather">
-      <div className="blockDay">
+      <div className="weather__day">
         <div className="blockDayLeft">
           <p>
             {timeZone}, {moment().format('dddd DD MMMM')}
