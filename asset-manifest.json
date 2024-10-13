@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.ecdade32.css",
-    "main.js": "/radio-react/static/js/main.67fcc559.js",
+    "main.css": "/radio-react/static/css/main.7a558f6f.css",
+    "main.js": "/radio-react/static/js/main.77317c1f.js",
     "static/media/dotf1.ttf": "/radio-react/static/media/dotf1.b959cb0ac57821ab6a89.ttf",
     "static/media/img-soundpark-deep.jpg": "/radio-react/static/media/img-soundpark-deep.d53d2e7c8ac8882c408b.jpg",
     "static/media/img-nrg-radio.jpg": "/radio-react/static/media/img-nrg-radio.4fffca6e0ce549e411e0.jpg",
@@ -9,13 +9,22 @@
     "static/media/sprite.svg": "/radio-react/static/media/sprite.9ef8b75fd148aa197a5c150941c632bd.svg",
     "static/media/verminvibesreduxrusbylyajk.otf": "/radio-react/static/media/verminvibesreduxrusbylyajk.cd7fb0c29b14d66ad3c9.otf",
     "static/media/img-181.fm.jpg": "/radio-react/static/media/img-181.fm.b2970b049dfd1d231aca.jpg",
-    "static/media/img-kiss-fm.jpg": "/radio-react/static/media/img-kiss-fm.1f0145879b48d1562e12.jpg",
+    "static/media/recordrock.webp": "/radio-react/static/media/recordrock.b2be14a787a0ebf1656b.webp",
+    "static/media/makradiorusrock.webp": "/radio-react/static/media/makradiorusrock.77b8a7aadba12d97692d.webp",
+    "static/media/kissfm.webp": "/radio-react/static/media/kissfm.04246f58b237fb7013e2.webp",
+    "static/media/kissfmdeep.webp": "/radio-react/static/media/kissfmdeep.097eeac71497c278bd23.webp",
+    "static/media/europaplus.webp": "/radio-react/static/media/europaplus.7a49fc4d8106b2313c1a.webp",
+    "static/media/radio7.webp": "/radio-react/static/media/radio7.50ec950df846c4f4f028.webp",
+    "static/media/rockradio.webp": "/radio-react/static/media/rockradio.4cfae32a75b81a9da223.webp",
+    "static/media/dfm.webp": "/radio-react/static/media/dfm.40020459ba735640ac58.webp",
+    "static/media/maximum.webp": "/radio-react/static/media/maximum.c40b66457e94d27fc6f4.webp",
+    "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "index.html": "/radio-react/index.html",
-    "main.ecdade32.css.map": "/radio-react/static/css/main.ecdade32.css.map",
-    "main.67fcc559.js.map": "/radio-react/static/js/main.67fcc559.js.map"
+    "main.7a558f6f.css.map": "/radio-react/static/css/main.7a558f6f.css.map",
+    "main.77317c1f.js.map": "/radio-react/static/js/main.77317c1f.js.map"
   },
   "entrypoints": [
-    "static/css/main.ecdade32.css",
-    "static/js/main.67fcc559.js"
+    "static/css/main.7a558f6f.css",
+    "static/js/main.77317c1f.js"
   ]
 }
