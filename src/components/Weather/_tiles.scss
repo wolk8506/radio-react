@@ -2,63 +2,709 @@
   padding-bottom: 40px;
   margin-top: 20px;
   .tiles-block__card {
-    height: 200px;
+    // height: 200px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 
     .card__item {
-      background-image: $color-background-11;
-      width: 100%;
+      background: $color-background-5;
       border-radius: 15px;
       padding: 10px;
-      width: calc((100% - 30px) / 4);
+      width: 300px;
+      height: 250px;
+      padding: 16px 20px;
+
+      .item__title {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+      }
 
       .item__logo {
         font-size: 72px;
         text-align: center;
       }
 
-      .moon {
-        width: 120px;
-        height: 120px;
-        background: #101010;
-        border-radius: 50%;
-        margin: auto auto;
-      }
-
-      .moon-text {
-        margin-top: 10px;
-      }
-
+      // ? start humidity
       .humidity {
+        padding-top: 20px;
+        padding-bottom: 23px;
         display: flex;
-        flex-direction: row;
+        align-items: center;
+        gap: 44px;
+
+        .hunidity__image {
+          width: 118px;
+          height: 107px;
+          display: flex;
+          justify-content: space-between;
+          // cursor: pointer;
+
+          .image__box {
+            width: 10px;
+            background: $color-1;
+            height: 100%;
+            position: relative;
+            border-radius: 8px;
+
+            .box__percentage {
+              width: 10px;
+              background-color: #6994fa;
+              float: left;
+              position: absolute;
+              bottom: 0;
+              border-radius: 8px;
+              // height: 57%;
+            }
+          }
+        }
+
+        .humidity__info {
+          width: 100px;
+          height: 108px;
+          display: flex;
+          justify-content: space-evenly;
+          flex-direction: column;
+          align-items: center;
+          margin-top: -10px;
+
+          .info__humidity-value {
+            font-size: 32px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 32px;
+            width: 100px;
+            height: 32px;
+          }
+
+          .info__humidity-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            width: 100px;
+            height: 20px;
+          }
+        }
       }
+      // ? end -- humidity
+      // ? start -- UV
 
-      .humidity-range {
-        padding: 10px;
-        transform: rotate(270deg);
-        height: 150px;
-        width: 150px;
+      .uv {
+        padding: 8px 0 8px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
 
-        .range {
-          margin-right: 10px;
-          margin-bottom: 10px;
+        svg {
+          display: block;
+        }
+
+        .uv__uv-value {
+          position: absolute;
+          font-size: 36px;
+          line-height: 36px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
       }
 
-      .humidity-value {
-        font-size: 42px;
-        margin-left: 20px;
+      // ? end -- UV
+      // ? start -- visibility
+      .visibility {
+        position: relative;
+        margin-top: 8px;
+        padding-bottom: 4px;
+
+        .visibility__image {
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          .image__line {
+            height: 10px;
+            border-radius: 8px;
+          }
+          .image__line:nth-child(5) {
+            width: 92px;
+            background-color: rgb(31, 149, 74);
+          }
+          .image__line:nth-child(4) {
+            width: 112px;
+            background-color: rgb(55, 166, 96);
+          }
+          .image__line:nth-child(3) {
+            width: 132px;
+            background-color: rgb(85, 177, 126);
+          }
+          .image__line:nth-child(2) {
+            width: 152px;
+            background-color: rgb(96, 189, 130);
+          }
+          .image__line:nth-child(1) {
+            width: 192px;
+            background-color: rgb(160, 216, 185);
+          }
+        }
+
+        .visibility__block-value {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          .block-value__value {
+            font-size: 36px;
+            line-height: 48px;
+            font-weight: 600;
+          }
+          .block-value__caption {
+            font-size: 14px;
+            line-height: 18px;
+          }
+        }
       }
-      .humidity-title {
-        color: $color-3;
+
+      // ? end -- visibility
+      // ? start -- Moon-phase
+      .moon-phase {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15.5px 0 20px;
+
+        .moon {
+          width: 132px;
+          height: 132px;
+          background: #101010;
+          border-radius: 50%;
+          // margin: auto auto;
+        }
+        .moon-phase__block-value {
+          padding: 0 0 0 15px;
+          font-size: 12px;
+          line-height: 16px;
+          width: 92px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          .block-value__value {
+            font-size: 36px;
+            // color: var(--level-color);
+            line-height: 48px;
+          }
+          .block-value__caption {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+
+        .moon-text {
+          margin-top: 10px;
+        }
+      }
+      // ? end  --  Moon-phase
+      // ?  start -- Осадки
+      .precip-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 0 8px 0;
+
+        .precip-image__item {
+          position: relative;
+          // display: block;
+          .precip-image__svg {
+            border: 1px solid $color-1-10;
+            border-radius: 50%;
+
+            &.is-hidden {
+              display: none;
+            }
+            .is-hidden {
+              display: none;
+            }
+
+            &.rain-snow {
+              transform: scale(0.846);
+              justify-content: space-between;
+            }
+
+            &.rain-snow:nth-child(1) {
+              transform-origin: left;
+            }
+            &.rain-snow:nth-child(2) {
+              transform-origin: right;
+            }
+          }
+          .item__title {
+            font-size: 29px;
+            line-height: 39px;
+            font-weight: 600;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            // white-space: nowrap;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            span {
+              font-size: 16px;
+              line-height: 22px;
+              font-weight: 600;
+              padding-left: 4px;
+            }
+          }
+        }
+      }
+      // ? end  -- Осадки
+      // ? start  --  Солнце
+      .sun {
+        width: 258;
+        height: 129;
+        position: relative;
+        padding-top: 20px;
+
+        .sun-img {
+          stroke: $color-1-90;
+        }
+        .sun-img-point {
+          fill: #acacac;
+        }
+        .sun__title {
+          position: absolute;
+          text-align: center;
+          left: 50%;
+          bottom: 0;
+          transform: translate(-50%, 0);
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 16px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .item__text-block {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        margin-top: 18px;
+
+        .text-block__subblock-text {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          font-size: 28px;
+          // color: var(--title-color);
+          font-weight: 600;
+          gap: 8px;
+
+          .subblock-text__time {
+            font-size: 28px;
+            // color: var(--title-color);
+            font-weight: 600;
+          }
+          .subblock-text__title {
+            min-width: 40px;
+            max-width: 52px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+          }
+        }
+      }
+      // ?  end   --  Солнце
+      // ? start  --  Луна
+      .moon {
+        width: 258;
+        height: 129;
+        position: relative;
+        padding-top: 20px;
+
+        .moon-img {
+          stroke: $color-1-90;
+        }
+        .moon-img-point {
+          fill: #acacac;
+        }
+        .moon__title {
+          position: absolute;
+          text-align: center;
+          left: 50%;
+          bottom: 0;
+          transform: translate(-50%, 0);
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 16px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .item__text-block {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        margin-top: 18px;
+
+        .text-block__subblock-text {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          font-size: 28px;
+          // color: var(--title-color);
+          font-weight: 600;
+          gap: 8px;
+
+          .subblock-text__time {
+            font-size: 28px;
+            // color: var(--title-color);
+            font-weight: 600;
+          }
+          .subblock-text__title {
+            min-width: 40px;
+            max-width: 52px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+          }
+        }
+      }
+      // ?  end   --  Луна
+      // ?  start --  Температура
+      .temperature {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 16px;
+        padding-bottom: 18px;
+
+        .svg-temperature-area {
+          // fill: #18bfca;
+
+          box-shadow: $color-1 0px 2px 0px inset;
+          opacity: 0.09;
+        }
+        .temperatureCardContainer-DS-EntryPoint1-1 {
+          width: 300px;
+          height: 250px;
+          background: $color-1-10;
+          border-radius: 12px;
+          padding: 16px 20px;
+          box-sizing: border-box;
+          position: relative;
+          forced-color-adjust: none;
+        }
+
+        .temperature__value {
+          fill: $color-2;
+          // dominant-baseline: middle;
+          text-anchor: middle;
+          font-weight: 600;
+          font-size: 36px;
+        }
+      }
+
+      // ?  end   --  Температура
+      // ?  start --  Облачность
+      .cloud {
+        display: flex;
+        justify-content: center;
+        padding-top: 8px;
+        position: relative;
+        padding-bottom: 12px;
+
+        .cloud__text-block {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+          height: 130px;
+          justify-content: center;
+          position: absolute;
+          width: 130px;
+          .cloud__title {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 21px;
+            max-width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .cloud__svg {
+          background: rgb(207 228 250 / 10%);
+          border: 1px solid $color-1-10;
+          border-radius: 50%;
+        }
+        .cloud__svg--color-1 {
+          fill: rgb(104 114 154);
+        }
+        .cloud__svg--color-2 {
+          fill: rgb(207 217 255 / 60%);
+        }
+      }
+      .cloud__item {
+        position: relative;
+        z-index: 2;
+        height: 32px;
         font-size: 12px;
-        margin-left: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
-      .dew {
-        margin-left: 20px;
-        margin-top: 20px;
+
+      // ?  end   --  Облачность
+      // ?  start --  Ощущается как
+
+      .feel-temp {
+        padding-top: 8px;
+        .feel-temp__svg-line {
+          stop-color: $color-1-10;
+        }
+        .feel-temp__block-temp {
+          .block-temp__title {
+            font-size: 12px;
+            line-height: 16px;
+            margin-top: 5px;
+            transform: scale(0.83);
+            opacity: 0.6;
+            height: 22px;
+            transform-origin: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .block-temp__value-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2px;
+            // width: 236px;
+            // .block-temp__value-content > div {
+            //   white-space: nowrap;
+            // }
+            .value-content {
+              // display: flex;
+              white-space: nowrap;
+
+              .value-content__label {
+                font-size: 12px;
+                line-height: 16px;
+                margin-right: 8px;
+                font-weight: 400;
+                display: inline-block;
+                max-width: 70px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+              .value-content__value {
+                font-weight: 600;
+                font-size: 36px;
+                line-height: 34px;
+              }
+            }
+          }
+        }
+      }
+
+      // ?  end   --  Ощущается как
+
+      // ?  start --  Ветер
+
+      .wind {
+        padding-top: 10px;
+        padding-bottom: 26px;
+        .wind__block-wind {
+          display: flex;
+          align-items: center;
+          height: 114px;
+          gap: 18px;
+          justify-content: center;
+
+          .block-wind__image {
+            width: 130px;
+            height: 130px;
+            position: relative;
+
+            .image__svg-segment {
+              stroke: $color-1;
+            }
+
+            .image__char {
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 16px;
+              letter-spacing: 0px;
+              position: absolute;
+              // color: var(--desc-dash-color);
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              width: 20px;
+              text-align: center;
+            }
+            .image__char--north {
+              top: 0px;
+              left: 50%;
+              transform: translate(-50%, 0);
+            }
+            .image__char--south {
+              bottom: 0px;
+              left: 50%;
+              transform: translate(-50%, 0);
+            }
+            .image__char--west {
+              left: 7px;
+              top: 50%;
+              transform: translate(-50%, -50%);
+            }
+            .image__char--ast {
+              right: 7px;
+              top: 50%;
+              transform: translate(10px, -50%);
+            }
+          }
+          .block-wind__value-content {
+            width: 110px;
+            .value-content__title {
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 16px;
+              letter-spacing: 0px;
+              // color: var(--desc-color);
+              margin-bottom: 4px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+            .value-content__number-group {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              .number-group__number {
+                text-align: left;
+                font-size: 32px;
+                font-weight: 600;
+                line-height: 42px;
+                letter-spacing: 0px;
+                max-width: 50px;
+                text-overflow: ellipsis;
+              }
+              .number-group__unit-group {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                .unit-group__unit {
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 16px;
+                  letter-spacing: 0px;
+                }
+                .unit-group__unit-name {
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 16px;
+                  letter-spacing: 0px;
+                  // color: var(--unit-name-color);
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  max-width: 84px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // ?  end   --  Ветер
+      // ?  start --  Давление
+      .pressure {
+        padding-top: 16px;
+        padding-bottom: 26px;
+
+        .pressure__svg-line {
+          stop-color: $color-1-10;
+        }
+
+        .pressure__content {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 8px;
+          .content__value {
+            font-size: 32px;
+            line-height: 42px;
+            font-weight: 600;
+          }
+          .content__unit-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            align-items: flex-start;
+            justify-content: center;
+            font-size: 12px;
+            height: 42px;
+            .unit-group__name {
+            }
+            .unit-group__time {
+              line-height: 16px;
+
+              font-weight: 600;
+            }
+          }
+        }
+      }
+
+      // ?  end   --  Давление
+      .item__text {
+        display: flex;
+        padding: 0px 0 4px;
+        align-items: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px;
+      }
+      .item__sub-text {
+        height: 32px;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+        // display: -webkit-box;
+        // -webkit-line-clamp: 2;
+        // -webkit-box-orient: vertical;
       }
     }
   }

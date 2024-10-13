@@ -39,12 +39,69 @@ export const CurrencyBanks = () => {
   const TIME = useSelector(state => state.storeKursTodayBanks.time);
   const STATUS = useSelector(state => state.storeKursTodayBanks.status);
 
-  console.log('STATUS', STATUS);
+  // console.log('STATUS', STATUS);
 
   // !!! Контроллер выбора банка    !!!
   const [valueBank1, setValueBank1] = useState('12');
   const [valueBank2, setValueBank2] = useState('0');
-  const [listBank, setListBank] = useState([]);
+  const [listBank, setListBank] = useState([
+    {
+      key: '0',
+      name: 'PrivatBank',
+    },
+    {
+      key: '1',
+      name: 'National Bank',
+    },
+    {
+      key: '2',
+      name: 'UKRSIBBANK',
+    },
+    {
+      key: '3',
+      name: 'OTP bank',
+    },
+    {
+      key: '4',
+      name: 'Oschad Bank',
+    },
+    {
+      key: '7',
+      name: 'KredoBank',
+    },
+    {
+      key: '9',
+      name: 'Universal Bank',
+    },
+    {
+      key: '12',
+      name: 'ПУМБ',
+    },
+    {
+      key: '13',
+      name: 'Monobank',
+    },
+    {
+      key: '14',
+      name: 'Privat24',
+    },
+    {
+      key: '15',
+      name: 'Bank Lviv',
+    },
+    {
+      key: '17',
+      name: 'BTA Bank',
+    },
+    {
+      key: '18',
+      name: 'A-Bank',
+    },
+    {
+      key: '19',
+      name: 'AccordBank',
+    },
+  ]);
 
   useEffect(() => {
     const arr = [];

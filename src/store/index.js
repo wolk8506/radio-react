@@ -21,6 +21,7 @@ import {
   weatherElements,
   weather15Reducer,
   weatherLastDayReducer,
+  weatherAirQualityReducer,
 } from './reducer';
 
 export const rootReducer = combineReducers({
@@ -29,6 +30,7 @@ export const rootReducer = combineReducers({
   storeWeatherElements: weatherElements,
   storeWeather15: weather15Reducer,
   storeWeatherLastDay: weatherLastDayReducer,
+  storeWeatherAirQuality: weatherAirQualityReducer,
   storeCurrencyMonoToday: currencyMonoTodayReducer,
   storeCurrencyNBUtoday: currencyNBUtodayReducer,
   storeCurrencyNBUtomorrow: currencyNBUtomorrowReducer,

@@ -72,14 +72,18 @@ function Tick({ index, value }) {
 }
 
 function DemoF() {
-  const data = useSelector(state => state.storeWeather15);
+  // const data = useSelector(state => state.storeWeather15);
+  const data_today = useSelector(
+    state => state.storeWeatherLastDay.today.days[0]
+  );
   const [value, setCloud] = useState(0);
   useEffect(() => {
     const hour = moment().format('H');
-    if (data.currentConditions !== undefined) {
-      setCloud(data.days[0].hours[hour].cloudcover); // Облачность
-    }
-  }, [data]);
+    // const numberDay = moment().isoWeekday();
+    // if (data.currentConditions !== undefined) {
+    setCloud(data_today.hours[hour].cloudcover); // Облачность
+    // }
+  }, [data_today.hours]);
 
   return React.createElement(
     Card,

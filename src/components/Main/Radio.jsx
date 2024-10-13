@@ -6,23 +6,41 @@ import Select from '@mui/material/Select';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { playerStation, playerPlay } from 'store/actions';
-// import Box from '@mui/material/Box';
-// import Stack from '@mui/material/Stack';
-// import Slider from '@mui/material/Slider';
-// import VolumeDown from '@mui/icons-material/VolumeDown';
-// import VolumeUp from '@mui/icons-material/VolumeUp';
-// import IconButton from '@mui/material/IconButton';
+
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import CardMedia from '@mui/material/CardMedia';
 
 import img_181_fm from '../../images/station/img-181.fm.jpg';
-import img_kiss_fm from '../../images/station/img-kiss-fm.jpg';
+import img_kiss_fm from '../../images/station/kissfm.webp';
 import img_nrg_radio from '../../images/station/img-nrg-radio.jpg';
 import img_soundpark_deep from '../../images/station/img-soundpark-deep.jpg';
+import img_europa_plus from '../../images/station/europaplus.webp';
+import img_radio_7 from '../../images/station/radio7.webp';
+import img_makradiorusrock from '../../images/station/makradiorusrock.webp';
+import img_recordrock from '../../images/station/recordrock.webp';
+import img_rockradio from '../../images/station/rockradio.webp';
+import img_maximum from '../../images/station/maximum.webp';
+import img_dfm from '../../images/station/dfm.webp';
+import img_kissfmdeep from '../../images/station/kissfmdeep.webp';
+
+// import img_radio from '../../images/station/favicon.png';
 
 export const Radio = ({ onAudio }) => {
-  const logo = [img_181_fm, img_soundpark_deep, img_nrg_radio, img_kiss_fm];
+  const logo = [
+    img_181_fm,
+    img_soundpark_deep,
+    img_nrg_radio,
+    img_kiss_fm,
+    img_europa_plus,
+    img_radio_7,
+    img_makradiorusrock,
+    img_recordrock,
+    img_rockradio,
+    img_maximum,
+    img_dfm,
+    img_kissfmdeep,
+  ];
 
   const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
   const dispatch = useDispatch();
@@ -35,6 +53,14 @@ export const Radio = ({ onAudio }) => {
     'https://getradio.me/spdeep',
     'https://pub0202.101.ru:8443/stream/air/aac/64/99',
     'https://link.smmbox.ru/http://online.kissfm.ua/KissFM_HD',
+    'https://ep256.hostingradio.ru:8052/europaplus256.mp3',
+    'https://radio7.hostingradio.ru:8040/radio7256.mp3',
+    'https://rock.amgradio.ru/RusRock?r_bells',
+    'https://radiorecord.hostingradio.ru/rock96.aacp',
+    'https://cast2.my-control-panel.com/proxy/vladas/stream',
+    'https://maximum.hostingradio.ru/maximum96.aacp',
+    'https://dfm.hostingradio.ru/dfm96.aacp',
+    'https://www.liveradio.es/http://online.kissfm.ua/KissFM_Deep_HD',
   ];
 
   function handlePlayPause() {
@@ -141,6 +167,78 @@ export const Radio = ({ onAudio }) => {
                 alt="Live from space album cover"
               />
               KissFM_HD
+            </MenuItem>
+            <MenuItem value={4}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[4]}
+                alt="Live from space album cover"
+              />
+              Europa Plus
+            </MenuItem>
+            <MenuItem value={5}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[5]}
+                alt="Live from space album cover"
+              />
+              Радио 7
+            </MenuItem>
+            <MenuItem value={6}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[6]}
+                alt="Live from space album cover"
+              />
+              Русский Рок
+            </MenuItem>
+            <MenuItem value={7}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[7]}
+                alt="Live from space album cover"
+              />
+              Record Rock
+            </MenuItem>
+            <MenuItem value={8}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[8]}
+                alt="Live from space album cover"
+              />
+              Rock Radio
+            </MenuItem>
+            <MenuItem value={9}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[9]}
+                alt="Live from space album cover"
+              />
+              Радио Максимум
+            </MenuItem>
+            <MenuItem value={10}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[10]}
+                alt="Live from space album cover"
+              />
+              DFM
+            </MenuItem>
+            <MenuItem value={11}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36 }}
+                image={logo[11]}
+                alt="Live from space album cover"
+              />
+              Kiss FM Deep
             </MenuItem>
           </Select>
         </FormControl>

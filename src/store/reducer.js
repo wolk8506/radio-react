@@ -6,7 +6,7 @@ import {
   ZVR_PREVIOUS,
   ZVR_CURRENT,
   WEATHER_15,
-  WEATHER_LAST_DAY,
+  // WEATHER_LAST_DAY,
   PLAYER_STATION,
   LOCATION,
   KURS_TODAY_BANKS,
@@ -19,6 +19,10 @@ import {
   CURRENCY_MONO_STATUS,
   NBU_TODAY_STATUS,
   NBU_TOMORROW_STATUS,
+  WEATHER_AIR_QUALITY,
+  WEATHER_YESTERDAY,
+  WEATHER_TODAY,
+  WEATHER_TOMORROW,
 } from './actions';
 
 import {
@@ -29,6 +33,7 @@ import {
   initStateCurrencyMonoToday,
   initStateCurrencyNBUtoday,
   initStateCurrencyNBUtomorrow,
+  initStateWeatherAirQuality,
 } from './init-state-mock';
 
 import moment from 'moment';
@@ -126,14 +131,36 @@ export const weather15Reducer = (state = initStateWeather15, action) => {
   }
 };
 
+export const weatherAirQualityReducer = (
+  state = initStateWeatherAirQuality,
+  action
+) => {
+  switch (action.type) {
+    case WEATHER_AIR_QUALITY: {
+      const items = action.payload;
+      return { ...state, ...items };
+    }
+    default:
+      return state;
+  }
+};
+
 export const weatherLastDayReducer = (
   state = initStateWeatherLastDay,
   action
 ) => {
   switch (action.type) {
-    case WEATHER_LAST_DAY: {
+    case WEATHER_YESTERDAY: {
       const items = action.payload;
-      return { ...state, ...items };
+      return { ...state, ...{ yesterday: items } };
+    }
+    case WEATHER_TODAY: {
+      const items = action.payload;
+      return { ...state, ...{ today: items } };
+    }
+    case WEATHER_TOMORROW: {
+      const items = action.payload;
+      return { ...state, ...{ tomorrow: items } };
     }
     default:
       return state;

@@ -9,14 +9,20 @@ import { Humidity } from './Humidity';
 import { Clouds } from './Clouds';
 import { WindGust } from './WindGust';
 
-import { getLocation, getWeather15 } from 'store/thunks';
+import { getLocation, getWeatherToday } from 'store/thunks';
+
+import moment from 'moment';
+import 'moment/locale/ru';
+moment.locale('ru');
 
 export const Weather = () => {
   const CITY = useSelector(state => state.storeData.city);
-  const data = useSelector(state => state.storeWeather15);
+  const data = useSelector(state => state.storeWeatherLastDay.today);
   const dispatch = useDispatch();
 
-  const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}?key=D6MDZY6JMNHMG6CBQANG3GNHD&lang=ru&unitGroup=metric`;
+  // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json
+
+  const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
   // const iconSVG = sprite;
   const urlImage = 'https://www.visualcrossing.com/img/';
 
@@ -31,14 +37,15 @@ export const Weather = () => {
   useEffect(() => {
     if (CITY === null) {
       dispatch(getLocation()); //Определение локации
-    } else dispatch(getWeather15(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
+    } else dispatch(getWeatherToday(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
   }, [CITY, URL_WEATHER, dispatch]);
 
   useEffect(() => {
-    if (data.currentConditions !== undefined) {
-      setTemperature(data.currentConditions.temp); //Текущая температура в градусах цельсия
-      setImage(`${urlImage}${data.currentConditions.icon}.svg`); //Иконка погодных условий
-    }
+    // console.log(data.days[0]);
+    // if (data.currentConditions !== undefined) {
+    setTemperature(data.days[0].temp.toFixed(0)); //Текущая температура в градусах цельсия
+    setImage(`${urlImage}${data.days[0].icon}.svg`); //Иконка погодных условий
+    // }
   }, [data]);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
@@ -49,7 +56,7 @@ export const Weather = () => {
       setChangeImage(false);
       setChangeTemperature(false);
       //Запрос на погоду после определения локации и все последующие запросы
-      dispatch(getWeather15(URL_WEATHER));
+      dispatch(getWeatherToday(URL_WEATHER));
     }, 1800000);
 
     return () => clearInterval(interval);
@@ -134,22 +141,12 @@ export const Weather = () => {
               </div>
               <div className="pribor">
                 <Humidity></Humidity>
-                {/* <svg className={s.icon} width="64" height="64">
-                  <use href={`${iconSVG}#icon-raindrop1`}></use>
-                </svg>
-                &#160;&#160;
-                {`Влажность: ${humidity} %`} */}
               </div>
               <div className="pribor">
                 <WindGust></WindGust>
               </div>
               <div className="pribor">
                 <Clouds></Clouds>
-                {/* <svg className={s.icon} width="64" height="64">
-                  <use href={`${iconSVG}#icon-clouds`}></use>
-                </svg>
-                &#160;&#160;
-                {`Облачность: ${cloud} %`} */}
               </div>
             </div>
           </div>

@@ -7,10 +7,14 @@ import {
   ZVR_PREVIOUS,
   ZVR_CURRENT,
   WEATHER_15,
-  WEATHER_LAST_DAY,
+  // WEATHER_LAST_DAY,
   LOCATION,
   KURS_TODAY_BANKS,
   WEATHER_ELEMENTS,
+  WEATHER_AIR_QUALITY,
+  WEATHER_YESTERDAY,
+  WEATHER_TODAY,
+  WEATHER_TOMORROW,
 } from './actions';
 
 import moment from 'moment';
@@ -18,7 +22,7 @@ moment().locale('ru');
 
 let dateTomorrow = '';
 const dateToday = moment().format('YYYYMMDD');
-const monthPrevious = moment().add(-1, 'months').format('YYYYMM');
+// const monthPrevious = moment().add(-1, 'months').format('YYYYMM');
 const monthCurrent = moment().format('YYYYMM');
 
 switch (moment().format('dddd')) {
@@ -39,11 +43,10 @@ switch (moment().format('dddd')) {
 const URL_MONO_TODAY = `https://api.monobank.ua/bank/currency`;
 const URL_NBU_TODAY = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateToday}&json`;
 const URL_NBU_TOMORROW = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateTomorrow}&json`;
-const URL_ZVR_PREVIOUS = `https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`;
+// const URL_ZVR_PREVIOUS = `https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`;
 const URL_ZVR_CURRENT = `https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthCurrent}&json`;
 const URL_LOCATION = `https://ipapi.co/json/`;
-const URL_KURS_TODAY_BANKS =
-  'https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts';
+const URL_KURS_TODAY_BANKS = 'https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts';
 
 // kursTodayBanks,
 
@@ -103,11 +106,46 @@ export const getWeather15 = URL_WEATHER15 => {
   };
 };
 
-export const getWeatherLastDay = URL_WEATHER15 => {
+export const getWeatherAirQuality = URL => {
+  return dispatch => {
+    requestByURL(URL).then(data => {
+      dispatch({
+        type: WEATHER_AIR_QUALITY,
+        payload: data,
+      });
+    });
+  };
+};
+
+export const getWeatherYesterday = URL => {
+  return dispatch => {
+    requestByURL(URL).then(data => {
+      if (data === undefined) return;
+      dispatch({
+        type: WEATHER_YESTERDAY,
+        payload: data,
+      });
+    });
+  };
+};
+
+export const getWeatherToday = URL_WEATHER15 => {
   return dispatch => {
     requestByURL(URL_WEATHER15).then(data => {
+      if (data === undefined) return;
       dispatch({
-        type: WEATHER_LAST_DAY,
+        type: WEATHER_TODAY,
+        payload: data,
+      });
+    });
+  };
+};
+export const getWeatherTomorrow = URL => {
+  return dispatch => {
+    requestByURL(URL).then(data => {
+      if (data === undefined) return;
+      dispatch({
+        type: WEATHER_TOMORROW,
         payload: data,
       });
     });
@@ -117,7 +155,7 @@ export const getWeatherLastDay = URL_WEATHER15 => {
 export const getMonoToday = () => {
   return dispatch => {
     requestByURL(URL_MONO_TODAY).then(data => {
-      console.log('URL_MONO_TODAY', data);
+      // console.log('URL_MONO_TODAY', data);
       if (data === undefined) return;
       dispatch({
         type: CURRENCY_MONO,
@@ -149,9 +187,22 @@ export const getNBUtomorrow = () => {
   };
 };
 
-export const getZVRPrevious = () => {
+// `https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`
+
+// export const getZVRPrevious = () => {
+//   return dispatch => {
+//     requestByURL(URL_ZVR_PREVIOUS).then(data => {
+//       dispatch({
+//         type: ZVR_PREVIOUS,
+//         payload: data,
+//       });
+//     });
+//   };
+// };
+
+export const getZVRPrevious = URL => {
   return dispatch => {
-    requestByURL(URL_ZVR_PREVIOUS).then(data => {
+    requestByURL(URL).then(data => {
       dispatch({
         type: ZVR_PREVIOUS,
         payload: data,

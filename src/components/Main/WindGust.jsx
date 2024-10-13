@@ -6,7 +6,10 @@ import moment from 'moment';
 import sprite from '../../images/sprite.svg';
 
 export const WindGust = () => {
-  const data = useSelector(state => state.storeWeather15);
+  // const data = useSelector(state => state.storeWeather15);
+  const data_today = useSelector(
+    state => state.storeWeatherLastDay.today.days[0]
+  );
   const iconSVG = sprite;
 
   const [maxwind_ms, setMaxwind_ms] = useState(19.9);
@@ -14,11 +17,9 @@ export const WindGust = () => {
 
   useEffect(() => {
     setMaxwind_ms(
-      Number(
-        (data.days[0].hours[moment().format('H')].windgust / 3.6).toFixed(1)
-      )
+      Number((data_today.hours[moment().format('H')].windgust / 3.6).toFixed(1))
     ); // Порывы ветра м/с
-  }, [data]);
+  }, [data_today.hours]);
 
   // !!!!!! Стили
 

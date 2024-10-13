@@ -17,6 +17,7 @@
 @import 'components/Currency/currency-mono';
 
 @import 'components/Weather/weather';
+@import 'components/Weather/air-quality';
 @import 'components/Weather/chart-weather';
 @import 'components/Weather/tiles';
 
@@ -26,9 +27,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: $color-background-1;

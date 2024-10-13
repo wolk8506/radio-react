@@ -13,26 +13,54 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import dayjs from 'dayjs';
+
+import moment from 'moment';
 
 import { getZVRCurrent, getZVRPrevious } from 'store/thunks';
 
 export const CurrencyZVR = () => {
   const dispatch = useDispatch();
+  // const moment = require('moment');
+
+  const currentDate = moment().add(-1, 'month').format('YYYY-MM-DD');
+  const currentDatePrevious = moment().add(-1, 'month').format('YYYYMM');
+  const [value, setValue] = React.useState(dayjs(currentDate));
+  const [monthPrevious, setMonthPrevious] = React.useState(currentDatePrevious);
   useEffect(() => {
-    dispatch(getZVRPrevious());
+    // https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json
+
+    let mm;
+    let yy = value.$y;
+    if (value.$M + 1 < 10) {
+      mm = '0' + (value.$M + 1);
+    } else mm = value.$M + 1;
+    console.log(`${yy}${mm}`);
+    setMonthPrevious(`${yy}${mm}`);
+  }, [value]);
+
+  useEffect(() => {
+    const monthPrevious = moment().add(-1, 'month').format('YYYYMM');
+    dispatch(getZVRPrevious(`https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`));
     dispatch(getZVRCurrent());
   }, [dispatch]);
 
   // Обновление курса валют
   const handleUpdateCurrency = () => {
-    dispatch(getZVRPrevious());
+    dispatch(getZVRPrevious(`https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`));
     dispatch(getZVRCurrent());
+    setMonthPreviousTable(moment(monthPrevious).format('MMMM YYYY'));
   };
 
   const storeData = useSelector(state => state.storeCurrencyZVRPrevious);
   const storeData2 = useSelector(state => state.storeCurrencyZVRCurrent);
-  const moment = require('moment');
-  const monthPreviousTable = moment().add(-1, 'months').format('MMMM YYYY');
+
+  const [monthPreviousTable, setMonthPreviousTable] = React.useState(moment().add(-1, 'months').format('MMMM YYYY'));
   const monthCurrentTable = moment().format('MMMM YYYY');
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -61,30 +89,12 @@ export const CurrencyZVR = () => {
   let rows = [createData('Данные доступны после 6-го числа текущего месяца')];
   if (storeData.length !== 0) {
     rows = [
-      createData(
-        'Прочие резервные активы',
-        storeData.find(el => el.id_api === 'RES_OthReserveAssets').value
-      ),
-      createData(
-        'Резервная позиция в МВФ ',
-        storeData.find(el => el.id_api === 'RES_IMFResPosition').value
-      ),
-      createData(
-        'Специальные права заимствования ',
-        storeData.find(el => el.id_api === 'RES_SDRs').value
-      ),
-      createData(
-        'Золото ',
-        storeData.find(el => el.id_api === 'RES_Gold').value
-      ),
-      createData(
-        'Резервы в иностранной валюте',
-        storeData.find(el => el.id_api === 'RES_ForCurrencyAssets').value
-      ),
-      createData(
-        'Официальные резервные активы',
-        storeData.find(el => el.id_api === 'RES_OffReserveAssets').value
-      ),
+      createData('Прочие резервные активы', storeData.find(el => el.id_api === 'RES_OthReserveAssets').value),
+      createData('Резервная позиция в МВФ ', storeData.find(el => el.id_api === 'RES_IMFResPosition').value),
+      createData('Специальные права заимствования ', storeData.find(el => el.id_api === 'RES_SDRs').value),
+      createData('Золото ', storeData.find(el => el.id_api === 'RES_Gold').value),
+      createData('Резервы в иностранной валюте', storeData.find(el => el.id_api === 'RES_ForCurrencyAssets').value),
+      createData('Официальные резервные активы', storeData.find(el => el.id_api === 'RES_OffReserveAssets').value),
     ];
   }
 
@@ -93,41 +103,19 @@ export const CurrencyZVR = () => {
     rows2 = [createData('Данные доступны после 6-го числа текущего месяца')];
   } else {
     rows2 = [
-      createData(
-        'Прочие резервные активы',
-        storeData2.find(el => el.id_api === 'RES_OthReserveAssets').value
-      ),
-      createData(
-        'Резервная позиция в МВФ ',
-        storeData2.find(el => el.id_api === 'RES_IMFResPosition').value
-      ),
-      createData(
-        'Специальные права заимствования ',
-        storeData2.find(el => el.id_api === 'RES_SDRs').value
-      ),
-      createData(
-        'Золото ',
-        storeData2.find(el => el.id_api === 'RES_Gold').value
-      ),
-      createData(
-        'Резервы в иностранной валюте',
-        storeData2.find(el => el.id_api === 'RES_ForCurrencyAssets').value
-      ),
-      createData(
-        'Официальные резервные активы',
-        storeData2.find(el => el.id_api === 'RES_OffReserveAssets').value
-      ),
+      createData('Прочие резервные активы', storeData2.find(el => el.id_api === 'RES_OthReserveAssets').value),
+      createData('Резервная позиция в МВФ ', storeData2.find(el => el.id_api === 'RES_IMFResPosition').value),
+      createData('Специальные права заимствования ', storeData2.find(el => el.id_api === 'RES_SDRs').value),
+      createData('Золото ', storeData2.find(el => el.id_api === 'RES_Gold').value),
+      createData('Резервы в иностранной валюте', storeData2.find(el => el.id_api === 'RES_ForCurrencyAssets').value),
+      createData('Официальные резервные активы', storeData2.find(el => el.id_api === 'RES_OffReserveAssets').value),
     ];
   }
 
   return (
     <div>
       <div className="nameSection">
-        <IconButton
-          color="primary"
-          aria-label="add to shopping cart"
-          onClick={handleUpdateCurrency}
-        >
+        <IconButton color="primary" aria-label="add to shopping cart" onClick={handleUpdateCurrency}>
           <AutorenewIcon />
         </IconButton>
         <h2>Золото-валютные резервы</h2>
@@ -136,10 +124,46 @@ export const CurrencyZVR = () => {
         <TableContainer className="table" component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
-              <TableRow>
-                <TableCell align="center" colSpan={2}>
-                  Золото-валютные резервы на {monthPreviousTable}
-                </TableCell>
+              <TableRow
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginLeft: '16px',
+                  color: 'var(--color-2)',
+                }}
+              >
+                {/* <TableCell
+                  align="center"
+                  colSpan={2}
+                  // sx={{ display: 'flex', justifyContent: 'space-between ', maxWidth: '700px' }}
+                >
+                  
+                </TableCell> */}
+                <p>Золото-валютные резервы на {monthPreviousTable}</p>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={['MobileDatePicker', 'DatePicker', 'DesktopDatePicker', 'StaticDatePicker']}
+                  >
+                    <DatePicker
+                      label={'"год" и "месяц"'}
+                      views={['year', 'month']}
+                      minDate={dayjs('2020-01-01')}
+                      maxDate={dayjs(currentDate)}
+                      defaultValue={dayjs(currentDate)}
+                      value={value}
+                      // onChange={newValue => setValue(newValue)}
+                      // onClose={newValue => setValue(newValue)}
+                      // onMonthChange={newValue => setValue(newValue)}
+                      onChange={selectionState => setValue(selectionState)}
+                      slotProps={{
+                        actionBar: {
+                          actions: ['cancel', 'accept'],
+                        },
+                      }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
               </TableRow>
               <TableRow>
                 <StyledTableCell>Показатель</StyledTableCell>

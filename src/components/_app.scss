@@ -88,6 +88,20 @@ body::-webkit-scrollbar-thumb {
       }
     }
 
+    .menu-open-text {
+      width: 100px;
+      font-size: 16px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .menu-open-text__player-station {
+      margin-left: 10px;
+    }
+    .menu-open-text--player {
+      display: flex;
+    }
+
     .navigation-btn + .navigation-btn,
     .menu-open-text + .menu-open-text {
       margin-top: 20px;
@@ -107,8 +121,9 @@ body::-webkit-scrollbar-thumb {
       padding: 10px 15px 10px 10px;
       border-radius: 0px 15px 15px 0px;
       background: $color-background-5;
-      transform: translateX(-95px);
+      transform: translateX(-145px);
       transition: all 0.5s;
+      width: 160px;
 
       .menu-open-text {
         height: 40px;

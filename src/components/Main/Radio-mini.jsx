@@ -1,10 +1,5 @@
 import * as React from 'react';
 
-// import img_181_fm from '../../images/station/img-181.fm.jpg';
-// import img_kiss_fm from '../../images/station/img-kiss-fm.jpg';
-// import img_nrg_radio from '../../images/station/img-nrg-radio.jpg';
-// import img_soundpark_deep from '../../images/station/img-soundpark-deep.jpg';
-
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import IconButton from '@mui/material/IconButton';
@@ -20,6 +15,14 @@ export const RadioMini = ({ onAudio }) => {
     'https://getradio.me/spdeep',
     'https://pub0202.101.ru:8443/stream/air/aac/64/99',
     'https://link.smmbox.ru/http://online.kissfm.ua/KissFM_HD',
+    'https://ep256.hostingradio.ru:8052/europaplus256.mp3',
+    'https://radio7.hostingradio.ru:8040/radio7256.mp3',
+    'https://rock.amgradio.ru/RusRock?r_bells',
+    'https://radiorecord.hostingradio.ru/rock96.aacp',
+    'https://cast2.my-control-panel.com/proxy/vladas/stream',
+    'https://maximum.hostingradio.ru/maximum96.aacp',
+    'https://dfm.hostingradio.ru/dfm96.aacp',
+    'https://www.liveradio.es/http://online.kissfm.ua/KissFM_Deep_HD',
   ];
   const [station, setStation] = useState(PLAYER_STATION);
   const [playPause, setPlayPause] = useState(PLAYER_PLAY);

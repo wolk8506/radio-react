@@ -17,8 +17,11 @@ import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import InfoIcon from '@mui/icons-material/Info';
 import { Info } from './Info/Info';
 import IconButton from '@mui/material/IconButton';
+import equalizer from '../images/equalizer.webp';
+import equalizer_off from '../images/equalizer-off.png';
 
 export const App = () => {
+  const PLAYER_PLAY = useSelector(state => state.storeData.playerPlay);
   const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
   const [audio, setAudio] = useState();
   const [btnTab, setBtnTab] = useState('0');
@@ -37,6 +40,14 @@ export const App = () => {
     'SOUNDPARK DEEP',
     'Радио Energy',
     'KissFM_HD',
+    'Europa Plus',
+    'Радио 7',
+    'Русский Рок',
+    'Record Rock',
+    'Rock Radio',
+    'Радио Максимум',
+    'DFM',
+    'Kiss FM Deep',
   ];
 
   const handleBtnTab = e => {
@@ -179,6 +190,7 @@ export const App = () => {
                 <div className="menu-open">
                   <div>
                     <p className="menu-open-text">Меню</p>
+
                     <p className="menu-open-text">
                       {radioStationName[PLAYER_STATION]}
                     </p>
@@ -241,13 +253,49 @@ export const App = () => {
                 <div className="menu-open">
                   <div>
                     <p className="menu-open-text">Меню</p>
-                    <p className="menu-open-text">
-                      {radioStationName[PLAYER_STATION]}
-                    </p>
-                    <p className={`menu-open-text ${classBtn_0}`}>Главная</p>
-                    <p className={`menu-open-text ${classBtn_1}`}>Курс валют</p>
-                    <p className={`menu-open-text ${classBtn_2}`}>Погода</p>
-                    <p className={`menu-open-text ${classBtn_3}`}>Инфо</p>
+                    <div className="menu-open-text">
+                      {PLAYER_PLAY ? (
+                        <img src={equalizer_off} alt="equalizer" />
+                      ) : (
+                        <img src={equalizer} alt="equalizer" />
+                      )}
+
+                      <span className="menu-open-text__player-station">
+                        {radioStationName[PLAYER_STATION]}
+                      </span>
+                    </div>
+                    <button
+                      className={`menu-open-text ${classBtn_0}`}
+                      type="button"
+                      value="0"
+                      onClick={handleBtnTab}
+                    >
+                      Главная
+                    </button>
+                    <button
+                      className={`menu-open-text ${classBtn_1}`}
+                      type="button"
+                      value="1"
+                      onClick={handleBtnTab}
+                    >
+                      Курс валют
+                    </button>
+                    <button
+                      className={`menu-open-text ${classBtn_2}`}
+                      type="button"
+                      value="2"
+                      onClick={handleBtnTab}
+                    >
+                      Погода
+                    </button>
+                    <button
+                      className={`menu-open-text ${classBtn_3}`}
+                      type="button"
+                      value="3"
+                      onClick={handleBtnTab}
+                    >
+                      Инфо
+                    </button>
                   </div>
                 </div>
               </div>

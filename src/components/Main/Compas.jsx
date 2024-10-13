@@ -6,7 +6,9 @@ import sprite from '../../images/sprite.svg';
 // import arrow from './img/arrow.svg';
 
 export const Compas = () => {
-  const data = useSelector(state => state.storeWeather15);
+  const data_today = useSelector(
+    state => state.storeWeatherLastDay.today.days[0]
+  );
 
   const iconSVG = sprite;
 
@@ -16,11 +18,11 @@ export const Compas = () => {
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // console.log('data: ', data);
   useEffect(() => {
-    if (data.currentConditions !== undefined) {
-      setWind_degree(data.currentConditions.winddir);
-      setWind_ms((data.currentConditions.windspeed / 3.6).toFixed(1));
-    }
-  }, [data]);
+    // if (data_today.currentConditions !== undefined) {
+    setWind_degree(data_today.winddir);
+    setWind_ms((data_today.windspeed / 3.6).toFixed(1));
+    // }
+  }, [data_today.winddir, data_today.windspeed]);
 
   // !!!!!! Стили
 

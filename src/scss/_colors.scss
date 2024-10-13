@@ -2,6 +2,8 @@
 
 html[data-theme='dark-2'] {
   --color-1: #ffffff;
+  --color-1-10: rgb(255 255 255 / 10%);
+  --color-1-90: rgb(255 255 255 / 90%);
   --color-2: #e19646;
   --color-3: #fce3af;
   --color-4: #91e146;
@@ -13,6 +15,7 @@ html[data-theme='dark-2'] {
   --color-background-1: #000000;
   --color-background-1-50: rgba(0, 0, 0, 0.5);
   --color-background-5: #212527;
+  --color-background-5-50: rgba(33, 37, 39, 0.5);
   --color-background-7: #212325;
   --color-background-8: linear-gradient(#1b1d1f 0%, #242629 50%, #212527 100%);
   --color-background-9: linear-gradient(#1b1d1f 100%, #242629 50%, #212527 0%);
@@ -25,66 +28,47 @@ html[data-theme='dark-2'] {
   --color-background-6: linear-gradient(#191b1d 0%, #212527 100%);
 
   --box-shadow-1: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1),
-    /* Shine */ inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
-    /* Bot. shine */ 0 -1px 6px 4px #1b1d1f,
-    /* Blurred border */ 2px 2px 0 5px #1b1d1f,
-    /* Border right */ -2px 2px 0 5px #1b1d1f,
-    /* Border left */ 0 0 0 7px #141516,
-    /* Border shadow */ 0 1px 0 7px rgba(255, 255, 255, 0.1);
+    /* Shine */ inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1), /* Bot. shine */ 0 -1px 6px 4px #1b1d1f,
+    /* Blurred border */ 2px 2px 0 5px #1b1d1f, /* Border right */ -2px 2px 0 5px #1b1d1f,
+    /* Border left */ 0 0 0 7px #141516, /* Border shadow */ 0 1px 0 7px rgba(255, 255, 255, 0.1);
 
   --box-shedow-2: 0px 0px 10px #9da9a500;
 
-  --box-shadow-btn-1: 0 -5px 5px rgba(255, 255, 255, 0.15), 0 0 0 5px #1c1e1f,
-    0 0 0 8px #000, 0 20px 20px 5px rgba(0, 0, 0, 0.5),
-    0 5px 5px 8px rgba(40, 45, 47, 1), 0 0 0 13px #1a1c1e,
+  --box-shadow-btn-1: 0 -5px 5px rgba(255, 255, 255, 0.15), 0 0 0 5px #1c1e1f, 0 0 0 8px #000,
+    0 20px 20px 5px rgba(0, 0, 0, 0.5), 0 5px 5px 8px rgba(40, 45, 47, 1), 0 0 0 13px #1a1c1e,
     0 1px 1px 12px rgba(255, 255, 255, 0.5);
 
-  --box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1), 0 0 0 5px #1c1e1f,
-    0 0 0 8px #000, 0 5px 5px 8px rgba(40, 45, 47, 1), 0 0 0 13px #1a1c1e;
+  --box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1), 0 0 0 5px #1c1e1f, 0 0 0 8px #000,
+    0 5px 5px 8px rgba(40, 45, 47, 1), 0 0 0 13px #1a1c1e;
 
-  --box-shadow-3: inset 0 -1px rgba(60, 60, 60, 0.4),
-    /* Ridge 1 */ inset 0 -3px rgb(25, 25, 25),
-    /* Gradient 1 */ inset 0 -4px rgba(60, 60, 60, 0.5),
-    /* Ridge 2 */ inset 0 -6px rgb(30, 30, 30),
-    inset 0 -7px rgba(60, 60, 60, 0.6),
-    /* Ridge 3 */ inset 0 -9px rgb(35, 35, 35),
-    inset 0 -10px rgba(60, 60, 60, 0.7),
-    /* Ridge 4 */ inset 0 -12px rgb(40, 40, 40),
-    inset 0 -13px rgba(60, 60, 60, 0.8),
-    /* Ridge 5 */ inset 0 -15px rgb(45, 45, 45),
-    inset 0 -16px rgba(60, 60, 60, 0.9),
-    /* Ridge 6 */ inset 0 -18px rgb(50, 50, 50),
-    inset 0 -19px rgba(60, 60, 60, 1),
-    /* Ridge 7 */ inset 0 -21px rgb(50, 50, 50),
-    inset 0 -22px rgba(60, 60, 60, 1),
-    /* Ridge 8 */ inset 0 -24px rgb(50, 50, 50),
-    inset 0 -25px rgba(60, 60, 60, 0.9),
-    /* Ridge 9 */ inset 0 -27px rgb(45, 45, 45),
-    inset 0 -28px rgba(60, 60, 60, 0.8),
-    /* Ridge 10 */ inset 0 -30px rgb(40, 40, 40),
-    inset 0 -31px rgba(60, 60, 60, 0.7),
-    /* Ridge 11 */ inset 0 -33px rgb(35, 35, 35),
-    inset 0 -34px rgba(60, 60, 60, 0.6),
-    /* Ridge 12 */ inset 0 -36px rgb(30, 30, 30),
-    inset 0 -37px rgba(60, 60, 60, 0.5),
+  --box-shadow-3: inset 0 -1px rgba(60, 60, 60, 0.4), /* Ridge 1 */ inset 0 -3px rgb(25, 25, 25),
+    /* Gradient 1 */ inset 0 -4px rgba(60, 60, 60, 0.5), /* Ridge 2 */ inset 0 -6px rgb(30, 30, 30),
+    inset 0 -7px rgba(60, 60, 60, 0.6), /* Ridge 3 */ inset 0 -9px rgb(35, 35, 35), inset 0 -10px rgba(60, 60, 60, 0.7),
+    /* Ridge 4 */ inset 0 -12px rgb(40, 40, 40), inset 0 -13px rgba(60, 60, 60, 0.8),
+    /* Ridge 5 */ inset 0 -15px rgb(45, 45, 45), inset 0 -16px rgba(60, 60, 60, 0.9),
+    /* Ridge 6 */ inset 0 -18px rgb(50, 50, 50), inset 0 -19px rgba(60, 60, 60, 1),
+    /* Ridge 7 */ inset 0 -21px rgb(50, 50, 50), inset 0 -22px rgba(60, 60, 60, 1),
+    /* Ridge 8 */ inset 0 -24px rgb(50, 50, 50), inset 0 -25px rgba(60, 60, 60, 0.9),
+    /* Ridge 9 */ inset 0 -27px rgb(45, 45, 45), inset 0 -28px rgba(60, 60, 60, 0.8),
+    /* Ridge 10 */ inset 0 -30px rgb(40, 40, 40), inset 0 -31px rgba(60, 60, 60, 0.7),
+    /* Ridge 11 */ inset 0 -33px rgb(35, 35, 35), inset 0 -34px rgba(60, 60, 60, 0.6),
+    /* Ridge 12 */ inset 0 -36px rgb(30, 30, 30), inset 0 -37px rgba(60, 60, 60, 0.5),
     /* Ridge 13 */ inset 0 -39px rgb(25, 25, 25), 0 0 0 2px #000;
 
-  --box-shadow-4: inset 0 1px rgba(255, 255, 255, 0.1),
-    /* Top shine */ 0 6px 5px -5px rgba(0, 0, 0, 0.5),
-    /* Shadow 1 */ 0 7px 0 -2px rgba(30, 30, 30, 1),
-    /* Flip 1 */ 0 11px 5px -5px rgba(0, 0, 0, 0.5),
-    /* Shadow 2 */ 0 13px 0 -4px rgba(30, 30, 30, 0.7),
-    /* Flip 2 */ 0 16px 5px -5px rgba(0, 0, 0, 0.5),
-    /* Shadow 3 */ 0 20px 0 -8px rgba(30, 30, 30, 0.5),
-    /* Flip 3 */ 0 15px 0 5px #000, /* Black border */ 0 0 0 5px #000; /* Black border */
+  --box-shadow-4: inset 0 1px rgba(255, 255, 255, 0.1), /* Top shine */ 0 6px 5px -5px rgba(0, 0, 0, 0.5),
+    /* Shadow 1 */ 0 7px 0 -2px rgba(30, 30, 30, 1), /* Flip 1 */ 0 11px 5px -5px rgba(0, 0, 0, 0.5),
+    /* Shadow 2 */ 0 13px 0 -4px rgba(30, 30, 30, 0.7), /* Flip 2 */ 0 16px 5px -5px rgba(0, 0, 0, 0.5),
+    /* Shadow 3 */ 0 20px 0 -8px rgba(30, 30, 30, 0.5), /* Flip 3 */ 0 15px 0 5px #000,
+    /* Black border */ 0 0 0 5px #000; /* Black border */
 
-  --box-shadow-5: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1),
-    inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1), 0 -1px 6px 4px #1b1d1f,
-    2px 2px 0 2px #1b1d1f, -2px 2px 0 2px #1b1d1f, 0 0 0 3px #141516;
+  --box-shadow-5: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1), inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
+    0 -1px 6px 4px #1b1d1f, 2px 2px 0 2px #1b1d1f, -2px 2px 0 2px #1b1d1f, 0 0 0 3px #141516;
 }
 
 html[data-theme='dark'] {
   --color-1: #ffffff;
+  --color-1-10: rgb(255 255 255 / 10%);
+  --color-1-90: rgb(255 255 255 / 90%);
   --color-2: #e19646;
   --color-3: #fce3af;
   --color-4: #008000;
@@ -96,6 +80,7 @@ html[data-theme='dark'] {
   --color-background-1: #212527;
   --color-background-1-50: rgba(33, 37, 39, 0.5);
   --color-background-5: #191b1d;
+  --color-background-5-50: rgba(25, 27, 29, 0.5);
   --color-background-7: #212325;
   --color-background-8: linear-gradient(#1b1d1f 0%, #242629 50%, #212527 100%);
   --color-background-9: linear-gradient(#1b1d1f 100%, #242629 50%, #212527 0%);
@@ -108,79 +93,58 @@ html[data-theme='dark'] {
   --color-background-6: linear-gradient(#191b1d 0%, #212527 100%);
 
   --box-shadow-1: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1),
-    /* Shine */ inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
-    /* Bot. shine */ 0 -1px 6px 4px #1b1d1f,
-    /* Blurred border */ 2px 2px 0 5px #1b1d1f,
-    /* Border right */ -2px 2px 0 5px #1b1d1f,
-    /* Border left */ 0 0 0 7px #141516,
-    /* Border shadow */ 0 1px 0 7px rgba(255, 255, 255, 0.1);
+    /* Shine */ inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1), /* Bot. shine */ 0 -1px 6px 4px #1b1d1f,
+    /* Blurred border */ 2px 2px 0 5px #1b1d1f, /* Border right */ -2px 2px 0 5px #1b1d1f,
+    /* Border left */ 0 0 0 7px #141516, /* Border shadow */ 0 1px 0 7px rgba(255, 255, 255, 0.1);
 
   --box-shedow-2: 0px 0px 10px rgba(157, 169, 165, 0);
 
-  --box-shadow-btn-1: 0 -5px 5px rgba(255, 255, 255, 0.15),
-    /* Highlight */ 0 0 0 5px #1c1e1f, /* Inner shadow */ 0 0 0 8px #000,
-    /* Hole */ 0 20px 20px 5px rgba(0, 0, 0, 0.5),
-    /* Shadow */ 0 5px 5px 8px #282d2f,
-    /* Border highlight */ 0 0 0 13px #1a1c1e,
-    /* Border */ 0 1px 1px 12px rgba(255, 255, 255, 0.5); /* Sharp highlight */
+  --box-shadow-btn-1: 0 -5px 5px rgba(255, 255, 255, 0.15), /* Highlight */ 0 0 0 5px #1c1e1f,
+    /* Inner shadow */ 0 0 0 8px #000, /* Hole */ 0 20px 20px 5px rgba(0, 0, 0, 0.5), /* Shadow */ 0 5px 5px 8px #282d2f,
+    /* Border highlight */ 0 0 0 13px #1a1c1e, /* Border */ 0 1px 1px 12px rgba(255, 255, 255, 0.5); /* Sharp highlight */
 
-  --box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1),
-    0 0 0 5px rgb(28, 30, 31), 0 0 0 8px #000, 0 5px 5px 8px rgba(40, 45, 47, 1),
-    0 0 0 13px rgb(26, 28, 30);
+  --box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1), 0 0 0 5px rgb(28, 30, 31), 0 0 0 8px #000,
+    0 5px 5px 8px rgba(40, 45, 47, 1), 0 0 0 13px rgb(26, 28, 30);
 
-  --box-shadow-3: inset 0 -1px rgba(60, 60, 60, 0.4),
-    /* Ridge 1 */ inset 0 -3px rgb(25, 25, 25),
-    /* Gradient 1 */ inset 0 -4px rgba(60, 60, 60, 0.5),
-    /* Ridge 2 */ inset 0 -6px rgb(30, 30, 30),
-    inset 0 -7px rgba(60, 60, 60, 0.6),
-    /* Ridge 3 */ inset 0 -9px rgb(35, 35, 35),
-    inset 0 -10px rgba(60, 60, 60, 0.7),
-    /* Ridge 4 */ inset 0 -12px rgb(40, 40, 40),
-    inset 0 -13px rgba(60, 60, 60, 0.8),
-    /* Ridge 5 */ inset 0 -15px rgb(45, 45, 45),
-    inset 0 -16px rgba(60, 60, 60, 0.9),
-    /* Ridge 6 */ inset 0 -18px rgb(50, 50, 50),
-    inset 0 -19px rgba(60, 60, 60, 1),
-    /* Ridge 7 */ inset 0 -21px rgb(50, 50, 50),
-    inset 0 -22px rgba(60, 60, 60, 1),
-    /* Ridge 8 */ inset 0 -24px rgb(50, 50, 50),
-    inset 0 -25px rgba(60, 60, 60, 0.9),
-    /* Ridge 9 */ inset 0 -27px rgb(45, 45, 45),
-    inset 0 -28px rgba(60, 60, 60, 0.8),
-    /* Ridge 10 */ inset 0 -30px rgb(40, 40, 40),
-    inset 0 -31px rgba(60, 60, 60, 0.7),
-    /* Ridge 11 */ inset 0 -33px rgb(35, 35, 35),
-    inset 0 -34px rgba(60, 60, 60, 0.6),
-    /* Ridge 12 */ inset 0 -36px rgb(30, 30, 30),
-    inset 0 -37px rgba(60, 60, 60, 0.5),
+  --box-shadow-3: inset 0 -1px rgba(60, 60, 60, 0.4), /* Ridge 1 */ inset 0 -3px rgb(25, 25, 25),
+    /* Gradient 1 */ inset 0 -4px rgba(60, 60, 60, 0.5), /* Ridge 2 */ inset 0 -6px rgb(30, 30, 30),
+    inset 0 -7px rgba(60, 60, 60, 0.6), /* Ridge 3 */ inset 0 -9px rgb(35, 35, 35), inset 0 -10px rgba(60, 60, 60, 0.7),
+    /* Ridge 4 */ inset 0 -12px rgb(40, 40, 40), inset 0 -13px rgba(60, 60, 60, 0.8),
+    /* Ridge 5 */ inset 0 -15px rgb(45, 45, 45), inset 0 -16px rgba(60, 60, 60, 0.9),
+    /* Ridge 6 */ inset 0 -18px rgb(50, 50, 50), inset 0 -19px rgba(60, 60, 60, 1),
+    /* Ridge 7 */ inset 0 -21px rgb(50, 50, 50), inset 0 -22px rgba(60, 60, 60, 1),
+    /* Ridge 8 */ inset 0 -24px rgb(50, 50, 50), inset 0 -25px rgba(60, 60, 60, 0.9),
+    /* Ridge 9 */ inset 0 -27px rgb(45, 45, 45), inset 0 -28px rgba(60, 60, 60, 0.8),
+    /* Ridge 10 */ inset 0 -30px rgb(40, 40, 40), inset 0 -31px rgba(60, 60, 60, 0.7),
+    /* Ridge 11 */ inset 0 -33px rgb(35, 35, 35), inset 0 -34px rgba(60, 60, 60, 0.6),
+    /* Ridge 12 */ inset 0 -36px rgb(30, 30, 30), inset 0 -37px rgba(60, 60, 60, 0.5),
     /* Ridge 13 */ inset 0 -39px rgb(25, 25, 25), 0 0 0 2px #000;
 
-  --box-shadow-4: inset 0 1px rgba(255, 255, 255, 0.1),
-    /* Top shine */ 0 6px 5px -5px rgba(0, 0, 0, 0.5),
-    /* Shadow 1 */ 0 7px 0 -2px rgba(30, 30, 30, 1),
-    /* Flip 1 */ 0 11px 5px -5px rgba(0, 0, 0, 0.5),
-    /* Shadow 2 */ 0 13px 0 -4px rgba(30, 30, 30, 0.7),
-    /* Flip 2 */ 0 16px 5px -5px rgba(0, 0, 0, 0.5),
-    /* Shadow 3 */ 0 20px 0 -8px rgba(30, 30, 30, 0.5),
-    /* Flip 3 */ 0 15px 0 5px #000, /* Black border */ 0 0 0 5px #000; /* Black border */
+  --box-shadow-4: inset 0 1px rgba(255, 255, 255, 0.1), /* Top shine */ 0 6px 5px -5px rgba(0, 0, 0, 0.5),
+    /* Shadow 1 */ 0 7px 0 -2px rgba(30, 30, 30, 1), /* Flip 1 */ 0 11px 5px -5px rgba(0, 0, 0, 0.5),
+    /* Shadow 2 */ 0 13px 0 -4px rgba(30, 30, 30, 0.7), /* Flip 2 */ 0 16px 5px -5px rgba(0, 0, 0, 0.5),
+    /* Shadow 3 */ 0 20px 0 -8px rgba(30, 30, 30, 0.5), /* Flip 3 */ 0 15px 0 5px #000,
+    /* Black border */ 0 0 0 5px #000; /* Black border */
 
-  --box-shadow-5: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1),
-    inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1), 0 -1px 6px 4px #1b1d1f,
-    2px 2px 0 2px #1b1d1f, -2px 2px 0 2px #1b1d1f, 0 0 0 3px #141516;
+  --box-shadow-5: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1), inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
+    0 -1px 6px 4px #1b1d1f, 2px 2px 0 2px #1b1d1f, -2px 2px 0 2px #1b1d1f, 0 0 0 3px #141516;
 }
 html[data-theme='light'] {
   --color-1: #4d4b4a;
+  --color-1-10: rgba(77, 75, 74, 0.1);
+  --color-1-90: rgba(77, 75, 74, 0.9);
   --color-2: #795a1d;
-  --color-3: #fbf5ef;
+  --color-3: rgb(153, 153, 153);
   --color-4: #466249;
   --color-5: #c36b72;
   --color-6: #27292d;
 
-  --color-2-shadow: rgba(121, 90, 29, 0.5);
+  --color-2-shadow: hsla(40, 61%, 29%, 0.5);
 
   --color-background-1: #f1f0ee;
   --color-background-1-50: rgba(241, 240, 238, 0.5);
   --color-background-5: #eceae4;
+  --color-background-5-50: rgba(236, 234, 228, 0.5);
   --color-background-7: #caa56e;
   --color-background-8: linear-gradient(#c49f68 0%, #cda872 50%, #caa770 100%);
   --color-background-9: linear-gradient(#c49f68 100%, #cda872 50%, #caa770 0%);
@@ -195,68 +159,43 @@ html[data-theme='light'] {
   --color-background-11: linear-gradient(#e8ecfb, #e8ecfb);
 
   --box-shadow-1: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1),
-    /* Shine */ inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
-    /* Bot. shine */ 0 -1px 6px 4px #1b1d1f,
-    /* Blurred border */ 2px 2px 0 5px #1b1d1f,
-    /* Border right */ -2px 2px 0 5px #1b1d1f,
-    /* Border left */ 0 0 0 7px #141516,
-    /* Border shadow */ 0 1px 0 7px rgba(255, 255, 255, 0.1);
+    /* Shine */ inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1), /* Bot. shine */ 0 -1px 6px 4px #1b1d1f,
+    /* Blurred border */ 2px 2px 0 5px #1b1d1f, /* Border right */ -2px 2px 0 5px #1b1d1f,
+    /* Border left */ 0 0 0 7px #141516, /* Border shadow */ 0 1px 0 7px rgba(255, 255, 255, 0.1);
 
   --box-shedow-2: 0px 0px 10px #9da9a5;
 
-  --box-shadow-btn-1: 0 -5px 5px rgba(255, 255, 255, 0.15),
-    /* Highlight */ 0 0 0 5px rgb(204, 171, 120),
-    /* Inner shadow */ 0 0 0 8px rgb(169, 130, 73),
-    /* Hole */ 0 20px 20px 5px rgba(169, 130, 73, 0.5),
-    /* Shadow */ 0 5px 5px 8px rgba(209, 175, 120, 1),
-    /* Border highlight */ 0 0 0 13px rgb(195, 158, 103),
+  --box-shadow-btn-1: 0 -5px 5px rgba(255, 255, 255, 0.15), /* Highlight */ 0 0 0 5px rgb(204, 171, 120),
+    /* Inner shadow */ 0 0 0 8px rgb(169, 130, 73), /* Hole */ 0 20px 20px 5px rgba(169, 130, 73, 0.5),
+    /* Shadow */ 0 5px 5px 8px rgba(209, 175, 120, 1), /* Border highlight */ 0 0 0 13px rgb(195, 158, 103),
     /* Border */ 0 1px 1px 12px rgba(255, 255, 255, 0.5); /* Sharp highlight */
 
-  --box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1),
-    0 0 0 5px rgb(197, 160, 104), 0 0 0 8px rgb(169, 130, 73),
+  --box-shadow-btn-2: 0 -5px 20px rgba(255, 255, 255, 0.1), 0 0 0 5px rgb(197, 160, 104), 0 0 0 8px rgb(169, 130, 73),
     0 5px 5px 8px rgba(209, 175, 120, 1), 0 0 0 13px rgb(195, 158, 103);
 
-  --box-shadow-3: inset 0 -1px rgba(229, 190, 133, 0.4),
-    /* Ridge 1 */ inset 0 -3px rgb(194, 155, 98),
-    /* Gradient 1 */ inset 0 -4px rgba(229, 190, 133, 0.5),
-    /* Ridge 2 */ inset 0 -6px rgb(199, 160, 103),
-    inset 0 -7px rgba(229, 190, 133, 0.6),
-    /* Ridge 3 */ inset 0 -9px rgb(204, 165, 108),
-    inset 0 -10px rgba(229, 190, 133, 0.7),
-    /* Ridge 4 */ inset 0 -12px rgb(209, 170, 113),
-    inset 0 -13px rgba(229, 190, 133, 0.8),
-    /* Ridge 5 */ inset 0 -15px rgb(214, 175, 118),
-    inset 0 -16px rgba(229, 190, 133, 0.9),
-    /* Ridge 6 */ inset 0 -18px rgb(219, 180, 123),
-    inset 0 -19px rgba(229, 190, 133, 1),
-    /* Ridge 7 */ inset 0 -21px rgb(219, 180, 123),
-    inset 0 -22px rgba(229, 190, 133, 1),
-    /* Ridge 8 */ inset 0 -24px rgb(219, 180, 123),
-    inset 0 -25px rgba(229, 190, 133, 0.9),
-    /* Ridge 9 */ inset 0 -27px rgb(214, 175, 118),
-    inset 0 -28px rgba(229, 190, 133, 0.8),
-    /* Ridge 10 */ inset 0 -30px rgb(209, 170, 113),
-    inset 0 -31px rgba(229, 190, 133, 0.7),
-    /* Ridge 11 */ inset 0 -33px rgb(204, 165, 108),
-    inset 0 -34px rgba(229, 190, 133, 0.6),
-    /* Ridge 12 */ inset 0 -36px rgb(199, 160, 103),
-    inset 0 -37px rgba(229, 190, 133, 0.5),
-    /* Ridge 13 */ inset 0 -39px rgb(194, 155, 98), 0 0 0 2px rgb(169, 130, 73);
+  --box-shadow-3: inset 0 -1px rgba(229, 190, 133, 0.4), /* Ridge 1 */ inset 0 -3px rgb(194, 155, 98),
+    /* Gradient 1 */ inset 0 -4px rgba(229, 190, 133, 0.5), /* Ridge 2 */ inset 0 -6px rgb(199, 160, 103),
+    inset 0 -7px rgba(229, 190, 133, 0.6), /* Ridge 3 */ inset 0 -9px rgb(204, 165, 108),
+    inset 0 -10px rgba(229, 190, 133, 0.7), /* Ridge 4 */ inset 0 -12px rgb(209, 170, 113),
+    inset 0 -13px rgba(229, 190, 133, 0.8), /* Ridge 5 */ inset 0 -15px rgb(214, 175, 118),
+    inset 0 -16px rgba(229, 190, 133, 0.9), /* Ridge 6 */ inset 0 -18px rgb(219, 180, 123),
+    inset 0 -19px rgba(229, 190, 133, 1), /* Ridge 7 */ inset 0 -21px rgb(219, 180, 123),
+    inset 0 -22px rgba(229, 190, 133, 1), /* Ridge 8 */ inset 0 -24px rgb(219, 180, 123),
+    inset 0 -25px rgba(229, 190, 133, 0.9), /* Ridge 9 */ inset 0 -27px rgb(214, 175, 118),
+    inset 0 -28px rgba(229, 190, 133, 0.8), /* Ridge 10 */ inset 0 -30px rgb(209, 170, 113),
+    inset 0 -31px rgba(229, 190, 133, 0.7), /* Ridge 11 */ inset 0 -33px rgb(204, 165, 108),
+    inset 0 -34px rgba(229, 190, 133, 0.6), /* Ridge 12 */ inset 0 -36px rgb(199, 160, 103),
+    inset 0 -37px rgba(229, 190, 133, 0.5), /* Ridge 13 */ inset 0 -39px rgb(194, 155, 98), 0 0 0 2px rgb(169, 130, 73);
 
-  --box-shadow-4: inset 0 1px rgba(255, 255, 255, 0.1),
-    /* Top shine */ 0 6px 5px -5px rgba(169, 130, 73, 0.5),
-    /* Shadow 1 */ 0 7px 0 -2px rgba(199, 160, 103, 1),
-    /* Flip 1 */ 0 11px 5px -5px rgba(169, 130, 73, 0.5),
-    /* Shadow 2 */ 0 13px 0 -4px rgba(199, 160, 103, 0.7),
-    /* Flip 2 */ 0 16px 5px -5px rgba(169, 130, 73, 0.5),
-    /* Shadow 3 */ 0 20px 0 -8px rgba(199, 160, 103, 0.5),
-    /* Flip 3 */ 0 15px 0 5px rgb(169, 130, 73),
+  --box-shadow-4: inset 0 1px rgba(255, 255, 255, 0.1), /* Top shine */ 0 6px 5px -5px rgba(169, 130, 73, 0.5),
+    /* Shadow 1 */ 0 7px 0 -2px rgba(199, 160, 103, 1), /* Flip 1 */ 0 11px 5px -5px rgba(169, 130, 73, 0.5),
+    /* Shadow 2 */ 0 13px 0 -4px rgba(199, 160, 103, 0.7), /* Flip 2 */ 0 16px 5px -5px rgba(169, 130, 73, 0.5),
+    /* Shadow 3 */ 0 20px 0 -8px rgba(199, 160, 103, 0.5), /* Flip 3 */ 0 15px 0 5px rgb(169, 130, 73),
     /* Black border */ 0 0 0 5px rgb(169, 130, 73); /* Black border */
 
-  --box-shadow-5: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1),
-    inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
-    0 -1px 6px 4px rgb(196, 159, 104), 2px 2px 0 2px rgb(196, 159, 104),
-    -2px 2px 0 2px rgb(196, 159, 104), 0 0 0 3px rgb(189, 151, 95);
+  --box-shadow-5: inset 0 1px 2px 1px rgba(255, 255, 255, 0.1), inset 0 -4px 2px -3px rgba(255, 255, 255, 0.1),
+    0 -1px 6px 4px rgb(196, 159, 104), 2px 2px 0 2px rgb(196, 159, 104), -2px 2px 0 2px rgb(196, 159, 104),
+    0 0 0 3px rgb(189, 151, 95);
 }
 
 // *  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ***
@@ -264,6 +203,8 @@ html[data-theme='light'] {
 // *  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ***
 
 $color-1: var(--color-1);
+$color-1-10: var(--color-1-10);
+$color-1-90: var(--color-1-90);
 $color-2: var(--color-2);
 $color-3: var(--color-3);
 $color-4: var(--color-4);
@@ -280,6 +221,7 @@ $color-background-2: var(--color-background-2);
 $color-background-3: var(--color-background-3);
 $color-background-4: var(--color-background-4);
 $color-background-5: var(--color-background-5);
+$color-background-5-50: var(--color-background-5-50);
 $color-background-6: var(--color-background-6);
 $color-background-7: var(--color-background-7);
 $color-background-8: var(--color-background-8);

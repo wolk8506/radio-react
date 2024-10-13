@@ -20,6 +20,10 @@ export const KURS_TODAY_BANKS_STATUS = 'KURS_TODAY_BANKS_STATUS';
 export const CURRENCY_MONO_STATUS = 'CURRENCY_MONO_STATUS';
 export const NBU_TOMORROW_STATUS = 'NBU_TOMORROW_STATUS';
 export const NBU_TODAY_STATUS = 'NBU_TODAY_STATUS';
+export const WEATHER_AIR_QUALITY = 'WEATHER_AIR_QUALITY';
+export const WEATHER_YESTERDAY = 'WEATHER_YESTERDAY';
+export const WEATHER_TODAY = 'WEATHER_TODAY';
+export const WEATHER_TOMORROW = 'WEATHER_TOMORROW';
 
 const makeActionCreater = (type, keys) => {
   return (...values) => {
@@ -57,9 +61,23 @@ export const currencyYesterday = makeActionCreater(CURRENCY_YESTERDAY, [
 ]);
 export const addWeatherCity = makeActionCreater(ADD_WEATHER_CITY, ['city2']);
 
+// !  Weather
 export const weather_elements = makeActionCreater(WEATHER_ELEMENTS, ['data']);
 export const weather_15 = makeActionCreater(WEATHER_15, ['data']);
-export const weather_last_day = makeActionCreater(WEATHER_LAST_DAY, ['data']);
+export const weather_AirQuality = makeActionCreater(WEATHER_AIR_QUALITY, [
+  'data',
+]);
+// export const weather_last_day = makeActionCreater(WEATHER_LAST_DAY, ['data']);
+
+export const weather_yesterday = makeActionCreater(WEATHER_YESTERDAY, [
+  'yesterday',
+]);
+export const weather_today = makeActionCreater(WEATHER_TODAY, ['today']);
+export const weather_tomorrow = makeActionCreater(WEATHER_TOMORROW, [
+  'tomorrow',
+]);
+// !  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 export const currencyMonoToday = makeActionCreater(CURRENCY_MONO, ['data']);
 export const currencyMonoTodayStatus = makeActionCreater(CURRENCY_MONO_STATUS, [
   'status',

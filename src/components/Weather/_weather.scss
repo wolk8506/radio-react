@@ -161,8 +161,515 @@
     fill: $color-2;
   }
 }
+
+// TODO:  ⇩ ⇩ ⇩ погода от MSN
+
+.weather {
+  width: 1260px;
+  margin-right: auto;
+  margin-left: auto;
+
+  .weather__search {
+    border-radius: 15px;
+    padding: 16px;
+    background: var(--color-background-5);
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+
+    .search-group {
+      display: flex;
+      align-items: center;
+      // .search-group__input {
+      // }
+    }
+  }
+  .search__input-group {
+    right: 0px;
+    padding-right: 10px;
+    // border: 1px solid #faf9f826;
+    border: 1px solid $color-2-shadow;
+    border-radius: 12px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 281px;
+    box-shadow: none;
+    color: unset;
+    backdrop-filter: blur(60px);
+    background-color: #ffffff12;
+    // border-color: #faf9f826;
+    margin-left: 0px !important;
+    flex-wrap: wrap;
+    padding: 0;
+
+    & input {
+      margin-left: 6px;
+
+      // -webkit-appearance: none;
+      // -moz-appearance: none;
+      appearance: none;
+
+      width: calc(100% - 80px);
+      height: 40px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+      font-family: inherit;
+      box-sizing: border-box;
+      margin: 0;
+      transition: all 0.2s ease-in-out;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+
+      padding: 0 11px;
+
+      height: 38px;
+
+      outline: none;
+      box-shadow: 0 0 0 1px #787878 inset;
+
+      box-shadow: none;
+
+      border-top: none;
+      border-bottom: none;
+
+      border-radius: 0px;
+      // border: 1px solid #646464;
+      // border: 1px solid $color-2-shadow;
+      // border-radius: 2px;
+      border-color: #787878;
+      border: 0px;
+
+      background: none !important;
+      padding: 0 10px;
+
+      // color: #f5f5f5;
+      // color: #ffffffe6 !important;
+      color: $color-2;
+    }
+
+    .input-group__btn-location {
+      margin-left: 10px;
+    }
+
+    & button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0px;
+      background: none;
+      height: 12px;
+      width: 15px;
+      margin-right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $color-3;
+    }
+  }
+
+  .search__card-city {
+    margin-left: 8px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    height: 40px;
+
+    .card-city {
+      height: 40px;
+      padding: 9px 16px 9px 16px;
+      gap: 10px;
+      border-radius: 12px;
+      // border: 1px solid rgba(250, 249, 248, 0.15);
+      border: 1px solid $color-2-shadow;
+      box-sizing: border-box;
+      background: #ffffff0d;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 16px;
+      cursor: pointer;
+      // color: #ffffffe6;
+      color: $color-2;
+    }
+
+    .card-city__image {
+      width: 22px;
+    }
+  }
+
+  .weathet__block-day {
+    display: flex;
+    justify-content: space-between;
+  }
+  .weather__current-day {
+    background: var(--color-background-5);
+    width: 620px;
+    height: 270px;
+    border-radius: 15px;
+    padding: 16px 0px 0px;
+    margin-bottom: 20px;
+
+    .current-day__label {
+      padding: 0px 16px;
+
+      .label__title {
+        font-size: 14px;
+        line-height: 22px;
+        font-weight: 600;
+      }
+
+      .label__time {
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+
+    .current-day__summary {
+      padding: 0px 0px 0px 16px;
+
+      .summary__overview {
+        display: flex;
+        align-items: center;
+
+        .overview__image {
+          width: 100px;
+          height: 100px;
+        }
+
+        .overview__temperatura {
+          margin-left: 8px;
+          font-size: 64px;
+          line-height: 62px;
+          display: flex;
+          align-items: flex-start;
+        }
+
+        .overview__temperatura span {
+          height: 100%;
+          font-size: 34px;
+          display: flex;
+          line-height: 1.5;
+          align-items: flex-start;
+        }
+
+        .overview__feedback {
+          margin: 0px 0px 0px 32px;
+
+          .feedback__condition {
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: 600;
+          }
+          .feedback__temperature {
+            font-size: 14px;
+            line-height: 16px;
+            opacity: 0.8;
+            margin-right: 12px;
+          }
+        }
+      }
+      .summary__description {
+        height: 65px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 9px;
+        font-size: 16px;
+        line-height: 22px;
+        margin: 0;
+      }
+    }
+    .weather__detail-line {
+      // border: 1px red solid;
+      padding-left: 16px;
+      margin-bottom: 16px;
+      padding-right: 16px;
+      display: flex;
+      justify-content: space-between;
+
+      .detail-line__title {
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 16px;
+      }
+      .detail-line__value {
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: normal;
+      }
+      .detail-line__value--wind {
+        display: flex;
+        align-items: center;
+        & svg {
+          fill: $color-2;
+        }
+      }
+    }
+  }
+
+  .weather__air-quality {
+    // border: 1px red solid;
+    border-radius: 15px;
+    width: 620px;
+    height: 270px;
+    background: $color-background-5;
+    padding: 16px;
+    // & div {
+    //   margin: 5px;
+    // }
+    //   & td,
+    //   & table {
+    //     border: 1px solid rgba(255, 251, 0, 0.103);
+    //   }
+    //   th:nth-child(2),
+    //   td:nth-child(2) {
+    //     color: #cfcfcf;
+    //     text-align: right;
+    //   }
+    //   th:nth-child(3),
+    //   td:nth-child(3) {
+    //     color: #00982e;
+    //     text-align: center;
+    //     // width: 70px;
+    //   }
+    //   th:nth-child(4),
+    //   td:nth-child(4) {
+    //     color: #6ec000;
+    //     text-align: center;
+    //   }
+    //   th:nth-child(5),
+    //   td:nth-child(5) {
+    //     color: #c8b900;
+    //     text-align: center;
+    //   }
+    //   th:nth-child(6),
+    //   td:nth-child(6) {
+    //     color: #d89d00;
+    //     text-align: center;
+    //   }
+    //   th:nth-child(7),
+    //   td:nth-child(7) {
+    //     color: #db6500;
+    //     text-align: center;
+    //   }
+    //   th:nth-child(8),
+    //   td:nth-child(8) {
+    //     color: #ce0000;
+    //     text-align: center;
+    //   }
+  }
+
+  .weather__month {
+    // border: 1px red solid;
+    width: 1260px;
+    // height: 627px;
+    border-radius: 15px;
+    background: $color-background-5;
+    padding: 12px 16px 1px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    .month__day-name {
+      display: flex;
+      justify-content: space-between;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      .day-name__item {
+        list-style: none;
+        // width: 164px;
+        width: calc((1260px - 32px) / 7);
+        padding: 0;
+        margin-bottom: 15px;
+      }
+    }
+
+    .month__block-day {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      // justify-content: start;
+      flex-wrap: wrap;
+
+      .block-day__card {
+        list-style: none;
+        width: calc((1260px - 32px) / 7);
+        height: 115px;
+        padding-right: 5px;
+        position: relative;
+
+        .card__block {
+          border: 1px rgba(255, 255, 255, 0) solid;
+          width: 100%;
+          height: 85px;
+          padding: 0;
+          margin: 0;
+          border-radius: 6px;
+          position: relative;
+
+          &.card__block--on::after {
+            position: absolute;
+            content: '';
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            background: $color-background-5-50;
+            top: 0;
+            left: 0;
+          }
+          &.card__block--current {
+            border: 1px $color-3 solid;
+          }
+
+          .block__title {
+            margin: 4px 0px 0px 8px;
+            font-size: 14px;
+          }
+          .block__description {
+            display: flex;
+            padding: 0px 16px;
+
+            .description__text {
+              display: flex;
+              flex-direction: column;
+              margin-left: 6px;
+
+              p {
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 24px;
+              }
+            }
+          }
+        }
+
+        .card__block:hover {
+          border: 1px $color-3 solid;
+        }
+
+        .card__detail {
+          // color: red;
+          position: absolute;
+          // opacity: 0;
+          display: none;
+          bottom: 50%;
+          left: 50%;
+          width: 80%;
+          z-index: 1;
+          .detail__item {
+            display: flex;
+            align-items: center;
+            padding: 3px;
+
+            svg {
+              margin-right: 6px;
+            }
+          }
+        }
+
+        .card__block:hover + .card__detail,
+        .card__detail:hover {
+          background: black;
+          display: block;
+          // border: 1px white solid;
+          border-radius: 15px;
+          padding: 10px;
+          opacity: 1 !important;
+          fill: aliceblue;
+        }
+
+        .card__detail:hover ~ .card__block:hover {
+          border: 1px $color-3 solid;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    .weather__current-day {
+      width: 100%;
+      margin-top: 40px;
+      background: none;
+      padding: 0;
+
+      .current-day__label {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .label__title {
+          font-size: 12px;
+        }
+
+        .label__time {
+          font-size: 12px;
+        }
+      }
+
+      .current-day__summary {
+        padding: 0;
+        .summary__overview {
+          .overview__image {
+            width: 80px;
+            height: 80px;
+          }
+
+          .overview__temperatura {
+            font-size: 56px;
+          }
+
+          .overview__temperatura span {
+            font-size: 30px;
+          }
+
+          .overview__feedback {
+            .feedback__condition {
+              font-size: 14px;
+            }
+            .feedback__temperature {
+              font-size: 12px;
+            }
+          }
+        }
+        .summary__description {
+          font-size: 14px;
+        }
+      }
+
+      .weather__detail-line {
+        padding: 0;
+        .detail-line__title {
+        }
+        .detail-line__value {
+        }
+        .detail-line__value--wind {
+          & svg {
+          }
+        }
+      }
+      .weather__detail-line div:nth-child(1),
+      .weather__detail-line div:nth-child(6) {
+        display: none;
+      }
+    }
+    .weather__air-quality {
+      display: none;
+    }
+  }
+}
+// TODO: ⇧ ⇧ ⇧ погода от MSN
 @media screen and (max-width: 720px) {
   .weather {
+    width: 100%;
+
     .dayCard {
       width: 100%;
     }

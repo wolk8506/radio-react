@@ -78,14 +78,17 @@ function Tick({ index, value }) {
 }
 
 function DemoF() {
-  const data = useSelector(state => state.storeWeather15);
+  // const data = useSelector(state => state.storeWeather15);
+  const data_today = useSelector(
+    state => state.storeWeatherLastDay.today.days[0]
+  );
   const [value, setHumidity] = useState(0);
   useEffect(() => {
-    if (data.currentConditions !== undefined) {
-      // console.log('Влажность ошибка');
-      setHumidity(data.currentConditions.humidity); // Влажность
-    }
-  }, [data]);
+    // if (data.currentConditions !== undefined) {
+    // console.log('Влажность ошибка');
+    setHumidity(data_today.humidity); // Влажность
+    // }
+  }, [data_today.humidity]);
 
   return /*#__PURE__*/ React.createElement(
     Card,
