@@ -135,7 +135,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={0}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[0]}
                 alt="Live from space album cover"
               />
@@ -144,7 +144,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={1}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[1]}
                 alt="Live from space album cover"
               />
@@ -153,7 +153,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={2}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[2]}
                 alt="Live from space album cover"
               />
@@ -162,7 +162,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={3}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[3]}
                 alt="Live from space album cover"
               />
@@ -171,7 +171,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={4}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[4]}
                 alt="Live from space album cover"
               />
@@ -180,7 +180,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={5}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[5]}
                 alt="Live from space album cover"
               />
@@ -189,7 +189,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={6}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[6]}
                 alt="Live from space album cover"
               />
@@ -198,7 +198,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={7}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[7]}
                 alt="Live from space album cover"
               />
@@ -207,7 +207,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={8}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[8]}
                 alt="Live from space album cover"
               />
@@ -216,7 +216,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={9}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[9]}
                 alt="Live from space album cover"
               />
@@ -225,7 +225,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={10}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[10]}
                 alt="Live from space album cover"
               />
@@ -234,7 +234,7 @@ export const Radio = ({ onAudio }) => {
             <MenuItem value={11}>
               <CardMedia
                 component="img"
-                sx={{ width: 36 }}
+                sx={{ width: 36, marginRight: '8px' }}
                 image={logo[11]}
                 alt="Live from space album cover"
               />
@@ -244,16 +244,9 @@ export const Radio = ({ onAudio }) => {
         </FormControl>
       </div>
 
-      <figure
-        className={playPause ? 'toggle' : 'toggle_on'}
-        onClick={handlePlayPause}
-      >
+      <figure className={playPause ? 'toggle' : 'toggle_on'} onClick={handlePlayPause}>
         <div className="btn_play">
-          {playPause ? (
-            <PlayArrowIcon sx={{ fontSize: 40 }} />
-          ) : (
-            <PauseIcon sx={{ fontSize: 40 }} />
-          )}
+          {playPause ? <PlayArrowIcon sx={{ fontSize: 40 }} /> : <PauseIcon sx={{ fontSize: 40 }} />}
         </div>
       </figure>
     </div>

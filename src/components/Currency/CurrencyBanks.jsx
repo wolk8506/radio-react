@@ -2,8 +2,6 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { getKursTodayBanks } from 'store/thunks';
-
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,30 +14,37 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
+import LoadingButton from '@mui/lab/LoadingButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { kursTodayBanksStatus } from 'store/actions';
-
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+
+import {
+  getCurrencyBanksToday_Loading,
+  getCurrencyBanksToday_Status,
+  getCurrencyBanksToday_TimeUpdate,
+  getCurrencyBanksToday_Data,
+} from '../../store/selectors';
+import { fetchCurrencyBanksToday } from '../../store/operation';
 
 export const CurrencyBanks = () => {
   const dispatch = useDispatch();
 
+  const timeUpdate = useSelector(getCurrencyBanksToday_TimeUpdate);
+  const loading = useSelector(getCurrencyBanksToday_Loading);
+  const status = useSelector(getCurrencyBanksToday_Status);
+  const storeData = useSelector(getCurrencyBanksToday_Data);
+
+  console.log(storeData);
+
   useEffect(() => {
-    dispatch(getKursTodayBanks());
+    dispatch(fetchCurrencyBanksToday('https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts'));
   }, [dispatch]);
 
   // Обновление курса валют
   const handleUpdateCurrency = () => {
-    dispatch(getKursTodayBanks());
-    dispatch(kursTodayBanksStatus(false));
+    dispatch(fetchCurrencyBanksToday('https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts'));
   };
-  const BANK = useSelector(state => state.storeKursTodayBanks.data);
-  const TIME = useSelector(state => state.storeKursTodayBanks.time);
-  const STATUS = useSelector(state => state.storeKursTodayBanks.status);
-
-  // console.log('STATUS', STATUS);
 
   // !!! Контроллер выбора банка    !!!
   const [valueBank1, setValueBank1] = useState('12');
@@ -106,13 +111,13 @@ export const CurrencyBanks = () => {
   useEffect(() => {
     const arr = [];
 
-    for (let key in BANK) {
-      if (BANK.hasOwnProperty(key)) {
-        arr.push({ key: key, name: BANK[key].name });
+    for (let key in storeData) {
+      if (storeData.hasOwnProperty(key)) {
+        arr.push({ key: key, name: storeData[key].name });
       }
     }
     setListBank(arr);
-  }, [BANK]);
+  }, [storeData]);
 
   const handleChangeBank1 = e => {
     setValueBank1(e.target.value);
@@ -147,87 +152,44 @@ export const CurrencyBanks = () => {
     return { name, buy, sel };
   }
   let rows = [
-    createData(
-      'Евро',
-      BANK[valueBank1].rates.eur.buy,
-      BANK[valueBank1].rates.eur.sel
-    ),
-    createData(
-      'Доллар',
-      BANK[valueBank1].rates.usd.buy,
-      BANK[valueBank1].rates.usd.sel
-    ),
-    createData(
-      'Злотый',
-      BANK[valueBank1].rates.pln.buy,
-      BANK[valueBank1].rates.pln.sel
-    ),
-    createData(
-      'Фунт стерлингов',
-      BANK[valueBank1].rates.gbp.buy,
-      BANK[valueBank1].rates.gbp.sel
-    ),
-    createData(
-      'Российский рубль',
-      BANK[valueBank1].rates.rur.buy,
-      BANK[valueBank1].rates.rur.sel
-    ),
-    createData(
-      'Швейцарский франк',
-      BANK[valueBank1].rates.chf.buy,
-      BANK[valueBank1].rates.chf.sel
-    ),
+    createData('Евро', storeData[valueBank1].rates.eur.buy, storeData[valueBank1].rates.eur.sel),
+    createData('Доллар', storeData[valueBank1].rates.usd.buy, storeData[valueBank1].rates.usd.sel),
+    createData('Злотый', storeData[valueBank1].rates.pln.buy, storeData[valueBank1].rates.pln.sel),
+    createData('Фунт стерлингов', storeData[valueBank1].rates.gbp.buy, storeData[valueBank1].rates.gbp.sel),
+    createData('Российский рубль', storeData[valueBank1].rates.rur.buy, storeData[valueBank1].rates.rur.sel),
+    createData('Швейцарский франк', storeData[valueBank1].rates.chf.buy, storeData[valueBank1].rates.chf.sel),
   ];
 
   let rows2 = [
-    createData(
-      'Евро',
-      BANK[valueBank2].rates.eur.buy,
-      BANK[valueBank2].rates.eur.sel
-    ),
-    createData(
-      'Доллар',
-      BANK[valueBank2].rates.usd.buy,
-      BANK[valueBank2].rates.usd.sel
-    ),
-    createData(
-      'Злотый',
-      BANK[valueBank2].rates.pln.buy,
-      BANK[valueBank2].rates.pln.sel
-    ),
-    createData(
-      'Фунт стерлингов',
-      BANK[valueBank2].rates.gbp.buy,
-      BANK[valueBank2].rates.gbp.sel
-    ),
-    createData(
-      'Российский рубль',
-      BANK[valueBank2].rates.rur.buy,
-      BANK[valueBank2].rates.rur.sel
-    ),
-    createData(
-      'Швейцарский франк',
-      BANK[valueBank2].rates.chf.buy,
-      BANK[valueBank2].rates.chf.sel
-    ),
+    createData('Евро', storeData[valueBank2].rates.eur.buy, storeData[valueBank2].rates.eur.sel),
+    createData('Доллар', storeData[valueBank2].rates.usd.buy, storeData[valueBank2].rates.usd.sel),
+    createData('Злотый', storeData[valueBank2].rates.pln.buy, storeData[valueBank2].rates.pln.sel),
+    createData('Фунт стерлингов', storeData[valueBank2].rates.gbp.buy, storeData[valueBank2].rates.gbp.sel),
+    createData('Российский рубль', storeData[valueBank2].rates.rur.buy, storeData[valueBank2].rates.rur.sel),
+    createData('Швейцарский франк', storeData[valueBank2].rates.chf.buy, storeData[valueBank2].rates.chf.sel),
   ];
 
   return (
     <div>
       <div className="nameSection">
-        <IconButton
-          color="primary"
-          aria-label="add to shopping cart"
+        <LoadingButton
+          className="load-btn"
           onClick={handleUpdateCurrency}
+          loading={loading}
+          // loadingIndicator="Loading…"
+          loadingPosition="start" //loadingPosition="end"
+          variant="outlined" //outlined // contained
+          startIcon={<AutorenewIcon />}
         >
-          <AutorenewIcon />
-        </IconButton>
-        <h2>Курс валют в банках. Время обновления {TIME}</h2>
-        {STATUS ? (
-          <CheckCircleOutlineIcon color="success" />
-        ) : (
-          <WarningAmberIcon color="warning" />
-        )}
+          Обновить
+        </LoadingButton>
+        <h2>Курс валют в банках.</h2>
+        <div className="update-block">
+          {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+          <p className="update-time" title="Время обновления данных с сервера.">
+            {timeUpdate}
+          </p>
+        </div>
       </div>
 
       <div className="tables">
@@ -236,16 +198,10 @@ export const CurrencyBanks = () => {
             <TableHead>
               <TableRow>
                 <div className="tableName">
-                  <img
-                    src={BANK[valueBank1].image}
-                    alt={BANK[valueBank1].name}
-                    width={64}
-                  />
+                  <img src={storeData[valueBank1].image} alt={storeData[valueBank1].name} width={64} />
 
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-                    <InputLabel id="demo-simple-select-standard-label">
-                      Банк
-                    </InputLabel>
+                    <InputLabel id="demo-simple-select-standard-label">Банк</InputLabel>
                     <Select
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
@@ -286,16 +242,10 @@ export const CurrencyBanks = () => {
             <TableHead>
               <TableRow>
                 <div className="tableName">
-                  <img
-                    src={BANK[valueBank2].image}
-                    alt={BANK[valueBank2].name}
-                    width={64}
-                  />
+                  <img src={storeData[valueBank2].image} alt={storeData[valueBank2].name} width={64} />
 
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-                    <InputLabel id="demo-simple-select-standard-label">
-                      Банк
-                    </InputLabel>
+                    <InputLabel id="demo-simple-select-standard-label">Банк</InputLabel>
                     <Select
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"

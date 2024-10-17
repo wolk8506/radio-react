@@ -15,7 +15,7 @@ form {
 }
 
 #cur1 {
-  margin-right: 32px;
+  // margin-right: 32px;
 }
 
 #cur1,
@@ -32,6 +32,56 @@ form {
   width: 500px;
   border-radius: 15px;
   margin: 20px;
+  .text-field-block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .text-field {
+      .MuiInputBase-input::-webkit-outer-spin-button,
+      .MuiInputBase-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .MuiInputBase-root.MuiInput-root::after {
+        border-bottom: 2px solid $color-2-shadow;
+        left: 12px;
+
+        right: 12px;
+      }
+
+      .MuiInput-root::before {
+        left: 12px;
+        right: 12px;
+        border-bottom: 1px solid $color-3;
+      }
+    }
+  }
+
+  .currency-btn-revert {
+    color: $color-3;
+  }
+  .MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before {
+    border-bottom: 1px solid $color-2-shadow;
+  }
+  .currency-select {
+    width: 200px;
+    .MuiSvgIcon-root {
+      color: $color-3;
+    }
+
+    .MuiFilledInput-root:before {
+      border-bottom: 1px solid $color-3;
+    }
+    .MuiInputBase-root::after {
+      border-bottom: 2px solid $color-2-shadow;
+    }
+  }
+}
+
+.MuiPopover-paper.MuiMenu-paper {
+  background-color: $color-background-1;
+  color: $color-2;
 }
 
 @media screen and (max-width: 720px) {
@@ -45,5 +95,10 @@ form {
   }
   #cur1 {
     margin-right: 0px;
+  }
+  .text-field-block {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
   }
 }

@@ -1,9 +1,24 @@
 import * as React from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import {
+  getCurrencyZVRPrevious_Loading,
+  getCurrencyZVRPrevious_Status,
+  getCurrencyZVRPrevious_TimeUpdate,
+  getCurrencyZVRPrevious_Data,
+  getCurrencyZVRCurrent_Loading,
+  getCurrencyZVRCurrent_Status,
+  getCurrencyZVRCurrent_TimeUpdate,
+  getCurrencyZVRCurrent_Data,
+} from '../../store/selectors';
+import { fetchCurrencyZVRPrevious, fetchCurrencyZVRCurrent } from '../../store/operation';
+// import { getZVRCurrent } from 'store/thunks';
 
 import { styled } from '@mui/material/styles';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -11,57 +26,73 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import LoadingButton from '@mui/lab/LoadingButton';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import dayjs from 'dayjs';
+import ru from 'dayjs/locale/ru';
 
 import moment from 'moment';
 
-import { getZVRCurrent, getZVRPrevious } from 'store/thunks';
-
 export const CurrencyZVR = () => {
+  const BASE_URL = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/res';
   const dispatch = useDispatch();
-  // const moment = require('moment');
+  // test
+  const timeUpdate = useSelector(getCurrencyZVRPrevious_TimeUpdate);
+  const loading = useSelector(getCurrencyZVRPrevious_Loading);
+  const status = useSelector(getCurrencyZVRPrevious_Status);
+  const storeData = useSelector(getCurrencyZVRPrevious_Data);
 
-  const currentDate = moment().add(-1, 'month').format('YYYY-MM-DD');
-  const currentDatePrevious = moment().add(-1, 'month').format('YYYYMM');
-  const [value, setValue] = React.useState(dayjs(currentDate));
-  const [monthPrevious, setMonthPrevious] = React.useState(currentDatePrevious);
+  const timeUpdate2 = useSelector(getCurrencyZVRCurrent_TimeUpdate);
+  const loading2 = useSelector(getCurrencyZVRCurrent_Loading);
+  const status2 = useSelector(getCurrencyZVRCurrent_Status);
+  const storeData2 = useSelector(getCurrencyZVRCurrent_Data);
+  // --------------------------------------------------------------------------
+
+  const currentDateZVRPrevious = moment().add(-1, 'month').format('YYYY-MM-DD');
+  const currentDateZVRCurrent = moment().add(0, 'month').format('YYYY-MM-DD');
+
+  const [monthPreviousNew, setMonthPreviousNew] = React.useState();
+  const [monthCurrentNew, setMonthCurrentNew] = React.useState();
+
+  const [valueZVRPrevious, setValueZVRPrevious] = React.useState(dayjs(currentDateZVRPrevious));
+  const [valueZVRCurrent, setValueZVRCurrent] = React.useState(dayjs(currentDateZVRCurrent));
+
   useEffect(() => {
-    // https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json
-
     let mm;
-    let yy = value.$y;
-    if (value.$M + 1 < 10) {
-      mm = '0' + (value.$M + 1);
-    } else mm = value.$M + 1;
-    console.log(`${yy}${mm}`);
-    setMonthPrevious(`${yy}${mm}`);
-  }, [value]);
+    if (valueZVRPrevious.$M + 1 < 10) mm = '0' + (valueZVRPrevious.$M + 1);
+    else mm = valueZVRPrevious.$M + 1;
+    const date = `${valueZVRPrevious.$y}${mm}`;
+    setMonthPreviousNew(date);
+
+    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${date}&json`));
+  }, [dispatch, valueZVRPrevious]);
+
+  useEffect(() => {
+    let mm;
+    if (valueZVRCurrent.$M + 1 < 10) mm = '0' + (valueZVRCurrent.$M + 1);
+    else mm = valueZVRCurrent.$M + 1;
+    const date = `${valueZVRCurrent.$y}${mm}`;
+    setMonthCurrentNew(date);
+
+    dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${date}&json`));
+  }, [dispatch, valueZVRCurrent]);
 
   useEffect(() => {
     const monthPrevious = moment().add(-1, 'month').format('YYYYMM');
-    dispatch(getZVRPrevious(`https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`));
-    dispatch(getZVRCurrent());
+    const monthCurrent = moment().add(0, 'month').format('YYYYMM');
+
+    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${monthPrevious}&json`));
+    dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrent}&json`));
   }, [dispatch]);
 
-  // Обновление курса валют
-  const handleUpdateCurrency = () => {
-    dispatch(getZVRPrevious(`https://bank.gov.ua/NBUStatService/v1/statdirectory/res?date=${monthPrevious}&json`));
-    dispatch(getZVRCurrent());
-    setMonthPreviousTable(moment(monthPrevious).format('MMMM YYYY'));
+  const hahdleCurrencyZVR = () => {
+    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${monthPreviousNew}&json`));
+    dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrentNew}&json`));
   };
 
-  const storeData = useSelector(state => state.storeCurrencyZVRPrevious);
-  const storeData2 = useSelector(state => state.storeCurrencyZVRCurrent);
-
-  const [monthPreviousTable, setMonthPreviousTable] = React.useState(moment().add(-1, 'months').format('MMMM YYYY'));
-  const monthCurrentTable = moment().format('MMMM YYYY');
+  // --------------------------------
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -115,56 +146,67 @@ export const CurrencyZVR = () => {
   return (
     <div>
       <div className="nameSection">
-        <IconButton color="primary" aria-label="add to shopping cart" onClick={handleUpdateCurrency}>
-          <AutorenewIcon />
-        </IconButton>
+        <LoadingButton
+          className="load-btn"
+          onClick={hahdleCurrencyZVR}
+          loading={loading || loading2}
+          // loadingIndicator="Loading…"
+          loadingPosition="start" //loadingPosition="end"
+          variant="outlined" //outlined // contained
+          startIcon={<AutorenewIcon />}
+        >
+          Обновить
+        </LoadingButton>
         <h2>Золото-валютные резервы</h2>
       </div>
       <div className="tables">
         <TableContainer className="table" component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
-              <TableRow
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginLeft: '16px',
-                  color: 'var(--color-2)',
-                }}
-              >
-                {/* <TableCell
-                  align="center"
-                  colSpan={2}
-                  // sx={{ display: 'flex', justifyContent: 'space-between ', maxWidth: '700px' }}
-                >
-                  
-                </TableCell> */}
-                <p>Золото-валютные резервы на {monthPreviousTable}</p>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer
-                    components={['MobileDatePicker', 'DatePicker', 'DesktopDatePicker', 'StaticDatePicker']}
+              <TableRow>
+                <TableCell align="center" colSpan={2}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginLeft: '16px',
+                      color: 'var(--color-2)',
+                    }}
                   >
-                    <DatePicker
-                      label={'"год" и "месяц"'}
-                      views={['year', 'month']}
-                      minDate={dayjs('2020-01-01')}
-                      maxDate={dayjs(currentDate)}
-                      defaultValue={dayjs(currentDate)}
-                      value={value}
-                      // onChange={newValue => setValue(newValue)}
-                      // onClose={newValue => setValue(newValue)}
-                      // onMonthChange={newValue => setValue(newValue)}
-                      onChange={selectionState => setValue(selectionState)}
-                      slotProps={{
-                        actionBar: {
-                          actions: ['cancel', 'accept'],
-                        },
-                      }}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
+                    <p>Золото-валютные резервы на {moment(storeData[0].dt).format('MMMM YYYY')}</p>
+                    <div>
+                      {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+                      <p className="update-time" title="Время обновления данных с сервера.">
+                        {timeUpdate}
+                      </p>
+                    </div>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={ru}>
+                      <DemoContainer
+                        components={['MobileDatePicker', 'DatePicker', 'DesktopDatePicker', 'StaticDatePicker']}
+                      >
+                        <DatePicker
+                          className="date-picker"
+                          label={'месяц / год'}
+                          views={['year', 'month']}
+                          minDate={dayjs('2004-01-01')}
+                          maxDate={dayjs(currentDateZVRPrevious)}
+                          defaultValue={dayjs(currentDateZVRPrevious)}
+                          value={valueZVRPrevious}
+                          onAccept={selectionState => setValueZVRPrevious(selectionState)}
+                          slotProps={{
+                            actionBar: {
+                              actions: ['cancel', 'accept'],
+                            },
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </div>
+                </TableCell>
               </TableRow>
+
               <TableRow>
                 <StyledTableCell>Показатель</StyledTableCell>
                 <StyledTableCell align="right">млн. $ USA</StyledTableCell>
@@ -187,7 +229,45 @@ export const CurrencyZVR = () => {
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>
-                  Золото-валютные резервы на {monthCurrentTable}
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginLeft: '16px',
+                      color: 'var(--color-2)',
+                    }}
+                  >
+                    <p>Золото-валютные резервы на {moment(storeData2[0].dt).format('MMMM YYYY')}</p>
+                    <div>
+                      {status2 ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+                      <p className="update-time" title="Время обновления данных с сервера.">
+                        {timeUpdate2}
+                      </p>
+                    </div>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={ru}>
+                      <DemoContainer
+                        components={['MobileDatePicker', 'DatePicker', 'DesktopDatePicker', 'StaticDatePicker']}
+                      >
+                        <DatePicker
+                          className="date-picker"
+                          label={'месяц / год'}
+                          views={['year', 'month']}
+                          minDate={dayjs('2004-01-01')}
+                          maxDate={dayjs(currentDateZVRCurrent)}
+                          defaultValue={dayjs(currentDateZVRCurrent)}
+                          value={valueZVRCurrent}
+                          onAccept={selectionState => setValueZVRCurrent(selectionState)}
+                          slotProps={{
+                            actionBar: {
+                              actions: ['cancel', 'accept'],
+                            },
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </div>
                 </TableCell>
               </TableRow>
               <TableRow>

@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-
+import { NumericFormat } from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  getCurrencyMonoCurrent_Loading,
+  getCurrencyMonoCurrent_Status,
+  getCurrencyMonoCurrent_TimeUpdate,
+  getCurrencyMonoCurrent_Data,
+} from '../../store/selectors';
+import { fetchCurrencyMonoCurrent } from '../../store/operation';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -11,7 +19,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -20,21 +28,27 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-
-import { getMonoToday } from 'store/thunks';
-
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { currencyMonoTodayStatus } from 'store/actions';
+
+import moment from 'moment';
+import 'moment/locale/ru';
+moment.locale('ru');
 
 export const CurrencyMono = () => {
-  var moment = require('moment');
-  // Данные курса валют из запроса
-  const dataMono = useSelector(state => state.storeCurrencyMonoToday.data);
-  const TIME = useSelector(state => state.storeCurrencyMonoToday.time);
-  const STATUS = useSelector(state => state.storeCurrencyMonoToday.status);
-  // const TIME = '2024-09-23';
-  // const STATUS = true;
+  const dispatch = useDispatch();
+  const timeUpdate = useSelector(getCurrencyMonoCurrent_TimeUpdate);
+  const loading = useSelector(getCurrencyMonoCurrent_Loading);
+  const status = useSelector(getCurrencyMonoCurrent_Status);
+  const storeData = useSelector(getCurrencyMonoCurrent_Data);
+
+  useEffect(() => {
+    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+  }, [dispatch]);
+
+  const handleUpdateCurrency = () => {
+    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+  };
 
   // Найденные значения в ответе курса
   const [USD, setUSD] = useState([]);
@@ -48,12 +62,12 @@ export const CurrencyMono = () => {
   const [usdTOeurBuy, setUsdTOeurBuy] = useState('-,----');
 
   useEffect(() => {
-    if (dataMono.length !== 0) {
-      setUSD(dataMono.find(el => el.currencyCodeA === 840));
-      setPLN(dataMono.find(el => el.currencyCodeA === 985));
-      setEUR(dataMono.find(el => el.currencyCodeA === 978));
-      setRUB(dataMono.find(el => el.currencyCodeA === 943));
-      setBYN(dataMono.find(el => el.currencyCodeA === 933));
+    if (storeData.length !== 0) {
+      setUSD(storeData.find(el => el.currencyCodeA === 840));
+      setPLN(storeData.find(el => el.currencyCodeA === 985));
+      setEUR(storeData.find(el => el.currencyCodeA === 978));
+      setRUB(storeData.find(el => el.currencyCodeA === 943));
+      setBYN(storeData.find(el => el.currencyCodeA === 933));
       setEurTOusaSell((EUR.rateSell / USD.rateSell).toFixed(4));
       setEurTOusaBuy((EUR.rateBuy / USD.rateBuy).toFixed(4));
       setUsdTOeurSell((USD.rateSell / EUR.rateSell).toFixed(4));
@@ -64,9 +78,9 @@ export const CurrencyMono = () => {
     EUR.rateSell,
     USD.rateBuy,
     USD.rateSell,
-    dataMono,
     eurTOusaBuy,
     eurTOusaSell,
+    storeData,
     usdTOeurBuy,
     usdTOeurSell,
   ]);
@@ -123,16 +137,15 @@ export const CurrencyMono = () => {
     setValueSelect2(temp1);
   };
 
-  // Записывает значение поля ввода и назначает активное поле ввода 1
+  // Назначает активное поле ввода 1 по фокусу в поле
   const handleConvert1 = e => {
-    setValueText1(e.target.value);
     setTextField_On_1(true);
     setTextField_On_2(false);
   };
 
-  // Записывает значение поля ввода и назначает активное поле ввода 2
+  // Назначает активное поле ввода 2 по фокусу в поле
+
   const handleConvert2 = e => {
-    setValueText2(e.target.value);
     setTextField_On_1(false);
     setTextField_On_2(true);
   };
@@ -251,82 +264,58 @@ export const CurrencyMono = () => {
     createData('Злотый', PLN.rateCross, PLN.rateCross),
   ];
 
-  // Обновление курса валют
-  const dispatch = useDispatch();
-  const handleUpdateCurrency = () => {
-    dispatch(getMonoToday());
-    dispatch(currencyMonoTodayStatus(false));
+  const currencySign = { UAH: '₴ ', EUR: '€ ', USD: '$ ', PLN: 'Zł ', RUB: '₽ ', BYN: 'Br ' };
+
+  const materialUITextFieldProps = {
+    className: 'text-field',
+    id: 'cor2',
+    min: '0',
+    variant: 'standard',
+    step: '1.00',
   };
 
   return (
     <div>
       <div className="nameSection">
-        <IconButton
-          color="primary"
-          aria-label="add to shopping cart"
-          onClick={handleUpdateCurrency}
-        >
-          <AutorenewIcon />
-        </IconButton>
-        <h2>Конвертер валют. Время обновления {TIME}</h2>
-        {STATUS ? (
-          <CheckCircleOutlineIcon color="success" />
-        ) : (
-          <WarningAmberIcon color="warning" />
-        )}
+        <h2>Конвертер валют.</h2>
       </div>
 
       <div className="converter-block">
-        <Box
-          className="textFieldBlock"
-          component="form"
-          // sx={{'& > :not(style)': { m: 1, width: '25ch' },}}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            className="textField"
-            id="cur1"
-            // label=""
-            type="number"
-            min="0"
+        <Box className="text-field-block" component="form" noValidate autoComplete="off">
+          <NumericFormat
+            prefix={currencySign[valueSelect1]}
+            thousandSeparator=" "
             value={valueText1}
-            onChange={handleConvert1}
-            variant="standard"
-            step="1.00"
-            color="warning"
+            onValueChange={(values, sourceInfo) => {
+              if (setTextField_On_1) setValueText1(values.value);
+            }}
+            onFocus={handleConvert1}
+            customInput={TextField}
+            {...materialUITextFieldProps}
           />
-          <TextField
-            className="textField"
-            id="cor2"
-            // label=""
-            type="number"
-            min="0"
+
+          <NumericFormat
+            prefix={currencySign[valueSelect2]}
+            thousandSeparator=" "
             value={valueText2}
-            onChange={handleConvert2}
-            variant="standard"
-            step="1.00"
-            // color="warning"
-            // style={{ color: '#fff' }}
+            onValueChange={(values, sourceInfo) => {
+              if (setTextField_On_2) setValueText2(values.value);
+            }}
+            onFocus={handleConvert2}
+            customInput={TextField}
+            {...materialUITextFieldProps}
           />
         </Box>
 
         <div className="currencyBTN">
-          <FormControl
-            className="currencyBtnSelect"
-            variant="filled"
-            // sx={{ m: 1, minWidth: 200 }}
-          >
-            <InputLabel id="demo-simple-select-standard-label">
-              Валюта
-            </InputLabel>
+          <FormControl className="currency-select" variant="filled">
+            <InputLabel id="demo-simple-select-standard-label">Валюта</InputLabel>
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               value={valueSelect1}
               onChange={handleChange1}
               label="Converter"
-              // color="warning"
             >
               {d1.map(i => (
                 <MenuItem key={i} value={i}>
@@ -337,7 +326,7 @@ export const CurrencyMono = () => {
           </FormControl>
 
           <IconButton
-            className="currencyBtnRevert"
+            className="currency-btn-revert"
             color="primary"
             aria-label="add to shopping cart"
             onClick={handleExpanr}
@@ -345,11 +334,7 @@ export const CurrencyMono = () => {
             <AutorenewIcon />
           </IconButton>
 
-          <FormControl
-            className="currencyBtnSelect"
-            variant="filled"
-            // sx={{ m: 1, minWidth: 200 }}
-          >
+          <FormControl className="currency-select" variant="filled">
             <InputLabel id="demo-simple-select-filled-label">Валюта</InputLabel>
             <Select
               labelId="demo-simple-select-filled-label"
@@ -357,7 +342,6 @@ export const CurrencyMono = () => {
               value={valueSelect2}
               onChange={handleChange2}
               label="Converter"
-              // color="warning"
             >
               {d2.map(i => (
                 <MenuItem key={i} value={i}>
@@ -370,21 +354,23 @@ export const CurrencyMono = () => {
       </div>
 
       <div className="nameSection">
-        <IconButton
-          color="primary"
-          aria-label="add to shopping cart"
+        <LoadingButton
+          className="load-btn"
           onClick={handleUpdateCurrency}
+          loading={loading}
+          loadingPosition="start" //loadingPosition="end"
+          variant="outlined" //outlined // contained
+          startIcon={<AutorenewIcon />}
         >
-          <AutorenewIcon />
-        </IconButton>
-        <h2>
-          Курс MONObank на {dateToday}. Время обновления {TIME}
-        </h2>
-        {STATUS ? (
-          <CheckCircleOutlineIcon color="success" />
-        ) : (
-          <WarningAmberIcon color="warning" />
-        )}
+          Обновить
+        </LoadingButton>
+        <h2>Курс MONObank на {dateToday}.</h2>
+        <div className="update-block">
+          {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+          <p className="update-time" title="Время обновления данных с сервера.">
+            {timeUpdate}
+          </p>
+        </div>
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">

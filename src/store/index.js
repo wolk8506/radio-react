@@ -1,41 +1,35 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {
-  kursTodayBanksReducer,
+  // kursTodayBanksReducer,
   data,
-  currencyNBUtodayReducer,
   currencyMonoTodayReducer,
-  currencyNBUtomorrowReducer,
-  currencyZVRPreviousReducer,
-  currencyZVRCurrentReducer,
   weatherElements,
   weather15Reducer,
   weatherLastDayReducer,
   weatherAirQualityReducer,
 } from './reducer';
 
+import currencyZVRPreviousReducer from './reducer-CurrencyZVRPrevious';
+import currencyZVRCurrentReducer from './reducer-CurrencyZVRCurrent';
+import currencyNBUReducer from './reducer-CurrencyNBU';
+import currencyBanksTodayReducer from './reducer-CurrencyBanksToday';
+import currencyMonoCurrentReducer from './reducer-CurrencyMonoCurrent';
+
 export const rootReducer = combineReducers({
-  storeKursTodayBanks: kursTodayBanksReducer,
+  // storeKursTodayBanks: kursTodayBanksReducer,
   storeData: data,
   storeWeatherElements: weatherElements,
   storeWeather15: weather15Reducer,
   storeWeatherLastDay: weatherLastDayReducer,
   storeWeatherAirQuality: weatherAirQualityReducer,
   storeCurrencyMonoToday: currencyMonoTodayReducer,
-  storeCurrencyNBUtoday: currencyNBUtodayReducer,
-  storeCurrencyNBUtomorrow: currencyNBUtomorrowReducer,
+  storeCurrencyMonoCurrent: currencyMonoCurrentReducer,
   storeCurrencyZVRPrevious: currencyZVRPreviousReducer,
   storeCurrencyZVRCurrent: currencyZVRCurrentReducer,
+  storeCurrencyNBU: currencyNBUReducer,
+  storeCurrencyBanksToday: currencyBanksTodayReducer,
 });
 
 const persistConfig = {

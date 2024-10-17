@@ -3,9 +3,29 @@
 .nameSection {
   display: flex;
   align-items: center;
+  margin-bottom: 16px;
+  margin-top: 32px;
+  padding-left: 16px;
 }
 .nameSection h2 {
   margin-right: 10px;
+  margin-left: 10px;
+}
+.load-btn {
+  &.MuiButton-root,
+  &.MuiButton-root:hover {
+    color: $color-3;
+    fill: $color-3;
+    border-color: $color-3;
+
+    &.Mui-disabled {
+      color: $color-2-shadow;
+      border: 1px solid $color-2-shadow;
+    }
+  }
+  &.MuiButton-root:hover {
+    border: 1px solid $color-2;
+  }
 }
 
 .currencyBTN {
@@ -13,9 +33,9 @@
   align-items: center;
 }
 
-.currencyBtnSelect {
-  width: 200px;
-}
+// .currency-select {
+//   width: 200px;
+// }
 
 // * *  ------------------------  * */
 .tables {
@@ -45,6 +65,36 @@
 .MuiPaper-root {
   border-radius: 15px !important;
 }
+.update-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 16px;
+}
+.update-time {
+  color: $color-2-shadow;
+  font-size: 12px;
+  padding-top: 4px;
+}
+// *  date picker - - - - --  - - - -
+
+.MuiFormLabel-root {
+  color: $color-2 !important;
+  // border: ;
+}
+.date-picker {
+  width: 180px;
+  .MuiSvgIcon-root {
+    fill: $color-3 !important;
+  }
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: $color-2 !important;
+}
+// ---
+
+// *----------------
 
 @media screen and (max-width: 720px) {
   .tables {
@@ -56,14 +106,10 @@
   .currencyBTN {
     justify-content: space-around;
   }
-  .currencyBtnSelect {
+  .currency-select {
     width: calc((100% - 60px) / 2);
   }
-  .textFieldBlock {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
+
   .textField {
     width: calc((100% - 20px) / 2);
   }

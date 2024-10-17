@@ -27,8 +27,7 @@ export const App = () => {
   const [btnTab, setBtnTab] = useState('0');
   const [btnMenu, setBtnMenu] = useState(false);
   const [btnMenuMobile, setBtnMenuMobile] = useState(true);
-  const [classListMenuMobile, setClassListMenuMobile] =
-    useState('mobile-menu__list');
+  const [classListMenuMobile, setClassListMenuMobile] = useState('mobile-menu__list');
   const [classBtn_0, setClassBtn_0] = useState('navigation-btn toggle');
   const [classBtn_1, setClassBtn_1] = useState('navigation-btn toggle');
   const [classBtn_2, setClassBtn_2] = useState('navigation-btn toggle');
@@ -50,6 +49,11 @@ export const App = () => {
     'Kiss FM Deep',
   ];
 
+  useEffect(() => {
+    // Update the document title using the browser API
+    PLAYER_PLAY ? (document.title = `Radio`) : (document.title = `${radioStationName[PLAYER_STATION]}`);
+  });
+
   const handleBtnTab = e => {
     setBtnTab(e.currentTarget.value);
     setBtnMenuMobile(!btnMenuMobile);
@@ -66,13 +70,7 @@ export const App = () => {
   };
 
   useEffect(() => {
-    setClassListMenuMobile(
-      `${
-        btnMenuMobile
-          ? 'mobile-menu__list--on mobile-menu__list'
-          : 'mobile-menu__list'
-      }`
-    );
+    setClassListMenuMobile(`${btnMenuMobile ? 'mobile-menu__list--on mobile-menu__list' : 'mobile-menu__list'}`);
   }, [btnMenuMobile]);
 
   useEffect(() => {
@@ -146,44 +144,21 @@ export const App = () => {
                     <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
                   </IconButton>
 
-                  <RadioMini
-                    className="navigation-btn"
-                    onAudio={audio}
-                  ></RadioMini>
+                  <RadioMini className="navigation-btn" onAudio={audio}></RadioMini>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_0}`}
-                    type="button"
-                    value="0"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_0}`} type="button" value="0" onClick={handleBtnTab}>
                     <HomeIcon className="btn-ico" />
                   </IconButton>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_1}`}
-                    type="button"
-                    value="1"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_1}`} type="button" value="1" onClick={handleBtnTab}>
                     <AccountBalanceIcon className="btn-ico" />
                   </IconButton>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_2}`}
-                    type="button"
-                    value="2"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_2}`} type="button" value="2" onClick={handleBtnTab}>
                     <ThunderstormIcon className="btn-ico" />
                   </IconButton>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_3}`}
-                    type="button"
-                    value="3"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_3}`} type="button" value="3" onClick={handleBtnTab}>
                     <InfoIcon className="btn-ico" />
                   </IconButton>
                 </div>
@@ -191,9 +166,7 @@ export const App = () => {
                   <div>
                     <p className="menu-open-text">Меню</p>
 
-                    <p className="menu-open-text">
-                      {radioStationName[PLAYER_STATION]}
-                    </p>
+                    <p className="menu-open-text">{radioStationName[PLAYER_STATION]}</p>
                     <p className={`menu-open-text ${classBtn_0}`}>Главная</p>
                     <p className={`menu-open-text ${classBtn_1}`}>Курс валют</p>
                     <p className={`menu-open-text ${classBtn_2}`}>Погода</p>
@@ -209,44 +182,21 @@ export const App = () => {
                     <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
                   </IconButton>
 
-                  <RadioMini
-                    className="navigation-btn"
-                    onAudio={audio}
-                  ></RadioMini>
+                  <RadioMini className="navigation-btn" onAudio={audio}></RadioMini>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_0}`}
-                    type="button"
-                    value="0"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_0}`} type="button" value="0" onClick={handleBtnTab}>
                     <HomeIcon className="btn-ico" />
                   </IconButton>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_1}`}
-                    type="button"
-                    value="1"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_1}`} type="button" value="1" onClick={handleBtnTab}>
                     <AccountBalanceIcon className="btn-ico" />
                   </IconButton>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_2}`}
-                    type="button"
-                    value="2"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_2}`} type="button" value="2" onClick={handleBtnTab}>
                     <ThunderstormIcon className="btn-ico" />
                   </IconButton>
 
-                  <IconButton
-                    className={`navigation-btn ${classBtn_3}`}
-                    type="button"
-                    value="3"
-                    onClick={handleBtnTab}
-                  >
+                  <IconButton className={`navigation-btn ${classBtn_3}`} type="button" value="3" onClick={handleBtnTab}>
                     <InfoIcon className="btn-ico" />
                   </IconButton>
                 </div>
@@ -260,40 +210,18 @@ export const App = () => {
                         <img src={equalizer} alt="equalizer" />
                       )}
 
-                      <span className="menu-open-text__player-station">
-                        {radioStationName[PLAYER_STATION]}
-                      </span>
+                      <span className="menu-open-text__player-station">{radioStationName[PLAYER_STATION]}</span>
                     </div>
-                    <button
-                      className={`menu-open-text ${classBtn_0}`}
-                      type="button"
-                      value="0"
-                      onClick={handleBtnTab}
-                    >
+                    <button className={`menu-open-text ${classBtn_0}`} type="button" value="0" onClick={handleBtnTab}>
                       Главная
                     </button>
-                    <button
-                      className={`menu-open-text ${classBtn_1}`}
-                      type="button"
-                      value="1"
-                      onClick={handleBtnTab}
-                    >
+                    <button className={`menu-open-text ${classBtn_1}`} type="button" value="1" onClick={handleBtnTab}>
                       Курс валют
                     </button>
-                    <button
-                      className={`menu-open-text ${classBtn_2}`}
-                      type="button"
-                      value="2"
-                      onClick={handleBtnTab}
-                    >
+                    <button className={`menu-open-text ${classBtn_2}`} type="button" value="2" onClick={handleBtnTab}>
                       Погода
                     </button>
-                    <button
-                      className={`menu-open-text ${classBtn_3}`}
-                      type="button"
-                      value="3"
-                      onClick={handleBtnTab}
-                    >
+                    <button className={`menu-open-text ${classBtn_3}`} type="button" value="3" onClick={handleBtnTab}>
                       Инфо
                     </button>
                   </div>

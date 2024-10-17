@@ -11,57 +11,84 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
+import LoadingButton from '@mui/lab/LoadingButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { getNBUtoday, getNBUtomorrow } from 'store/thunks';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { currencyNBUtodayStatus } from 'store/actions';
+
+import {
+  getCurrencyNBUtoday_Data,
+  getCurrencyNBUtoday_Loading,
+  getCurrencyNBUtoday_Status,
+  getCurrencyNBUtoday_TimeUpdate,
+  getCurrencyNBUtomorrow_Data,
+  getCurrencyNBUtomorrow_Loading,
+  getCurrencyNBUtomorrow_Status,
+  getCurrencyNBUtomorrow_TimeUpdate,
+} from '../../store/selectors';
+import { fetchCurrencyNBUtoday, fetchCurrencyNBUtomorrow } from '../../store/operation';
+
+import moment from 'moment';
+import 'moment/locale/ru';
+import { useState } from 'react';
+moment.locale('ru');
 
 export const CurrencyNBU = () => {
   const dispatch = useDispatch();
+  const numberDay = moment().isoWeekday();
+
+  const timeUpdate_today = useSelector(getCurrencyNBUtoday_TimeUpdate);
+  const loading_today = useSelector(getCurrencyNBUtoday_Loading);
+  const status_today = useSelector(getCurrencyNBUtoday_Status);
+  const storeData_today = useSelector(getCurrencyNBUtoday_Data);
+
+  const timeUpdate_tomorrow = useSelector(getCurrencyNBUtomorrow_TimeUpdate);
+  const loading_tomorrow = useSelector(getCurrencyNBUtomorrow_Loading);
+  const status_tomorrow = useSelector(getCurrencyNBUtomorrow_Status);
+  const storeData_tomorrow = useSelector(getCurrencyNBUtomorrow_Data);
+
+  const dateToday = moment().format('YYYYMMDD');
+  const BASE_URL = `https://bank.gov.ua/NBUStatService/v1/statdirectory/`;
+
+  const dateTodayTable = moment().format('dddd DD MMMM');
+  const [dateTomorrow, setDateTomorrow] = useState(moment().add(1, 'days').format('YYYYMMDD'));
+  const [dateTomorrowTable, setDateTomorrowTable] = useState(moment().add(1, 'days').format('dddd DD MMMM'));
+  const [timeUpdate, setTimeUpdate] = useState();
+
+  if (numberDay > 4) {
+    setDateTomorrow(
+      moment()
+        .add(8 - numberDay, 'days')
+        .format('YYYYMMDD')
+    );
+    setDateTomorrowTable(
+      moment()
+        .add(8 - numberDay, 'days')
+        .format('dddd DD MMMM')
+    );
+  }
+
   useEffect(() => {
-    dispatch(getNBUtoday());
-    dispatch(getNBUtomorrow());
-  }, [dispatch]);
+    setTimeUpdate(timeUpdate_today >= timeUpdate_tomorrow ? timeUpdate_tomorrow : timeUpdate_today);
+  }, [timeUpdate_today, timeUpdate_tomorrow]);
+
+  useEffect(() => {
+    dispatch(fetchCurrencyNBUtoday(`${BASE_URL}exchange?date=${dateToday}&json`));
+    dispatch(fetchCurrencyNBUtomorrow(`${BASE_URL}exchange?date=${dateTomorrow}&json`));
+  }, [BASE_URL, dateToday, dateTomorrow, dispatch]);
 
   // Обновление курса валют
 
   const handleUpdateCurrency = () => {
-    dispatch(getNBUtoday());
-    dispatch(getNBUtomorrow());
-    dispatch(currencyNBUtodayStatus(false));
-    dispatch(currencyNBUtodayStatus(false));
+    dispatch(fetchCurrencyNBUtoday(`${BASE_URL}exchange?date=${dateToday}&json`));
+    dispatch(fetchCurrencyNBUtomorrow(`${BASE_URL}exchange?date=${dateTomorrow}&json`));
   };
-  const data = useSelector(state => state.storeCurrencyNBUtoday.data);
-  const data2 = useSelector(state => state.storeCurrencyNBUtomorrow.data);
-  const TIME = useSelector(state => state.storeCurrencyNBUtoday.time);
-  const STATUS1 = useSelector(state => state.storeCurrencyNBUtoday.status);
-  const STATUS2 = useSelector(state => state.storeCurrencyNBUtomorrow.status);
+
   const [STATUS, setSTATUS] = React.useState(true);
 
   useEffect(() => {
-    setSTATUS(STATUS1 && STATUS2);
-  }, [STATUS1, STATUS2]);
-
-  var moment = require('moment');
-  let dateTomorrowTable = '---- -- ----';
-  let dateTodayTable = moment().format('dddd DD MMMM');
-
-  switch (moment().format('dddd')) {
-    case 'пятница':
-      require('moment/locale/ru');
-      dateTomorrowTable = moment().add(3, 'days').format('dddd DD MMMM');
-      break;
-    case 'суббота':
-      require('moment/locale/ru');
-      dateTomorrowTable = moment().add(2, 'days').format('dddd DD MMMM');
-      break;
-    default:
-      require('moment/locale/ru');
-      dateTomorrowTable = moment().add(1, 'days').format('dddd DD MMMM');
-      break;
-  }
+    setSTATUS(status_today && status_tomorrow);
+  }, [status_today, status_tomorrow]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -99,8 +126,8 @@ export const CurrencyNBU = () => {
     } else dataTable[n].push(0, 0, 0, 0, 0, 0, 0, 0, 0);
   }
 
-  f1(data, 0);
-  f1(data2, 1);
+  f1(storeData_today, 0);
+  f1(storeData_tomorrow, 1);
 
   for (let i = 0; i < dataTable[0].length; i++) {
     if (dataTable[1][i] !== 0) {
@@ -115,18 +142,8 @@ export const CurrencyNBU = () => {
   const rows = [
     createData('Доллар США', dataTable[0][0], dataTable[1][0], dataTable[2][0]),
     createData('Евро', dataTable[0][1], dataTable[1][1], dataTable[2][1]),
-    createData(
-      'Российский рубль',
-      dataTable[0][2],
-      dataTable[1][2],
-      dataTable[2][2]
-    ),
-    createData(
-      'Белорусский рубль',
-      dataTable[0][3],
-      dataTable[1][3],
-      dataTable[2][3]
-    ),
+    createData('Российский рубль', dataTable[0][2], dataTable[1][2], dataTable[2][2]),
+    createData('Белорусский рубль', dataTable[0][3], dataTable[1][3], dataTable[2][3]),
     createData('Злотый', dataTable[0][4], dataTable[1][4], dataTable[2][4]),
 
     createData('Золото', dataTable[0][5], dataTable[1][5], dataTable[2][5]),
@@ -138,19 +155,24 @@ export const CurrencyNBU = () => {
   return (
     <div>
       <div className="nameSection">
-        <IconButton
-          color="primary"
-          aria-label="add to shopping cart"
+        <LoadingButton
+          className="load-btn"
           onClick={handleUpdateCurrency}
+          loading={loading_today || loading_tomorrow}
+          // loadingIndicator="Loading…"
+          loadingPosition="start" //loadingPosition="end"
+          variant="outlined" //outlined // contained
+          startIcon={<AutorenewIcon />}
         >
-          <AutorenewIcon />
-        </IconButton>
-        <h2>Курс валют НБУ. Время обновления {TIME}</h2>
-        {STATUS ? (
-          <CheckCircleOutlineIcon color="success" />
-        ) : (
-          <WarningAmberIcon color="warning" />
-        )}
+          Обновить
+        </LoadingButton>
+        <h2>Курс валют НБУ.</h2>
+        <div className="update-block">
+          {STATUS ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+          <p className="update-time" title="Время обновления данных с сервера.">
+            {timeUpdate}
+          </p>
+        </div>
       </div>
 
       <div></div>
@@ -159,12 +181,8 @@ export const CurrencyNBU = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell>Валюта</StyledTableCell>
-              <StyledTableCell align="right">
-                Курс на {dateTodayTable}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                Курс на {dateTomorrowTable}
-              </StyledTableCell>
+              <StyledTableCell align="right">Курс на {dateTodayTable}</StyledTableCell>
+              <StyledTableCell align="right">Курс на {dateTomorrowTable}</StyledTableCell>
               <StyledTableCell align="right">Разницы</StyledTableCell>
             </TableRow>
           </TableHead>
