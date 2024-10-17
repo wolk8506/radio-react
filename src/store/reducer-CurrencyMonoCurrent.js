@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { fetchCurrencyMonoCurrent } from './operation';
-import { initStateCurrencyMonoCurrent as initState } from './init-state-mock';
+import { initStateCurrencyMonoCurrentNew as initState } from './init-state-mock';
 import moment from 'moment';
 
 const data = createReducer(initState, builder => {

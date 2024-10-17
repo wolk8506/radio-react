@@ -37,14 +37,13 @@ moment.locale('ru');
 
 export const CurrencyMono = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+  }, [dispatch]);
   const timeUpdate = useSelector(getCurrencyMonoCurrent_TimeUpdate);
   const loading = useSelector(getCurrencyMonoCurrent_Loading);
   const status = useSelector(getCurrencyMonoCurrent_Status);
   const storeData = useSelector(getCurrencyMonoCurrent_Data);
-
-  useEffect(() => {
-    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
-  }, [dispatch]);
 
   const handleUpdateCurrency = () => {
     dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
