@@ -1,21 +1,28 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { getCurrencyMonoCurrent_Status, getCurrencyMonoCurrent_Data } from '../../store/selectors';
+import { fetchCurrencyMonoCurrent } from '../../store/operation';
 import { currencyYesterday } from 'store/actions';
-import { getMonoToday } from 'store/thunks';
-import moment from 'moment';
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
-// import s from './Currency.module.css';
 import sprite from '../../images/sprite.svg';
+import moment from 'moment';
 
 export const Currency = () => {
-  const dataMono = useSelector(state => state.storeCurrencyMonoToday.data);
-  const dataCurrency = useSelector(state => state.storeData.currencyYesterday);
-
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+  }, [dispatch]);
+
+  const storeData = useSelector(getCurrencyMonoCurrent_Data);
+  const status = useSelector(getCurrencyMonoCurrent_Status);
+  const dataCurrency = useSelector(state => state.storeData.currencyYesterday);
 
   const iconSVG = sprite;
   const [eurTOusaSell, setEurTOusaSell] = useState(0);
@@ -29,10 +36,7 @@ export const Currency = () => {
   const [USD_rateSell, setUSD_rateSell] = useState(0);
   const [EUR_rateSell, setEUR_rateSell] = useState(0);
 
-  useEffect(() => dispatch(getMonoToday()), [dispatch]);
-
   useEffect(() => {
-    // if (dataMono.length !== 0) {
     function threeDecimalPlaces(text) {
       const arr = text.split('.');
       let a = arr[0];
@@ -51,19 +55,18 @@ export const Currency = () => {
     setEUR_rateBuy(threeDecimalPlaces(String(EUR.rateBuy)));
     setUSD_rateSell(threeDecimalPlaces(String(USD.rateSell)));
     setEUR_rateSell(threeDecimalPlaces(String(EUR.rateSell)));
-    setUSD(dataMono.find(el => el.currencyCodeA === 840));
-    setEUR(dataMono.find(el => el.currencyCodeA === 978));
+    setUSD(storeData.find(el => el.currencyCodeA === 840));
+    setEUR(storeData.find(el => el.currencyCodeA === 978));
     setEurTOusaSell((EUR.rateSell / USD.rateSell).toFixed(4));
     setEurTOusaBuy((EUR.rateBuy / USD.rateBuy).toFixed(4));
     setUsdTOeurSell((USD.rateSell / EUR.rateSell).toFixed(4));
     setUsdTOeurBuy((USD.rateBuy / EUR.rateBuy).toFixed(4));
-    // }
   }, [
     EUR.rateBuy,
     EUR.rateSell,
     USD.rateBuy,
     USD.rateSell,
-    dataMono,
+    storeData,
     eurTOusaBuy,
     eurTOusaSell,
     usdTOeurBuy,
@@ -96,7 +99,6 @@ export const Currency = () => {
   });
 
   useEffect(() => {
-    // if (dataMono.length !== 0) {
     const arr = {
       data: today,
       // data: '07-09-2024',
@@ -111,7 +113,6 @@ export const Currency = () => {
       eur_usd_sell: eurTOusaBuy,
     };
     setArr_today(arr);
-    // }
   }, [
     EUR.rateBuy,
     EUR.rateSell,
@@ -125,8 +126,6 @@ export const Currency = () => {
   ]);
 
   useEffect(() => {
-    // console.log(dataCurrency);
-
     if (dataCurrency !== undefined) {
       dataCurrency.map(i => {
         if (i.data === yesterday) {
@@ -147,8 +146,6 @@ export const Currency = () => {
     const interval = setInterval(() => {
       setIteration(iteration + 1);
       if (iteration > 3) setIntervalUpdate(60000);
-
-      // console.log('Таймер записи курса валют');
       dispatch(currencyYesterday([arr_yesterday, arr_today]));
     }, intervalUpdate);
     return () => clearInterval(interval);
@@ -156,8 +153,7 @@ export const Currency = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(getMonoToday());
-      // console.log('Запрос курса валют МОНО');
+      dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
     }, 900000);
     return () => clearInterval(interval);
   }, [dispatch]);
@@ -187,38 +183,14 @@ export const Currency = () => {
   useEffect(() => {
     if (dataCurrency !== undefined) {
       let arr_change = {
-        usd_uah_buy_change: Number(
-          (dataCurrency[1].usd_uah_buy - dataCurrency[0].usd_uah_buy).toFixed(4)
-        ),
-        usd_eur_buy_change: Number(
-          (dataCurrency[1].usd_eur_buy - dataCurrency[0].usd_eur_buy).toFixed(4)
-        ),
-        eur_uah_buy_change: Number(
-          (dataCurrency[1].eur_uah_buy - dataCurrency[0].eur_uah_buy).toFixed(4)
-        ),
-        eur_usd_buy_change: Number(
-          (dataCurrency[1].eur_usd_buy - dataCurrency[0].eur_usd_buy).toFixed(4)
-        ),
-        usd_uah_sell_change: Number(
-          (dataCurrency[1].usd_uah_sell - dataCurrency[0].usd_uah_sell).toFixed(
-            4
-          )
-        ),
-        usd_eur_sell_change: Number(
-          (dataCurrency[1].usd_eur_sell - dataCurrency[0].usd_eur_sell).toFixed(
-            4
-          )
-        ),
-        eur_uah_sell_change: Number(
-          (dataCurrency[1].eur_uah_sell - dataCurrency[0].eur_uah_sell).toFixed(
-            4
-          )
-        ),
-        eur_usd_sell_change: Number(
-          (dataCurrency[1].eur_usd_sell - dataCurrency[0].eur_usd_sell).toFixed(
-            4
-          )
-        ),
+        usd_uah_buy_change: Number((dataCurrency[1].usd_uah_buy - dataCurrency[0].usd_uah_buy).toFixed(4)),
+        usd_eur_buy_change: Number((dataCurrency[1].usd_eur_buy - dataCurrency[0].usd_eur_buy).toFixed(4)),
+        eur_uah_buy_change: Number((dataCurrency[1].eur_uah_buy - dataCurrency[0].eur_uah_buy).toFixed(4)),
+        eur_usd_buy_change: Number((dataCurrency[1].eur_usd_buy - dataCurrency[0].eur_usd_buy).toFixed(4)),
+        usd_uah_sell_change: Number((dataCurrency[1].usd_uah_sell - dataCurrency[0].usd_uah_sell).toFixed(4)),
+        usd_eur_sell_change: Number((dataCurrency[1].usd_eur_sell - dataCurrency[0].usd_eur_sell).toFixed(4)),
+        eur_uah_sell_change: Number((dataCurrency[1].eur_uah_sell - dataCurrency[0].eur_uah_sell).toFixed(4)),
+        eur_usd_sell_change: Number((dataCurrency[1].eur_usd_sell - dataCurrency[0].eur_usd_sell).toFixed(4)),
       };
       const arr_arrow = {
         usd_uah_buy_arrow:
@@ -288,15 +260,13 @@ export const Currency = () => {
       };
       setArr_change(arr_change);
       setArr_arrow(arr_arrow);
-      // console.log(arr_change, arr_arrow);
     }
   }, [dataCurrency]);
 
   return (
     <div className="currency-main">
-      {/* <title>:hover</title> */}
-
       <div className="currency-main__title">
+        {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
         <h2>валюта</h2>
         <h2>покупка</h2>
         <h2>продажа</h2>
@@ -315,9 +285,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{USD_rateBuy}</span>
             <span
-              className={
-                arr_change.usd_uah_buy_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.usd_uah_buy_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.usd_uah_buy_change}
             >
               {arr_arrow.usd_uah_buy_arrow}
@@ -326,9 +294,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{USD_rateSell}</span>
             <span
-              className={
-                arr_change.usd_uah_sell_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.usd_uah_sell_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.usd_uah_sell_change}
             >
               {arr_arrow.usd_uah_sell_arrow}
@@ -349,9 +315,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{EUR_rateBuy}</span>
             <span
-              className={
-                arr_change.eur_uah_buy_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.eur_uah_buy_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.eur_uah_buy_change}
             >
               {arr_arrow.eur_uah_buy_arrow}
@@ -360,9 +324,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{EUR_rateSell}</span>
             <span
-              className={
-                arr_change.eur_uah_sell_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.eur_uah_sell_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.eur_uah_sell_change}
             >
               {arr_arrow.eur_uah_sell_arrow}
@@ -382,9 +344,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{usdTOeurSell}</span>
             <span
-              className={
-                arr_change.usd_eur_buy_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.usd_eur_buy_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.usd_eur_buy_change}
             >
               {arr_arrow.usd_eur_buy_arrow}
@@ -393,9 +353,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{usdTOeurBuy}</span>
             <span
-              className={
-                arr_change.usd_eur_sell_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.usd_eur_sell_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.usd_eur_sell_change}
             >
               {arr_arrow.usd_eur_sell_arrow}
@@ -415,9 +373,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{eurTOusaSell}</span>
             <span
-              className={
-                arr_change.eur_usd_buy_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.eur_usd_buy_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.eur_usd_buy_change}
             >
               {arr_arrow.eur_usd_buy_arrow}
@@ -426,9 +382,7 @@ export const Currency = () => {
           <p className="currency-text">
             <span>{eurTOusaBuy}</span>
             <span
-              className={
-                arr_change.eur_usd_sell_change > 0 ? 'arrow--up' : 'arrow--dn'
-              }
+              className={arr_change.eur_usd_sell_change > 0 ? 'arrow--up' : 'arrow--dn'}
               data-tooltip={arr_change.eur_usd_sell_change}
             >
               {arr_arrow.eur_usd_sell_arrow}

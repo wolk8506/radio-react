@@ -6,7 +6,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent ', async url => {
   try {
     const response = await axios.get(url);
-    console.log('response mono', response.data);
     return response.data;
   } catch (error) {
     console.log('error');

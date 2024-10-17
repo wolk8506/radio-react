@@ -3,9 +3,12 @@
 .nameSection {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   margin-top: 32px;
   padding-left: 16px;
+  background-color: $color-background-5;
+  padding: 16px;
+  border-radius: 15px;
 }
 .nameSection h2 {
   margin-right: 10px;
@@ -53,8 +56,23 @@
   padding: 10px;
 }
 
+.bank-img {
+  z-index: 2;
+  background: white;
+  display: block;
+  border-radius: 15px;
+  padding: 5px;
+  margin-right: 16px;
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .tableName img {
-  margin-right: 15px;
+  display: block;
+  // margin-right: 15px;
 }
 
 .MuiTableCell-head {

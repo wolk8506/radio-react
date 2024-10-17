@@ -84,6 +84,43 @@ form {
   color: $color-2;
 }
 
+// ?- - - - --  - --  - table - - - - - --
+.MuiPaper-root.MuiTableContainer-root {
+  background-color: $color-background-10;
+}
+
+.MuiTableHead-root {
+  // background-color: $color-7-50;
+  .MuiTableRow-root {
+    // background-color: $color-7-50;
+  }
+  .MuiTableCell-root {
+    // color: $color-3;
+    border-bottom: 1px solid $color-2-shadow;
+  }
+}
+
+.MuiTableBody-root {
+  background-color: $color-7-50;
+  // border-bottom: 1px solid $color-2-shadow;
+
+  .MuiTableRow-root {
+    background-color: $color-7-70;
+    .MuiTableCell-root {
+      color: $color-3;
+      border-bottom: 1px solid $color-2-shadow;
+    }
+  }
+  .MuiTableRow-root:nth-of-type(odd) {
+    background-color: $color-7-90;
+    .MuiTableCell-root {
+      color: $color-3;
+    }
+  }
+}
+
+// ?--------------------------------------
+
 @media screen and (max-width: 720px) {
   .converter-block {
     background: $color-background-5;

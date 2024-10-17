@@ -172,7 +172,7 @@
   .weather__search {
     border-radius: 15px;
     padding: 16px;
-    background: var(--color-background-5);
+    background: $color-background-5;
     width: 100%;
     margin-bottom: 30px;
     display: flex;
@@ -308,7 +308,7 @@
     justify-content: space-between;
   }
   .weather__current-day {
-    background: var(--color-background-5);
+    background: $color-background-5;
     width: 620px;
     height: 270px;
     border-radius: 15px;

@@ -1,13 +1,120 @@
 .about {
-  font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
-  font-size: 72px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  .about__title {
+    font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
+    font-size: 72px;
+    text-align: center;
+    background: $color-background-5;
+    padding: 16px;
+    border-radius: 15px;
+    letter-spacing: 10px;
+    line-height: 0.5;
+  }
 }
 
 .settings {
   width: 380px;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+  background: $color-background-5;
+  border-radius: 15px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  .item-theme {
+    display: flex;
+    align-items: center;
+    .theme__color {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: space-between;
+      width: 160px;
+      height: 36px;
+
+      .color__item {
+        border: 1px solid $color-2-shadow;
+        width: 16px;
+        height: 16px;
+        margin: 2px;
+        border-radius: 4px;
+      }
+
+      .color__item:nth-child(1) {
+        background: $color-1;
+      }
+      .color__item:nth-child(2) {
+        background: $color-2;
+      }
+      .color__item:nth-child(3) {
+        background: $color-3;
+      }
+      .color__item:nth-child(4) {
+        background: $color-4;
+      }
+      .color__item:nth-child(5) {
+        background: $color-5;
+      }
+      .color__item:nth-child(7) {
+        background: $color-6;
+      }
+      .color__item:nth-child(8) {
+        background: $color-background-1;
+      }
+      .color__item:nth-child(9) {
+        background: $color-background-2;
+      }
+      .color__item:nth-child(10) {
+        background: $color-background-3;
+      }
+      .color__item:nth-child(11) {
+        background: $color-background-4;
+      }
+      .color__item:nth-child(12) {
+        background: $color-background-5;
+      }
+      .color__item:nth-child(13) {
+        background: $color-background-6;
+      }
+      .color__item:nth-child(14) {
+        background: $color-background-7;
+      }
+      .color__item:nth-child(15) {
+        background: $color-background-8;
+      }
+      .color__item:nth-child(16) {
+        background: $color-background-9;
+      }
+    }
+  }
+
+  .item-background {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid $color-2-shadow;
+
+    .item-background-color {
+      width: 64px;
+      background-color: $color-background-1;
+      height: 36px;
+      border: 1px solid $color-2-shadow;
+      border-radius: 10px;
+    }
+
+    img {
+      border: 1px solid $color-2-shadow;
+      border-radius: 10px;
+    }
+  }
 
   label {
     color: $color-2;

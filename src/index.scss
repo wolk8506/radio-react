@@ -25,13 +25,23 @@
 
 @import-normalize; /* bring in normalize.css styles */
 
+html {
+  background: $color-background-1;
+  // background-image: url(./images/prazdnik-khellouin-khellouin-tykva-tykvy-osen-5.jpg);
+  background-image: $background-image-1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: $color-background-1;
+  // background: $color-background-1;
   color: $color-2;
   transition: background 0.5s;
 }

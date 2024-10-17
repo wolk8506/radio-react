@@ -9,12 +9,16 @@ html[data-theme='dark-2'] {
   --color-4: #91e146;
   --color-5: #e14846;
   --color-6: #27292d;
+  --color-7: rgb(33 37 39);
+  --color-7-50: rgba(33 37 39 / 50%);
+  --color-7-70: rgba(33 37 39 / 70%);
+  --color-7-90: rgba(33 37 39 / 90%);
 
   --color-2-shadow: rgba(225, 150, 71, 0.5);
 
   --color-background-1: #000000;
   --color-background-1-50: rgba(0, 0, 0, 0.5);
-  --color-background-5: #212527;
+  // --color-background-5: #212527;
   --color-background-5-50: rgba(33, 37, 39, 0.5);
   --color-background-7: #212325;
   --color-background-8: linear-gradient(#1b1d1f 0%, #242629 50%, #212527 100%);
@@ -74,12 +78,16 @@ html[data-theme='dark'] {
   --color-4: #008000;
   --color-5: #ff0000;
   --color-6: #27292d;
+  --color-7: #191b1d; //--color-background-5: #191b1d;
+  --color-7-50: rgba(26 27 28 / 50%);
+  --color-7-70: rgba(26 27 28 / 70%);
+  --color-7-90: rgba(26 27 28 / 90%);
 
   --color-2-shadow: rgba(225, 150, 70, 0.5);
 
   --color-background-1: #212527;
   --color-background-1-50: rgba(33, 37, 39, 0.5);
-  --color-background-5: #191b1d;
+
   --color-background-5-50: rgba(25, 27, 29, 0.5);
   --color-background-7: #212325;
   --color-background-8: linear-gradient(#1b1d1f 0%, #242629 50%, #212527 100%);
@@ -138,12 +146,16 @@ html[data-theme='light'] {
   --color-4: #466249;
   --color-5: #c36b72;
   --color-6: #27292d;
+  --color-7: #eceae4;
+  --color-7-50: rgba(236 234 228 / 50%);
+  --color-7-70: rgba(236 234 228 / 70%);
+  --color-7-90: rgba(236 234 228 / 90%);
 
   --color-2-shadow: hsla(40, 61%, 29%, 0.5);
 
   --color-background-1: #f1f0ee;
   --color-background-1-50: rgba(241, 240, 238, 0.5);
-  --color-background-5: #eceae4;
+  // --color-background-5: #eceae4;
   --color-background-5-50: rgba(236, 234, 228, 0.5);
   --color-background-7: #caa56e;
   --color-background-8: linear-gradient(#c49f68 0%, #cda872 50%, #caa770 100%);
@@ -211,6 +223,10 @@ $color-4: var(--color-4);
 $color-5: var(--color-5);
 $color-6: var(--color-6);
 
+$color-7-50: var(--color-7-50);
+$color-7-70: var(--color-7-70);
+$color-7-90: var(--color-7-90);
+
 $color-2-shadow: var(--color-2-shadow);
 
 $color-text-shadow: 0 0 10px rgba(225, 150, 70, 0.5);
@@ -220,7 +236,7 @@ $color-background-1-50: var(--color-background-1-50);
 $color-background-2: var(--color-background-2);
 $color-background-3: var(--color-background-3);
 $color-background-4: var(--color-background-4);
-$color-background-5: var(--color-background-5);
+$color-background-5: var(--color-7);
 $color-background-5-50: var(--color-background-5-50);
 $color-background-6: var(--color-background-6);
 $color-background-7: var(--color-background-7);
@@ -238,3 +254,60 @@ $box-shadow-3: var(--box-shadow-3);
 $box-shadow-4: var(--box-shadow-4);
 $box-shadow-5: var(--box-shadow-5);
 $box-shadow-6: 0 1px 2px rgba(255, 255, 255, 0.1);
+
+html[data-background='color'] {
+  --background-image: $color-background-1;
+}
+html[data-background='img-1'] {
+  --background-image: url(../images/wallpaper/img_1.jpg);
+}
+html[data-background='img-2'] {
+  --background-image: url(../images/wallpaper/img_2.jpg);
+}
+html[data-background='img-3'] {
+  --background-image: url(../images/wallpaper/img_3.jpg);
+}
+html[data-background='img-4'] {
+  --background-image: url(../images/wallpaper/img_4.jpg);
+}
+html[data-background='img-5'] {
+  --background-image: url(../images/wallpaper/img_5.jpg);
+}
+html[data-background='img-6'] {
+  --background-image: url(../images/wallpaper/img_6.jpg);
+}
+html[data-background='img-7'] {
+  --background-image: url(../images/wallpaper/img_7.jpg);
+}
+html[data-background='img-8'] {
+  --background-image: url(../images/wallpaper/img_8.jpg);
+}
+html[data-background='img-9'] {
+  --background-image: url(../images/wallpaper/img_9.jpg);
+}
+html[data-background='img-10'] {
+  --background-image: url(../images/wallpaper/img_10.jpg);
+}
+html[data-background='img-11'] {
+  --background-image: url(../images/wallpaper/img_11.jpg);
+}
+html[data-background='img-12'] {
+  --background-image: url(../images/wallpaper/img_12.jpg);
+}
+html[data-background='img-13'] {
+  --background-image: url(../images/wallpaper/img_13.jpg);
+}
+html[data-background='img-14'] {
+  --background-image: url(../images/wallpaper/img_14.jpg);
+}
+html[data-background='img-15'] {
+  --background-image: url(../images/wallpaper/img_15.jpg);
+}
+html[data-background='img-16'] {
+  --background-image: url(../images/wallpaper/img_16.jpg);
+}
+html[data-background='img-17'] {
+  --background-image: url(../images/wallpaper/img_17.jpg);
+}
+
+$background-image-1: var(--background-image);

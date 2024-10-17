@@ -13,15 +13,13 @@ import FormLabel from '@mui/material/FormLabel';
 export const ThemeChangeAuto = () => {
   const dispatch = useDispatch();
 
-  const THEME_AUTO_CHANGE = useSelector(
-    state => state.storeData.themeAutoChange
-  );
+  const THEME_AUTO_CHANGE = useSelector(state => state.storeData.themeAutoChange);
   const [value, setValue] = useState(THEME_AUTO_CHANGE);
 
   const handleChange = e => {
     dispatch(changeThemeAuto(e.target.value));
     setValue(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
   return (
     <FormControl>

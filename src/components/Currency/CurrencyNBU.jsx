@@ -55,18 +55,20 @@ export const CurrencyNBU = () => {
   const [dateTomorrowTable, setDateTomorrowTable] = useState(moment().add(1, 'days').format('dddd DD MMMM'));
   const [timeUpdate, setTimeUpdate] = useState();
 
-  if (numberDay > 4) {
-    setDateTomorrow(
-      moment()
-        .add(8 - numberDay, 'days')
-        .format('YYYYMMDD')
-    );
-    setDateTomorrowTable(
-      moment()
-        .add(8 - numberDay, 'days')
-        .format('dddd DD MMMM')
-    );
-  }
+  useEffect(() => {
+    if (numberDay > 4) {
+      setDateTomorrow(
+        moment()
+          .add(8 - numberDay, 'days')
+          .format('YYYYMMDD')
+      );
+      setDateTomorrowTable(
+        moment()
+          .add(8 - numberDay, 'days')
+          .format('dddd DD MMMM')
+      );
+    }
+  }, [numberDay]);
 
   useEffect(() => {
     setTimeUpdate(timeUpdate_today >= timeUpdate_tomorrow ? timeUpdate_tomorrow : timeUpdate_today);

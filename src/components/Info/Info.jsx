@@ -3,14 +3,21 @@ import { version } from 'components/info';
 
 import { ThemeChange } from './ThemeChange';
 import { ThemeChangeAuto } from './ThemeChangeAuto';
+import { ThemeChangeBackground } from './ThemeChangeBackground';
 
 export const Info = () => {
   return (
     <section>
-      <div className="about">radio {version}</div>
+      <div className="about">
+        <p className="about__title">radio {version}</p>
+      </div>
+
       <div className="settings">
         <ThemeChange></ThemeChange>
         <ThemeChangeAuto></ThemeChangeAuto>
+      </div>
+      <div className="settings">
+        <ThemeChangeBackground></ThemeChangeBackground>
       </div>
     </section>
   );

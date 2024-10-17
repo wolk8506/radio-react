@@ -1,8 +1,6 @@
 import { requestByURL } from 'api/request';
 import {
   LOCATION,
-  CURRENCY_MONO,
-  // KURS_TODAY_BANKS,
   WEATHER_15,
   WEATHER_ELEMENTS,
   WEATHER_AIR_QUALITY,
@@ -11,20 +9,7 @@ import {
   WEATHER_TOMORROW,
 } from './actions';
 
-const URL_MONO_TODAY = `https://api.monobank.ua/bank/currency`;
 const URL_LOCATION = `https://ipapi.co/json/`;
-// const URL_KURS_TODAY_BANKS = 'https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts';
-
-// export const getKursTodayBanks = () => {
-//   return dispatch => {
-//     requestByURL(URL_KURS_TODAY_BANKS).then(data => {
-//       dispatch({
-//         type: KURS_TODAY_BANKS,
-//         payload: data,
-//       });
-//     });
-//   };
-// };
 
 export const getLocation = () => {
   return dispatch => {
@@ -99,18 +84,6 @@ export const getWeatherTomorrow = URL => {
       if (data === undefined) return;
       dispatch({
         type: WEATHER_TOMORROW,
-        payload: data,
-      });
-    });
-  };
-};
-
-export const getMonoToday = () => {
-  return dispatch => {
-    requestByURL(URL_MONO_TODAY).then(data => {
-      if (data === undefined) return;
-      dispatch({
-        type: CURRENCY_MONO,
         payload: data,
       });
     });

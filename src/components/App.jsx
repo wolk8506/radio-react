@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Media from 'react-media';
 import { useTheme } from 'hooks/use-theme';
+import { useBackground } from 'hooks/use-background';
 
 import { RadioMini } from './Main/Radio-mini';
 import { Main } from './Main/Main';
@@ -96,6 +97,16 @@ export const App = () => {
   useEffect(() => {
     setTheme(THEME);
   }, [THEME, setTheme]);
+  // ----------------
+  // eslint-disable-next-line no-unused-vars
+  const { themeBackground, setThemeBackground } = useBackground();
+
+  const THEME_BACKGROUND = useSelector(state => state.storeData.themeBackground);
+
+  useEffect(() => {
+    // console.log(themeBackground);
+    setThemeBackground(THEME_BACKGROUND);
+  }, [THEME_BACKGROUND, setThemeBackground, themeBackground]);
 
   // *  ----------------------------------------
 

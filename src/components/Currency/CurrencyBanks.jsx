@@ -35,8 +35,6 @@ export const CurrencyBanks = () => {
   const status = useSelector(getCurrencyBanksToday_Status);
   const storeData = useSelector(getCurrencyBanksToday_Data);
 
-  console.log(storeData);
-
   useEffect(() => {
     dispatch(fetchCurrencyBanksToday('https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts'));
   }, [dispatch]);
@@ -198,7 +196,14 @@ export const CurrencyBanks = () => {
             <TableHead>
               <TableRow>
                 <div className="tableName">
-                  <img src={storeData[valueBank1].image} alt={storeData[valueBank1].name} width={64} />
+                  <a
+                    className="bank-img"
+                    href={storeData[valueBank1].website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={storeData[valueBank1].image} alt={storeData[valueBank1].name} width={64} />
+                  </a>
 
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">Банк</InputLabel>
@@ -242,7 +247,14 @@ export const CurrencyBanks = () => {
             <TableHead>
               <TableRow>
                 <div className="tableName">
-                  <img src={storeData[valueBank2].image} alt={storeData[valueBank2].name} width={64} />
+                  <a
+                    className="bank-img"
+                    href={storeData[valueBank2].website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={storeData[valueBank2].image} alt={storeData[valueBank2].name} width={64} />
+                  </a>
 
                   <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">Банк</InputLabel>

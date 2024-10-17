@@ -19,21 +19,40 @@ export const ThemeChange = () => {
   const handleChange = e => {
     dispatch(changeTheme(e.target.value));
     setValue(e.target.value);
-    console.log('1', e.target.value);
+    // console.log('1', e.target.value);
   };
 
   return (
     <FormControl>
       <FormLabel id="controlled-radio-theme">Изменение темы</FormLabel>
-      <RadioGroup
-        aria-labelledby="controlled-radio-theme"
-        name="radio-theme"
-        value={value}
-        onChange={handleChange}
-      >
-        <FormControlLabel value="dark" control={<Radio />} label="Темная" />
-        <FormControlLabel value="dark-2" control={<Radio />} label="Темная 2" />
-        <FormControlLabel value="light" control={<Radio />} label="Светлая" />
+      <RadioGroup aria-labelledby="controlled-radio-theme" name="radio-theme" value={value} onChange={handleChange}>
+        <div className="item-theme">
+          <FormControlLabel value="dark" control={<Radio />} label="Темная" />
+          <div className="theme__color">
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+          </div>
+        </div>
+        <div>
+          <FormControlLabel value="dark-2" control={<Radio />} label="Темная 2" />
+        </div>
+        <div>
+          <FormControlLabel value="light" control={<Radio />} label="Светлая" />
+        </div>
       </RadioGroup>
     </FormControl>
   );
