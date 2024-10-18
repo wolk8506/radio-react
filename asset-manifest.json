@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.7b7f61a2.css",
-    "main.js": "/radio-react/static/js/main.3305edbd.js",
+    "main.css": "/radio-react/static/css/main.5405ec3c.css",
+    "main.js": "/radio-react/static/js/main.7c0ded4e.js",
     "static/media/img_7.jpg": "/radio-react/static/media/img_7.4dc8a13dbebdf0a56491.jpg",
     "static/media/img_13.jpg": "/radio-react/static/media/img_13.d4483b821898d934dd8a.jpg",
     "static/media/img_17.jpg": "/radio-react/static/media/img_17.36fe70e02a0fe516a82f.jpg",
@@ -54,11 +54,11 @@
     "static/media/img_1_128.webp": "/radio-react/static/media/img_1_128.eab92f24d6d5ba1a35ec.webp",
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "index.html": "/radio-react/index.html",
-    "main.7b7f61a2.css.map": "/radio-react/static/css/main.7b7f61a2.css.map",
-    "main.3305edbd.js.map": "/radio-react/static/js/main.3305edbd.js.map"
+    "main.5405ec3c.css.map": "/radio-react/static/css/main.5405ec3c.css.map",
+    "main.7c0ded4e.js.map": "/radio-react/static/js/main.7c0ded4e.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b7f61a2.css",
-    "static/js/main.3305edbd.js"
+    "static/css/main.5405ec3c.css",
+    "static/js/main.7c0ded4e.js"
   ]
 }
