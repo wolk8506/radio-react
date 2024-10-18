@@ -1,7 +1,7 @@
 .MuiInputBase-input,
 .MuiFormControl-root {
-  color: $color-2 !important;
-  border-color: $color-3 !important;
+  color: $color-02 !important;
+  border-color: $color-03 !important;
 }
 
 form {
@@ -11,23 +11,19 @@ form {
 
 #demo-simple-select-standard-label,
 #demo-simple-select-filled-label {
-  color: $color-2 !important;
-}
-
-#cur1 {
-  // margin-right: 32px;
+  color: $color-02 !important;
 }
 
 #cur1,
 #cor2 {
-  background: $color-background-1;
+  background: $color-08;
   border-radius: 15px;
   padding: 10px;
-  color: $color-2 !important;
+  color: $color-02 !important;
 }
 
 .converter-block {
-  background: $color-background-5;
+  background: $color-07;
   padding: 30px;
   width: 500px;
   border-radius: 15px;
@@ -44,7 +40,7 @@ form {
       }
 
       .MuiInputBase-root.MuiInput-root::after {
-        border-bottom: 2px solid $color-2-shadow;
+        border-bottom: 2px solid rgb-a($color-02, 50%);
         left: 12px;
 
         right: 12px;
@@ -53,68 +49,67 @@ form {
       .MuiInput-root::before {
         left: 12px;
         right: 12px;
-        border-bottom: 1px solid $color-3;
+        border-bottom: 1px solid $color-03;
       }
     }
   }
 
   .currency-btn-revert {
-    color: $color-3;
+    color: $color-03;
   }
   .MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before {
-    border-bottom: 1px solid $color-2-shadow;
+    border-bottom: 1px solid rgb-a($color-02, 50%);
   }
   .currency-select {
     width: 200px;
     .MuiSvgIcon-root {
-      color: $color-3;
+      color: $color-03;
     }
 
     .MuiFilledInput-root:before {
-      border-bottom: 1px solid $color-3;
+      border-bottom: 1px solid $color-03;
     }
     .MuiInputBase-root::after {
-      border-bottom: 2px solid $color-2-shadow;
+      border-bottom: 2px solid rgb-a($color-02, 50%);
     }
   }
 }
 
 .MuiPopover-paper.MuiMenu-paper {
-  background-color: $color-background-1;
-  color: $color-2;
+  background-color: $color-08;
+  color: $color-02;
 }
 
 // ?- - - - --  - --  - table - - - - - --
 .MuiPaper-root.MuiTableContainer-root {
-  background-color: $color-background-10;
+  background-color: $color-10;
 }
 
 .MuiTableHead-root {
-  // background-color: $color-7-50;
-  .MuiTableRow-root {
-    // background-color: $color-7-50;
-  }
+  // .MuiTableRow-root {
+  // }
+
   .MuiTableCell-root {
-    // color: $color-3;
-    border-bottom: 1px solid $color-2-shadow;
+    border-bottom: 1px solid rgb-a($color-02, 50%);
   }
 }
 
 .MuiTableBody-root {
-  background-color: $color-7-50;
-  // border-bottom: 1px solid $color-2-shadow;
+  background-color: rgb-a($color-07, 50%);
 
   .MuiTableRow-root {
-    background-color: $color-7-70;
+    background-color: rgb-a($color-07, 70%);
+
     .MuiTableCell-root {
-      color: $color-3;
-      border-bottom: 1px solid $color-2-shadow;
+      color: $color-03;
+      border-bottom: 1px solid rgb-a($color-02, 50%);
     }
   }
   .MuiTableRow-root:nth-of-type(odd) {
-    background-color: $color-7-90;
+    background-color: rgb-a($color-07, 90%);
+
     .MuiTableCell-root {
-      color: $color-3;
+      color: $color-03;
     }
   }
 }
@@ -123,7 +118,7 @@ form {
 
 @media screen and (max-width: 720px) {
   .converter-block {
-    background: $color-background-5;
+    background: $color-07;
     padding: 15px;
     width: 100%;
     border-radius: 15px;

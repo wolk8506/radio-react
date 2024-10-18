@@ -35,6 +35,8 @@ export const CurrencyBanks = () => {
   const status = useSelector(getCurrencyBanksToday_Status);
   const storeData = useSelector(getCurrencyBanksToday_Data);
 
+  console.log(storeData);
+
   useEffect(() => {
     dispatch(fetchCurrencyBanksToday('https://apiexpressdata-1z2wmj3x.b4a.run/api/contacts'));
   }, [dispatch]);

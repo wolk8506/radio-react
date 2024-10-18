@@ -1,7 +1,7 @@
 .clock {
   width: 850px;
   height: 295px;
-  background: $color-background-5;
+  background: $color-07;
   margin: 0 auto;
   border-radius: 15px;
   box-shadow: $box-shadow-6;
@@ -11,7 +11,7 @@
   .gear {
     width: 5px;
     height: 40px;
-    background: $color-background-10;
+    background: $color-10;
     position: absolute;
     top: 50%;
     left: 0;
@@ -58,7 +58,7 @@
     width: 100%;
     height: calc(50% - 15px);
     background: $color-background-8;
-    color: $color-1;
+    color: $color-01;
     text-align: center;
     line-height: 250px;
     border-radius: 5px;
@@ -73,7 +73,7 @@
 
     margin-top: 5px;
     margin-bottom: 10px;
-    color: $color-1;
+    color: $color-01;
     text-align: center;
     line-height: 250px;
 
@@ -108,7 +108,7 @@
     left: 0;
     width: 6px;
     height: 15px;
-    background: $color-background-5;
+    background: $color-07;
   }
 
   .top_new:before {

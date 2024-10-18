@@ -1,5 +1,5 @@
 .chart {
-  background: $color-background-5;
+  background: $color-07;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-right: 20px;
@@ -13,21 +13,21 @@
   margin-bottom: 16px;
 
   & button {
-    border-color: $color-2-shadow;
+    border-color: rgb-a($color-02, 50%);
   }
   & button:hover {
     // border-color: $color-2;
-    border: 1px solid $color-2;
+    border: 1px solid $color-02;
     background-color: rgba(225, 150, 70, 0.04);
-    color: $color-2;
+    color: $color-02;
   }
 
   .chart__buttons {
     .header__btn {
-      color: $color-3;
+      color: $color-03;
     }
     .header__btn--activ {
-      color: $color-2;
+      color: $color-02;
     }
   }
 
@@ -42,5 +42,5 @@
 }
 
 .MuiMarkElement-root {
-  fill: $color-3 !important;
+  fill: $color-03 !important;
 }

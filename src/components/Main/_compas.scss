@@ -14,7 +14,7 @@
   width: 2px;
   height: 2.5%;
   margin-bottom: 45%;
-  background: $color-1;
+  background: $color-01;
 
   position: absolute;
   left: 50%;
@@ -22,7 +22,7 @@
   margin: -2.5% 0 0 -1px;
   vertical-align: top;
 
-  box-shadow: -5% 0 $color-1;
+  box-shadow: -5% 0 $color-01;
   transform-origin: 50% 100%;
   transform: rotate(15deg) translateY(-1800%);
 }
@@ -30,7 +30,7 @@
   width: 5px;
   height: 5%;
   margin-bottom: 40%;
-  background: $color-background-4;
+  background: $color-12;
 
   margin: -5% 0 0 -2.5px;
   transform: rotate(0deg) translateY(-800%);
@@ -180,7 +180,7 @@
 .arrow_text {
   font-size: 16px;
   font-weight: 700;
-  color: $color-1;
+  color: $color-01;
   width: 42px;
   height: 42px;
   top: 50%;
@@ -192,7 +192,7 @@
   display: flex;
   flex-direction: column;
   line-height: 1;
-  background: $color-background-5;
+  background: $color-07;
 }
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -200,20 +200,20 @@
 // !!!!!!!!!!!!!! PRIBOR
 
 .relative path {
-  stroke: $color-1; // обводка стрелки
-  fill: $color-2; // стрелка
+  stroke: $color-01; // обводка стрелки
+  fill: $color-02; // стрелка
 }
 
 .relative circle {
-  stroke: $color-2; // обводка стрелки
-  fill: $color-1; // стрелка
+  stroke: $color-02; // обводка стрелки
+  fill: $color-01; // стрелка
 }
 
 .pribor-color-1 {
-  stroke: $color-5;
+  stroke: $color-05;
 }
 .pribor-color-2 {
-  stroke: $color-1;
+  stroke: $color-01;
 }
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

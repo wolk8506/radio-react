@@ -11,7 +11,7 @@
     margin-bottom: 20px;
 
     .card__item {
-      background: $color-background-5;
+      background: $color-07;
       border-radius: 15px;
       padding: 10px;
       width: 300px;
@@ -47,7 +47,7 @@
 
           .image__box {
             width: 10px;
-            background: $color-1;
+            background: $color-01;
             height: 100%;
             position: relative;
             border-radius: 8px;
@@ -227,7 +227,7 @@
           position: relative;
           // display: block;
           .precip-image__svg {
-            border: 1px solid $color-1-10;
+            border: 1px solid rgb-a($color-01, 10%);
             border-radius: 50%;
 
             &.is-hidden {
@@ -279,7 +279,7 @@
         padding-top: 20px;
 
         .sun-img {
-          stroke: $color-1-90;
+          stroke: rgb-a($color-01, 90%);
         }
         .sun-img-point {
           fill: #acacac;
@@ -341,7 +341,7 @@
         padding-top: 20px;
 
         .moon-img {
-          stroke: $color-1-90;
+          stroke: rgb-a($color-01, 90%);
         }
         .moon-img-point {
           fill: #acacac;
@@ -407,13 +407,13 @@
         .svg-temperature-area {
           // fill: #18bfca;
 
-          box-shadow: $color-1 0px 2px 0px inset;
+          box-shadow: $color-01 0px 2px 0px inset;
           opacity: 0.09;
         }
         .temperatureCardContainer-DS-EntryPoint1-1 {
           width: 300px;
           height: 250px;
-          background: $color-1-10;
+          background: rgb-a($color-01, 10%);
           border-radius: 12px;
           padding: 16px 20px;
           box-sizing: border-box;
@@ -422,7 +422,7 @@
         }
 
         .temperature__value {
-          fill: $color-2;
+          fill: $color-02;
           // dominant-baseline: middle;
           text-anchor: middle;
           font-weight: 600;
@@ -459,7 +459,7 @@
         }
         .cloud__svg {
           background: rgb(207 228 250 / 10%);
-          border: 1px solid $color-1-10;
+          border: 1px solid rgb-a($color-01, 10%);
           border-radius: 50%;
         }
         .cloud__svg--color-1 {
@@ -489,7 +489,7 @@
       .feel-temp {
         padding-top: 8px;
         .feel-temp__svg-line {
-          stop-color: $color-1-10;
+          stop-color: rgb-a($color-01, 10%);
         }
         .feel-temp__block-temp {
           .block-temp__title {
@@ -558,7 +558,7 @@
             position: relative;
 
             .image__svg-segment {
-              stroke: $color-1;
+              stroke: $color-01;
             }
 
             .image__char {
@@ -654,7 +654,7 @@
         padding-bottom: 26px;
 
         .pressure__svg-line {
-          stop-color: $color-1-10;
+          stop-color: rgb-a($color-01, 10%);
         }
 
         .pressure__content {

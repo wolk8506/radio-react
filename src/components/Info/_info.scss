@@ -8,7 +8,7 @@
     font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
     font-size: 72px;
     text-align: center;
-    background: $color-background-5;
+    background: $color-07;
     padding: 16px;
     border-radius: 15px;
     letter-spacing: 10px;
@@ -21,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  background: $color-background-5;
+  background: $color-07;
   border-radius: 15px;
   padding: 16px;
   margin-bottom: 16px;
@@ -29,67 +29,144 @@
   .item-theme {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    align-content: space-between;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb-a($color-02, 50%);
+
     .theme__color {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       justify-content: space-between;
       align-content: space-between;
-      width: 160px;
+      width: 120px;
       height: 36px;
 
       .color__item {
-        border: 1px solid $color-2-shadow;
+        border: 1px solid rgb-a($color-02, 50%);
         width: 16px;
         height: 16px;
         margin: 2px;
         border-radius: 4px;
       }
+    }
 
+    .theme__color--scheme-1 {
       .color__item:nth-child(1) {
-        background: $color-1;
+        background: rgb(255, 255, 255);
       }
       .color__item:nth-child(2) {
-        background: $color-2;
+        background: rgb(225, 150, 70);
       }
       .color__item:nth-child(3) {
-        background: $color-3;
+        background: rgb(252, 227, 175);
       }
       .color__item:nth-child(4) {
-        background: $color-4;
+        background: rgb(0, 128, 0);
       }
       .color__item:nth-child(5) {
-        background: $color-5;
+        background: rgb(255, 0, 0);
       }
       .color__item:nth-child(7) {
-        background: $color-6;
+        background: rgb(39, 41, 45);
       }
       .color__item:nth-child(8) {
-        background: $color-background-1;
+        background: rgb(25, 27, 29);
       }
       .color__item:nth-child(9) {
-        background: $color-background-2;
+        background: rgb(33, 37, 39);
       }
       .color__item:nth-child(10) {
-        background: $color-background-3;
+        background: rgb(33, 35, 37);
       }
       .color__item:nth-child(11) {
-        background: $color-background-4;
+        background: rgb(30, 30, 30);
       }
       .color__item:nth-child(12) {
-        background: $color-background-5;
+        background: rgb(24, 24, 24);
       }
       .color__item:nth-child(13) {
-        background: $color-background-6;
+        background: rgb(139, 157, 153);
       }
-      .color__item:nth-child(14) {
-        background: $color-background-7;
+    }
+
+    .theme__color--scheme-2 {
+      .color__item:nth-child(1) {
+        background: #ffffff;
       }
-      .color__item:nth-child(15) {
-        background: $color-background-8;
+      .color__item:nth-child(2) {
+        background: #e19646;
       }
-      .color__item:nth-child(16) {
-        background: $color-background-9;
+      .color__item:nth-child(3) {
+        background: #fce3af;
+      }
+      .color__item:nth-child(4) {
+        background: #91e146;
+      }
+      .color__item:nth-child(5) {
+        background: #e14846;
+      }
+      .color__item:nth-child(7) {
+        background: #27292d;
+      }
+      .color__item:nth-child(8) {
+        background: #212527;
+      }
+      .color__item:nth-child(9) {
+        background: #000000;
+      }
+      .color__item:nth-child(10) {
+        background: #212325;
+      }
+      .color__item:nth-child(11) {
+        background: #1e1e1e;
+      }
+      .color__item:nth-child(12) {
+        background: #181818;
+      }
+      .color__item:nth-child(13) {
+        background: #8b9d99;
+      }
+    }
+
+    .theme__color--scheme-3 {
+      .color__item:nth-child(1) {
+        background: #4d4b4a;
+      }
+      .color__item:nth-child(2) {
+        background: #795a1d;
+      }
+      .color__item:nth-child(3) {
+        background: #999999;
+      }
+      .color__item:nth-child(4) {
+        background: #466249;
+      }
+      .color__item:nth-child(5) {
+        background: #c36b72;
+      }
+      .color__item:nth-child(7) {
+        background: #27292d;
+      }
+      .color__item:nth-child(8) {
+        background: #eceae4;
+      }
+      .color__item:nth-child(9) {
+        background: #f1f0ee;
+      }
+      .color__item:nth-child(10) {
+        background: #caa56e;
+      }
+      .color__item:nth-child(11) {
+        background: #c39e67;
+      }
+      .color__item:nth-child(12) {
+        background: #181818;
+      }
+      .color__item:nth-child(13) {
+        background: #8b9d99;
       }
     }
   }
@@ -100,23 +177,23 @@
     justify-content: space-between;
     margin-bottom: 5px;
     padding-bottom: 5px;
-    border-bottom: 1px solid $color-2-shadow;
+    border-bottom: 1px solid rgb-a($color-02, 50%);
 
     .item-background-color {
       width: 64px;
-      background-color: $color-background-1;
+      background-color: $color-08;
       height: 36px;
-      border: 1px solid $color-2-shadow;
+      border: 1px solid rgb-a($color-02, 50%);
       border-radius: 10px;
     }
 
     img {
-      border: 1px solid $color-2-shadow;
+      border: 1px solid rgb-a($color-02, 50%);
       border-radius: 10px;
     }
   }
 
   label {
-    color: $color-2;
+    color: $color-02;
   }
 }

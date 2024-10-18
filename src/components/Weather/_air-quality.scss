@@ -8,7 +8,7 @@
     width: calc(556px / 3);
     height: 111px;
     padding: 8px;
-    border: 1px solid $color-2-shadow;
+    border: 1px solid rgb-a($color-02, 50%);
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@
       .name__text {
         font-size: 14px;
         text-align: center;
-        color: $color-2-shadow;
+        color: rgb-a($color-02, 50%);
         height: 40px;
         display: flex;
         align-items: center;
@@ -57,7 +57,7 @@
       background: none;
 
       .info__icon {
-        color: $color-2-shadow;
+        color: rgb-a($color-02, 50%);
         font-size: 12px;
       }
     }
@@ -79,9 +79,9 @@
     position: absolute;
     width: 588px;
     height: 238px;
-    border: 1px solid $color-2-shadow;
+    border: 1px solid rgb-a($color-02, 50%);
     border-radius: 15px;
-    background: $color-background-5;
+    background: $color-07;
     transform: scale(0.25);
     @include animation(opacity visibility);
     opacity: 0;
@@ -105,7 +105,7 @@
           width: 100px;
           margin: 8px 0 8px 0;
           height: 1px;
-          background: $color-2-shadow;
+          background: rgb-a($color-02, 50%);
         }
         .description__value {
           display: flex;
@@ -121,11 +121,11 @@
     .description__text-block {
       .text-block__title {
         font-size: 9px;
-        color: $color-2-shadow;
+        color: rgb-a($color-02, 50%);
       }
       .text-block__text {
         font-size: 8px;
-        color: $color-2-shadow;
+        color: rgb-a($color-02, 50%);
       }
     }
 
@@ -153,7 +153,7 @@
           border: 0 solid transparent;
           border-bottom-width: 4px;
           border-top-width: 4px;
-          border-left: 15px solid $color-3;
+          border-left: 15px solid $color-03;
         }
       }
 
@@ -219,7 +219,7 @@
     }
 
     .btn-close {
-      color: $color-3;
+      color: $color-03;
     }
   }
 }

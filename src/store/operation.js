@@ -17,7 +17,7 @@ export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent '
 export const fetchCurrencyBanksToday = createAsyncThunk('currency/BanksToday ', async url => {
   try {
     const response = await axios.get(url);
-    return response.data.exchangers;
+    return response.data.data.exchangers;
   } catch (error) {
     console.log('error');
   }

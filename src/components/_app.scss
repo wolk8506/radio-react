@@ -11,11 +11,11 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: $color-background-1; /* Цвет дорожки */
+  background: $color-08; /* Цвет дорожки */
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: $color-2; /* Цвет бегунка */
+  background-color: $color-02; /* Цвет бегунка */
   border-radius: 20px; /* Округление бегунка */
   // border: 3px solid #050c26; /* Оформление границ бегунка */
 }
@@ -54,7 +54,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .tabs button {
-  color: $color-2 !important;
+  color: $color-02 !important;
 }
 
 // !  ⇩ start - - Десктопное меню - - - - - - -  ⇩
@@ -70,7 +70,7 @@ body::-webkit-scrollbar-thumb {
     display: flex;
 
     .menu-btn {
-      background: $color-background-5;
+      background: $color-07;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -81,10 +81,10 @@ body::-webkit-scrollbar-thumb {
 
     .navigation-btn,
     .menu-open-text {
-      color: $color-1;
+      color: $color-01;
 
       &.activ {
-        color: $color-2;
+        color: $color-02;
       }
     }
 
@@ -120,7 +120,7 @@ body::-webkit-scrollbar-thumb {
     .menu-open {
       padding: 10px 15px 10px 10px;
       border-radius: 0px 15px 15px 0px;
-      background: $color-background-5;
+      background: $color-07;
       transform: translateX(-145px);
       transition: all 0.5s;
       width: 160px;
@@ -163,7 +163,7 @@ body::-webkit-scrollbar-thumb {
   height: 50px;
 
   .mobile-menu__title {
-    background: $color-background-6;
+    background: $color-07;
     width: 100%;
     height: 40px;
     z-index: 3;
@@ -184,7 +184,7 @@ body::-webkit-scrollbar-thumb {
     border: none;
     margin: 0px auto 0px 0px;
     font-size: 18px;
-    color: $color-2;
+    color: $color-02;
     padding: 10px;
     cursor: pointer;
     display: flex;
@@ -203,7 +203,7 @@ body::-webkit-scrollbar-thumb {
     display: flex;
     position: fixed;
     flex-direction: column;
-    background: $color-background-6;
+    background: $color-07;
     padding-left: 30px;
     width: 100%;
     height: 310px;
@@ -236,25 +236,4 @@ body::-webkit-scrollbar-thumb {
       flex-direction: column;
     }
   }
-}
-
-@media screen and (max-width: 720px) {
-  // .container {
-  //   max-width: 100%;
-  //   padding: 0;
-  // }
-  // .first-panel > div {
-  //   width: 100%;
-  // }
-  // .first-panel {
-  //   flex-direction: column-reverse;
-  // }
-  // .player {
-  //   display: none;
-  // }
-  // .tab-panel {
-  //   padding-left: 0 !important;
-  //   padding-right: 0 !important;
-  //   padding-top: 10 !important;
-  // }
 }

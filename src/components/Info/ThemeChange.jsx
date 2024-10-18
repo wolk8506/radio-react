@@ -28,11 +28,7 @@ export const ThemeChange = () => {
       <RadioGroup aria-labelledby="controlled-radio-theme" name="radio-theme" value={value} onChange={handleChange}>
         <div className="item-theme">
           <FormControlLabel value="dark" control={<Radio />} label="Темная" />
-          <div className="theme__color">
-            <div className="color__item"></div>
-            <div className="color__item"></div>
-            <div className="color__item"></div>
-            <div className="color__item"></div>
+          <div className="theme__color theme__color--scheme-1">
             <div className="color__item"></div>
             <div className="color__item"></div>
             <div className="color__item"></div>
@@ -47,11 +43,39 @@ export const ThemeChange = () => {
             <div className="color__item"></div>
           </div>
         </div>
-        <div>
+        <div className="item-theme">
           <FormControlLabel value="dark-2" control={<Radio />} label="Темная 2" />
+          <div className="theme__color theme__color--scheme-2">
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+          </div>
         </div>
-        <div>
+        <div className="item-theme">
           <FormControlLabel value="light" control={<Radio />} label="Светлая" />
+          <div className="theme__color theme__color--scheme-3">
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+            <div className="color__item"></div>
+          </div>
         </div>
       </RadioGroup>
     </FormControl>

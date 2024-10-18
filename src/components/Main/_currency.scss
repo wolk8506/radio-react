@@ -4,7 +4,7 @@
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  background: $color-background-5;
+  background: $color-07;
 
   margin-bottom: 30px;
   margin-top: 30px;
@@ -32,13 +32,13 @@
       justify-content: flex-end;
 
       span.arrow--up {
-        color: $color-4;
+        color: $color-04;
         width: 5px;
         margin-left: 5px;
       }
 
       span.arrow--dn {
-        color: $color-5;
+        color: $color-05;
         width: 5px;
         margin-left: 5px;
       }
@@ -88,10 +88,10 @@
     // width: 50px; //* Ширина подсказки */
     left: 0;
     top: 0; //* Положение подсказки */
-    background: $color-background-6; //* Синий цвет фона */
-    color: $color-1; //* Цвет текста */
+    // background: $color-background-6; //* Синий цвет фона */
+    color: $color-01; //* Цвет текста */
     padding: 0.5em; //* Поля вокруг текста */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); //* Параметры тени */
+    box-shadow: 2px 2px 5px rgb-a($color-08, 30%); //* Параметры тени */
     pointer-events: none; //* Подсказка */
     opacity: 0; //* Подсказка невидима */
     transition: 1s; //* Время появления подсказки */

@@ -1,11 +1,11 @@
 .graph {
   width: 495px;
   min-height: 281px;
-  background: $color-background-5;
+  background: $color-07;
   position: relative;
   margin-right: 7px;
-  color: $color-2;
-  text-shadow: 0 0 10px $color-2-shadow;
+  color: $color-02;
+  text-shadow: 0 0 10px rgb-a($color-02, 50%);
   font-size: 32px;
   border-radius: 15px;
   overflow: hidden;
@@ -21,7 +21,7 @@
   margin: 0;
   padding-top: 10px;
   padding-bottom: 5px;
-  border-bottom: 2px solid $color-6;
+  border-bottom: 2px solid $color-06;
   font-weight: 500;
   font-family: 'Montserrat Alternates', sans-serif;
 }
@@ -41,7 +41,7 @@
     list-style: circle;
     font-size: 18px;
     vertical-align: bottom;
-    fill: $color-2;
+    fill: $color-02;
     font-family: 'Montserrat Alternates', sans-serif;
   }
 }
@@ -51,11 +51,11 @@
 }
 
 .days::-webkit-scrollbar-track {
-  background: $color-background-5; /* Цвет дорожки */
+  background: $color-07; /* Цвет дорожки */
 }
 
 .days::-webkit-scrollbar-thumb {
-  background-color: $color-2; /* Цвет бегунка */
+  background-color: $color-02; /* Цвет бегунка */
   border-radius: 20px; /* Округление бегунка */
   // border: 3px solid #050c26; /* Оформление границ бегунка */
 }

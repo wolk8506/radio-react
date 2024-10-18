@@ -6,7 +6,7 @@
   margin-bottom: 8px;
   margin-top: 32px;
   padding-left: 16px;
-  background-color: $color-background-5;
+  background-color: $color-07;
   padding: 16px;
   border-radius: 15px;
 }
@@ -17,17 +17,17 @@
 .load-btn {
   &.MuiButton-root,
   &.MuiButton-root:hover {
-    color: $color-3;
-    fill: $color-3;
-    border-color: $color-3;
+    color: $color-03;
+    fill: $color-03;
+    border-color: $color-03;
 
     &.Mui-disabled {
-      color: $color-2-shadow;
-      border: 1px solid $color-2-shadow;
+      color: rgb-a($color-02, 50%);
+      border: 1px solid rgb-a($color-02, 50%);
     }
   }
   &.MuiButton-root:hover {
-    border: 1px solid $color-2;
+    border: 1px solid $color-02;
   }
 }
 
@@ -76,8 +76,8 @@
 }
 
 .MuiTableCell-head {
-  background-color: $color-background-10 !important;
-  color: $color-2 !important;
+  background-color: $color-10 !important;
+  color: $color-02 !important;
 }
 
 .MuiPaper-root {
@@ -90,25 +90,25 @@
   margin-left: 16px;
 }
 .update-time {
-  color: $color-2-shadow;
+  color: rgb-a($color-02, 50%);
   font-size: 12px;
   padding-top: 4px;
 }
 // *  date picker - - - - --  - - - -
 
 .MuiFormLabel-root {
-  color: $color-2 !important;
+  color: $color-02 !important;
   // border: ;
 }
 .date-picker {
   width: 180px;
   .MuiSvgIcon-root {
-    fill: $color-3 !important;
+    fill: $color-03 !important;
   }
 }
 
 .MuiOutlinedInput-notchedOutline {
-  border-color: $color-2 !important;
+  border-color: $color-02 !important;
 }
 // ---
 
