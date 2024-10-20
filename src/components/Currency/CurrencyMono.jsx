@@ -365,7 +365,7 @@ export const CurrencyMono = () => {
         </LoadingButton>
         <h2>Курс MONObank на {dateToday}.</h2>
         <div className="update-block">
-          {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+          {status ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
           <p className="update-time" title="Время обновления данных с сервера.">
             {timeUpdate}
           </p>

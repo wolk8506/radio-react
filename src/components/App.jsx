@@ -104,7 +104,6 @@ export const App = () => {
   const THEME_BACKGROUND = useSelector(state => state.storeData.themeBackground);
 
   useEffect(() => {
-    // console.log(themeBackground);
     setThemeBackground(THEME_BACKGROUND);
   }, [THEME_BACKGROUND, setThemeBackground, themeBackground]);
 

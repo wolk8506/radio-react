@@ -1,6 +1,9 @@
 @import 'scss/colors';
+@import 'scss/walpaper';
 @import 'scss/fonts';
-@import 'scss/btn';
+@import 'scss/function';
+
+@import 'scss/common-style';
 
 @import 'components/app';
 
@@ -26,8 +29,7 @@
 @import-normalize; /* bring in normalize.css styles */
 
 html {
-  background: $color-08;
-  // background-image: url(./images/prazdnik-khellouin-khellouin-tykva-tykvy-osen-5.jpg);
+  background-color: $background-color;
   background-image: $background-image-1;
   background-repeat: no-repeat;
   background-position: center;
@@ -41,9 +43,8 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // background: $color-background-1;
   color: $color-02;
-  transition: background 0.5s;
+  transition: background 0.25s;
 }
 
 * {

@@ -176,7 +176,6 @@ export const CurrencyBanks = () => {
           className="load-btn"
           onClick={handleUpdateCurrency}
           loading={loading}
-          // loadingIndicator="Loading…"
           loadingPosition="start" //loadingPosition="end"
           variant="outlined" //outlined // contained
           startIcon={<AutorenewIcon />}
@@ -185,7 +184,7 @@ export const CurrencyBanks = () => {
         </LoadingButton>
         <h2>Курс валют в банках.</h2>
         <div className="update-block">
-          {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+          {status ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
           <p className="update-time" title="Время обновления данных с сервера.">
             {timeUpdate}
           </p>
@@ -197,7 +196,7 @@ export const CurrencyBanks = () => {
           <Table sx={{ minWidth: 400 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <div className="tableName">
+                <div className="table-name">
                   <a
                     className="bank-img"
                     href={storeData[valueBank1].website}
@@ -207,7 +206,7 @@ export const CurrencyBanks = () => {
                     <img src={storeData[valueBank1].image} alt={storeData[valueBank1].name} width={64} />
                   </a>
 
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+                  <FormControl className="select-bank" variant="standard" sx={{ m: 1, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">Банк</InputLabel>
                     <Select
                       labelId="demo-simple-select-standard-label"
@@ -248,7 +247,7 @@ export const CurrencyBanks = () => {
           <Table sx={{ minWidth: 400 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <div className="tableName">
+                <div className="table-name">
                   <a
                     className="bank-img"
                     href={storeData[valueBank2].website}
@@ -258,7 +257,7 @@ export const CurrencyBanks = () => {
                     <img src={storeData[valueBank2].image} alt={storeData[valueBank2].name} width={64} />
                   </a>
 
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+                  <FormControl className="select-bank" variant="standard" sx={{ m: 1, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">Банк</InputLabel>
                     <Select
                       labelId="demo-simple-select-standard-label"

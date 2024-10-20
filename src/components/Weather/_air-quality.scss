@@ -3,6 +3,10 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: space-between;
+  width: 620px;
+  height: 270px;
+  padding: 16px;
+  @include card-style;
 
   .air-quality__card {
     width: calc(556px / 3);
@@ -26,6 +30,7 @@
         font-weight: 600;
         margin-bottom: 8px;
       }
+
       .name__text {
         font-size: 14px;
         text-align: center;
@@ -40,8 +45,8 @@
     .card__separator {
       width: 6px;
       height: 95px;
-      //   background: green;
     }
+
     .card__value {
       padding-left: 8px;
       width: 50px;
@@ -90,6 +95,7 @@
 
     .description {
       padding: 8px;
+
       .description__top-block {
         display: flex;
         justify-content: space-between;
@@ -98,15 +104,18 @@
         .description__title {
           font-size: 36px;
         }
+
         .description__subtitle {
           font-size: 12px;
         }
+
         .description__separator {
           width: 100px;
           margin: 8px 0 8px 0;
           height: 1px;
           background: rgb-a($color-02, 50%);
         }
+
         .description__value {
           display: flex;
           font-size: 22px;
@@ -123,6 +132,7 @@
         font-size: 9px;
         color: rgb-a($color-02, 50%);
       }
+
       .text-block__text {
         font-size: 8px;
         color: rgb-a($color-02, 50%);
@@ -138,16 +148,13 @@
       .scale__pointer {
         width: 18px;
         height: 90%;
-
         position: relative;
 
         .pointer__arrow {
           position: absolute;
-          color: aliceblue;
           font-size: 16px;
           width: 10px;
           height: 1px;
-
           width: 0;
           height: 0;
           border: 0 solid transparent;
@@ -158,10 +165,8 @@
       }
 
       .scale__gradient {
-        // display: block;
         width: 10px;
         height: 90%;
-        // background: rgb(0, 152, 46);
         background: linear-gradient(
           180deg,
           #00982e 0%,
@@ -189,7 +194,6 @@
           display: flex;
           align-items: center;
           font-size: 11px;
-          //   text-align: center;
 
           .item__number {
             font-size: 24px;
@@ -198,22 +202,22 @@
         }
 
         .name-group__item:nth-child(1) {
-          color: #00982e;
+          color: rgb(0, 152, 46);
         }
         .name-group__item:nth-child(2) {
-          color: #6ec000;
+          color: rgb(110, 192, 0);
         }
         .name-group__item:nth-child(3) {
-          color: #c8b900;
+          color: rgb(200, 185, 0);
         }
         .name-group__item:nth-child(4) {
-          color: #d89d00;
+          color: rgb(216, 157, 0);
         }
         .name-group__item:nth-child(5) {
-          color: #db6500;
+          color: rgb(219, 101, 0);
         }
         .name-group__item:nth-child(6) {
-          color: #ce0000;
+          color: rgb(206, 0, 0);
         }
       }
     }

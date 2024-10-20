@@ -10,6 +10,7 @@ import { playerStation, playerPlay } from 'store/actions';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
 
 import img_181_fm from '../../images/station/img-181.fm.jpg';
 import img_kiss_fm from '../../images/station/kissfm.webp';
@@ -244,11 +245,9 @@ export const Radio = ({ onAudio }) => {
         </FormControl>
       </div>
 
-      <figure className={playPause ? 'toggle' : 'toggle_on'} onClick={handlePlayPause}>
-        <div className="btn_play">
-          {playPause ? <PlayArrowIcon sx={{ fontSize: 40 }} /> : <PauseIcon sx={{ fontSize: 40 }} />}
-        </div>
-      </figure>
+      <Button className="btn" variant="outlined" size="large" onClick={handlePlayPause}>
+        {playPause ? <PlayArrowIcon className="btn__icon" /> : <PauseIcon className="btn-play__icon" />}
+      </Button>
     </div>
   );
 };

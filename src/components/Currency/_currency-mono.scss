@@ -1,120 +1,32 @@
-.MuiInputBase-input,
-.MuiFormControl-root {
-  color: $color-02 !important;
-  border-color: $color-03 !important;
-}
-
 form {
   display: flex;
   align-items: center;
 }
 
-#demo-simple-select-standard-label,
-#demo-simple-select-filled-label {
-  color: $color-02 !important;
-}
-
-#cur1,
-#cor2 {
-  background: $color-08;
-  border-radius: 15px;
-  padding: 10px;
-  color: $color-02 !important;
-}
-
 .converter-block {
-  background: $color-07;
   padding: 30px;
   width: 500px;
-  border-radius: 15px;
   margin: 20px;
+  @include card-style;
+
   .text-field-block {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    .text-field {
-      .MuiInputBase-input::-webkit-outer-spin-button,
-      .MuiInputBase-input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
 
-      .MuiInputBase-root.MuiInput-root::after {
-        border-bottom: 2px solid rgb-a($color-02, 50%);
-        left: 12px;
-
-        right: 12px;
-      }
-
-      .MuiInput-root::before {
-        left: 12px;
-        right: 12px;
-        border-bottom: 1px solid $color-03;
-      }
+    .MuiFormControl-root.MuiTextField-root {
+      width: 200px;
     }
   }
 
   .currency-btn-revert {
     color: $color-03;
   }
-  .MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before {
-    border-bottom: 1px solid rgb-a($color-02, 50%);
-  }
+
   .currency-select {
     width: 200px;
-    .MuiSvgIcon-root {
-      color: $color-03;
-    }
-
-    .MuiFilledInput-root:before {
-      border-bottom: 1px solid $color-03;
-    }
-    .MuiInputBase-root::after {
-      border-bottom: 2px solid rgb-a($color-02, 50%);
-    }
   }
 }
-
-.MuiPopover-paper.MuiMenu-paper {
-  background-color: $color-08;
-  color: $color-02;
-}
-
-// ?- - - - --  - --  - table - - - - - --
-.MuiPaper-root.MuiTableContainer-root {
-  background-color: $color-10;
-}
-
-.MuiTableHead-root {
-  // .MuiTableRow-root {
-  // }
-
-  .MuiTableCell-root {
-    border-bottom: 1px solid rgb-a($color-02, 50%);
-  }
-}
-
-.MuiTableBody-root {
-  background-color: rgb-a($color-07, 50%);
-
-  .MuiTableRow-root {
-    background-color: rgb-a($color-07, 70%);
-
-    .MuiTableCell-root {
-      color: $color-03;
-      border-bottom: 1px solid rgb-a($color-02, 50%);
-    }
-  }
-  .MuiTableRow-root:nth-of-type(odd) {
-    background-color: rgb-a($color-07, 90%);
-
-    .MuiTableCell-root {
-      color: $color-03;
-    }
-  }
-}
-
-// ?--------------------------------------
 
 @media screen and (max-width: 720px) {
   .converter-block {

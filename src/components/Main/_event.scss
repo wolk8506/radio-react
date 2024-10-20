@@ -1,14 +1,12 @@
 .graph {
   width: 495px;
   min-height: 281px;
-  background: $color-07;
   position: relative;
   margin-right: 7px;
   color: $color-02;
-  text-shadow: 0 0 10px rgb-a($color-02, 50%);
   font-size: 32px;
-  border-radius: 15px;
   overflow: hidden;
+  @include card-style;
 }
 
 .graph > div {
@@ -46,19 +44,6 @@
   }
 }
 
-.days::-webkit-scrollbar {
-  width: 10px; /* Ширина всего элемента навигации */
-}
-
-.days::-webkit-scrollbar-track {
-  background: $color-07; /* Цвет дорожки */
-}
-
-.days::-webkit-scrollbar-thumb {
-  background-color: $color-02; /* Цвет бегунка */
-  border-radius: 20px; /* Округление бегунка */
-  // border: 3px solid #050c26; /* Оформление границ бегунка */
-}
 @media screen and (max-width: 720px) {
   .graph {
     width: 100%;

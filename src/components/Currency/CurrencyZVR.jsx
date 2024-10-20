@@ -176,7 +176,11 @@ export const CurrencyZVR = () => {
                   >
                     <p>Золото-валютные резервы на {moment(storeData[0].dt).format('MMMM YYYY')}</p>
                     <div>
-                      {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+                      {status ? (
+                        <CheckCircleOutlineIcon className="icon-success" />
+                      ) : (
+                        <WarningAmberIcon className="icon-warning" />
+                      )}
                       <p className="update-time" title="Время обновления данных с сервера.">
                         {timeUpdate}
                       </p>
@@ -240,7 +244,11 @@ export const CurrencyZVR = () => {
                   >
                     <p>Золото-валютные резервы на {moment(storeData2[0].dt).format('MMMM YYYY')}</p>
                     <div>
-                      {status2 ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+                      {status2 ? (
+                        <CheckCircleOutlineIcon className="icon-success" />
+                      ) : (
+                        <WarningAmberIcon className="icon-warning" />
+                      )}
                       <p className="update-time" title="Время обновления данных с сервера.">
                         {timeUpdate2}
                       </p>

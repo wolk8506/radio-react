@@ -1,0 +1,158 @@
+// *  scrollbar - - - - - - - - - - - - - - - - - - - - -
+
+*::-webkit-scrollbar {
+  width: 10px; /* Ширина всего элемента навигации */
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $color-07; /* Цвет дорожки */
+  border-radius: 20px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $color-02; /* Цвет бегунка */
+  border-radius: 20px; /* Округление бегунка */
+  // border: 3px solid #050c26; /* Оформление границ бегунка */
+}
+
+// * select  - - - - - - - - - - - - - - - - - - - - -
+.MuiFormControl-root {
+  .MuiFormLabel-root {
+    color: rgb-a($color-03, 60%);
+
+    &.MuiFormLabel-root.Mui-focused {
+      color: rgb-a($color-02, 100%);
+    }
+  }
+
+  .MuiInputBase-root {
+    color: rgb-a($color-03, 87%);
+
+    &.MuiInputBase-root::before {
+      border-bottom: 1px solid rgb-a($color-03, 42%);
+    }
+
+    &.MuiInputBase-root::after {
+      border-bottom: 2px solid rgb-a($color-02, 100%);
+    }
+
+    .MuiSvgIcon-root {
+      color: rgb-a($color-03, 54%);
+    }
+
+    &.MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before {
+      border-bottom: 2px solid rgb-a($color-03, 87%);
+    }
+
+    &.MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: $color-03;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: rgb-a($color-03, 23%);
+    }
+
+    &.MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
+      border-color: rgb-a($color-03, 87%);
+    }
+  }
+}
+
+.MuiPaper-root.MuiPopover-paper.MuiMenu-paper {
+  background-color: $color-07;
+  color: $color-03;
+
+  .MuiList-root {
+    .MuiButtonBase-root.MuiMenuItem-root.Mui-selected {
+      background-color: rgb-a($color-03, 10%);
+    }
+
+    .MuiButtonBase-root.MuiMenuItem-root:hover {
+      background-color: rgb-a($color-03, 4%);
+    }
+  }
+}
+
+//* calendar   - - - - - - - - - - - - - - - - - - - - -
+.base-Popper-root.MuiPickersPopper-root {
+  .MuiPaper-root {
+    background-color: $color-07;
+    color: rgb-a($color-03, 87%);
+    .MuiPickersYear-yearButton.Mui-selected {
+      background-color: $color-02;
+      color: $color-07;
+    }
+    .MuiPickersYear-yearButton:hover {
+      background-color: rgb-a($color-03, 4%);
+    }
+    .MuiPickersMonth-monthButton.Mui-selected {
+      background-color: $color-02;
+      color: $color-07;
+    }
+    .MuiPickersMonth-monthButton:hover {
+      background-color: rgb-a($color-03, 4%);
+    }
+    .MuiPickersMonth-monthButton.Mui-disabled {
+      color: rgb-a($color-03, 50%);
+    }
+
+    .MuiButtonBase-root {
+      color: $color-03;
+
+      &.MuiButtonBase-root:hover {
+        background-color: rgb-a($color-03, 4%);
+      }
+    }
+  }
+}
+
+// * - - table   - - - - - - - - - - - - - - - - - - - - -
+.MuiPaper-root.MuiTableContainer-root {
+  @include card-style;
+
+  .MuiTable-root {
+    border-collapse: inherit;
+    border-spacing: 1px;
+
+    .MuiTableHead-root {
+      .MuiTableCell-root {
+        border-bottom: 1px solid rgb-a($color-02, 50%);
+        color: $color-02;
+        background-color: $color-07;
+        border-radius: 30px 30px 0 0;
+      }
+    }
+  }
+
+  .MuiTableBody-root {
+    .MuiTableRow-root {
+      background-color: rgb-a($color-09, 30%);
+
+      .MuiTableCell-root {
+        color: $color-03;
+        border-bottom: 1px solid rgb-a($color-02, 20%);
+      }
+    }
+    .MuiTableRow-root:nth-of-type(odd) {
+      background-color: rgb-a($color-09, 50%);
+
+      .MuiTableCell-root {
+        color: $color-03;
+      }
+    }
+  }
+}
+
+// * - - chart   - - - - - - - - - - - - - - - - - - - - -
+
+// .MuiBox-root{
+
+//   .MuiResponsiveChart-container{
+
+//   }
+// }
+
+// ?--------------------------------------

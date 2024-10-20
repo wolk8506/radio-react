@@ -6,10 +6,12 @@ import { getCurrencyMonoCurrent_Status, getCurrencyMonoCurrent_Data } from '../.
 import { fetchCurrencyMonoCurrent } from '../../store/operation';
 import { currencyYesterday } from 'store/actions';
 
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+// import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 import sprite from '../../images/sprite.svg';
 import moment from 'moment';
@@ -195,67 +197,67 @@ export const Currency = () => {
       const arr_arrow = {
         usd_uah_buy_arrow:
           arr_change.usd_uah_buy_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.usd_uah_buy_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         usd_eur_buy_arrow:
           arr_change.usd_eur_buy_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.usd_eur_buy_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         eur_uah_buy_arrow:
           arr_change.eur_uah_buy_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.eur_uah_buy_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         eur_usd_buy_arrow:
           arr_change.eur_usd_buy_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.eur_usd_buy_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         usd_uah_sell_arrow:
           arr_change.usd_uah_sell_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.usd_uah_sell_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         usd_eur_sell_arrow:
           arr_change.usd_eur_sell_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.usd_eur_sell_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         eur_uah_sell_arrow:
           arr_change.eur_uah_sell_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.eur_uah_sell_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
         eur_usd_sell_arrow:
           arr_change.eur_usd_sell_change > 0 ? (
-            <ArrowUpwardIcon />
+            <TrendingUpIcon />
           ) : arr_change.eur_usd_sell_change === 0 ? (
             ''
           ) : (
-            <ArrowDownwardIcon />
+            <TrendingDownIcon />
           ),
       };
       setArr_change(arr_change);
@@ -266,7 +268,7 @@ export const Currency = () => {
   return (
     <div className="currency-main">
       <div className="currency-main__title">
-        {status ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+        {status ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
         <h2>валюта</h2>
         <h2>покупка</h2>
         <h2>продажа</h2>

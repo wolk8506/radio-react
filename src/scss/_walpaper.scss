@@ -1,0 +1,93 @@
+html[data-background='color'] {
+  --background-color: rgb(from var(--color-07) r g b / 90%);
+}
+html[data-background='color-02'] {
+  --background-color: rgba(39, 33, 33, 0.9);
+}
+html[data-background='color-03'] {
+  --background-color: rgba(33, 37, 39, 0.9);
+}
+html[data-background='color-04'] {
+  --background-color: rgba(196, 159, 104, 0.9);
+}
+html[data-background='color-05'] {
+  --background-color: rgba(236 234 228, 0.9);
+}
+html[data-background='img-1'] {
+  --background-image: url(../images/wallpaper/img_1.jpg);
+}
+html[data-background='img-2'] {
+  --background-image: url(../images/wallpaper/img_2.jpg);
+}
+html[data-background='img-3'] {
+  --background-image: url(../images/wallpaper/img_3.jpg);
+}
+html[data-background='img-4'] {
+  --background-image: url(../images/wallpaper/img_4.jpg);
+}
+html[data-background='img-5'] {
+  --background-image: url(../images/wallpaper/img_5.jpg);
+}
+html[data-background='img-6'] {
+  --background-image: url(../images/wallpaper/img_6.jpg);
+}
+html[data-background='img-7'] {
+  --background-image: url(../images/wallpaper/img_7.jpg);
+}
+html[data-background='img-8'] {
+  --background-image: url(../images/wallpaper/img_8.jpg);
+}
+html[data-background='img-9'] {
+  --background-image: url(../images/wallpaper/img_9.jpg);
+}
+html[data-background='img-10'] {
+  --background-image: url(../images/wallpaper/img_10.jpg);
+}
+html[data-background='img-11'] {
+  --background-image: url(../images/wallpaper/img_11.jpg);
+}
+html[data-background='img-12'] {
+  --background-image: url(../images/wallpaper/img_12.jpg);
+}
+html[data-background='img-13'] {
+  --background-image: url(../images/wallpaper/img_13.jpg);
+}
+html[data-background='img-14'] {
+  --background-image: url(../images/wallpaper/img_14.jpg);
+}
+html[data-background='img-15'] {
+  --background-image: url(../images/wallpaper/img_15.jpg);
+}
+html[data-background='img-16'] {
+  --background-image: url(../images/wallpaper/img_16.jpg);
+}
+html[data-background='img-17'] {
+  --background-image: url(../images/wallpaper/img_17.jpg);
+}
+html[data-background='img-18'] {
+  --background-image: url(../images/wallpaper/img_18.jpg);
+}
+html[data-background='img-19'] {
+  --background-image: url(../images/wallpaper/img_19.jpg);
+}
+html[data-background='img-20'] {
+  --background-image: url(../images/wallpaper/img_20.jpg);
+}
+html[data-background='img-21'] {
+  --background-image: url(../images/wallpaper/img_21.jpg);
+}
+html[data-background='img-22'] {
+  --background-image: url(../images/wallpaper/img_22.jpg);
+}
+html[data-background='img-23'] {
+  --background-image: url(../images/wallpaper/img_23.jpg);
+}
+html[data-background='img-24'] {
+  --background-image: url(../images/wallpaper/img_24.jpg);
+}
+html[data-background='img-25'] {
+  --background-image: url(../images/wallpaper/img_25.jpg);
+}
+
+$background-image-1: var(--background-image);
+$background-color: var(--background-color);

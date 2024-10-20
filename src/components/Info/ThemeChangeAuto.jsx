@@ -22,7 +22,7 @@ export const ThemeChangeAuto = () => {
     // console.log(e.target.value);
   };
   return (
-    <FormControl>
+    <FormControl className="form-auto-chenge-theme">
       <FormLabel id="controlled-radio-theme-auto">Автоизменение темы</FormLabel>
       <RadioGroup
         aria-labelledby="controlled-radio-theme-auto"
@@ -30,8 +30,8 @@ export const ThemeChangeAuto = () => {
         value={value}
         onChange={handleChange}
       >
-        <FormControlLabel value={true} control={<Radio />} label="Авто" />
-        <FormControlLabel value={false} control={<Radio />} label="Ручное" />
+        <FormControlLabel className="btn" value={true} control={<Radio />} label="Авто" />
+        <FormControlLabel className="btn" value={false} control={<Radio />} label="Ручное" />
       </RadioGroup>
     </FormControl>
   );

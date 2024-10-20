@@ -1,151 +1,4 @@
 .weather {
-  .btn-ico {
-    color: $color-01;
-  }
-
-  .weather__day {
-    background: $color-07;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    fill: $color-01;
-  }
-
-  #city-label {
-    color: $color-02 !important;
-  }
-
-  .weather__day > div {
-    width: calc(100% / 3);
-  }
-
-  .blockDayLeft img {
-    height: 80%;
-  }
-
-  .blockDayLeft p {
-    margin: 0;
-  }
-
-  .blockDayCentr {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .blockDayRight {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .blockDayRight svg {
-    fill: $color-01;
-  }
-
-  .blockDayLeft div {
-    height: 150px;
-    display: flex;
-    align-items: center;
-  }
-
-  .blockDayLeft div p {
-    font-size: 48px;
-    margin: 0;
-  }
-
-  /** // !!!!! DAY  !!!!!!!!! */
-  /* ** Стили для текущего дня */
-
-  .conditionBlockItem {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0px;
-    margin-top: 10px;
-  }
-
-  .conditionBlockItem svg {
-    margin-right: 10px;
-  }
-
-  /** // !!!!! DAYS  !!!!!!!!! */
-  /* ** Стили на 14 дней */
-
-  .spinner {
-    height: 67vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .daysBlock {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .dayCard div {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    height: 70px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-  }
-
-  .dayCard div p {
-    font-size: 48px;
-    margin: 0;
-    padding: 0;
-  }
-
-  .dayCard {
-    display: block;
-    width: calc((100% - 48px) / 7);
-    height: 250px;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 5px;
-    background: $color-07;
-  }
-  .dayCard--on {
-    position: relative;
-  }
-  .dayCard--on::before {
-    content: '';
-    background: rgb-a($color-08, 50%);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    top: 0;
-    left: 0;
-  }
-
-  #cor1,
-  #cor2 {
-    text-align: right;
-  }
-
-  .btn-radio {
-    display: block;
-    width: 50px;
-    border: none;
-    color: $color-03;
-    text-shadow: 0 0 15px rgb-a($color-02, 50%);
-    font-size: 26px;
-    text-align: center;
-  }
-
-  .btn-block {
-    display: flex;
-    justify-content: space-between;
-    width: 300px;
-  }
-
   /* Отключает стрелочки у input type=number */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -170,25 +23,22 @@
   margin-left: auto;
 
   .weather__search {
-    border-radius: 15px;
     padding: 16px;
-    background: $color-07;
     width: 100%;
     margin-bottom: 30px;
     display: flex;
     align-items: center;
+    @include card-style;
 
     .search-group {
       display: flex;
       align-items: center;
-      // .search-group__input {
-      // }
     }
   }
+
   .search__input-group {
     right: 0px;
     padding-right: 10px;
-    // border: 1px solid #faf9f826;
     border: 1px solid rgb-a($color-02, 50%);
     border-radius: 12px;
     box-sizing: border-box;
@@ -200,25 +50,18 @@
     box-shadow: none;
     color: unset;
     backdrop-filter: blur(60px);
-    background-color: #ffffff12;
-    // border-color: #faf9f826;
+    background: rgb-a($color-09, 50%);
     margin-left: 0px !important;
     flex-wrap: wrap;
     padding: 0;
 
     & input {
-      margin-left: 6px;
-
-      // -webkit-appearance: none;
-      // -moz-appearance: none;
       appearance: none;
-
       width: calc(100% - 80px);
       height: 40px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-
       font-family: inherit;
       box-sizing: border-box;
       margin: 0;
@@ -226,31 +69,15 @@
       font-size: 14px;
       line-height: 20px;
       font-weight: 400;
-
-      padding: 0 11px;
-
       height: 38px;
-
       outline: none;
-      box-shadow: 0 0 0 1px #787878 inset;
-
       box-shadow: none;
-
       border-top: none;
       border-bottom: none;
-
       border-radius: 0px;
-      // border: 1px solid #646464;
-      // border: 1px solid $color-2-shadow;
-      // border-radius: 2px;
-      border-color: #787878;
       border: 0px;
-
       background: none !important;
       padding: 0 10px;
-
-      // color: #f5f5f5;
-      // color: #ffffffe6 !important;
       color: $color-02;
     }
 
@@ -285,16 +112,14 @@
       padding: 9px 16px 9px 16px;
       gap: 10px;
       border-radius: 12px;
-      // border: 1px solid rgba(250, 249, 248, 0.15);
       border: 1px solid rgb-a($color-02, 50%);
       box-sizing: border-box;
-      background: #ffffff0d;
+      background: rgb-a($color-09, 51%);
       display: flex;
       align-items: center;
       font-size: 14px;
       line-height: 16px;
       cursor: pointer;
-      // color: #ffffffe6;
       color: $color-02;
     }
 
@@ -307,13 +132,13 @@
     display: flex;
     justify-content: space-between;
   }
+
   .weather__current-day {
-    background: $color-07;
     width: 620px;
     height: 270px;
-    border-radius: 15px;
     padding: 16px 0px 0px;
     margin-bottom: 20px;
+    @include card-style;
 
     .current-day__label {
       padding: 0px 16px;
@@ -374,6 +199,7 @@
           }
         }
       }
+
       .summary__description {
         height: 65px;
         display: flex;
@@ -385,7 +211,6 @@
       }
     }
     .weather__detail-line {
-      // border: 1px red solid;
       padding-left: 16px;
       margin-bottom: 16px;
       padding-right: 16px;
@@ -397,14 +222,17 @@
         font-weight: normal;
         line-height: 16px;
       }
+
       .detail-line__value {
         font-size: 16px;
         line-height: 22px;
         font-weight: normal;
       }
+
       .detail-line__value--wind {
         display: flex;
         align-items: center;
+
         & svg {
           fill: $color-02;
         }
@@ -412,68 +240,13 @@
     }
   }
 
-  .weather__air-quality {
-    // border: 1px red solid;
-    border-radius: 15px;
-    width: 620px;
-    height: 270px;
-    background: $color-07;
-    padding: 16px;
-    // & div {
-    //   margin: 5px;
-    // }
-    //   & td,
-    //   & table {
-    //     border: 1px solid rgba(255, 251, 0, 0.103);
-    //   }
-    //   th:nth-child(2),
-    //   td:nth-child(2) {
-    //     color: #cfcfcf;
-    //     text-align: right;
-    //   }
-    //   th:nth-child(3),
-    //   td:nth-child(3) {
-    //     color: #00982e;
-    //     text-align: center;
-    //     // width: 70px;
-    //   }
-    //   th:nth-child(4),
-    //   td:nth-child(4) {
-    //     color: #6ec000;
-    //     text-align: center;
-    //   }
-    //   th:nth-child(5),
-    //   td:nth-child(5) {
-    //     color: #c8b900;
-    //     text-align: center;
-    //   }
-    //   th:nth-child(6),
-    //   td:nth-child(6) {
-    //     color: #d89d00;
-    //     text-align: center;
-    //   }
-    //   th:nth-child(7),
-    //   td:nth-child(7) {
-    //     color: #db6500;
-    //     text-align: center;
-    //   }
-    //   th:nth-child(8),
-    //   td:nth-child(8) {
-    //     color: #ce0000;
-    //     text-align: center;
-    //   }
-  }
-
   .weather__month {
-    // border: 1px red solid;
     width: 1260px;
-    // height: 627px;
-    border-radius: 15px;
-    background: $color-07;
     padding: 12px 16px 1px;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    @include card-style;
 
     .month__day-name {
       display: flex;
@@ -484,7 +257,6 @@
 
       .day-name__item {
         list-style: none;
-        // width: 164px;
         width: calc((1260px - 32px) / 7);
         padding: 0;
         margin-bottom: 15px;
@@ -495,7 +267,6 @@
       margin: 0;
       padding: 0;
       display: flex;
-      // justify-content: start;
       flex-wrap: wrap;
 
       .block-day__card {
@@ -506,7 +277,7 @@
         position: relative;
 
         .card__block {
-          border: 1px rgba(255, 255, 255, 0) solid;
+          border: 1px solid transparent;
           width: 100%;
           height: 85px;
           padding: 0;
@@ -524,6 +295,7 @@
             top: 0;
             left: 0;
           }
+
           &.card__block--current {
             border: 1px $color-03 solid;
           }
@@ -532,6 +304,7 @@
             margin: 4px 0px 0px 8px;
             font-size: 14px;
           }
+
           .block__description {
             display: flex;
             padding: 0px 16px;
@@ -552,17 +325,24 @@
 
         .card__block:hover {
           border: 1px $color-03 solid;
+          @include animation-slider(border);
         }
 
         .card__detail {
-          // color: red;
           position: absolute;
-          // opacity: 0;
-          display: none;
           bottom: 50%;
           left: 50%;
           width: 80%;
           z-index: 1;
+          background: $color-08;
+          display: block;
+          border-radius: 15px;
+          padding: 10px;
+          fill: $color-03;
+          opacity: 0;
+          pointer-events: none;
+          @include animation-slider(all);
+
           .detail__item {
             display: flex;
             align-items: center;
@@ -576,13 +356,7 @@
 
         .card__block:hover + .card__detail,
         .card__detail:hover {
-          background: black;
-          display: block;
-          // border: 1px white solid;
-          border-radius: 15px;
-          padding: 10px;
-          opacity: 1 !important;
-          fill: aliceblue;
+          opacity: 1;
         }
 
         .card__detail:hover ~ .card__block:hover {
@@ -616,6 +390,7 @@
 
       .current-day__summary {
         padding: 0;
+
         .summary__overview {
           .overview__image {
             width: 80px;
@@ -634,11 +409,13 @@
             .feedback__condition {
               font-size: 14px;
             }
+
             .feedback__temperature {
               font-size: 12px;
             }
           }
         }
+
         .summary__description {
           font-size: 14px;
         }
@@ -646,26 +423,30 @@
 
       .weather__detail-line {
         padding: 0;
-        .detail-line__title {
-        }
-        .detail-line__value {
-        }
-        .detail-line__value--wind {
-          & svg {
-          }
-        }
+        // .detail-line__title {
+        // }
+        // .detail-line__value {
+        // }
+        // .detail-line__value--wind {
+        //   & svg {
+        //   }
+        // }
       }
+
       .weather__detail-line div:nth-child(1),
       .weather__detail-line div:nth-child(6) {
         display: none;
       }
     }
+
     .weather__air-quality {
       display: none;
     }
   }
 }
+
 // TODO: ⇧ ⇧ ⇧ погода от MSN
+
 @media screen and (max-width: 720px) {
   .weather {
     width: 100%;
@@ -673,6 +454,7 @@
     .dayCard {
       width: 100%;
     }
+
     .weather__day {
       flex-direction: column;
     }

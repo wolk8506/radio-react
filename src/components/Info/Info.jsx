@@ -16,7 +16,7 @@ export const Info = () => {
         <ThemeChange></ThemeChange>
         <ThemeChangeAuto></ThemeChangeAuto>
       </div>
-      <div className="settings">
+      <div className="settings settings--walpaper ">
         <ThemeChangeBackground></ThemeChangeBackground>
       </div>
     </section>

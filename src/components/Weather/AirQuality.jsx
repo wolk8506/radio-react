@@ -513,11 +513,11 @@ export const AirQuality = () => {
                     [`.MuiBarElement-root:nth-child(24)`]: { fill: colorChartBarCo(coChart[23]?.co) },
                     [`.${axisClasses.root}`]: {
                       [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                        stroke: 'var(--color-3)', //stroke: '#fce3af',
+                        stroke: 'var(--color-03)', //stroke: '#fce3af',
                         strokeWidth: 1,
                       },
                       [`.${axisClasses.tickLabel}`]: {
-                        fill: 'var(--color-2)',
+                        fill: 'var(--color-02)',
                       },
                     },
                     backgroundPosition: '20px 20px, 20px 20px',
@@ -679,14 +679,13 @@ export const AirQuality = () => {
                     [`.MuiBarElement-root:nth-child(22)`]: { fill: colorChartBarNo2(no2Chart[21]?.no2) },
                     [`.MuiBarElement-root:nth-child(23)`]: { fill: colorChartBarNo2(no2Chart[22]?.no2) },
                     [`.MuiBarElement-root:nth-child(24)`]: { fill: colorChartBarNo2(no2Chart[23]?.no2) },
-
                     [`.${axisClasses.root}`]: {
                       [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                        stroke: 'var(--color-3)',
+                        stroke: 'var(--color-03)',
                         strokeWidth: 1,
                       },
                       [`.${axisClasses.tickLabel}`]: {
-                        fill: 'var(--color-2)',
+                        fill: 'var(--color-02)',
                       },
                     },
                     backgroundPosition: '20px 20px, 20px 20px',
@@ -851,11 +850,11 @@ export const AirQuality = () => {
                     [`.MuiBarElement-root:nth-child(24)`]: { fill: colorChartBarO3(o3Chart[23]?.o3) },
                     [`.${axisClasses.root}`]: {
                       [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                        stroke: 'var(--color-3)',
+                        stroke: 'var(--color-03)',
                         strokeWidth: 1,
                       },
                       [`.${axisClasses.tickLabel}`]: {
-                        fill: 'var(--color-2)',
+                        fill: 'var(--color-02)',
                       },
                     },
                     backgroundPosition: '20px 20px, 20px 20px',
@@ -1021,11 +1020,11 @@ export const AirQuality = () => {
                     [`.MuiBarElement-root:nth-child(24)`]: { fill: colorChartBarPm2p5(pm2p5Chart[23]?.pm2p5) },
                     [`.${axisClasses.root}`]: {
                       [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                        stroke: 'var(--color-3)',
+                        stroke: 'var(--color-03)',
                         strokeWidth: 1,
                       },
                       [`.${axisClasses.tickLabel}`]: {
-                        fill: 'var(--color-2)',
+                        fill: 'var(--color-02)',
                       },
                     },
                     backgroundPosition: '20px 20px, 20px 20px',
@@ -1190,11 +1189,11 @@ export const AirQuality = () => {
                     [`.MuiBarElement-root:nth-child(24)`]: { fill: colorChartBarPm10(pm10Chart[23]?.pm10) },
                     [`.${axisClasses.root}`]: {
                       [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                        stroke: 'var(--color-3)',
+                        stroke: 'var(--color-03)',
                         strokeWidth: 1,
                       },
                       [`.${axisClasses.tickLabel}`]: {
-                        fill: 'var(--color-2)',
+                        fill: 'var(--color-02)',
                       },
                     },
                     backgroundPosition: '20px 20px, 20px 20px',
@@ -1359,11 +1358,11 @@ export const AirQuality = () => {
                     [`.MuiBarElement-root:nth-child(24)`]: { fill: colorChartBarSo2(so2Chart[23]?.so2) },
                     [`.${axisClasses.root}`]: {
                       [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                        stroke: 'var(--color-3)',
+                        stroke: 'var(--color-03)',
                         strokeWidth: 1,
                       },
                       [`.${axisClasses.tickLabel}`]: {
-                        fill: 'var(--color-2)',
+                        fill: 'var(--color-02)',
                       },
                     },
                     backgroundPosition: '20px 20px, 20px 20px',

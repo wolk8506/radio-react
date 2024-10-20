@@ -170,7 +170,7 @@ export const CurrencyNBU = () => {
         </LoadingButton>
         <h2>Курс валют НБУ.</h2>
         <div className="update-block">
-          {STATUS ? <CheckCircleOutlineIcon color="success" /> : <WarningAmberIcon color="warning" />}
+          {STATUS ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
           <p className="update-time" title="Время обновления данных с сервера.">
             {timeUpdate}
           </p>
