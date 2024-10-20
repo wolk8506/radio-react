@@ -246,7 +246,7 @@ export const Radio = ({ onAudio }) => {
       </div>
 
       <Button className="btn" variant="outlined" size="large" onClick={handlePlayPause}>
-        {playPause ? <PlayArrowIcon className="btn__icon" /> : <PauseIcon className="btn-play__icon" />}
+        {playPause ? <PlayArrowIcon className="btn__icon" /> : <PauseIcon className="btn__icon" />}
       </Button>
     </div>
   );
