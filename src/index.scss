@@ -28,15 +28,6 @@
 
 @import-normalize; /* bring in normalize.css styles */
 
-html {
-  background-color: $background-color;
-  background-image: $background-image-1;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
@@ -45,6 +36,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: $color-02;
   transition: background 0.25s;
+  background-color: $background-color;
+  background-image: $background-image-1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 * {

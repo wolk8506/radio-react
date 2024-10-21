@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as React from 'react';
 
 import eventsJSON from './data/events.json';
+import anecdoteJSON from './data/anecdote.json';
 import 'dayjs/locale/ru';
 
 export const Event = () => {
@@ -9,10 +10,47 @@ export const Event = () => {
   let currentDayEvent = moment().format('MM-DD');
   const events = eventsJSON;
   const [event, setEvent] = useState(['Сегодня событий нет']);
+  const [fact, setFact] = useState([]);
+  const [joke, setJoke] = useState([]);
+  // console.log(event);
+
+  // console.log(anecdoteJSON[0].joke[0]);
+
+  // useEffect(() => {
+  //   if (events[currentDayEvent]) {
+  //     setEvent(events[currentDayEvent]);
+  //   } else {
+  //     setEvent(['Сегодня событий нет']);
+  //   }
+  // }, [currentDayEvent, events]);
 
   useEffect(() => {
-    if (events[currentDayEvent]) {
-      setEvent(events[currentDayEvent]);
+    if (anecdoteJSON[0].joke[0]) {
+      setJoke(anecdoteJSON[moment().dayOfYear()].joke);
+    } else {
+      setJoke(false);
+    }
+  }, [currentDayEvent, events, moment]);
+
+  useEffect(() => {
+    if (events[currentDayEvent].fact) {
+      setFact(events[currentDayEvent].fact);
+    } else {
+      setFact(false);
+    }
+  }, [currentDayEvent, events]);
+
+  useEffect(() => {
+    // let arr = {};
+
+    // for (let key in events) {
+    //   arr[key] = { event: events[key], fact: [] };
+    // }
+
+    // console.log();
+
+    if (events[currentDayEvent].event) {
+      setEvent(events[currentDayEvent].event);
     } else {
       setEvent(['Сегодня событий нет']);
     }
@@ -20,14 +58,33 @@ export const Event = () => {
 
   return (
     <section className="graph">
-      <h1>События</h1>
+      <h1>Шутка / Факт / События</h1>
       <div>
         <ul className="days">
-          {event.map(i => (
-            <li className="event-item" key={i}>
-              {i}
-            </li>
-          ))}
+          {joke &&
+            joke.map(i => (
+              <li className="event-item" key={i}>
+                Шутка дня:
+                <br /> <span>{i}</span>
+              </li>
+            ))}
+          {fact &&
+            fact.map(i => (
+              <li className="event-item" key={i}>
+                Факт дня:
+                <br /> <span>{i}</span>
+              </li>
+            ))}
+          <li className="event-item" key="sdfasdf">
+            События дня:
+            <ul>
+              {event.map(i => (
+                <li className="event-item event-item--event" key={i}>
+                  {i}
+                </li>
+              ))}
+            </ul>
+          </li>
         </ul>
       </div>
     </section>
