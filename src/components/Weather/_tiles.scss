@@ -182,11 +182,161 @@
         justify-content: center;
         padding: 15.5px 0 20px;
 
-        .moon {
+        .moon-phase__moon {
           width: 132px;
           height: 132px;
-          background: #101010;
-          border-radius: 50%;
+          position: relative;
+
+          .moon__circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #ffd87a;
+            box-shadow: 0px 2px 20px -5px #ffd87a;
+
+            .phase__phase {
+              background: $color-07;
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              transform: rotateY(0deg);
+            }
+
+            .phase__phase2 {
+              background: rgb(255, 216, 122);
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              transform: rotateY(90deg);
+            }
+
+            .phase__disc {
+              position: absolute;
+              width: 50%;
+              height: 100%;
+              border-radius: 0 66px 66px 0;
+              right: 0;
+              background: $color-07;
+            }
+
+            .phase__disc2 {
+              position: absolute;
+              width: 50%;
+              height: 100%;
+              border-radius: 66px 0 0 66px;
+              background: rgb(255, 216, 122);
+              left: 0;
+            }
+            .phase__disc3 {
+              position: absolute;
+              width: 50%;
+              height: 100%;
+              border-radius: 66px 0 0 66px;
+              background: $color-07;
+              left: 0;
+            }
+          }
+
+          // .moon__phase {
+          //   border: 1px solid green;
+
+          //   .phase__disc {
+          //     position: absolute;
+          //     width: 50%;
+          //     height: 100%;
+          //   }
+
+          //   .phase__circle {
+          //   }
+          // }
+
+          // .moon__shadow {
+          //   position: absolute;
+          //   width: 100%;
+          //   height: 100%;
+          //   // background: #101010;
+          //   transform: rotateY(10deg);
+          //   border-radius: 50%;
+          //   z-index: 20;
+          //   box-shadow: inset 10rem 0rem 0.5rem -1rem rgba(0, 0, 0, 0.815);
+          // }
+
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          // ***************************************************
+
+          // *****************************************
+          // .moon {
+          //   border: 0px solid #ffffff;
+          //   border-radius: 50%;
+          //   noverflow: hidden;
+          //   position: relative;
+          //   background-color: #fff;
+          //   background: var(--moon);
+          //   background-size: contain;
+          //   transform: translateZ(0) rotateY(180deg);
+          // }
+          // .moon::before {
+          //   content: ' ';
+          //   display: block;
+          //   position: absolute;
+          //   top: 0;
+          //   left: 0;
+          //   background-color: var(--bgd);
+          //   width: 50%;
+          //   height: 100%;
+          // }
+          // .disc {
+          //   transform-style: preserve-3d;
+          //   width: 100%;
+          //   height: 100%;
+          //   transform: rotateY(calc(180deg * var(--phase) / 50));
+          // }
+          // .disc::before,
+          // .disc-after {
+          //   content: ' ';
+          //   display: block;
+          //   transform-style: preserve-3d;
+          //   width: 100%;
+          //   height: 100%;
+          //   border-radius: 50%;
+          //   position: absolute;
+          //   backface-visibility: hidden;
+          // }
+          // .disc::before {
+          //   background-color: var(--bgd);
+          // }
+          // .disc-after {
+          //   nobackground-color: #fff;
+          //   background: red;
+          //   background-size: contain;
+          //   transform: rotateY(130deg);
+          //   top: 20px;
+          // }
+
+          // html,
+          // body {
+          //   height: 100%;
+          //   width: 100%;
+          // }
+
+          // body {
+          //   background-color: #222222;
+          //   text-align: center;
+          //   color: #ffffff;
+          //   font-family: 'Fira Mono', monospace;
+          //   display: flex;
+          //   justify-content: center;
+          //   align-items: center;
+          //   letter-spacing: 0.1em;
+          // }
+
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
+
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!
         }
 
         .moon-phase__block-value {

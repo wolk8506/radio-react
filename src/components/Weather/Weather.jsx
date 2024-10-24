@@ -23,6 +23,8 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import { WeatherMonth } from './WeatherMonth';
 import { WeatherCurrentDay } from './WeatherCurrentDay';
+import { WeatherMonthMobile } from './WeatherMonthMobile';
+import { WeatherSunMoonMobile } from './WeatherSunMoonMobile';
 moment.locale('ru');
 
 // const { REACT_APP_WEATHER_API_KEY_2 } = process.env;
@@ -170,7 +172,12 @@ export const Weather = () => {
       >
         {matches => (
           <Fragment>
-            {matches.small && <div></div>}
+            {matches.small && (
+              <>
+                <WeatherMonthMobile></WeatherMonthMobile>
+                <WeatherSunMoonMobile></WeatherSunMoonMobile>
+              </>
+            )}
             {matches.medium && (
               <>
                 <ChartWeather></ChartWeather>
