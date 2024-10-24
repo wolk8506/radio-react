@@ -76,11 +76,7 @@ export const RadioMini = ({ onAudio }) => {
         type="button"
         onClick={onPlay}
       >
-        {playPause ? (
-          <PlayArrowIcon className="btn-ico" />
-        ) : (
-          <PauseIcon className="btn-ico" />
-        )}
+        {playPause ? <PlayArrowIcon className="btn-ico" /> : <PauseIcon className="btn-ico" />}
       </IconButton>
     </>
   );

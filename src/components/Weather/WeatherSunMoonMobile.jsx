@@ -77,7 +77,10 @@ export const WeatherSunMoonMobile = () => {
     }
   }, [moonPhase]);
   // !    -   -   -   -   MOON    -   -   -   -   -   -   -   -   -   -   -   -
-  const moonriseTime = moonrise.slice(0, -3);
+  let moonriseTime = '00:00';
+  if (moonrise !== undefined) {
+    moonriseTime = moonrise?.slice(0, -3);
+  }
 
   let moonsetTime = moonriseTomorrow;
   if (moonset !== undefined) {

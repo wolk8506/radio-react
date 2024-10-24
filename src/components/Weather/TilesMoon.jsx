@@ -11,17 +11,24 @@ export const TilesMoon = () => {
   const [moonriseTomorrow, setMoonriseTomorrow] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
 
+  console.log(moonrise, moonset);
+
   useEffect(() => {
     setMoonrise(dataEvents.days[0].moonrise);
     setMoonriseTomorrow(dataEvents.days[1].moonrise);
     setMoonset(dataEvents.days[0].moonset);
   }, [dataEvents]);
 
-  const moonriseTime = moonrise.slice(0, -3);
+  // const moonriseTime = moonrise;
+
+  let moonriseTime = '00:00';
+  if (moonrise !== undefined) {
+    moonriseTime = moonrise?.slice(0, -3);
+  }
 
   let moonsetTime = moonriseTomorrow;
   if (moonset !== undefined) {
-    moonsetTime = moonset.slice(0, -3);
+    moonsetTime = moonset?.slice(0, -3);
   }
 
   //
@@ -107,13 +114,7 @@ export const TilesMoon = () => {
     <div className="card__item">
       <p className="item__title">Луна</p>
       <div className="moon">
-        <svg
-          width="258"
-          height="129"
-          viewBox="0 0 258 129"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="258" height="129" viewBox="0 0 258 129" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_i_3881_557)" transform="translate(188 60)">
             <path
               d="M63 61.3773C63 61.3773 60 59.8773 42.5 44.3881C33 34.3773 26.6179 28.3307 4.73328 4"
@@ -149,37 +150,15 @@ export const TilesMoon = () => {
           ></path>
           <g filter="url(#filter1_d_4430_8884)">
             <circle cx="63" cy="68" r="4" className="moon-img-point"></circle>
-            <circle
-              cx="63"
-              cy="68"
-              r="5.5"
-              stroke="white"
-              stroke-width="3"
-            ></circle>
+            <circle cx="63" cy="68" r="5.5" stroke="white" stroke-width="3"></circle>
           </g>
           <g filter="url(#filter2_d_4430_8884)">
             <circle cx="196" cy="68" r="4" className="moon-img-point"></circle>
-            <circle
-              cx="196"
-              cy="68"
-              r="5.5"
-              stroke="white"
-              stroke-width="3"
-            ></circle>
+            <circle cx="196" cy="68" r="5.5" stroke="white" stroke-width="3"></circle>
           </g>
           {moonY && (
-            <g
-              filter="url(#filter3_d_4430_8884)"
-              transform={`translate(${moonX} ${moonY})`}
-            >
-              <rect
-                x="116"
-                y="2"
-                width="26"
-                height="26"
-                rx="13"
-                fill="white"
-              ></rect>
+            <g filter="url(#filter3_d_4430_8884)" transform={`translate(${moonX} ${moonY})`}>
+              <rect x="116" y="2" width="26" height="26" rx="13" fill="white"></rect>
               <path
                 style={colorMoon}
                 d="M135.359 18.9969C133.155 22.8143 128.274 24.1222 124.457 21.9183C123.417 21.3181 122.542 20.5061 121.875 19.5382C121.653 19.2146 121.797 18.7677 122.167 18.6353C125.173 17.5592 126.783 16.3123 127.718 14.5287C128.701 12.651 128.955 10.5942 128.267 7.77487C128.172 7.38501 128.48 7.01382 128.881 7.03531C130.123 7.10197 131.337 7.45887 132.438 8.09439C136.255 10.2983 137.563 15.1796 135.359 18.9969Z"
@@ -199,12 +178,7 @@ export const TilesMoon = () => {
               color-interpolation-filters="sRGB"
             >
               <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              ></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -213,21 +187,9 @@ export const TilesMoon = () => {
               ></feColorMatrix>
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
-              <feComposite
-                in2="hardAlpha"
-                operator="arithmetic"
-                k2="-1"
-                k3="1"
-              ></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="shape"
-                result="effect1_innerShadow_3881_557"
-              ></feBlend>
+              <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"></feComposite>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="shape" result="effect1_innerShadow_3881_557"></feBlend>
             </filter>
             <filter
               id="filter1_d_4430_8884"
@@ -248,21 +210,9 @@ export const TilesMoon = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_4430_8883"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_4430_8883"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4430_8883"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4430_8883" result="shape"></feBlend>
             </filter>
             <filter
               id="filter2_d_4430_8884"
@@ -283,21 +233,9 @@ export const TilesMoon = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_4430_8883"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_4430_8883"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4430_8883"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4430_8883" result="shape"></feBlend>
             </filter>
             <filter
               id="filter3_d_4430_8884"
@@ -318,21 +256,9 @@ export const TilesMoon = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_4430_8883"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_4430_8883"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4430_8883"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4430_8883" result="shape"></feBlend>
             </filter>
             <linearGradient
               id="paint0_linear_4430_8884"
