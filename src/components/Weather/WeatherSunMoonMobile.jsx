@@ -40,7 +40,7 @@ export const WeatherSunMoonMobile = () => {
   const [moonriseTomorrow, setMoonriseTomorrow] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
   const [uvTitle, setUvTitle] = useState('');
-  const [uvSubTitle, setSubUvTitle] = useState('');
+  //   const [uvSubTitle, setSubUvTitle] = useState('');
   const [phaseTitle, setPhaseTitle] = useState('--');
   const [phaseImage, setPhaseImage] = useState(0);
 
@@ -197,16 +197,16 @@ export const WeatherSunMoonMobile = () => {
   useEffect(() => {
     if (uv < 3) {
       setUvTitle('Низкий');
-      setSubUvTitle('Нет опасности для обычного человека');
+      //   setSubUvTitle('Нет опасности для обычного человека');
     } else if (uv < 6) {
       setUvTitle('Умеренный');
-      setSubUvTitle('Небольшой риск вреда от незащищенного пребывания на солнце');
+      //   setSubUvTitle('Небольшой риск вреда от незащищенного пребывания на солнце');
     } else if (uv < 8) {
       setUvTitle('Высокая');
-      setSubUvTitle('Высокий риск вреда от незащищенного пребывания на солнце');
+      //   setSubUvTitle('Высокий риск вреда от незащищенного пребывания на солнце');
     } else {
       setUvTitle('Очень высоко');
-      setSubUvTitle('Очень высокий риск вреда от незащищенного пребывания на солнце');
+      //   setSubUvTitle('Очень высокий риск вреда от незащищенного пребывания на солнце');
     }
   }, [uv]);
 
