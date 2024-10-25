@@ -1,46 +1,6 @@
-// html,
-// body,
-// #root,
 .app {
   width: 100%;
   height: 100%;
-}
-
-.container {
-  position: relative;
-  max-width: 1600px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 20px;
-}
-
-.player {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-left: auto;
-  display: block;
-  display: flex;
-  align-items: center;
-}
-.player p {
-  margin-left: 20px;
-}
-
-.first-panel {
-  display: flex;
-  margin-bottom: 40px;
-}
-.first-panel > div {
-  display: block;
-  margin: 5px;
-  width: calc(100% / 3);
-}
-
-.tabs button {
-  color: $color-02 !important;
 }
 
 // !  ⇩ start - - Десктопное меню - - - - - - -  ⇩
@@ -50,121 +10,71 @@
   flex-direction: row;
 
   .sidebar {
-    height: 98%;
-    margin: 10px 10px 10px 0px;
-    position: fixed;
-    display: flex;
+    width: 65px;
+    z-index: 1000;
+
+    .MuiListItem-root.activ {
+      .MuiListItemIcon-root {
+        color: rgb-a($color-02, 54%);
+      }
+
+      .MuiListItemText-root {
+        .MuiTypography-root {
+          color: rgb-a($color-02, 54%);
+        }
+      }
+    }
 
     .menu-btn {
-      background: $color-07;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 60px;
-      padding-top: 10px;
-      z-index: 1;
-      margin-top: 2px;
-      margin-bottom: 2px;
-    }
-
-    .navigation-btn {
-      @include button;
-      & {
-        border: none;
-      }
-
-      &:hover {
-        border: none;
-        color: rgb-a($color-02, 50%);
-      }
-      &.activ {
-        color: $color-02;
-      }
-    }
-
-    .menu-open-text {
-      @include button;
-
-      & {
-        border: none;
-      }
-      &:hover {
-        border: none;
-        background: none;
-      }
-      &.activ {
-        color: $color-02;
-      }
-    }
-
-    .menu-open-text {
-      width: 100px;
-      font-size: 16px;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-    .menu-open-text__player-station {
-      margin-left: 10px;
-    }
-    .menu-open-text--player {
-      display: flex;
-    }
-
-    .navigation-btn + .navigation-btn,
-    .menu-open-text + .menu-open-text {
-      margin-top: 20px;
-    }
-
-    .navigation-btn:nth-child(2) {
-      margin-top: 40px;
-      margin-bottom: 20px;
-    }
-
-    .menu-open-text:nth-child(2) {
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
-
-    .menu-open {
-      padding: 10px 15px 10px 10px;
-      border-radius: 0px 15px 15px 0px;
-      transform: translateX(-225px);
-      transition: all 0.5s;
-      width: 240px;
-      padding-left: 80px;
+      height: calc(100vh - 20px);
+      width: 80px;
+      transform: translateX(-15px);
+      padding-left: 15px;
       @include card-style;
+      display: block;
+      margin: 10px 10px 10px 0px;
+      position: fixed;
+      padding-top: 16px;
+      transition: width 0.25s;
+      overflow: hidden;
 
-      & > div {
-        padding-top: 2px;
+      .navigation-btn {
+        margin: 8px 10px;
+        @include button;
+        & {
+          border: 1px solid transparent;
+        }
+
+        &:hover {
+          border: 1px solid transparent;
+        }
       }
 
-      .menu-open-text {
-        height: 40px;
+      .radio-station-name {
         display: flex;
         align-items: center;
+        transition: width 0.25s;
+
+        img {
+          margin-right: 16px;
+        }
+      }
+    }
+
+    &.menu_on {
+      width: 250px;
+
+      .menu-btn {
+        width: 250px;
       }
     }
   }
 
   .content {
-    padding: 40px;
-    width: calc(100% - 160px);
-    height: 100%;
-    margin-left: 75px;
-    transition: all 0.5s;
-  }
-
-  // * -  - - - - - -   открытое меню  - - - - - - - - - -
-
-  .sidebar.menu_on {
-    .menu-open {
-      transform: translateX(-80px);
-    }
-  }
-
-  .content.content--menuOpen {
-    margin-left: 245px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1450px;
+    padding-top: 16px;
   }
 }
 

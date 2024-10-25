@@ -2,12 +2,18 @@ import * as React from 'react';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import IconButton from '@mui/material/IconButton';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+
+import equalizer from '../../images/equalizer.webp';
+import equalizer_off from '../../images/equalizer-off.png';
 
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export const RadioMini = ({ onAudio }) => {
+export const RadioMini = ({ onAudio, open }) => {
   const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
   const PLAYER_PLAY = useSelector(state => state.storeData.playerPlay);
   const radioStation = [
@@ -24,13 +30,26 @@ export const RadioMini = ({ onAudio }) => {
     'https://dfm.hostingradio.ru/dfm96.aacp',
     'https://www.liveradio.es/http://online.kissfm.ua/KissFM_Deep_HD',
   ];
+  const radioStationName = [
+    'Rock 181',
+    'SOUNDPARK DEEP',
+    'Радио Energy',
+    'KissFM_HD',
+    'Europa Plus',
+    'Радио 7',
+    'Русский Рок',
+    'Record Rock',
+    'Rock Radio',
+    'Радио Максимум',
+    'DFM',
+    'Kiss FM Deep',
+  ];
   const [station, setStation] = useState(PLAYER_STATION);
   const [playPause, setPlayPause] = useState(PLAYER_PLAY);
   const [pauseEvent, setPauseEvent] = useState(true);
 
   useEffect(() => {
     setStation(PLAYER_STATION);
-    // setPlayPause(PLAYER_PLAY);
   }, [PLAYER_PLAY, PLAYER_STATION]);
 
   useEffect(() => {
@@ -45,9 +64,6 @@ export const RadioMini = ({ onAudio }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (onAudio) {
-        // var s = parseInt(onAudio.currentTime % 60);
-        // var m = parseInt((onAudio.currentTime / 60) % 60);
-        // setPlayTime(`${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`);
         setPauseEvent(onAudio.paused);
       }
     }, 500);
@@ -68,16 +84,66 @@ export const RadioMini = ({ onAudio }) => {
   }
 
   return (
-    //  className="navigation-btn"
     <>
-      <IconButton
-        // className={`navigation-btn ${playPause ? 'toggle' : 'toggle_on'}`}
-        className="navigation-btn"
-        type="button"
-        onClick={onPlay}
-      >
-        {playPause ? <PlayArrowIcon className="btn-ico" /> : <PauseIcon className="btn-ico" />}
-      </IconButton>
+      <ListItem onClick={onPlay} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={[
+            {
+              minHeight: 48,
+              px: 2.5,
+            },
+            open
+              ? {
+                  justifyContent: 'initial',
+                }
+              : {
+                  justifyContent: 'center',
+                },
+          ]}
+        >
+          <ListItemIcon
+            sx={[
+              {
+                minWidth: 0,
+                justifyContent: 'center',
+              },
+              open
+                ? {
+                    mr: 3,
+                  }
+                : {
+                    mr: 'auto',
+                  },
+            ]}
+          >
+            {playPause ? <PlayArrowIcon className="btn-ico" /> : <PauseIcon className="btn-ico" />}
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              PLAYER_PLAY ? (
+                <div className="radio-station-name">
+                  <img src={equalizer_off} alt="equalizer" />
+                  <span>{radioStationName[PLAYER_STATION]}</span>
+                </div>
+              ) : (
+                <div className="radio-station-name">
+                  <img src={equalizer} alt="equalizer" />
+                  <span>{radioStationName[PLAYER_STATION]}</span>
+                </div>
+              )
+            }
+            sx={[
+              open
+                ? {
+                    opacity: 1,
+                  }
+                : {
+                    opacity: 0,
+                  },
+            ]}
+          />
+        </ListItemButton>
+      </ListItem>
     </>
   );
 };

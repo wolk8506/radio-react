@@ -19,7 +19,6 @@ export const ThemeChangeAuto = () => {
   const handleChange = e => {
     dispatch(changeThemeAuto(e.target.value));
     setValue(e.target.value);
-    // console.log(e.target.value);
   };
   return (
     <FormControl className="form-auto-chenge-theme">

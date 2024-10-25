@@ -2,8 +2,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import sprite from '../../images/sprite.svg';
-// import s from './WeatherDashboard.module.css';
 import { Compas } from './Compas';
 import { Humidity } from './Humidity';
 import { Clouds } from './Clouds';
@@ -19,8 +17,6 @@ export const Weather = () => {
   const CITY = useSelector(state => state.storeData.city);
   const data = useSelector(state => state.storeWeatherLastDay.today);
   const dispatch = useDispatch();
-
-  // https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
   // const iconSVG = sprite;
@@ -41,18 +37,15 @@ export const Weather = () => {
   }, [CITY, URL_WEATHER, dispatch]);
 
   useEffect(() => {
-    // console.log(data.days[0]);
-    // if (data.currentConditions !== undefined) {
     setTemperature(data.days[0].temp.toFixed(0)); //Текущая температура в градусах цельсия
     setImage(`${urlImage}${data.days[0].icon}.svg`); //Иконка погодных условий
-    // }
   }, [data]);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
   useEffect(() => {
     // Обновление погоды каждые 15 минут
     const interval = setInterval(() => {
-      console.log('Таймер на 15 минут');
+      // console.log('Таймер на 15 минут');
       setChangeImage(false);
       setChangeTemperature(false);
       //Запрос на погоду после определения локации и все последующие запросы
@@ -99,12 +92,7 @@ export const Weather = () => {
                 </div>
                 <div className="bottom_new">
                   <div className="text_bottom">
-                    <img
-                      className="img_bottom"
-                      src={image}
-                      alt="hh"
-                      width={172}
-                    />
+                    <img className="img_bottom" src={image} alt="hh" width={172} />
                   </div>
                 </div>
               </div>

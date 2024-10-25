@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import sprite from '../../images/sprite.svg';
-// import arrow from './img/arrow.svg';
 
 export const Compas = () => {
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(state => state.storeWeatherLastDay.today.days[0]);
 
   const iconSVG = sprite;
 
@@ -16,12 +12,10 @@ export const Compas = () => {
   const [wind_ms, setWind_ms] = useState('--');
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // console.log('data: ', data);
+
   useEffect(() => {
-    // if (data_today.currentConditions !== undefined) {
     setWind_degree(data_today.winddir);
     setWind_ms((data_today.windspeed / 3.6).toFixed(1));
-    // }
   }, [data_today.winddir, data_today.windspeed]);
 
   // !!!!!! Стили
@@ -68,7 +62,6 @@ export const Compas = () => {
         <li></li>
       </ul>
       <div className="arrow_block" style={styleWindW}>
-        {/* <img src={arrow} alt="arrow" id="arrow-pointer" /> */}
         <svg className="icon">
           <use href={`${iconSVG}#icon-arrow`}></use>
         </svg>

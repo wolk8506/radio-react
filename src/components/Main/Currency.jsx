@@ -6,8 +6,6 @@ import { getCurrencyMonoCurrent_Status, getCurrencyMonoCurrent_Data } from '../.
 import { fetchCurrencyMonoCurrent } from '../../store/operation';
 import { currencyYesterday } from 'store/actions';
 
-// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-// import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';

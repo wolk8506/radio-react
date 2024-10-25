@@ -19,7 +19,6 @@ export const ThemeChange = () => {
   const handleChange = e => {
     dispatch(changeTheme(e.target.value));
     setValue(e.target.value);
-    // console.log('1', e.target.value);
   };
 
   return (

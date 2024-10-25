@@ -49,7 +49,6 @@ export const ThemeChangeBackground = () => {
   const handleChange = e => {
     dispatch(changeThemeBackground(e.target.value));
     setValue(e.target.value);
-    // console.log('1', e.target.value);
   };
 
   return (

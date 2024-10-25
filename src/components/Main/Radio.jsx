@@ -25,8 +25,6 @@ import img_maximum from '../../images/station/maximum.webp';
 import img_dfm from '../../images/station/dfm.webp';
 import img_kissfmdeep from '../../images/station/kissfmdeep.webp';
 
-// import img_radio from '../../images/station/favicon.png';
-
 export const Radio = ({ onAudio }) => {
   const logo = [
     img_181_fm,

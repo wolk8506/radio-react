@@ -7,9 +7,7 @@ const defaultTheme = isDarkTheme ? 'dark' : 'light';
 
 export const useTheme = () => {
   const dispatch = useDispatch();
-  const THEME_AUTO_CHANGE = useSelector(
-    state => state.storeData.themeAutoChange
-  );
+  const THEME_AUTO_CHANGE = useSelector(state => state.storeData.themeAutoChange);
   const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {

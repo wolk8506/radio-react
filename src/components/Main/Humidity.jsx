@@ -13,8 +13,7 @@ export function Humidity() {
     React.createElement(
       'div',
       {
-        className:
-          'max-w-7xl mx-auto flex flex-wrap items-center justify-center',
+        className: 'max-w-7xl mx-auto flex flex-wrap items-center justify-center',
       } /*#__PURE__*/,
 
       React.createElement(DemoF, null)
@@ -31,11 +30,7 @@ function Card({ title, children }) {
       {
         className: 'p-4  bg-white shadow-md rounded-md inline-block',
       } /*#__PURE__*/,
-      React.createElement(
-        'div',
-        { className: 'px-3 font-bold text-xl pb-4' },
-        title
-      ),
+      React.createElement('div', { className: 'px-3 font-bold text-xl pb-4' }, title),
       children
     )
   );
@@ -78,16 +73,10 @@ function Tick({ index, value }) {
 }
 
 function DemoF() {
-  // const data = useSelector(state => state.storeWeather15);
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(state => state.storeWeatherLastDay.today.days[0]);
   const [value, setHumidity] = useState(0);
   useEffect(() => {
-    // if (data.currentConditions !== undefined) {
-    // console.log('Влажность ошибка');
     setHumidity(data_today.humidity); // Влажность
-    // }
   }, [data_today.humidity]);
 
   return /*#__PURE__*/ React.createElement(
@@ -123,9 +112,7 @@ function DemoF() {
             React.createElement('circle', { r: '8', fill: '#e19646' }),
             Array(41)
               .fill(0)
-              .map((_, i /*#__PURE__*/) =>
-                React.createElement(Tick, { key: i, index: i, value: value })
-              )
+              .map((_, i /*#__PURE__*/) => React.createElement(Tick, { key: i, index: i, value: value }))
           )
         )
       )

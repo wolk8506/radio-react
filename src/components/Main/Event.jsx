@@ -12,17 +12,6 @@ export const Event = () => {
   const [event, setEvent] = useState(['Сегодня событий нет']);
   const [fact, setFact] = useState([]);
   const [joke, setJoke] = useState([]);
-  // console.log(event);
-
-  // console.log(anecdoteJSON[0].joke[0]);
-
-  // useEffect(() => {
-  //   if (events[currentDayEvent]) {
-  //     setEvent(events[currentDayEvent]);
-  //   } else {
-  //     setEvent(['Сегодня событий нет']);
-  //   }
-  // }, [currentDayEvent, events]);
 
   useEffect(() => {
     if (anecdoteJSON[0].joke[0]) {
@@ -41,14 +30,6 @@ export const Event = () => {
   }, [currentDayEvent, events]);
 
   useEffect(() => {
-    // let arr = {};
-
-    // for (let key in events) {
-    //   arr[key] = { event: events[key], fact: [] };
-    // }
-
-    // console.log();
-
     if (events[currentDayEvent].event) {
       setEvent(events[currentDayEvent].event);
     } else {
