@@ -2,19 +2,20 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { getWeatherToday_Data } from 'store/selectors';
 
 import sprite from '../../images/sprite.svg';
 
 export const WindGust = () => {
-  const data_today = useSelector(state => state.storeWeatherLastDay.today.days[0]);
+  const data_today = useSelector(getWeatherToday_Data);
   const iconSVG = sprite;
 
   const [maxwind_ms, setMaxwind_ms] = useState(19.9);
   const [rotationSpeed, setRotationSpeed] = useState(0);
 
   useEffect(() => {
-    setMaxwind_ms(Number((data_today.hours[moment().format('H')].windgust / 3.6).toFixed(1))); // Порывы ветра м/с
-  }, [data_today.hours]);
+    setMaxwind_ms(Number((data_today.days[0].hours[moment().format('H')].windgust / 3.6).toFixed(1))); // Порывы ветра м/с
+  }, [data_today]);
 
   // !!!!!! Стили
 

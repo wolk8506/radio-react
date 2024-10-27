@@ -2,21 +2,21 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherToday_Data } from 'store/selectors';
+
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesUv = () => {
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(getWeatherToday_Data);
 
   const [uv, setUv] = useState('--');
   useEffect(() => {
     const hour = moment().format('H');
 
-    setUv(data_today.hours[hour].uvindex); // Ультрофиолет
-  }, [data_today.hours]);
+    setUv(data_today.days[0].hours[hour].uvindex); // Ультрофиолет
+  }, [data_today]);
 
   const [axisX, setAxisX] = useState('52');
   const [axisY, setAxisY] = useState('144');
@@ -43,17 +43,13 @@ export const TilesUv = () => {
       setSubUvTitle('Нет опасности для обычного человека');
     } else if (uv < 6) {
       setUvTitle('Умеренный');
-      setSubUvTitle(
-        'Небольшой риск вреда от незащищенного пребывания на солнце'
-      );
+      setSubUvTitle('Небольшой риск вреда от незащищенного пребывания на солнце');
     } else if (uv < 8) {
       setUvTitle('Высокая');
       setSubUvTitle('Высокий риск вреда от незащищенного пребывания на солнце');
     } else {
       setUvTitle('Очень высоко');
-      setSubUvTitle(
-        'Очень высокий риск вреда от незащищенного пребывания на солнце'
-      );
+      setSubUvTitle('Очень высокий риск вреда от незащищенного пребывания на солнце');
     }
   }, [uv]);
 
@@ -61,13 +57,7 @@ export const TilesUv = () => {
     <div className="card__item">
       <p className="item__title">УФ</p>
       <div className="uv">
-        <svg
-          width="130"
-          height="134"
-          viewBox="5 -12 171 182"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="130" height="134" viewBox="5 -12 171 182" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M 90.5 80 m 76 0 a 76 76 0 0 1 -32 62.3 "
             transform="rotate(13 90.5 80)"
@@ -111,13 +101,7 @@ export const TilesUv = () => {
           {axisX && (
             <g>
               <circle cx={axisX} cy={axisY} r="10" fill="#FDE300"></circle>
-              <circle
-                cx={axisX}
-                cy={axisY}
-                r="11.5"
-                stroke="white"
-                stroke-width="3"
-              ></circle>
+              <circle cx={axisX} cy={axisY} r="11.5" stroke="white" stroke-width="3"></circle>
             </g>
           )}
         </svg>

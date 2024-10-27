@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherToday_Data } from 'store/selectors';
+
 const color_1 = 'pribor-color-1';
 const color_2 = 'pribor-color-2';
 
@@ -73,11 +75,11 @@ function Tick({ index, value }) {
 }
 
 function DemoF() {
-  const data_today = useSelector(state => state.storeWeatherLastDay.today.days[0]);
+  const data_today = useSelector(getWeatherToday_Data);
   const [value, setHumidity] = useState(0);
   useEffect(() => {
-    setHumidity(data_today.humidity); // Влажность
-  }, [data_today.humidity]);
+    setHumidity(data_today.days[0].humidity); // Влажность
+  }, [data_today]);
 
   return /*#__PURE__*/ React.createElement(
     Card,

@@ -4,13 +4,11 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
+import { getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/selectors';
+
 export const TilesCloud = () => {
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
-  const dataLast_tomorrow = useSelector(
-    state => state.storeWeatherLastDay.tomorrow.days[0]
-  );
+  const data_today = useSelector(getWeatherToday_Data);
+  const dataLast_tomorrow = useSelector(getWeatherTomorrow_Data);
   const [svgCloud, setSvgCloud] = useState(0);
   const [cloudText, setCloudText] = useState('--');
   const [description, setDescription] = useState('--');
@@ -45,18 +43,16 @@ export const TilesCloud = () => {
       'облачное небо.', //85-100
     ];
 
-    // const numberDay = moment().isoWeekday();
     const hour = Number(moment().format('H'));
-    // const hour = 23;
-    const cloud = data_today.hours[hour].cloudcover;
-    const cloudTomorrowHour0 = data_today.hours[0].cloudcover;
-    const cloudTomorrow = dataLast_tomorrow.cloudcover;
+    const cloud = data_today.days[0].hours[hour].cloudcover;
+    const cloudTomorrowHour0 = data_today.days[0].hours[0].cloudcover;
+    const cloudTomorrow = dataLast_tomorrow.days[0].cloudcover;
     const arr = [];
     const arr2 = [];
 
-    data_today.hours.map(i => arr.push(i.cloudcover));
+    data_today.days[0].hours.map(i => arr.push(i.cloudcover));
 
-    dataLast_tomorrow.hours.map(i => arr2.push(i.cloudcover));
+    dataLast_tomorrow.days[0].hours.map(i => arr2.push(i.cloudcover));
     const arr3 = [...arr, cloudTomorrowHour0];
 
     const cloudEvening = arr.slice(-6).reduce((acc, num) => acc + num, 0) / 6;
@@ -104,19 +100,13 @@ export const TilesCloud = () => {
     } else c = '';
 
     if (a < b) {
-      setDescription(
-        'Увеличение ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c
-      );
+      setDescription('Увеличение ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c);
     } else if (a === b) {
-      setDescription(
-        'Стабильное состояние ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c
-      );
+      setDescription('Стабильное состояние ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c);
     } else if (a > b) {
-      setDescription(
-        'Уменьшается ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c
-      );
+      setDescription('Уменьшается ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c);
     }
-  }, [dataLast_tomorrow.cloudcover, dataLast_tomorrow.hours, data_today.hours]);
+  }, [dataLast_tomorrow.days, data_today.days]);
 
   return (
     <div className="card__item" id="animatedCloud">
@@ -150,21 +140,9 @@ export const TilesCloud = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_2586_5626"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_2586_5626"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2586_5626"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2586_5626" result="shape"></feBlend>
             </filter>
           </defs>
           <defs>
@@ -178,16 +156,8 @@ export const TilesCloud = () => {
               color-interpolation-filters="sRGB"
             >
               <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              ></feBlend>
-              <feGaussianBlur
-                stdDeviation="2"
-                result="effect1_foregroundBlur_2586_5652"
-              ></feGaussianBlur>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
+              <feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_2586_5652"></feGaussianBlur>
             </filter>
           </defs>
           <defs>
@@ -201,16 +171,8 @@ export const TilesCloud = () => {
               color-interpolation-filters="sRGB"
             >
               <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              ></feBlend>
-              <feGaussianBlur
-                stdDeviation="2"
-                result="effect1_foregroundBlur_2586_5637"
-              ></feGaussianBlur>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
+              <feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_2586_5637"></feGaussianBlur>
             </filter>
           </defs>
           {svgCloud === 4 && (
@@ -227,11 +189,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(45 0) scale(1.3)"
-                  style={{ opacity: 0.6 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(45 0) scale(1.3)" style={{ opacity: 0.6 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -272,11 +230,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(35 55) scale(1.5)"
-                  style={{ opacity: 0.6 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(35 55) scale(1.5)" style={{ opacity: 0.6 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -296,11 +250,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(-65 90) scale(2)"
-                  style={{ opacity: 0.6 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(-65 90) scale(2)" style={{ opacity: 0.6 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -320,10 +270,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(5 80) scale(2)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(5 80) scale(2)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -343,10 +290,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(120 65) scale(1)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(120 65) scale(1)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -366,11 +310,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(45 0) scale(1.3)"
-                  style={{ opacity: 0.6 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(45 0) scale(1.3)" style={{ opacity: 0.6 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -411,11 +351,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(35 55) scale(1.5)"
-                  style={{ opacity: 0.6 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(35 55) scale(1.5)" style={{ opacity: 0.6 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -435,11 +371,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(-65 90) scale(2)"
-                  style={{ opacity: 0.6 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(-65 90) scale(2)" style={{ opacity: 0.6 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -459,10 +391,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(5 80) scale(2)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(5 80) scale(2)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -482,10 +411,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(120 65) scale(1)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(120 65) scale(1)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -552,11 +478,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(75 15) scale(0.9)"
-                  style={{ opacity: 1 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(75 15) scale(0.9)" style={{ opacity: 1 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -576,10 +498,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(45 115) scale(0.9)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(45 115) scale(0.9)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -599,11 +518,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5637)"
-                  transform="translate(75 15) scale(0.9)"
-                  style={{ opacity: 1 }}
-                >
+                <g filter="url(#filter0_f_2586_5637)" transform="translate(75 15) scale(0.9)" style={{ opacity: 1 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -623,10 +538,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(45 115) scale(0.9)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(45 115) scale(0.9)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -672,11 +584,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  transform="translate(77 90) scale(0.9)"
-                  style={{ opacity: 1 }}
-                  filter="url(#filter0_f_2586_5652)"
-                >
+                <g transform="translate(77 90) scale(0.9)" style={{ opacity: 1 }} filter="url(#filter0_f_2586_5652)">
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -717,10 +625,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  transform="translate(45 115) scale(0.9)"
-                  filter="url(#filter0_d_2586_5626)"
-                >
+                <g transform="translate(45 115) scale(0.9)" filter="url(#filter0_d_2586_5626)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -761,11 +666,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5652)"
-                  transform="translate(77 90) scale(0.9)"
-                  style={{ opacity: 1 }}
-                >
+                <g filter="url(#filter0_f_2586_5652)" transform="translate(77 90) scale(0.9)" style={{ opacity: 1 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -806,10 +707,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  transform="translate(45 115) scale(0.9)"
-                  filter="url(#filter0_d_2586_5626)"
-                >
+                <g transform="translate(45 115) scale(0.9)" filter="url(#filter0_d_2586_5626)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -855,11 +753,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5652)"
-                  transform="translate(77 90) scale(0.9)"
-                  style={{ opacity: 1 }}
-                >
+                <g filter="url(#filter0_f_2586_5652)" transform="translate(77 90) scale(0.9)" style={{ opacity: 1 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -900,10 +794,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(45 115) scale(0.9)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(45 115) scale(0.9)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"
@@ -944,11 +835,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_f_2586_5652)"
-                  transform="translate(77 90) scale(0.9)"
-                  style={{ opacity: 1 }}
-                >
+                <g filter="url(#filter0_f_2586_5652)" transform="translate(77 90) scale(0.9)" style={{ opacity: 1 }}>
                   <path
                     className="cloud__svg--color-2"
                     fill-rule="evenodd"
@@ -989,10 +876,7 @@ export const TilesCloud = () => {
                   begin="animatedCloud.mouseenter"
                   end="animatedCloud.mouseleave"
                 ></animateTransform>
-                <g
-                  filter="url(#filter0_d_2586_5626)"
-                  transform="translate(45 115) scale(0.9)"
-                >
+                <g filter="url(#filter0_d_2586_5626)" transform="translate(45 115) scale(0.9)">
                   <path
                     className="cloud__svg--color-1"
                     fill-rule="evenodd"

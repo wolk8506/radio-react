@@ -11,15 +11,11 @@ export const TilesMoon = () => {
   const [moonriseTomorrow, setMoonriseTomorrow] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
 
-  console.log(moonrise, moonset);
-
   useEffect(() => {
     setMoonrise(dataEvents.days[0].moonrise);
     setMoonriseTomorrow(dataEvents.days[1].moonrise);
     setMoonset(dataEvents.days[0].moonset);
   }, [dataEvents]);
-
-  // const moonriseTime = moonrise;
 
   let moonriseTime = '00:00';
   if (moonrise !== undefined) {
@@ -79,7 +75,6 @@ export const TilesMoon = () => {
     const minute2 = moment().minute();
     const hour2 = moment().hour();
     const timeCurrent = second2 + minute2 * 60 + hour2 * 3600;
-    // const timeCurrent = 61200;
 
     let sdvig;
     if (timeCurrent >= timeRise + timeMoon) {

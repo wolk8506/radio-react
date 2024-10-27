@@ -4,16 +4,12 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
+import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/selectors';
+
 export const TilesPressure = () => {
-  const data_yesterday = useSelector(
-    state => state.storeWeatherLastDay.yesterday.days[0]
-  );
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
-  const data_tomorrow = useSelector(
-    state => state.storeWeatherLastDay.tomorrow.days[0]
-  );
+  const data_yesterday = useSelector(getWeatherYesterday_Data);
+  const data_today = useSelector(getWeatherToday_Data);
+  const data_tomorrow = useSelector(getWeatherTomorrow_Data);
 
   const [pressure_mb, setPressure_mb] = useState('--');
   const [dataChart, setDataChart] = useState([0, 0, 0, 1]);
@@ -24,8 +20,8 @@ export const TilesPressure = () => {
 
   useEffect(() => {
     const hour = Number(moment().format('H'));
-    setPressure_mb((data_today.hours[hour].pressure * 0.75).toFixed(0)); //Давление мм рт сб
-  }, [data_today.hours]);
+    setPressure_mb((data_today.days[0].hours[hour].pressure * 0.75).toFixed(0)); //Давление мм рт сб
+  }, [data_today]);
 
   useEffect(() => {
     const hour = Number(moment().format('H'));
@@ -35,14 +31,14 @@ export const TilesPressure = () => {
     const arr_3 = [];
 
     // arr_1  day-1
-    arr_1.push(data_yesterday.hours[22].pressure);
-    arr_1.push(data_yesterday.hours[23].pressure);
+    arr_1.push(data_yesterday.days[0].hours[22].pressure);
+    arr_1.push(data_yesterday.days[0].hours[23].pressure);
 
     // arr_2  day+0
-    arr_1.push(...data_today.hours.map(i => i.pressure));
+    arr_1.push(...data_today.days[0].hours.map(i => i.pressure));
 
     // arr_3  day+1
-    arr_1.push(...data_tomorrow.hours.map(i => i.pressure));
+    arr_1.push(...data_tomorrow.days[0].hours.map(i => i.pressure));
 
     // выборка 4 часа
     const t1 = arr_1[hour + 0];
@@ -102,7 +98,7 @@ export const TilesPressure = () => {
     if (t3 > t4) {
       setStatusDescriptionText(reduction[n - 1]);
     }
-  }, [data_tomorrow.hours, data_today.hours, data_yesterday.hours]);
+  }, [data_today.days, data_tomorrow.days, data_yesterday.days]);
 
   let valueArr = [
     {
@@ -148,13 +144,7 @@ export const TilesPressure = () => {
     <div className="card__item">
       <p className="item__title">Давление</p>
       <div className="pressure">
-        <svg
-          width="260"
-          height="62"
-          viewBox="0 0 260 62"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="260" height="62" viewBox="0 0 260 62" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="PressureCardGradient" x1="0%" x2="100%">
               <stop offset="0%" stop-color="#96C6FA"></stop>
@@ -169,14 +159,7 @@ export const TilesPressure = () => {
             stroke-linecap="round"
             stroke-linejoin="round"
           ></path>
-          <circle
-            stroke="#fff"
-            stroke-width="3"
-            fill="#A375FF"
-            cx={valueArr[2].x}
-            cy={valueArr[2].y}
-            r="10"
-          ></circle>
+          <circle stroke="#fff" stroke-width="3" fill="#A375FF" cx={valueArr[2].x} cy={valueArr[2].y} r="10"></circle>
         </svg>
         <div className="pressure__content">
           <p className="content__value">{pressure_mb}</p>

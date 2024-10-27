@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherToday_Data, getWeatherToday_TimeUpdate } from 'store/selectors';
+
 import sprite from '../../images/sprite.svg';
 
 import moment from 'moment';
@@ -9,8 +11,8 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherCurrentDay = () => {
-  const data_today = useSelector(state => state.storeWeatherLastDay.today);
-  const data_month = useSelector(state => state.storeWeather15);
+  const data_today = useSelector(getWeatherToday_Data);
+  const timeUpdate = useSelector(getWeatherToday_TimeUpdate);
 
   const urlImage = 'https://www.visualcrossing.com/img/';
   const iconSVG = sprite;
@@ -26,7 +28,6 @@ export const WeatherCurrentDay = () => {
   const [dew, setDew] = useState(0);
   const [feelslike, setFeelslike] = useState('0');
   const [tempmax, setTempmax] = useState('-');
-  const [datetime, setDatetime] = useState('--:--');
   const [conditionText, setConditionText] = useState('--');
   const [description, setDescription] = useState('-');
 
@@ -44,11 +45,10 @@ export const WeatherCurrentDay = () => {
     setDew(data_today.days[0].hours[hour].dew);
     setFeelslike(data_today.days[0].hours[hour].feelslike);
     setTempmax(data_today.days[0].tempmax);
-    setDatetime(data_month.currentConditions.datetime);
 
     setConditionText(data_today.days[0].hours[hour].conditions); //Погодные условия, описание
     setDescription(data_today.description);
-  }, [data_month, data_today]);
+  }, [data_today]);
 
   // !!!!!! Стили
 
@@ -60,7 +60,7 @@ export const WeatherCurrentDay = () => {
     <div className="weather__current-day">
       <div className="current-day__label">
         <p className="label__title">Текущая погода</p>
-        <p className="label__time">{datetime}</p>
+        <p className="label__time">{timeUpdate}</p>
       </div>
       <div className="current-day__summary">
         <div className="summary__overview">

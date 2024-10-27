@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import sprite from '../../images/sprite.svg';
 
+import { getWeatherToday_Data } from 'store/selectors';
+
 export const Compas = () => {
-  const data_today = useSelector(state => state.storeWeatherLastDay.today.days[0]);
+  const data_today = useSelector(getWeatherToday_Data);
 
   const iconSVG = sprite;
 
@@ -14,9 +16,9 @@ export const Compas = () => {
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   useEffect(() => {
-    setWind_degree(data_today.winddir);
-    setWind_ms((data_today.windspeed / 3.6).toFixed(1));
-  }, [data_today.winddir, data_today.windspeed]);
+    setWind_degree(data_today.days[0].winddir);
+    setWind_ms((data_today.days[0].windspeed / 3.6).toFixed(1));
+  }, [data_today]);
 
   // !!!!!! Стили
 

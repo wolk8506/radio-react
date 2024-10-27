@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherToday_Data } from 'store/selectors';
+
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesPrecip = () => {
-  const data_today = useSelector(state => state.storeWeatherLastDay.today);
+  const data_today = useSelector(getWeatherToday_Data);
 
   const [precip_mm, setPrecip_mm] = useState('--');
   const [precipProb, setPrecipProb] = useState(0);
@@ -80,9 +82,9 @@ export const TilesPrecip = () => {
         <div className="precip-image">
           <div className="precip-image__item">
             <svg
-              className={`precip-image__svg ${
-                precipRainOff ? '' : ' is-hidden'
-              } ${precipRainAndSnow ? '' : ' rain-snow'}`}
+              className={`precip-image__svg ${precipRainOff ? '' : ' is-hidden'} ${
+                precipRainAndSnow ? '' : ' rain-snow'
+              }`}
               xmlns="http://www.w3.org/2000/svg"
               width="130px"
               height="130px"
@@ -124,10 +126,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(35 -16) scale(0.8)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(35 -16) scale(0.8)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -149,10 +148,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(13 8) scale(0.8)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(13 8) scale(0.8)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -196,10 +192,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(110 5) scale(0.8)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(110 5) scale(0.8)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -221,10 +214,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(41 59) scale(0.8)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(41 59) scale(0.8)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -246,10 +236,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(56 2) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(56 2) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -271,10 +258,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(104 4) scale(0.8)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(104 4) scale(0.8)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -296,10 +280,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(90 -20) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(90 -20) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -343,10 +324,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(15 34) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(15 34) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -368,10 +346,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(90 35) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(90 35) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -437,10 +412,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(103 75) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(103 75) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -484,10 +456,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(33 9) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(33 9) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -531,10 +500,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(28 85) scale(0.8)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(28 85) scale(0.8)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -578,10 +544,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(76 9) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(76 9) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -669,10 +632,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(120 55) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(120 55) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -716,10 +676,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(80 80) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(80 80) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -741,10 +698,7 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(100 90) scale(0.7)"
-                    filter="url(#filter0_f_1999_49446)"
-                  >
+                  <g transform="translate(100 90) scale(0.7)" filter="url(#filter0_f_1999_49446)">
                     <path
                       xmlns="http://www.w3.org/2000/svg"
                       fill-rule="evenodd"
@@ -819,20 +773,9 @@ export const TilesPrecip = () => {
                   filterUnits="userSpaceOnUse"
                   color-interpolation-filters="sRGB"
                 >
-                  <feFlood
-                    flood-opacity="0"
-                    result="BackgroundImageFix"
-                  ></feFlood>
-                  <feBlend
-                    mode="normal"
-                    in="SourceGraphic"
-                    in2="BackgroundImageFix"
-                    result="shape"
-                  ></feBlend>
-                  <feGaussianBlur
-                    stdDeviation="1"
-                    result="effect1_foregroundBlur_1999_49446"
-                  ></feGaussianBlur>
+                  <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                  <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
+                  <feGaussianBlur stdDeviation="1" result="effect1_foregroundBlur_1999_49446"></feGaussianBlur>
                 </filter>
               </defs>
             </svg>
@@ -843,9 +786,7 @@ export const TilesPrecip = () => {
           </div>
           <div className="precip-image__item">
             <svg
-              className={`precip-image__svg ${
-                precipSnowdepth && 'is-hidden'
-              }  ${!precipRainAndSnow && ' rain-snow'}`}
+              className={`precip-image__svg ${precipSnowdepth && 'is-hidden'}  ${!precipRainAndSnow && ' rain-snow'}`}
               xmlns="http://www.w3.org/2000/svg"
               width="130px"
               height="130px"
@@ -866,12 +807,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(15 38) scale(0.8)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -887,12 +823,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(-32 16) scale(0.8)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -908,12 +839,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(15 -40) scale(0.8)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -928,16 +854,8 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(35 42) scale(0.7)"
-                    filter="url(#filter0_f_1999_49605)"
-                  >
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="1.71875"
-                      fill="white"
-                    ></circle>
+                  <g transform="translate(35 42) scale(0.7)" filter="url(#filter0_f_1999_49605)">
+                    <circle cx="82.9346" cy="84.5327" r="1.71875" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -952,16 +870,8 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(30 -6) scale(0.7)"
-                    filter="url(#filter0_f_1999_49605)"
-                  >
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="1.71875"
-                      fill="white"
-                    ></circle>
+                  <g transform="translate(30 -6) scale(0.7)" filter="url(#filter0_f_1999_49605)">
+                    <circle cx="82.9346" cy="84.5327" r="1.71875" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -976,16 +886,8 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(-20 -15) scale(0.7)"
-                    filter="url(#filter0_f_1999_49605)"
-                  >
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="1.71875"
-                      fill="white"
-                    ></circle>
+                  <g transform="translate(-20 -15) scale(0.7)" filter="url(#filter0_f_1999_49605)">
+                    <circle cx="82.9346" cy="84.5327" r="1.71875" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1001,12 +903,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(15 -82) scale(0.8)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1022,12 +919,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(-32 -104) scale(0.8)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1043,12 +935,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(15 -120) scale(0.8)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1064,12 +951,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(35 -102) scale(0.7)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1085,12 +967,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(30 -86) scale(0.7)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1106,12 +983,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(-20 -95) scale(0.7)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1127,12 +999,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(-10 -45) scale(0.7)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1148,12 +1015,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(-25 -120) scale(0.7)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1169,12 +1031,7 @@ export const TilesPrecip = () => {
                     end="animated.mouseleave"
                   ></animateTransform>
                   <g transform="translate(50 -80) scale(0.7)">
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="2.53"
-                      fill="white"
-                    ></circle>
+                    <circle cx="82.9346" cy="84.5327" r="2.53" fill="white"></circle>
                   </g>
                 </g>
                 <g>
@@ -1189,16 +1046,8 @@ export const TilesPrecip = () => {
                     begin="animated.mouseenter"
                     end="animated.mouseleave"
                   ></animateTransform>
-                  <g
-                    transform="translate(45 -90) scale(0.8)"
-                    filter="url(#filter0_f_1999_49605)"
-                  >
-                    <circle
-                      cx="82.9346"
-                      cy="84.5327"
-                      r="1.71875"
-                      fill="white"
-                    ></circle>
+                  <g transform="translate(45 -90) scale(0.8)" filter="url(#filter0_f_1999_49605)">
+                    <circle cx="82.9346" cy="84.5327" r="1.71875" fill="white"></circle>
                   </g>
                 </g>
               </g>
@@ -1225,20 +1074,9 @@ export const TilesPrecip = () => {
                   filterUnits="userSpaceOnUse"
                   color-interpolation-filters="sRGB"
                 >
-                  <feFlood
-                    flood-opacity="0"
-                    result="BackgroundImageFix"
-                  ></feFlood>
-                  <feBlend
-                    mode="normal"
-                    in="SourceGraphic"
-                    in2="BackgroundImageFix"
-                    result="shape"
-                  ></feBlend>
-                  <feGaussianBlur
-                    stdDeviation="1"
-                    result="effect1_foregroundBlur_1999_49605"
-                  ></feGaussianBlur>
+                  <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                  <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
+                  <feGaussianBlur stdDeviation="1" result="effect1_foregroundBlur_1999_49605"></feGaussianBlur>
                 </filter>
               </defs>
             </svg>

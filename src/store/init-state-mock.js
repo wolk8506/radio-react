@@ -16587,7 +16587,7 @@ export const initStateWeather15 = {
   },
 };
 
-export const initStateWeatherLastDay = {
+export const initStateWeatherDay = {
   today: {
     queryCost: 1,
     latitude: 50.0042,

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/selectors';
+
 import { LineChart } from '@mui/x-charts/LineChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { barElementClasses } from '@mui/x-charts/BarChart';
@@ -17,41 +19,15 @@ import FilterDramaIcon from '@mui/icons-material/FilterDrama';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 
 export const ChartWeather = ({ value = '0' }) => {
-  const data_yesterday = useSelector(state => state.storeWeatherLastDay.yesterday.days[0]);
-  const data_today = useSelector(state => state.storeWeatherLastDay.today.days[0]);
-  const data_tomorrow = useSelector(state => state.storeWeatherLastDay.tomorrow.days[0]);
+  const data_yesterday = useSelector(getWeatherYesterday_Data);
+  const data_today = useSelector(getWeatherToday_Data);
+  const data_tomorrow = useSelector(getWeatherTomorrow_Data);
   const [quantity, setQuantity] = useState('°');
   const [labelChart, setLabelChart] = useState('Влажность');
   const [dataChartMin, setDataChartMin] = useState(-30);
   const [dataChartMax, setDataChartMax] = useState(40);
   const [dataChart, setDataChart] = useState([{ t: 14 }, { t: 13 }, { t: 13 }, { t: 14 }, { t: 16 }, { t: 20 }]);
 
-  const xData = [
-    '00:00',
-    '01:00',
-    '02:00',
-    '03:00',
-    '04:00',
-    '05:00',
-    '06:00',
-    '07:00',
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00',
-    '21:00',
-    '22:00',
-    '23:00',
-  ];
   const [btnActiv, setBtnActiv] = useState('0');
   const btnRadio = e => setBtnActiv(e.currentTarget.value);
 
@@ -61,56 +37,60 @@ export const ChartWeather = ({ value = '0' }) => {
   useEffect(() => {
     let data = data_today;
 
-    if (btnActivDay === '0') data = data_yesterday;
-    if (btnActivDay === '1') data = data_today;
-    if (btnActivDay === '2') data = data_tomorrow;
+    if (btnActivDay === '0') data = data_yesterday.days[0];
+    if (btnActivDay === '1') data = data_today.days[0];
+    if (btnActivDay === '2') data = data_tomorrow.days[0];
 
     let arr;
 
     if (btnActiv === '0') {
-      arr = data.hours.map(i => {
-        return { t: i.temp };
+      arr = data.hours.map((el, i) => {
+        return { t: el.temp, time: i === 4 && el.datetime === '03:00:00' ? '03:00.' : el.datetime.slice(0, -3) };
       });
+
       setQuantity('°');
       setLabelChart('Температура');
     }
     if (btnActiv === '1') {
-      arr = data.hours.map(i => {
-        return { t: i.humidity };
+      arr = data.hours.map((el, i) => {
+        return { t: el.humidity, time: i === 4 && el.datetime === '03:00:00' ? '03:00.' : el.datetime.slice(0, -3) };
       });
+
       setQuantity('%');
       setLabelChart('Влажность');
     }
     if (btnActiv === '2') {
-      arr = data.hours.map(i => {
-        return { t: Number((i.windspeed / 3.6).toFixed(1)), label: 'Ветер' };
+      arr = data.hours.map((el, i) => {
+        return { t: el.windspeed, time: i === 4 && el.datetime === '03:00:00' ? '03:00.' : el.datetime.slice(0, -3) };
       });
 
       setQuantity('м/с');
       setLabelChart('Скорость ветра');
     }
     if (btnActiv === '3') {
-      arr = data.hours.map(i => {
-        return { t: i.precip };
+      arr = data.hours.map((el, i) => {
+        return { t: el.precip, time: i === 4 && el.datetime === '03:00:00' ? '03:00.' : el.datetime.slice(0, -3) };
       });
+
       setQuantity('мм');
       setLabelChart('Осадки');
     }
     if (btnActiv === '4') {
-      arr = data.hours.map(i => {
-        return { t: i.cloudcover };
+      arr = data.hours.map((el, i) => {
+        return { t: el.cloudcover, time: i === 4 && el.datetime === '03:00:00' ? '03:00.' : el.datetime.slice(0, -3) };
       });
+
       setQuantity('%');
       setLabelChart('Облачность');
     }
     if (btnActiv === '5') {
-      arr = data.hours.map(i => {
-        return { t: Number((i.pressure * 0.75).toFixed(0)) };
+      arr = data.hours.map((el, i) => {
+        return { t: el.pressure, time: i === 4 && el.datetime === '03:00:00' ? '03:00.' : el.datetime.slice(0, -3) };
       });
+
       setQuantity('мм');
       setLabelChart('Давление');
     }
-
     setDataChart(arr);
     setDataChartMin(Math.floor(Math.min(...arr.map(i => i.t))));
     setDataChartMax(Math.ceil(Math.max(...arr.map(i => i.t))));
@@ -188,7 +168,8 @@ export const ChartWeather = ({ value = '0' }) => {
               'linear-gradient(rgba(255,255,255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255, 0.1) 1px, transparent 1px)',
           }),
         })}
-        xAxis={[{ data: xData, scaleType: 'point' }]}
+        // xAxis={[{ data: xData, scaleType: 'point' }]}
+        xAxis={[{ data: dataChart.map(i => i.time), scaleType: 'point' }]}
         dataset={dataChart}
         slotProps={{ legend: { hidden: true } }}
         series={[

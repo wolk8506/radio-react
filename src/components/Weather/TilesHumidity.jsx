@@ -2,12 +2,13 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
+import { getWeatherToday_Data } from 'store/selectors';
+
 import moment from 'moment';
 
 export const TilesHumidity = () => {
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(getWeatherToday_Data);
 
   const [humidityTitle, setHumidityTitle] = useState('Нормальный воздух');
   const [humidityPercentage, setHumidityPercentage] = useState(0);
@@ -15,9 +16,9 @@ export const TilesHumidity = () => {
 
   useEffect(() => {
     const hour = moment().format('H');
-    setHumidityPercentage(Number(data_today.hours[hour].humidity.toFixed(0))); // Влажность
-    setDew(data_today.hours[hour].dew);
-  }, [data_today.hours]);
+    setHumidityPercentage(Number(data_today.days[0].hours[hour].humidity.toFixed(0))); // Влажность
+    setDew(data_today.days[0].hours[hour].dew);
+  }, [data_today]);
 
   const humidityValue = {
     height: humidityPercentage,

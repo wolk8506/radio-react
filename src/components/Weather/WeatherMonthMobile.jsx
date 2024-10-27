@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import Button from '@mui/material/Button';
+
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import ModalDialog from '@mui/joy/ModalDialog';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
 
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -14,10 +19,6 @@ export const WeatherMonthMobile = () => {
   const urlImage = 'https://www.visualcrossing.com/img/';
   const [data, setData] = useState(false);
   const [dataMonth, setDataMonth] = useState(false);
-  //   console.log(data_month.days);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     const date = moment().format('YYYY-MM-DD');
@@ -36,7 +37,6 @@ export const WeatherMonthMobile = () => {
         })
     );
     setData(arr);
-    // console.log(arr);
   }, [data_month.days]);
 
   useEffect(() => {
@@ -45,8 +45,8 @@ export const WeatherMonthMobile = () => {
 
     data_month.days.map(i =>
       arr.push({
-        tempmax: i.tempmax,
-        tempmin: i.tempmin,
+        tempmax: i.tempmax.toFixed(0),
+        tempmin: i.tempmin.toFixed(0),
         datetime: moment(i.datetime).format('DD'),
         day: moment(i.datetime).format('dd'),
         icon: `${urlImage}${i.icon}.svg`,
@@ -57,13 +57,20 @@ export const WeatherMonthMobile = () => {
     setDataMonth(arr);
     console.log(arr);
   }, [data_month.days]);
+
+  const [layout, setLayout] = React.useState(undefined);
   return (
     <>
       {data && (
         <div className="weather10days">
           <h2 className="weather10days__title">
             <p className="title__text">10 дней</p>
-            <button className="title__btn" onClick={handleOpen}>
+            <button
+              className="title__btn"
+              onClick={() => {
+                setLayout('fullscreen');
+              }}
+            >
               Ежемесячно &#62;{' '}
             </button>
           </h2>
@@ -317,40 +324,42 @@ export const WeatherMonthMobile = () => {
           </div>
         </div>
       )}
-      <div className={`modal ${open && 'open'}`}>
-        <div className="modal__header">
-          <Button className="btn-close" variant="outlined" onClick={handleClose}>
-            Close
-          </Button>
-        </div>
-
-        <div className="month-calendar">
-          <div className="month-calendar__table-container">
-            <div className="table-container__table-content">
-              <ul className="table-content__content-items">
-                {dataMonth &&
-                  dataMonth.map(i => (
-                    <li className="content-item" key={i.datetime}>
-                      <div className={i.activ}>
-                        <div className="calendar-table-day">
-                          <span>{i.datetime}</span>
-                          <span>{i.day}</span>
-                        </div>
-                        <div className="calendar-table-day-forecast">
-                          <img src={i.icon} alt="" width={42} />
-                          <div className="calendar-table-day-forecast__temp">
-                            <span>{i.tempmax}°</span>
-                            <span>{i.tempmin}°</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
+      <Modal open={!!layout} onClose={() => setLayout(undefined)}>
+        <ModalDialog layout={layout}>
+          <ModalClose />
+          <DialogTitle>Погода на месяц</DialogTitle>
+          <DialogContent>
+            <div className="modal">
+              <div className="month-calendar">
+                <div className="month-calendar__table-container">
+                  <div className="table-container__table-content">
+                    <ul className="table-content__content-items">
+                      {dataMonth &&
+                        dataMonth.map(i => (
+                          <li className="content-item" key={i.datetime}>
+                            <div className={i.activ}>
+                              <div className="calendar-table-day">
+                                <span>{i.datetime}</span>
+                                <span>{i.day}</span>
+                              </div>
+                              <div className="calendar-table-day-forecast">
+                                <img src={i.icon} alt="" width={32} />
+                                <div className="calendar-table-day-forecast__temp">
+                                  <span>{i.tempmax}°</span>
+                                  <span>{i.tempmin}°</span>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </DialogContent>
+        </ModalDialog>
+      </Modal>
     </>
   );
 };

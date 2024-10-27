@@ -4,16 +4,12 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
+import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/selectors';
+
 export const TilesFeelTemp = () => {
-  const data_yesterday = useSelector(
-    state => state.storeWeatherLastDay.yesterday.days[0]
-  );
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
-  const data_tomorrow = useSelector(
-    state => state.storeWeatherLastDay.tomorrow.days[0]
-  );
+  const data_yesterday = useSelector(getWeatherYesterday_Data);
+  const data_today = useSelector(getWeatherToday_Data);
+  const data_tomorrow = useSelector(getWeatherTomorrow_Data);
 
   const [dataChart, setDataChart] = useState([0, 0, 0, 1]);
   const [feelslike, setFeelslike] = useState(0);
@@ -21,17 +17,14 @@ export const TilesFeelTemp = () => {
   const [wind_ms, setWind_ms] = useState(0);
   const [feelingTitle, setFeelingTitle] = useState('--');
   const [dominantFactor, setDominantFactor] = useState('отсутствует');
-  const [dominantFactorDescription, setDominantFactorDescription] =
-    useState('---');
+  const [dominantFactorDescription, setDominantFactorDescription] = useState('---');
 
   useEffect(() => {
-    // const numberDay = moment().isoWeekday();
     const hour = Number(moment().format('H'));
-    // const hour = 23;
-    setTemperature(Number(data_today.hours[hour].temp.toFixed(0))); //Текущая температура в градусах цельсия
-    setFeelslike(Number(data_today.hours[hour].feelslike.toFixed(0)));
-    setWind_ms(Number((data_today.hours[hour].windspeed / 3.6).toFixed(0))); //Скорость ветра в м/с
-  }, [data_today.hours]);
+    setTemperature(Number(data_today.days[0].hours[hour].temp.toFixed(0))); //Текущая температура в градусах цельсия
+    setFeelslike(Number(data_today.days[0].hours[hour].feelslike.toFixed(0)));
+    setWind_ms(Number((data_today.days[0].hours[hour].windspeed / 3.6).toFixed(0))); //Скорость ветра в м/с
+  }, [data_today]);
 
   useEffect(() => {
     if (feelslike === temperature) {
@@ -41,15 +34,11 @@ export const TilesFeelTemp = () => {
     if (feelslike < temperature) {
       if (wind_ms <= 2) {
         setDominantFactor('отсутствует');
-        setDominantFactorDescription(
-          'Ощущается холоднее, чем фактическая температура.'
-        );
+        setDominantFactorDescription('Ощущается холоднее, чем фактическая температура.');
       }
       if (wind_ms > 2) {
         setDominantFactor('ветер');
-        setDominantFactorDescription(
-          'Из-за ветра ощущается холоднее, чем фактическая температура.'
-        );
+        setDominantFactorDescription('Из-за ветра ощущается холоднее, чем фактическая температура.');
       }
     }
   }, [feelslike, temperature, wind_ms]);
@@ -57,8 +46,7 @@ export const TilesFeelTemp = () => {
   useEffect(() => {
     if (feelslike > 35) setFeelingTitle('Крайне жарко.');
     else if (feelslike > 30) setFeelingTitle('Очень жарко.');
-    else if (feelslike > 24)
-      setFeelingTitle('Жарко (комфортно при пляжном отдыхе)');
+    else if (feelslike > 24) setFeelingTitle('Жарко (комфортно при пляжном отдыхе)');
     else if (feelslike > 18) setFeelingTitle('Тепло (комфортно).');
     else if (feelslike > 12) setFeelingTitle('Умеренно тепло.');
     else if (feelslike > 6) setFeelingTitle('Прохладно.');
@@ -76,14 +64,14 @@ export const TilesFeelTemp = () => {
     const arr_2 = [];
     const arr_3 = [];
 
-    arr_1.push(data_yesterday.hours[22].pressure);
-    arr_1.push(data_yesterday.hours[23].pressure);
+    arr_1.push(data_yesterday.days[0].hours[22].pressure);
+    arr_1.push(data_yesterday.days[0].hours[23].pressure);
 
     // arr_2  day+0
-    arr_1.push(...data_today.hours.map(i => i.feelslike));
+    arr_1.push(...data_today.days[0].hours.map(i => i.feelslike));
 
     // arr_3  day+1
-    arr_1.push(...data_tomorrow.hours.map(i => i.feelslike));
+    arr_1.push(...data_tomorrow.days[0].hours.map(i => i.feelslike));
 
     // выборка 4 часа
     const t1 = arr_1[hour + 0];
@@ -106,7 +94,7 @@ export const TilesFeelTemp = () => {
     arr_3.push(...arr_2.map(i => (t_max - i) * step + 20));
 
     setDataChart(arr_3);
-  }, [data_today.hours, data_tomorrow.hours, data_yesterday.hours]);
+  }, [data_today.days, data_tomorrow.days, data_yesterday.days]);
 
   let valueArr = [
     {
@@ -152,21 +140,9 @@ export const TilesFeelTemp = () => {
     <div className="card__item">
       <p className="item__title">Ощущается как</p>
       <div className="feel-temp">
-        <svg
-          width="260"
-          height="77"
-          viewBox="0 0 260 77"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="260" height="77" viewBox="0 0 260 77" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient
-              id="FeelslikeCardGradient"
-              x1="0%"
-              x2="100%"
-              y1="0%"
-              y2="0%"
-            >
+            <linearGradient id="FeelslikeCardGradient" x1="0%" x2="100%" y1="0%" y2="0%">
               <stop offset="0" stop-color="#96C6FA"></stop>
               <stop offset="74%" stop-color="#96C6FA"></stop>
               <stop offset="74%" className="feel-temp__svg-line"></stop>
@@ -201,9 +177,7 @@ export const TilesFeelTemp = () => {
           ></use>
         </svg>
         <div className="feel-temp__block-temp">
-          <p className="block-temp__title">
-            Доминантный фактор: {dominantFactor}
-          </p>
+          <p className="block-temp__title">Доминантный фактор: {dominantFactor}</p>
 
           <div className="block-temp__value-content">
             <div className="value-content">

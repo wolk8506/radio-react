@@ -2,15 +2,11 @@ import * as React from 'react';
 import Media from 'react-media';
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getWeather15,
-  getWeatherElements,
-  getLocation,
-  getWeatherYesterday,
-  getWeatherToday,
-  getWeatherTomorrow,
-} from 'store/thunks';
+import { getWeather15, getWeatherElements, getLocation } from 'store/thunks';
 import { weatherCity } from 'store/actions';
+
+import { getWeatherToday_Data } from 'store/selectors';
+import { fetchWeatherYesterday, fetchWeatherToday, fetchWeatherTomorrow } from 'store/operation';
 
 import SearchIcon from '@mui/icons-material/Search';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
@@ -31,7 +27,7 @@ moment.locale('ru');
 
 export const Weather = () => {
   const dispatch = useDispatch();
-  const data_today = useSelector(state => state.storeWeatherLastDay.today);
+  const data_today = useSelector(getWeatherToday_Data);
   const CITY = useSelector(state => state.storeData.city);
 
   const urlImage = 'https://www.visualcrossing.com/img/';
@@ -45,19 +41,20 @@ export const Weather = () => {
 
   const BASE_URL = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 
+  const REACT_APP_WEATHER_API_KEY_1 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
   const REACT_APP_WEATHER_API_KEY_2 = 'ALDXRSSMA67DYTJF696P4X2T8';
   const REACT_APP_WEATHER_API_KEY_3 = 'GP4GVCRSPM49PLYL6GG3XCCND';
-  const REACT_APP_WEATHER_API_KEY_4 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
+  // const REACT_APP_WEATHER_API_KEY_4 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
 
   useEffect(() => {
-    const BASE_URL_YESTERDAY = `${BASE_URL}${CITY}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric`;
+    const BASE_URL_YESTERDAY = `${BASE_URL}${CITY}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_1}&contentType=json&lang=ru&unitGroup=metric`;
     const BASE_URL_TODAY = `${BASE_URL}${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
     const BASE_URL_TOMORROW = `${BASE_URL}${CITY}/tomorrow?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
     const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
-    dispatch(getWeatherYesterday(BASE_URL_YESTERDAY));
-    dispatch(getWeatherToday(BASE_URL_TODAY));
-    dispatch(getWeatherTomorrow(BASE_URL_TOMORROW));
+    dispatch(fetchWeatherYesterday(BASE_URL_YESTERDAY));
+    dispatch(fetchWeatherToday(BASE_URL_TODAY));
+    dispatch(fetchWeatherTomorrow(BASE_URL_TOMORROW));
     dispatch(getWeatherElements(URL_WEATHER_ELEMENTS));
   }, [CITY, dispatch]);
 

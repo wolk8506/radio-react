@@ -7,7 +7,10 @@ import { Humidity } from './Humidity';
 import { Clouds } from './Clouds';
 import { WindGust } from './WindGust';
 
-import { getLocation, getWeatherToday } from 'store/thunks';
+import { getWeatherToday_Data } from 'store/selectors';
+import { fetchWeatherToday } from 'store/operation';
+
+import { getLocation } from 'store/thunks';
 
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -15,7 +18,7 @@ moment.locale('ru');
 
 export const Weather = () => {
   const CITY = useSelector(state => state.storeData.city);
-  const data = useSelector(state => state.storeWeatherLastDay.today);
+  const data = useSelector(getWeatherToday_Data);
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
@@ -33,12 +36,14 @@ export const Weather = () => {
   useEffect(() => {
     if (CITY === null) {
       dispatch(getLocation()); //Определение локации
-    } else dispatch(getWeatherToday(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
+    } else dispatch(fetchWeatherToday(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
   }, [CITY, URL_WEATHER, dispatch]);
 
   useEffect(() => {
-    setTemperature(data.days[0].temp.toFixed(0)); //Текущая температура в градусах цельсия
-    setImage(`${urlImage}${data.days[0].icon}.svg`); //Иконка погодных условий
+    const hour = moment().format('H');
+
+    setTemperature(data.days[0].hours[hour].temp.toFixed(0)); //Текущая температура в градусах цельсия
+    setImage(`${urlImage}${data.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
   }, [data]);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
@@ -49,7 +54,7 @@ export const Weather = () => {
       setChangeImage(false);
       setChangeTemperature(false);
       //Запрос на погоду после определения локации и все последующие запросы
-      dispatch(getWeatherToday(URL_WEATHER));
+      dispatch(fetchWeatherToday(URL_WEATHER));
     }, 1800000);
 
     return () => clearInterval(interval);

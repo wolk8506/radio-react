@@ -99,13 +99,14 @@ export const App = () => {
     setTheme(THEME);
   }, [THEME, setTheme]);
 
-  const { themeBackground, setThemeBackground } = useBackground();
+  // eslint-disable-next-line no-unused-vars
+  const { themeBackground, setThemeBackground } = useBackground('color');
 
   const THEME_BACKGROUND = useSelector(state => state.storeData.themeBackground);
 
   useEffect(() => {
     setThemeBackground(THEME_BACKGROUND);
-  }, [THEME_BACKGROUND, setThemeBackground, themeBackground]);
+  }, [THEME_BACKGROUND, setThemeBackground]);
 
   return (
     <div className="app">
@@ -158,7 +159,6 @@ export const App = () => {
                   <List>
                     <ListItem
                       className={classBtn_0}
-                      key="qwee0"
                       value="0"
                       onClick={handleBtnTab}
                       disablePadding
@@ -166,54 +166,21 @@ export const App = () => {
                     >
                       <ListItemButton
                         sx={[
-                          {
-                            minHeight: 48,
-                            px: 2.5,
-                          },
-                          btnMenu
-                            ? {
-                                justifyContent: 'initial',
-                              }
-                            : {
-                                justifyContent: 'center',
-                              },
+                          { minHeight: 48, px: 2.5 },
+                          btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
                         ]}
                       >
                         <ListItemIcon
-                          sx={[
-                            {
-                              minWidth: 0,
-                              justifyContent: 'center',
-                            },
-                            btnMenu
-                              ? {
-                                  mr: 3,
-                                }
-                              : {
-                                  mr: 'auto',
-                                },
-                          ]}
+                          sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}
                         >
                           <HomeIcon />
                         </ListItemIcon>
-                        <ListItemText
-                          primary="Главная"
-                          sx={[
-                            btnMenu
-                              ? {
-                                  opacity: 1,
-                                }
-                              : {
-                                  opacity: 0,
-                                },
-                          ]}
-                        />
+                        <ListItemText primary="Главная" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
                       </ListItemButton>
                     </ListItem>
 
                     <ListItem
                       className={classBtn_1}
-                      key="qwee4"
                       value="1"
                       onClick={handleBtnTab}
                       disablePadding
@@ -236,7 +203,6 @@ export const App = () => {
 
                     <ListItem
                       className={classBtn_2}
-                      key="qwee3"
                       value="2"
                       onClick={handleBtnTab}
                       disablePadding
@@ -259,7 +225,6 @@ export const App = () => {
 
                     <ListItem
                       className={classBtn_3}
-                      key="qwee4"
                       value="3"
                       onClick={handleBtnTab}
                       disablePadding

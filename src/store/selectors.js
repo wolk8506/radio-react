@@ -1,4 +1,27 @@
 //
+//  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+//  -   -   П о г о д а -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+//  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+// *    Погода вчера / сегодня / завтра
+//
+export const getWeatherYesterday_Loading = state => state.storeWeatherDay.loading_yesterday;
+export const getWeatherYesterday_Status = state => state.storeWeatherDay.status_yesterday;
+export const getWeatherYesterday_TimeUpdate = state => state.storeWeatherDay.timeUpdate_yesterday;
+export const getWeatherYesterday_Data = state => state.storeWeatherDay.data_yesterday;
+//
+export const getWeatherToday_Loading = state => state.storeWeatherDay.loading_today;
+export const getWeatherToday_Status = state => state.storeWeatherDay.status_today;
+export const getWeatherToday_TimeUpdate = state => state.storeWeatherDay.timeUpdate_today;
+export const getWeatherToday_Data = state => state.storeWeatherDay.data_today;
+//
+export const getWeatherTomorrow_Loading = state => state.storeWeatherDay.loading_tomorrow;
+export const getWeatherTomorrow_Status = state => state.storeWeatherDay.status_tomorrow;
+export const getWeatherTomorrow_TimeUpdate = state => state.storeWeatherDay.timeUpdate_tomorrow;
+export const getWeatherTomorrow_Data = state => state.storeWeatherDay.data_tomorrow;
+
+//  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+//  -   -   К у р с   в а л ю т -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+//  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 // *    Курс валют Mono bank
 //
 export const getCurrencyMonoCurrent_Loading = state => state.storeCurrencyMonoCurrent.loading;

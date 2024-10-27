@@ -1,9 +1,82 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 //
+// ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// ?  - - - - - -   Погода    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
+// *    Погода
+//
+export const fetchWeatherYesterday = createAsyncThunk('weather/Yesterday', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('error');
+  }
+});
+//
+// *    Погода
+//
+export const fetchWeatherToday = createAsyncThunk('weather/Today', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('error');
+  }
+});
+//
+// *    Погода
+//
+export const fetchWeatherTomorrow = createAsyncThunk('weather/Tomorrow', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('error');
+  }
+});
+//
+// *    Погода
+//
+export const fetchWeatherMonth = createAsyncThunk('weather/Month', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('error');
+  }
+});
+//
+// *    Погода
+//
+export const fetchWeatherElements = createAsyncThunk('weather/Elements', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('error');
+  }
+});
+//
+// *    Погода
+//
+export const fetchWeatherAirQuality = createAsyncThunk('weather/AirQuality', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('error');
+  }
+});
+//
+// ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// ?  - - - - - -   Курс валют  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
 // *    Курс валют Mono bank
 //
-export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent ', async url => {
+export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
@@ -14,7 +87,7 @@ export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent '
 //
 // *    Курс валют в банках на сегодня
 //
-export const fetchCurrencyBanksToday = createAsyncThunk('currency/BanksToday ', async url => {
+export const fetchCurrencyBanksToday = createAsyncThunk('currency/BanksToday', async url => {
   try {
     const response = await axios.get(url);
     return response.data.data.exchangers;

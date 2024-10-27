@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
+import { getWeatherToday_Data } from 'store/selectors';
+
 const color_1 = 'pribor-color-1';
 const color_2 = 'pribor-color-2';
 
@@ -25,11 +27,7 @@ function Card({ title, children }) {
       {
         className: 'p-4  bg-white shadow-md rounded-md inline-block',
       },
-      React.createElement(
-        'div',
-        { className: 'px-3 font-bold text-xl pb-4' },
-        title
-      ),
+      React.createElement('div', { className: 'px-3 font-bold text-xl pb-4' }, title),
       children
     )
   );
@@ -72,18 +70,13 @@ function Tick({ index, value }) {
 }
 
 function DemoF() {
-  // const data = useSelector(state => state.storeWeather15);
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(getWeatherToday_Data);
   const [value, setCloud] = useState(0);
   useEffect(() => {
     const hour = moment().format('H');
-    // const numberDay = moment().isoWeekday();
-    // if (data.currentConditions !== undefined) {
-    setCloud(data_today.hours[hour].cloudcover); // Облачность
-    // }
-  }, [data_today.hours]);
+
+    setCloud(data_today.days[0].hours[hour].cloudcover); // Облачность
+  }, [data_today]);
 
   return React.createElement(
     Card,
@@ -118,9 +111,7 @@ function DemoF() {
             React.createElement('circle', { r: '8', fill: '#e19646' }),
             Array(41)
               .fill(0)
-              .map((_, i) =>
-                React.createElement(Tick, { key: i, index: i, value: value })
-              )
+              .map((_, i) => React.createElement(Tick, { key: i, index: i, value: value }))
           )
         )
       )

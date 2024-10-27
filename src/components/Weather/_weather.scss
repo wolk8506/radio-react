@@ -4,15 +4,6 @@
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
-
-  .chart {
-    margin-top: 20px;
-    margin-bottom: 30px;
-  }
-
-  .chart tspan {
-    fill: $color-02;
-  }
 }
 
 // TODO:  ⇩ ⇩ ⇩ погода от MSN
@@ -25,7 +16,7 @@
   .weather__search {
     padding: 16px;
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
     @include card-style;
@@ -131,13 +122,14 @@
   .weathet__block-day {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 32px;
   }
 
   .weather__current-day {
     width: 620px;
     height: 270px;
     padding: 16px 0px 0px;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     @include card-style;
 
     .current-day__label {
@@ -240,12 +232,30 @@
     }
   }
 
+  .weather-month__title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-bottom: 16px;
+    position: relative;
+    background-color: $color-07;
+    padding: 8px 8px 8px 16px;
+    @include card-style;
+
+    .title__time-update {
+      font-size: 14px;
+      line-height: 16px;
+      padding: 0 10px;
+    }
+  }
+
   .weather__month {
     width: 1260px;
     padding: 12px 16px 1px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
     @include card-style;
 
     .month__day-name {
@@ -551,157 +561,6 @@
       }
     }
   }
-  // *------------modal------------------------------------
-
-  .modal {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: calc(100% - 20px);
-    // height: 100%;
-    background: $color-07;
-    z-index: -5;
-    top: 0;
-    // margin-top: 45px;
-    border-radius: 15px;
-    @include card-style;
-
-    &.open {
-      opacity: 1;
-      pointer-events: all;
-      z-index: 100;
-    }
-
-    .modal__header {
-      display: flex;
-      justify-content: flex-end;
-      margin: 16px;
-
-      .btn-close {
-        @include button;
-      }
-    }
-
-    .month-calendar {
-      position: relative;
-      display: block;
-      width: 100%;
-      border-radius: 15px;
-      background: trasparent;
-      backdrop-filter: blur(25px);
-      // -webkit-backdrop-filter: blur(25px);
-      // padding: 0 12px;
-      box-sizing: border-box;
-
-      .month-calendar__table-container {
-        position: relative;
-        width: 100%;
-        padding: 16px 12px;
-        box-sizing: border-box;
-        background: rgb-a($color-02, 3%);
-        backdrop-filter: blur(25px);
-        border-radius: 8px;
-
-        .table-container__table-content {
-          position: relative;
-          width: 100%;
-          box-sizing: border-box;
-
-          .table-content__content-items {
-            position: relative;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-
-            .content-item {
-              flex-basis: 25%;
-              box-sizing: border-box;
-              list-style: none;
-              list-style-type: none;
-              width: 70px;
-              height: auto;
-              padding: 6px;
-              // color: #444;
-              margin-bottom: 0;
-              display: flex;
-              justify-content: center;
-              border-bottom: 1px solid rgb-a($color-03, 15%);
-
-              & div {
-                border-radius: 12px;
-                background: transparent;
-                border-top: 0.5px solid rgb-a($color-03, 15%);
-                box-shadow: none;
-                position: relative;
-                border: none;
-                max-width: 80px;
-                width: 100%;
-                height: 80px;
-                padding: 0;
-                margin: 0;
-                display: inline-block;
-
-                &.activ {
-                  border: 0.5px solid rgb-a($color-03, 15%);
-                  background: rgb-a($color-03, 5%);
-                }
-
-                .calendar-table-day {
-                  border-radius: 12px 12px 0 0;
-                  width: 100%;
-                  height: 30px;
-                  background: none;
-                  display: flex;
-                  padding: 0 8px;
-                  box-sizing: border-box;
-                  justify-content: space-between;
-                  align-items: center;
-
-                  & span:first-child {
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: $color-02;
-                  }
-                  & span:last-child {
-                    font-size: 12px;
-                    color: rgb-a($color-02, 40%);
-                  }
-                }
-
-                .calendar-table-day-forecast {
-                  height: 50px;
-                  box-sizing: border-box;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  padding: 9px 8px;
-
-                  .calendar-table-day-forecast__temp {
-                    font-size: 12px;
-                    height: 32px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    text-align: right;
-                    & span:first-child {
-                      color: rgb-a($color-02, 80%);
-                      font-weight: 600;
-                    }
-                    & span:last-child {
-                      color: rgb-a($color-02, 80%);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // *-----------------------------------------------------
 
   // !-----------------------------------------------------
   // !-----------------------------------------------------
@@ -950,14 +809,6 @@
 
       .weather__detail-line {
         padding: 0;
-        // .detail-line__title {
-        // }
-        // .detail-line__value {
-        // }
-        // .detail-line__value--wind {
-        //   & svg {
-        //   }
-        // }
       }
 
       .weather__detail-line div:nth-child(1),
@@ -971,6 +822,176 @@
     }
   }
 }
+
+// *------------modal------------------------------------
+
+.MuiModal-root {
+  .MuiModalDialog-root {
+    background-color: $color-07;
+    color: rgb-a($color-02, 70%);
+
+    .MuiModalClose-root {
+      .MuiSvgIcon-root {
+        color: rgb-a($color-03, 54%);
+        @include button;
+        &,
+        &:hover {
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.modal {
+  // position: absolute;
+  // opacity: 0;
+  pointer-events: none;
+  // width: calc(100% - 20px);
+  // height: 100%;
+  background: $color-07;
+  z-index: -5;
+  top: 0;
+  // margin-top: 45px;
+  // border-radius: 15px;
+  @include card-style;
+
+  // &.open {
+  //   opacity: 1;
+  //   pointer-events: all;
+  //   z-index: 100;
+  // }
+
+  .modal__header {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px;
+
+    .btn-close {
+      @include button;
+    }
+  }
+
+  .month-calendar {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: 15px;
+    background: trasparent;
+    backdrop-filter: blur(25px);
+    // -webkit-backdrop-filter: blur(25px);
+    // padding: 0 12px;
+    box-sizing: border-box;
+
+    .month-calendar__table-container {
+      position: relative;
+      width: 100%;
+      padding: 16px 12px;
+      box-sizing: border-box;
+      background: rgb-a($color-02, 3%);
+      backdrop-filter: blur(25px);
+      border-radius: 8px;
+
+      .table-container__table-content {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+
+        .table-content__content-items {
+          position: relative;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-wrap: wrap;
+
+          .content-item {
+            flex-basis: 25%;
+            box-sizing: border-box;
+            list-style: none;
+            list-style-type: none;
+            width: 70px;
+            height: auto;
+            padding: 6px;
+            // color: #444;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid rgb-a($color-03, 15%);
+
+            & div {
+              border-radius: 12px;
+              background: transparent;
+              border-top: 0.5px solid rgb-a($color-03, 15%);
+              box-shadow: none;
+              position: relative;
+              border: none;
+              max-width: 80px;
+              width: 100%;
+              height: 80px;
+              padding: 0;
+              margin: 0;
+              display: inline-block;
+
+              &.activ {
+                border: 0.5px solid rgb-a($color-03, 15%);
+                background: rgb-a($color-03, 5%);
+              }
+
+              .calendar-table-day {
+                border-radius: 12px 12px 0 0;
+                width: 100%;
+                height: 30px;
+                background: none;
+                display: flex;
+                padding: 0 8px;
+                box-sizing: border-box;
+                justify-content: space-between;
+                align-items: center;
+
+                & span:first-child {
+                  font-size: 18px;
+                  font-weight: 600;
+                  color: $color-02;
+                }
+                & span:last-child {
+                  font-size: 12px;
+                  color: rgb-a($color-02, 40%);
+                }
+              }
+
+              .calendar-table-day-forecast {
+                height: 50px;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 8px;
+
+                .calendar-table-day-forecast__temp {
+                  font-size: 12px;
+                  height: 32px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                  text-align: right;
+                  & span:first-child {
+                    color: rgb-a($color-02, 80%);
+                    font-weight: 600;
+                  }
+                  & span:last-child {
+                    color: rgb-a($color-02, 80%);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// *-----------------------------------------------------
 
 // TODO: ⇧ ⇧ ⇧ погода от MSN
 

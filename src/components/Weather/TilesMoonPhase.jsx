@@ -11,7 +11,6 @@ export const TilesMoonPhase = () => {
   }, [dataEvents]);
 
   const [moonPhase, setMoonPhase] = useState('0');
-  // const moonPhase = 0.1;
 
   const [phaseTitle, setPhaseTitle] = useState('--');
 

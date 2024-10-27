@@ -233,6 +233,30 @@
   .item-background:nth-child(6) .item-background-color {
     background: rgb(236 234 228);
   }
+  .item-background:nth-child(7) .item-background-color {
+    background: radial-gradient(
+        ellipse farthest-corner at right bottom,
+        rgb(254, 219, 55) 0%,
+        rgb(253, 185, 49) 8%,
+        rgb(159, 121, 40) 30%,
+        rgb(138, 110, 47) 40%,
+        transparent 80%
+      ),
+      radial-gradient(
+        ellipse farthest-corner at left top,
+        rgb(255, 255, 255) 0%,
+        rgb(255, 255, 172) 8%,
+        rgb(209, 180, 100) 25%,
+        rgb(93, 74, 31) 62.5%,
+        rgb(93, 74, 31) 100%
+      );
+  }
+  .item-background:nth-child(8) .item-background-color {
+    background: linear-gradient(90deg, rgb(62, 77, 74), rgb(126, 72, 161));
+  }
+  .item-background:nth-child(9) .item-background-color {
+    background: linear-gradient(90deg, rgb(72, 92, 100), rgb(68, 76, 84), rgb(52, 60, 60), rgb(24, 36, 44));
+  }
 
   label {
     color: $color-02;

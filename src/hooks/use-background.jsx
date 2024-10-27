@@ -1,9 +1,9 @@
 import { useLayoutEffect, useState } from 'react';
 
-const defaultTheme = 'color';
+// const defaultTheme = 'color';
 
 export const useBackground = () => {
-  const [themeBackground, setThemeBackground] = useState(defaultTheme);
+  const [themeBackground, setThemeBackground] = useState('color');
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-background', themeBackground);

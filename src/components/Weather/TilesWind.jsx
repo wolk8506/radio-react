@@ -4,11 +4,10 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
+import { getWeatherToday_Data } from 'store/selectors';
+
 export const TilesWind = () => {
-  // const data15 = useSelector(state => state.storeWeather15);
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(getWeatherToday_Data);
 
   const [wind_ms, setWind_ms] = useState(0);
   const [wind_degree, setWind_degree] = useState(0);
@@ -29,33 +28,134 @@ export const TilesWind = () => {
   const [windName, setWindName] = useState([0, 'Штиль']);
 
   useEffect(() => {
-    // const numberDay = moment().isoWeekday();
     const hour = Number(moment().format('H'));
-    setWind_ms((data_today.hours[hour].windspeed / 3.6).toFixed(0)); //Скорость ветра в м/с
-    setMmaxwind_ms((data_today.hours[hour].windgust / 3.6).toFixed(0)); // Порывы ветра м/с
-    setWind_degree(data_today.hours[hour].winddir);
-    // setWind_degree(value);
-  }, [data_today.hours]);
+    setWind_ms((data_today.days[0].hours[hour].windspeed / 3.6).toFixed(0)); //Скорость ветра в м/с
+    setMmaxwind_ms((data_today.days[0].hours[hour].windgust / 3.6).toFixed(0)); // Порывы ветра м/с
+    setWind_degree(data_today.days[0].hours[hour].winddir);
+  }, [data_today.days]);
 
   useEffect(() => {
-    if (wind_ms > 107) setWindName([17, 'Ураган']);
-    else if (wind_ms > 100) setWindName([16, 'Ураган']);
-    else if (wind_ms > 90) setWindName([15, 'Ураган']);
-    else if (wind_ms > 86) setWindName([14, 'Ураган']);
-    else if (wind_ms > 73) setWindName([13, 'Ураган']);
-    else if (wind_ms > 64) setWindName([12, 'Ураган']);
-    else if (wind_ms > 56) setWindName([11, 'Жестокий шторм']);
-    else if (wind_ms > 48) setWindName([10, 'Сильный шторм']);
-    else if (wind_ms > 41) setWindName([9, 'Шторм']);
-    else if (wind_ms > 34) setWindName([8, 'Очень крепкий ветер']);
-    else if (wind_ms > 28) setWindName([7, 'Крепкий ветер']);
-    else if (wind_ms > 22) setWindName([6, 'Сильный ветер']);
-    else if (wind_ms > 17) setWindName([5, 'Свежий ветер']);
-    else if (wind_ms > 11) setWindName([4, 'Умеренный ветер']);
-    else if (wind_ms > 7) setWindName([3, 'Слабый ветер']);
-    else if (wind_ms > 4) setWindName([2, 'Лёгкий ветер']);
-    else if (wind_ms >= 1) setWindName([1, 'Тихий ветер']);
-    else if (wind_ms < 1) setWindName([0, 'Штиль']);
+    if (wind_ms > 107)
+      setWindName([
+        17,
+        'Ураган',
+        '#D5102D',
+        'Огромные разрушения, серьёзно повреждены здания, строения и дома, деревья вырваны с корнями, растительность уничтожена. Случай крайне редкий.',
+      ]);
+    else if (wind_ms > 100)
+      setWindName([
+        16,
+        'Ураган',
+        '#D5102D',
+        'Огромные разрушения, серьёзно повреждены здания, строения и дома, деревья вырваны с корнями, растительность уничтожена. Случай крайне редкий.',
+      ]);
+    else if (wind_ms > 90)
+      setWindName([
+        15,
+        'Ураган',
+        '#D5102D',
+        'Огромные разрушения, серьёзно повреждены здания, строения и дома, деревья вырваны с корнями, растительность уничтожена. Случай крайне редкий.',
+      ]);
+    else if (wind_ms > 86)
+      setWindName([
+        14,
+        'Ураган',
+        '#D5102D',
+        'Огромные разрушения, серьёзно повреждены здания, строения и дома, деревья вырваны с корнями, растительность уничтожена. Случай крайне редкий.',
+      ]);
+    else if (wind_ms > 73)
+      setWindName([
+        13,
+        'Ураган',
+        '#D5102D',
+        'Огромные разрушения, серьёзно повреждены здания, строения и дома, деревья вырваны с корнями, растительность уничтожена. Случай крайне редкий.',
+      ]);
+    else if (wind_ms > 64)
+      setWindName([
+        12,
+        'Ураган',
+        '#D5102D',
+        'Огромные разрушения, серьёзно повреждены здания, строения и дома, деревья вырваны с корнями, растительность уничтожена. Случай крайне редкий.',
+      ]);
+    else if (wind_ms > 56)
+      setWindName([
+        11,
+        'Жестокий шторм',
+        '#ED2912',
+        'Большие разрушения на значительном пространстве. Наблюдается очень редко.',
+      ]);
+    else if (wind_ms > 48)
+      setWindName([
+        10,
+        'Сильный шторм',
+        '#ED6312',
+        '	Значительные разрушения, ветер валит мелкие деревья и вырывает их с корнем. На суше наблюдается редко.',
+      ]);
+    else if (wind_ms > 41)
+      setWindName([
+        9,
+        'Шторм',
+        'ED8F12',
+        'Гнутся большие деревья, ломаются ветки и сучья. Небольшие повреждения, ветер срывает черепицу, дымовые трубы и шифер с крыш.',
+      ]);
+    else if (wind_ms > 34)
+      setWindName([
+        8,
+        'Очень крепкий ветер',
+        '#EDC212',
+        'Ветер ломает тонкие ветви и сухие сучья деревьев, говорить на ветру нельзя, идти против ветра очень трудно.',
+      ]);
+    else if (wind_ms > 28)
+      setWindName([7, 'Крепкий ветер', '#DAED12', 'Качаются большие деревья, гнутся сучья, трудно идти против ветра.']);
+    else if (wind_ms > 22)
+      setWindName([
+        6,
+        'Сильный ветер',
+        '#A4ED12',
+        'Качаются средние стволы и толстые сучья деревьев, тонкие деревья гнутся, гудят телеграфные провода, трудно пользоваться зонтом.',
+      ]);
+    else if (wind_ms > 17)
+      setWindName([
+        5,
+        'Свежий ветер',
+        '#73ED12',
+        'Ветер свистит в ушах, переносит пыль и мусор. Движение ветра ощущается рукой, качаются тонкие стволы и средние сучья деревьев, вытягиваются и полощут большие флаги.',
+      ]);
+    else if (wind_ms > 11)
+      setWindName([
+        4,
+        'Умеренный ветер',
+        '#6FF46F',
+        'Ветер поднимает пыль и бумажки, качаются тонкие ветви деревьев и без листвы, флюгер крутится беспрерывно. Дым перемешивается в воздухе, теряя форму. Это лучший ветер для работы обычного ветрогенератора (при диаметре ветроколеса 3—6 м).',
+      ]);
+    else if (wind_ms > 7)
+      setWindName([
+        3,
+        'Слабый ветер',
+        '#96F7B4',
+        'Листья и тонкие ветви деревьев с листвой всё время колышутся, флюгер крутится без частых остановок, ветер развевает лёгкие флаги, дым как бы слизывается с верхушки трубы (при скорости ветра более 4 м/с).',
+      ]);
+    else if (wind_ms > 4)
+      setWindName([
+        2,
+        'Лёгкий ветер',
+        '#96F7DC',
+        '	Движение ветра ощущается лицом, шелестят листья, приводится в движение флюгер.',
+      ]);
+    else if (wind_ms >= 1)
+      setWindName([
+        1,
+        'Тихий ветер',
+        'rgb(174 241 249)',
+        'Направление ветра заметно по относу дыма, но не по флюгеру.',
+      ]);
+    else if (wind_ms < 1)
+      setWindName([
+        0,
+        'Штиль',
+        'rgb(115 240 255)',
+        'Безветрие. Дым поднимается вертикально, листья деревьев неподвижны.',
+      ]);
   }, [wind_ms]);
 
   useEffect(() => {
@@ -272,22 +372,32 @@ export const TilesWind = () => {
     setAxisY6(y * 1.5);
   }, [wind_degree]);
 
+  const [axisX6e, setAxisX6e] = useState(0);
+  const [axisY6e, setAxisY6e] = useState(0);
+  const [axisX7e, setAxisX7e] = useState(0);
+  const [axisY7e, setAxisY7e] = useState(0);
+
+  const handleMouseEnter = () => {
+    setAxisX6e(axisX6);
+    setAxisY6e(axisY6);
+    setAxisX7e(axisX7);
+    setAxisY7e(axisY7);
+  };
+
+  const handleMouseLeave = () => {
+    setAxisX6e(0);
+    setAxisY6e(0);
+    setAxisX7e(0);
+    setAxisY7e(0);
+  };
+
   return (
-    <div className="card__item" id="windAnimation">
+    <div className="card__item" id="windAnimation" onMouseLeave={handleMouseLeave} onMouseEnter={handleMouseEnter}>
       <p className="item__title">Ветер</p>
       <div className="wind">
         <div className="wind__block-wind">
-          <div
-            className="block-wind__image"
-            style={{ width: '110px', height: '110px' }}
-          >
-            <svg
-              width="110"
-              height="110"
-              viewBox="0 0 180 180"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+          <div className="block-wind__image" style={{ width: '110px', height: '110px' }}>
+            <svg width="110" height="110" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M90 10 A 80 80, 0, 0, 1, 165.18 62.64 "
                 fill="none"
@@ -327,21 +437,21 @@ export const TilesWind = () => {
               <path
                 d={`M${axisX} ${axisY}A 80 80, 0, 0, 1, ${axisX2} ${axisY2}`}
                 fill="none"
-                stroke="rgba(85, 177, 126, 1)"
+                stroke={windName[2]}
                 stroke-width="8"
                 stroke-linecap="round"
               ></path>
               <path
                 d={`M${axisX3} ${axisY3}A 80 80, 0, 0, 1, ${axisX4} ${axisY4}`}
                 fill="none"
-                stroke="rgba(85, 177, 126, 1)"
+                stroke={windName[2]}
                 stroke-width="8"
                 stroke-linecap="round"
               ></path>
               <g>
                 <path
                   d="M 86.325 40.3742 C 86.9141 37.7765 90.5908 37.7098 91.2738 40.2843 L 112.0053 118.42840000000001 C 113.7162 124.8774 108.87360000000001 131.20420000000001 102.2016 131.23680000000002 L 78.5064 131.35250000000002 C 71.94605 131.3845 67.06373 125.3014 68.51471 118.9034 L 86.325 40.3742Z"
-                  fill="rgba(85, 177, 126, 1)"
+                  fill={windName[2]}
                   transform={`rotate(${wind_degree + 180} 90 90)`}
                 >
                   <animateMotion
@@ -350,14 +460,14 @@ export const TilesWind = () => {
                     repeatCount="0"
                     begin="windAnimation.mouseenter"
                     end="windAnimation.mouseleave"
-                    path={`M0 0L${-axisY7} ${-axisX7}`}
+                    path={`M0 0L${-axisY7e} ${-axisX7e}`}
                   ></animateMotion>
                   <animateMotion
                     dur="1.5s"
                     begin="windDirectionAni322.end"
                     end="windAnimation.mouseleave"
                     repeatCount="indefinite"
-                    path={`M${-axisY6} ${-axisX6}L${-axisY7} ${-axisX7}`}
+                    path={`M${-axisY6e} ${-axisX6e}L${-axisY7e} ${-axisX7e}`}
                   ></animateMotion>
                 </path>
               </g>
@@ -392,7 +502,9 @@ export const TilesWind = () => {
       <p className="item__text">
         Сила: {windName[0]} ({windName[1]})
       </p>
-      <p className="item__sub-text">--</p>
+      <p title={windName[3]} className="item__sub-text">
+        {windName[3]}
+      </p>
     </div>
   );
 };

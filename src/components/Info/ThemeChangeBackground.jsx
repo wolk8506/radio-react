@@ -86,6 +86,18 @@ export const ThemeChangeBackground = () => {
               <FormControlLabel className="btn" value="color-05" control={<Radio />} label="Цвет 4" />{' '}
               <div className="item-background-color"></div>
             </div>
+            <div className="item-background">
+              <FormControlLabel className="btn" value="color-06" control={<Radio />} label="Цвет 5" />{' '}
+              <div className="item-background-color"></div>
+            </div>
+            <div className="item-background">
+              <FormControlLabel className="btn" value="color-07" control={<Radio />} label="Цвет 6" />{' '}
+              <div className="item-background-color"></div>
+            </div>
+            <div className="item-background">
+              <FormControlLabel className="btn" value="color-08" control={<Radio />} label="Цвет 7" />{' '}
+              <div className="item-background-color"></div>
+            </div>
           </div>
 
           <div className="wallpaper-collection__item">

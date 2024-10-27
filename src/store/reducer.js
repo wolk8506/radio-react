@@ -6,9 +6,9 @@ import {
   THEME_CHANGE,
   THEME_AUTO_CHANGE,
   WEATHER_AIR_QUALITY,
-  WEATHER_YESTERDAY,
-  WEATHER_TODAY,
-  WEATHER_TOMORROW,
+  // WEATHER_YESTERDAY,
+  // WEATHER_TODAY,
+  // WEATHER_TOMORROW,
   WEATHER_ELEMENTS,
   WEATHER_15,
   WEATHER_CITY,
@@ -18,7 +18,7 @@ import {
 import {
   initStateWeather15,
   initStateWeatherElements,
-  initStateWeatherLastDay,
+  // initStateWeatherDay,
   initStateWeatherAirQuality,
 } from './init-state-mock';
 
@@ -27,6 +27,7 @@ const initState = {
   city: null,
   playerPlay: false,
   themeAutoChange: true,
+  themeBackground: 'color',
 };
 
 export const data = (state = initState, action) => {
@@ -103,21 +104,21 @@ export const weatherAirQualityReducer = (state = initStateWeatherAirQuality, act
   }
 };
 
-export const weatherLastDayReducer = (state = initStateWeatherLastDay, action) => {
-  switch (action.type) {
-    case WEATHER_YESTERDAY: {
-      const items = action.payload;
-      return { ...state, ...{ yesterday: items } };
-    }
-    case WEATHER_TODAY: {
-      const items = action.payload;
-      return { ...state, ...{ today: items } };
-    }
-    case WEATHER_TOMORROW: {
-      const items = action.payload;
-      return { ...state, ...{ tomorrow: items } };
-    }
-    default:
-      return state;
-  }
-};
+// export const weatherLastDayReducer = (state = initStateWeatherDay, action) => {
+//   switch (action.type) {
+//     case WEATHER_YESTERDAY: {
+//       const items = action.payload;
+//       return { ...state, ...{ yesterday: items } };
+//     }
+//     case WEATHER_TODAY: {
+//       const items = action.payload;
+//       return { ...state, ...{ today: items } };
+//     }
+//     case WEATHER_TOMORROW: {
+//       const items = action.payload;
+//       return { ...state, ...{ tomorrow: items } };
+//     }
+//     default:
+//       return state;
+//   }
+// };

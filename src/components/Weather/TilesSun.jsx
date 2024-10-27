@@ -2,20 +2,21 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
+import { getWeatherToday_Data } from 'store/selectors';
+
 import moment from 'moment';
 
 export const TilesSun = () => {
-  const data_today = useSelector(
-    state => state.storeWeatherLastDay.today.days[0]
-  );
+  const data_today = useSelector(getWeatherToday_Data);
 
   const [sunrise, setSunrise] = useState('--:--');
   const [sunset, setSunset] = useState('--:--');
 
   useEffect(() => {
-    setSunrise(data_today.sunrise); //Время рассвета
-    setSunset(data_today.sunset); //Время заката
-  }, [data_today.sunrise, data_today.sunset]);
+    setSunrise(data_today.days[0].sunrise); //Время рассвета
+    setSunset(data_today.days[0].sunset); //Время заката
+  }, [data_today.days]);
 
   const dateA = moment.utc(sunset, 'HH:mm:ss');
   const dateB = moment.utc(sunrise, 'HH:mm:ss');
@@ -90,13 +91,7 @@ export const TilesSun = () => {
     <div className="card__item">
       <p className="item__title">Солнце</p>
       <div className="sun">
-        <svg
-          width="258"
-          height="129"
-          viewBox="0 0 258 129"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="258" height="129" viewBox="0 0 258 129" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_i_3881_557)" transform="translate(188 60)">
             <path
               d="M63 61.3773C63 61.3773 60 59.8773 42.5 44.3881C33 34.3773 26.6179 28.3307 4.73328 4"
@@ -115,15 +110,7 @@ export const TilesSun = () => {
               stroke-linecap="round"
             ></path>
           </g>
-          <line
-            x1="3"
-            y1="67.5"
-            x2="253"
-            y2="67.5"
-            className="sun-img"
-            stroke-opacity="0.2"
-            stroke-width="0.84"
-          ></line>
+          <line x1="3" y1="67.5" x2="253" y2="67.5" className="sun-img" stroke-opacity="0.2" stroke-width="0.84"></line>
           <path
             d="M 64 65 Q 129 -42 194 65"
             stroke="url(#paint0_linear_4430_8884)"
@@ -132,37 +119,15 @@ export const TilesSun = () => {
           ></path>
           <g filter="url(#filter1_d_4430_8884)">
             <circle cx="63" cy="68" r="4" className="sun-img-point"></circle>
-            <circle
-              cx="63"
-              cy="68"
-              r="5.5"
-              stroke="white"
-              stroke-width="3"
-            ></circle>
+            <circle cx="63" cy="68" r="5.5" stroke="white" stroke-width="3"></circle>
           </g>
           <g filter="url(#filter2_d_4430_8884)">
             <circle cx="196" cy="68" r="4" className="sun-img-point"></circle>
-            <circle
-              cx="196"
-              cy="68"
-              r="5.5"
-              stroke="white"
-              stroke-width="3"
-            ></circle>
+            <circle cx="196" cy="68" r="5.5" stroke="white" stroke-width="3"></circle>
           </g>
           {sunY && (
-            <g
-              filter="url(#filter3_d_4430_8884)"
-              transform={`translate(${sunX} ${sunY})`}
-            >
-              <rect
-                x="116"
-                y="2"
-                width="26"
-                height="26"
-                rx="13"
-                fill="white"
-              ></rect>
+            <g filter="url(#filter3_d_4430_8884)" transform={`translate(${sunX} ${sunY})`}>
+              <rect x="116" y="2" width="26" height="26" rx="13" fill="white"></rect>
               <path
                 style={colorSun}
                 d="M129 7C129.276 7 129.5 7.22386 129.5 7.5V8.5C129.5 8.77614 129.276 9 129 9C128.724 9 128.5 8.77614 128.5 8.5V7.5C128.5 7.22386 128.724 7 129 7ZM133 15C133 17.2091 131.209 19 129 19C126.791 19 125 17.2091 125 15C125 12.7909 126.791 11 129 11C131.209 11 133 12.7909 133 15ZM136.5 15.5C136.776 15.5 137 15.2761 137 15C137 14.7239 136.776 14.5 136.5 14.5H135.5C135.224 14.5 135 14.7239 135 15C135 15.2761 135.224 15.5 135.5 15.5H136.5ZM129 21C129.276 21 129.5 21.2239 129.5 21.5V22.5C129.5 22.7761 129.276 23 129 23C128.724 23 128.5 22.7761 128.5 22.5V21.5C128.5 21.2239 128.724 21 129 21ZM122.5 15.5C122.776 15.5 123 15.2761 123 15C123 14.7239 122.776 14.5 122.5 14.5H121.463C121.187 14.5 120.963 14.7239 120.963 15C120.963 15.2761 121.187 15.5 121.463 15.5H122.5ZM123.146 9.14645C123.342 8.95118 123.658 8.95118 123.854 9.14645L124.854 10.1464C125.049 10.3417 125.049 10.6583 124.854 10.8536C124.658 11.0488 124.342 11.0488 124.146 10.8536L123.146 9.85355C122.951 9.65829 122.951 9.34171 123.146 9.14645ZM123.854 20.8536C123.658 21.0488 123.342 21.0488 123.146 20.8536C122.951 20.6583 122.951 20.3417 123.146 20.1464L124.146 19.1464C124.342 18.9512 124.658 18.9512 124.854 19.1464C125.049 19.3417 125.049 19.6583 124.854 19.8536L123.854 20.8536ZM134.854 9.14645C134.658 8.95118 134.342 8.95118 134.146 9.14645L133.146 10.1464C132.951 10.3417 132.951 10.6583 133.146 10.8536C133.342 11.0488 133.658 11.0488 133.854 10.8536L134.854 9.85355C135.049 9.65829 135.049 9.34171 134.854 9.14645ZM134.146 20.8536C134.342 21.0488 134.658 21.0488 134.854 20.8536C135.049 20.6583 135.049 20.3417 134.854 20.1464L133.854 19.1464C133.658 18.9512 133.342 18.9512 133.146 19.1464C132.951 19.3417 132.951 19.6583 133.146 19.8536L134.146 20.8536Z"
@@ -182,12 +147,7 @@ export const TilesSun = () => {
               color-interpolation-filters="sRGB"
             >
               <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              ></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -196,21 +156,9 @@ export const TilesSun = () => {
               ></feColorMatrix>
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
-              <feComposite
-                in2="hardAlpha"
-                operator="arithmetic"
-                k2="-1"
-                k3="1"
-              ></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="shape"
-                result="effect1_innerShadow_3881_557"
-              ></feBlend>
+              <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"></feComposite>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="shape" result="effect1_innerShadow_3881_557"></feBlend>
             </filter>
             <filter
               id="filter1_d_4430_8884"
@@ -231,21 +179,9 @@ export const TilesSun = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_4430_8883"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_4430_8883"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4430_8883"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4430_8883" result="shape"></feBlend>
             </filter>
             <filter
               id="filter2_d_4430_8884"
@@ -266,21 +202,9 @@ export const TilesSun = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_4430_8883"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_4430_8883"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4430_8883"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4430_8883" result="shape"></feBlend>
             </filter>
             <filter
               id="filter3_d_4430_8884"
@@ -301,21 +225,9 @@ export const TilesSun = () => {
               <feOffset></feOffset>
               <feGaussianBlur stdDeviation="1"></feGaussianBlur>
               <feComposite in2="hardAlpha" operator="out"></feComposite>
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-              ></feColorMatrix>
-              <feBlend
-                mode="normal"
-                in2="BackgroundImageFix"
-                result="effect1_dropShadow_4430_8883"
-              ></feBlend>
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="effect1_dropShadow_4430_8883"
-                result="shape"
-              ></feBlend>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"></feColorMatrix>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4430_8883"></feBlend>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4430_8883" result="shape"></feBlend>
             </filter>
             <linearGradient
               id="paint0_linear_4430_8884"
