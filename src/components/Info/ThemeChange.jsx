@@ -1,8 +1,9 @@
 import * as React from 'react';
-
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeTheme } from 'store/actions';
+
+import { setThemeChengeTheme } from 'store/actions';
+import { getThemeChengeTheme } from 'store/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -12,12 +13,12 @@ import FormLabel from '@mui/material/FormLabel';
 
 export const ThemeChange = () => {
   const dispatch = useDispatch();
-  const THEME = useSelector(state => state.storeData.theme);
+  const THEME = useSelector(getThemeChengeTheme);
 
   const [value, setValue] = useState(THEME);
 
   const handleChange = e => {
-    dispatch(changeTheme(e.target.value));
+    dispatch(setThemeChengeTheme(e.target.value));
     setValue(e.target.value);
   };
 

@@ -5,7 +5,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { playerStation, playerPlay } from 'store/actions';
+
+import { setPlayerStation } from 'store/actions';
+import { getPlayerStation } from 'store/selectors';
+import { setPlayerPlay } from 'store/actions';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -40,8 +43,9 @@ export const Radio = ({ onAudio }) => {
     img_dfm,
     img_kissfmdeep,
   ];
-
-  const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
+  const PLAYER_STATION = useSelector(getPlayerStation);
+  // console.log(PLAYER_STATION2);
+  // const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
   const dispatch = useDispatch();
   const [station, setStation] = useState(PLAYER_STATION);
   const [playPause, setPlayPause] = useState(true);
@@ -72,13 +76,14 @@ export const Radio = ({ onAudio }) => {
   }
 
   useEffect(() => {
-    dispatch(playerPlay(playPause));
+    dispatch(setPlayerPlay(playPause));
   });
 
   const handleStahion = e => {
     changeStation(e.target.value);
     setStation(e.target.value);
-    dispatch(playerStation(e.target.value));
+    // dispatch(playerStation(e.target.value));
+    dispatch(setPlayerStation(e.target.value));
   };
 
   function changeStation(value) {

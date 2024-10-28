@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getPlayerPlay, getPlayerStation } from 'store/selectors';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -10,12 +14,9 @@ import ListItem from '@mui/material/ListItem';
 import equalizer from '../../images/equalizer.webp';
 import equalizer_off from '../../images/equalizer-off.png';
 
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-
 export const RadioMini = ({ onAudio, open }) => {
-  const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
-  const PLAYER_PLAY = useSelector(state => state.storeData.playerPlay);
+  const PLAYER_STATION = useSelector(getPlayerStation);
+  const PLAYER_PLAY = useSelector(getPlayerPlay);
   const radioStation = [
     'https://listen.181fm.com/181-rock_128k.mp3',
     'https://getradio.me/spdeep',

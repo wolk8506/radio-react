@@ -1,73 +1,88 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+const URL_LOCATION = 'https://ipapi.co/json/';
+
 //
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// ?  - - - - - -   * * * *   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //
+export const fetchLocation = createAsyncThunk('weather/Location', async () => {
+  try {
+    const response = await axios.get(URL_LOCATION);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log('❌ error');
+  }
+});
+//
+// ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ?  - - - - - -   Погода    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //
-// *    Погода
+// *    Погода на вчера
 //
 export const fetchWeatherYesterday = createAsyncThunk('weather/Yesterday', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
-// *    Погода
+// *    Погода на сегодня
 //
 export const fetchWeatherToday = createAsyncThunk('weather/Today', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
-// *    Погода
+// *    Погода на завтра
 //
 export const fetchWeatherTomorrow = createAsyncThunk('weather/Tomorrow', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
-// *    Погода
+// *    Погода на месяц
 //
 export const fetchWeatherMonth = createAsyncThunk('weather/Month', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
-// *    Погода
+// *    Погода Луна / фаза Луны / Солнце
 //
 export const fetchWeatherElements = createAsyncThunk('weather/Elements', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
-// *    Погода
+// *    Погода качество воздуха
 //
 export const fetchWeatherAirQuality = createAsyncThunk('weather/AirQuality', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
@@ -81,7 +96,7 @@ export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent',
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
@@ -92,7 +107,7 @@ export const fetchCurrencyBanksToday = createAsyncThunk('currency/BanksToday', a
     const response = await axios.get(url);
     return response.data.data.exchangers;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
@@ -103,7 +118,7 @@ export const fetchCurrencyNBUtoday = createAsyncThunk('currency/NBUtoday', async
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
@@ -114,7 +129,7 @@ export const fetchCurrencyNBUtomorrow = createAsyncThunk('currency/NBUtomorrow',
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
@@ -125,7 +140,7 @@ export const fetchCurrencyZVRPrevious = createAsyncThunk('currency/ZVRPrevious',
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });
 //
@@ -136,6 +151,6 @@ export const fetchCurrencyZVRCurrent = createAsyncThunk('currency/ZVRCurrent', a
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('error');
+    console.log('❌ error');
   }
 });

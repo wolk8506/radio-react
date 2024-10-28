@@ -1,8 +1,21 @@
 //
+
+export const getPlayerStation = state => state.storeData.playerStation;
+export const getPlayerPlay = state => state.storeData.playerPlay;
+export const getCurrencyYesterday = state => state.storeData.currencyYesterday;
+export const getThemeChengeTheme = state => state.storeData.themeChengeTheme;
+export const getThemeAutoChengeTheme = state => state.storeData.themeAutoChengeTheme;
+export const getThemeChengeWalpaper = state => state.storeData.themeChengeWalpaper;
+export const getCityName = state => state.storeData.city;
+
 //  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 //  -   -   П о г о д а -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 //  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 // *    Погода вчера / сегодня / завтра
+//
+export const getWeatherAirQuality_Data = state => state.storeWeatherAirQuality.data;
+export const getWeatherElements_Data = state => state.storeWeatherElements.data;
+export const getWeatherMonth_Data = state => state.storeWeatherMonth.data;
 //
 export const getWeatherYesterday_Loading = state => state.storeWeatherDay.loading_yesterday;
 export const getWeatherYesterday_Status = state => state.storeWeatherDay.status_yesterday;

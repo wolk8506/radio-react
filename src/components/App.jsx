@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Media from 'react-media';
+
 import { useTheme } from 'hooks/use-theme';
 import { useBackground } from 'hooks/use-background';
 
@@ -11,7 +11,8 @@ import { CurrencyIndex } from './Currency/Currency-index';
 import { Weather } from './Weather/Weather';
 import { info } from './info';
 
-import DensityMediumIcon from '@mui/icons-material/DensityMedium';
+import { getThemeChengeTheme, getThemeChengeWalpaper, getPlayerPlay, getPlayerStation } from 'store/selectors';
+
 import HomeIcon from '@mui/icons-material/Home';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
@@ -25,15 +26,20 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
+import Box from '@mui/joy/Box';
+import Drawer from '@mui/joy/Drawer';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 export const App = () => {
-  const PLAYER_PLAY = useSelector(state => state.storeData.playerPlay);
-  const PLAYER_STATION = useSelector(state => state.storeData.playerStation);
+  const PLAYER_PLAY = useSelector(getPlayerPlay);
+  const PLAYER_STATION = useSelector(getPlayerStation);
   const [audio, setAudio] = useState();
   const [btnTab, setBtnTab] = useState(0);
   const [btnMenu, setBtnMenu] = useState(false);
   const [btnMenuMobile, setBtnMenuMobile] = useState(true);
-  const [classListMenuMobile, setClassListMenuMobile] = useState('mobile-menu__list');
+
   const [classBtn_0, setClassBtn_0] = useState('navigation-btn toggle');
   const [classBtn_1, setClassBtn_1] = useState('navigation-btn toggle');
   const [classBtn_2, setClassBtn_2] = useState('navigation-btn toggle');
@@ -67,19 +73,13 @@ export const App = () => {
     setBtnMenu(!btnMenu);
   };
 
-  const handleMenuMobile = () => {
-    setBtnMenuMobile(!btnMenuMobile);
-  };
-
-  useEffect(() => {
-    setClassListMenuMobile(`${btnMenuMobile ? 'mobile-menu__list--on mobile-menu__list' : 'mobile-menu__list'}`);
-  }, [btnMenuMobile]);
-
   useEffect(() => {
     setClassBtn_menu(`${btnMenu ? 'menu_on' : ''}`);
   }, [btnMenu]);
 
   useEffect(() => setAudio(new Audio()), []);
+
+  const toolbarTitle = ['Главная', 'Курс валют', 'Погода', 'Инфо'];
 
   useEffect(() => {
     setClassBtn_0(btnTab === 0 ? 'activ' : '');
@@ -93,7 +93,7 @@ export const App = () => {
   // eslint-disable-next-line no-unused-vars
   const { theme, setTheme } = useTheme();
 
-  const THEME = useSelector(state => state.storeData.theme);
+  const THEME = useSelector(getThemeChengeTheme);
 
   useEffect(() => {
     setTheme(THEME);
@@ -102,11 +102,44 @@ export const App = () => {
   // eslint-disable-next-line no-unused-vars
   const { themeBackground, setThemeBackground } = useBackground('color');
 
-  const THEME_BACKGROUND = useSelector(state => state.storeData.themeBackground);
+  const THEME_BACKGROUND = useSelector(getThemeChengeWalpaper);
 
   useEffect(() => {
     setThemeBackground(THEME_BACKGROUND);
   }, [THEME_BACKGROUND, setThemeBackground]);
+  // *  --------------------------------------------------------------
+  const [state, setState] = React.useState({
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = anchor => (
+    <Box role="presentation" onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
+      <List>
+        <ListItem value="0" onClick={handleBtnTab}>
+          <ListItemButton className={classBtn_0}>Главная</ListItemButton>
+        </ListItem>
+        <ListItem value="1" onClick={handleBtnTab}>
+          <ListItemButton className={classBtn_1}>Курс валют</ListItemButton>
+        </ListItem>
+        <ListItem value="2" onClick={handleBtnTab}>
+          <ListItemButton className={classBtn_2}>Погода</ListItemButton>
+        </ListItem>
+        <ListItem value="3" onClick={handleBtnTab}>
+          <ListItemButton className={classBtn_3}>Инфо</ListItemButton>
+        </ListItem>
+      </List>
+
+      {/* <Divider /> */}
+    </Box>
+  );
 
   return (
     <div className="app">
@@ -119,31 +152,23 @@ export const App = () => {
         {matches => (
           <Fragment>
             {matches.small && (
-              <div className="mobile-menu">
-                <div className="mobile-menu__title">
-                  <button type="button" onClick={handleMenuMobile}>
-                    <DensityMediumIcon className="btn-ico"></DensityMediumIcon>
-                  </button>
-                </div>
-                <div className={classListMenuMobile}>
-                  <button type="button" value="0" onClick={handleBtnTab}>
-                    <HomeIcon className="btn-ico" />
-                    Главная
-                  </button>
-                  <button type="button" value="1" onClick={handleBtnTab}>
-                    <AccountBalanceIcon className="btn-ico" />
-                    Курс валют
-                  </button>
-                  <button type="button" value="2" onClick={handleBtnTab}>
-                    <ThunderstormIcon className="btn-ico" />
-                    Погода
-                  </button>
-                  <button type="button" value="3" onClick={handleBtnTab}>
-                    <InfoIcon className="btn-ico" />
-                    Инфо
-                  </button>
-                </div>
-              </div>
+              <>
+                <Box sx={{ flexGrow: 1 }}>
+                  <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
+                    <Toolbar variant="dense">
+                      <IconButton edge="start" aria-label="menu" sx={{ mr: 2 }} onClick={toggleDrawer('right', true)}>
+                        <MenuIcon />
+                      </IconButton>
+                      <Typography variant="h6" color="inherit" component="div">
+                        {toolbarTitle[btnTab]}
+                      </Typography>
+                    </Toolbar>
+                  </AppBar>
+                </Box>
+                <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
+                  {list('right')}
+                </Drawer>
+              </>
             )}
 
             {matches.large && (

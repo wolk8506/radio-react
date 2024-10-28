@@ -1,7 +1,18 @@
 import * as React from 'react';
-
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+
+import {
+  getCurrencyNBUtoday_Data,
+  getCurrencyNBUtoday_Loading,
+  getCurrencyNBUtoday_Status,
+  getCurrencyNBUtoday_TimeUpdate,
+  getCurrencyNBUtomorrow_Data,
+  getCurrencyNBUtomorrow_Loading,
+  getCurrencyNBUtomorrow_Status,
+  getCurrencyNBUtomorrow_TimeUpdate,
+} from '../../store/selectors';
+import { fetchCurrencyNBUtoday, fetchCurrencyNBUtomorrow } from '../../store/operation';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -16,21 +27,8 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
-import {
-  getCurrencyNBUtoday_Data,
-  getCurrencyNBUtoday_Loading,
-  getCurrencyNBUtoday_Status,
-  getCurrencyNBUtoday_TimeUpdate,
-  getCurrencyNBUtomorrow_Data,
-  getCurrencyNBUtomorrow_Loading,
-  getCurrencyNBUtomorrow_Status,
-  getCurrencyNBUtomorrow_TimeUpdate,
-} from '../../store/selectors';
-import { fetchCurrencyNBUtoday, fetchCurrencyNBUtomorrow } from '../../store/operation';
-
 import moment from 'moment';
 import 'moment/locale/ru';
-import { useState } from 'react';
 moment.locale('ru');
 
 export const CurrencyNBU = () => {

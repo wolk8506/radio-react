@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherElements_Data } from 'store/selectors';
+
 export const TilesMoonPhase = () => {
-  const dataEvents = useSelector(state => state.storeWeatherElements);
+  const dataElements = useSelector(getWeatherElements_Data);
 
   useEffect(() => {
-    setMoonPhase(dataEvents.days[0].moonphase); //Фаза луны
-  }, [dataEvents]);
+    setMoonPhase(dataElements.days[0].moonphase); //Фаза луны
+  }, [dataElements]);
 
   const [moonPhase, setMoonPhase] = useState('0');
 

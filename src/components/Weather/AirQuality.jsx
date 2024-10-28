@@ -1,30 +1,31 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchWeatherAirQuality } from 'store/operation';
+import { getWeatherAirQuality_Data, getCityName } from 'store/selectors';
+
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
-
 import Box from '@mui/material/Box';
 import { barElementClasses } from '@mui/x-charts/BarChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
-import moment from 'moment';
 
-import { getWeatherAirQuality } from 'store/thunks';
+import moment from 'moment';
 
 export const AirQuality = () => {
   const hour = Number(moment().format('H'));
-  const data = useSelector(state => state.storeWeatherAirQuality);
-  const CITY = useSelector(state => state.storeData.city);
+  const data = useSelector(getWeatherAirQuality_Data);
+  const CITY = useSelector(getCityName);
   const dispatch = useDispatch();
   useEffect(() => {
     // const REACT_APP_WEATHER_API_KEY_2 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
 
     const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}?unitGroup=metric&key=ALDXRSSMA67DYTJF696P4X2T8&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
 
-    dispatch(getWeatherAirQuality(URL));
+    dispatch(fetchWeatherAirQuality(URL));
   }, [CITY, dispatch]);
 
   const [co, setCo] = useState(0);

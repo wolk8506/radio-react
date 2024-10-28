@@ -2,9 +2,13 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getCurrencyMonoCurrent_Status, getCurrencyMonoCurrent_Data } from '../../store/selectors';
+import {
+  getCurrencyMonoCurrent_Status,
+  getCurrencyMonoCurrent_Data,
+  getCurrencyYesterday,
+} from '../../store/selectors';
 import { fetchCurrencyMonoCurrent } from '../../store/operation';
-import { currencyYesterday } from 'store/actions';
+import { setCurrencyYesterday } from 'store/actions';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -12,6 +16,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 import sprite from '../../images/sprite.svg';
+
 import moment from 'moment';
 
 export const Currency = () => {
@@ -22,7 +27,7 @@ export const Currency = () => {
 
   const storeData = useSelector(getCurrencyMonoCurrent_Data);
   const status = useSelector(getCurrencyMonoCurrent_Status);
-  const dataCurrency = useSelector(state => state.storeData.currencyYesterday);
+  const dataCurrency = useSelector(getCurrencyYesterday);
 
   const iconSVG = sprite;
   const [eurTOusaSell, setEurTOusaSell] = useState(0);
@@ -146,7 +151,7 @@ export const Currency = () => {
     const interval = setInterval(() => {
       setIteration(iteration + 1);
       if (iteration > 3) setIntervalUpdate(60000);
-      dispatch(currencyYesterday([arr_yesterday, arr_today]));
+      dispatch(setCurrencyYesterday([arr_yesterday, arr_today]));
     }, intervalUpdate);
     return () => clearInterval(interval);
   }, [arr_today, arr_yesterday, dispatch, intervalUpdate, iteration]);

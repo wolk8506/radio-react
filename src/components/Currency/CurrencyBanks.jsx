@@ -2,6 +2,14 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
+import {
+  getCurrencyBanksToday_Loading,
+  getCurrencyBanksToday_Status,
+  getCurrencyBanksToday_TimeUpdate,
+  getCurrencyBanksToday_Data,
+} from '../../store/selectors';
+import { fetchCurrencyBanksToday } from '../../store/operation';
+
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,14 +26,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-
-import {
-  getCurrencyBanksToday_Loading,
-  getCurrencyBanksToday_Status,
-  getCurrencyBanksToday_TimeUpdate,
-  getCurrencyBanksToday_Data,
-} from '../../store/selectors';
-import { fetchCurrencyBanksToday } from '../../store/operation';
 
 export const CurrencyBanks = () => {
   const dispatch = useDispatch();

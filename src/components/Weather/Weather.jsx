@@ -2,11 +2,17 @@ import * as React from 'react';
 import Media from 'react-media';
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getWeather15, getWeatherElements, getLocation } from 'store/thunks';
-import { weatherCity } from 'store/actions';
 
-import { getWeatherToday_Data } from 'store/selectors';
-import { fetchWeatherYesterday, fetchWeatherToday, fetchWeatherTomorrow } from 'store/operation';
+import { getWeatherToday_Data, getCityName } from 'store/selectors';
+import {
+  fetchWeatherYesterday,
+  fetchWeatherToday,
+  fetchWeatherTomorrow,
+  fetchWeatherMonth,
+  fetchWeatherElements,
+  fetchLocation,
+} from 'store/operation';
+import { setCityName } from 'store/actions';
 
 import SearchIcon from '@mui/icons-material/Search';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
@@ -14,21 +20,20 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import { ChartWeather } from './ChartWeather';
 import { Tiles } from './Tiles';
 import { AirQuality } from './AirQuality';
-
-import moment from 'moment';
-import 'moment/locale/ru';
 import { WeatherMonth } from './WeatherMonth';
 import { WeatherCurrentDay } from './WeatherCurrentDay';
 import { WeatherMonthMobile } from './WeatherMonthMobile';
 import { WeatherSunMoonMobile } from './WeatherSunMoonMobile';
-moment.locale('ru');
 
-// const { REACT_APP_WEATHER_API_KEY_2 } = process.env;
+import moment from 'moment';
+import 'moment/locale/ru';
+
+moment.locale('ru');
 
 export const Weather = () => {
   const dispatch = useDispatch();
   const data_today = useSelector(getWeatherToday_Data);
-  const CITY = useSelector(state => state.storeData.city);
+  const CITY = useSelector(getCityName);
 
   const urlImage = 'https://www.visualcrossing.com/img/';
 
@@ -55,7 +60,7 @@ export const Weather = () => {
     dispatch(fetchWeatherYesterday(BASE_URL_YESTERDAY));
     dispatch(fetchWeatherToday(BASE_URL_TODAY));
     dispatch(fetchWeatherTomorrow(BASE_URL_TOMORROW));
-    dispatch(getWeatherElements(URL_WEATHER_ELEMENTS));
+    dispatch(fetchWeatherElements(URL_WEATHER_ELEMENTS));
   }, [CITY, dispatch]);
 
   useEffect(() => {
@@ -85,7 +90,7 @@ export const Weather = () => {
 
     const URL_WEATHER = `${BASE_URL}${CITY}/${DATE}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric`;
 
-    dispatch(getWeather15(URL_WEATHER));
+    dispatch(fetchWeatherMonth(URL_WEATHER));
   }, [CITY, dispatch]);
 
   function handleSearch(e) {
@@ -94,20 +99,20 @@ export const Weather = () => {
     }
     if (e.key === 'Enter') {
       if (valueCity.length > 1) {
-        dispatch(weatherCity(valueCity));
+        dispatch(setCityName(valueCity));
       }
       setValueCity('');
     }
     if (e.buttons === 0) {
       if (valueCity.length > 1) {
-        dispatch(weatherCity(valueCity));
+        dispatch(setCityName(valueCity));
       }
       setValueCity('');
     }
   }
 
   function handleLocation() {
-    dispatch(getLocation());
+    dispatch(fetchLocation());
   }
 
   function handleCity(e) {

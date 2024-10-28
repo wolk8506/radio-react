@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+
+import { getWeatherToday_TimeUpdate } from 'store/selectors';
+
 import { TilesTemperatura } from './TilesTemperatura';
 import { TilesCloud } from './TilesCloud';
 import { TilesWind } from './TilesWind';
@@ -12,8 +15,6 @@ import { TilesMoonPhase } from './TilesMoonPhase';
 import { TilesPrecip } from './TilasPrecip';
 import { TilesVisibility } from './TilesVisibility';
 import { TilesUv } from './TilesUv';
-
-import { getWeatherToday_TimeUpdate } from 'store/selectors';
 
 export const Tiles = () => {
   const timeUpdate = useSelector(getWeatherToday_TimeUpdate);

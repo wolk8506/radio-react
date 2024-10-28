@@ -9,20 +9,19 @@ import { WindGust } from './WindGust';
 
 import { getWeatherToday_Data } from 'store/selectors';
 import { fetchWeatherToday } from 'store/operation';
-
-import { getLocation } from 'store/thunks';
+import { fetchLocation } from 'store/operation';
+import { getCityName } from 'store/selectors';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const Weather = () => {
-  const CITY = useSelector(state => state.storeData.city);
+  const CITY = useSelector(getCityName);
   const data = useSelector(getWeatherToday_Data);
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
-  // const iconSVG = sprite;
   const urlImage = 'https://www.visualcrossing.com/img/';
 
   const [image, setImage] = useState(`${urlImage}clear-day.svg`);
@@ -35,7 +34,7 @@ export const Weather = () => {
   // Запрос погоды, если первый раз, то погоду определяет по IP, делеее берет локацию из store
   useEffect(() => {
     if (CITY === null) {
-      dispatch(getLocation()); //Определение локации
+      dispatch(fetchLocation()); //Определение локации
     } else dispatch(fetchWeatherToday(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
   }, [CITY, URL_WEATHER, dispatch]);
 

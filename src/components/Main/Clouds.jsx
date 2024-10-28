@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 
 import { getWeatherToday_Data } from 'store/selectors';
+
+import moment from 'moment';
 
 const color_1 = 'pribor-color-1';
 const color_2 = 'pribor-color-2';

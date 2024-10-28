@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import * as React from 'react';
-
-// import s from './Clock2.module.css';
+import { useEffect, useState } from 'react';
 
 export const Clock = () => {
   const [hh, setHh] = useState('00');

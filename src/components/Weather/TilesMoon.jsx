@@ -1,21 +1,23 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import moment from 'moment';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getWeatherElements_Data } from 'store/selectors';
+
+import moment from 'moment';
+
 export const TilesMoon = () => {
-  const dataEvents = useSelector(state => state.storeWeatherElements);
+  const dataElements = useSelector(getWeatherElements_Data);
 
   const [moonrise, setMoonrise] = useState('--:--');
   const [moonriseTomorrow, setMoonriseTomorrow] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
 
   useEffect(() => {
-    setMoonrise(dataEvents.days[0].moonrise);
-    setMoonriseTomorrow(dataEvents.days[1].moonrise);
-    setMoonset(dataEvents.days[0].moonset);
-  }, [dataEvents]);
+    setMoonrise(dataElements.days[0].moonrise);
+    setMoonriseTomorrow(dataElements.days[1].moonrise);
+    setMoonset(dataElements.days[0].moonset);
+  }, [dataElements]);
 
   let moonriseTime = '00:00';
   if (moonrise !== undefined) {

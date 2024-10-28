@@ -34,7 +34,7 @@ export const initStateWeatherElements = {
   ],
 };
 
-export const initStateWeather15 = {
+export const initStateWeatherMonth = {
   queryCost: 201,
   latitude: 50.0042,
   longitude: 36.2358,
@@ -21092,5 +21092,30 @@ export const initStateCurrencyZVRCurrent = [
     freq: 'M',
     value: 2220.75,
     tzep: 'T071USD_7',
+  },
+];
+
+export const initStateCurrencyYesterday = [
+  {
+    data: '09-09-2024',
+    usd_uah_buy: 40.9,
+    usd_eur_buy: '0.9012',
+    eur_uah_buy: 45.25,
+    eur_usd_buy: '1.1096',
+    usd_uah_sell: 41.3206,
+    usd_eur_sell: '0.9039',
+    eur_uah_sell: 45.8505,
+    eur_usd_sell: '1.1064',
+  },
+  {
+    data: '09-09-2024',
+    usd_uah_buy: 40.9,
+    usd_eur_buy: '0.9012',
+    eur_uah_buy: 45.25,
+    eur_usd_buy: '1.1096',
+    usd_uah_sell: 41.3206,
+    usd_eur_sell: '0.9039',
+    eur_uah_sell: 45.8505,
+    eur_usd_sell: '1.1064',
   },
 ];

@@ -1,8 +1,9 @@
 import * as React from 'react';
-
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeThemeAuto } from 'store/actions';
+
+import { setThemeAutoChengeTheme } from 'store/actions';
+import { getThemeAutoChengeTheme } from 'store/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -13,11 +14,11 @@ import FormLabel from '@mui/material/FormLabel';
 export const ThemeChangeAuto = () => {
   const dispatch = useDispatch();
 
-  const THEME_AUTO_CHANGE = useSelector(state => state.storeData.themeAutoChange);
+  const THEME_AUTO_CHANGE = useSelector(getThemeAutoChengeTheme);
   const [value, setValue] = useState(THEME_AUTO_CHANGE);
 
   const handleChange = e => {
-    dispatch(changeThemeAuto(e.target.value));
+    dispatch(setThemeAutoChengeTheme(e.target.value));
     setValue(e.target.value);
   };
   return (

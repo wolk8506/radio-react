@@ -81,66 +81,40 @@
 // !  ⇧ end - - - Десктопное меню - - - - - - -  ⇧
 //
 // !  ⇩ start - - Мобильное меню  - - - - - - -  ⇩
+.MuiDrawer-root {
+  .MuiDrawer-content {
+    background-color: $color-07;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    border-radius: 20px 0 0 20px;
 
-.mobile-menu {
-  width: 100%;
-  height: 50px;
+    .MuiList-root {
+      color: $color-03;
+    }
 
-  .mobile-menu__title {
-    background: $color-07;
-    width: 100%;
-    height: 40px;
-    z-index: 3;
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-
-  .mobile-menu__title > button {
-    display: block;
-    background: transparent;
-    border: none;
-    margin: 5px 10px 5px auto;
-    color: $color-03;
-  }
-
-  .mobile-menu__list > button {
-    background: transparent;
-    border: none;
-    margin: 0px auto 0px 0px;
-    font-size: 18px;
-    color: $color-02;
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    width: 90%;
-
-    .btn-ico {
-      margin-right: 5px;
+    .MuiList-root {
+      color: $color-03;
+      .MuiButtonBase-root.activ {
+        color: $color-02;
+      }
     }
   }
-  .mobile-menu__list > button + button {
-    margin-top: 20px;
-  }
+}
+.MuiPaper-root.MuiPaper-elevation {
+  background-color: $color-07;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 
-  .mobile-menu__list {
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    background: $color-07;
-    padding-left: 30px;
-    width: 100%;
-    height: 310px;
-    transform: translateY(40px);
-    padding-top: 40px;
-    padding-bottom: 40px;
-    z-index: 2;
-    transition: transform 0.5s;
-    border-radius: 15px;
+  .MuiTypography-root {
+    color: var(--color-03);
   }
-  .mobile-menu__list--on {
-    transform: translateY(-310px);
+}
+
+.MuiButtonBase-root.MuiButtonBase-root {
+  @include button;
+  &,
+  &:hover {
+    border: none;
   }
 }
 
@@ -152,13 +126,14 @@
     padding: 0px 0px;
 
     .content {
-      padding: 0px 10px;
+      padding: 64px 10px 16px 10px;
       margin: 0;
       width: 100%;
     }
     .main {
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
     }
   }
 }

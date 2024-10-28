@@ -12,7 +12,6 @@ import {
   getCurrencyZVRCurrent_Data,
 } from '../../store/selectors';
 import { fetchCurrencyZVRPrevious, fetchCurrencyZVRCurrent } from '../../store/operation';
-// import { getZVRCurrent } from 'store/thunks';
 
 import { styled } from '@mui/material/styles';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -38,7 +37,7 @@ import moment from 'moment';
 export const CurrencyZVR = () => {
   const BASE_URL = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/res';
   const dispatch = useDispatch();
-  // test
+
   const timeUpdate = useSelector(getCurrencyZVRPrevious_TimeUpdate);
   const loading = useSelector(getCurrencyZVRPrevious_Loading);
   const status = useSelector(getCurrencyZVRPrevious_Status);
@@ -48,7 +47,6 @@ export const CurrencyZVR = () => {
   const loading2 = useSelector(getCurrencyZVRCurrent_Loading);
   const status2 = useSelector(getCurrencyZVRCurrent_Status);
   const storeData2 = useSelector(getCurrencyZVRCurrent_Data);
-  // --------------------------------------------------------------------------
 
   const currentDateZVRPrevious = moment().add(-1, 'month').format('YYYY-MM-DD');
   const currentDateZVRCurrent = moment().add(0, 'month').format('YYYY-MM-DD');

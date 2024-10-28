@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import moment from 'moment';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/selectors';
+
+import moment from 'moment';
 
 export const TilesFeelTemp = () => {
   const data_yesterday = useSelector(getWeatherYesterday_Data);

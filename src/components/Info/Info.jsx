@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { version } from 'components/info';
 
+import { version } from 'components/info';
 import { ThemeChange } from './ThemeChange';
 import { ThemeChangeAuto } from './ThemeChangeAuto';
 import { ThemeChangeBackground } from './ThemeChangeBackground';
 
 export const Info = () => {
+  const { REACT_APP_TEST } = process.env;
+  console.log(REACT_APP_TEST);
+
   return (
     <section>
       <div className="about">

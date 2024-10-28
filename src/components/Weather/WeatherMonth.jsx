@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 
 import sprite from '../../images/sprite.svg';
 
+import { getWeatherMonth_Data } from 'store/selectors';
+
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherMonth = () => {
-  const data_month = useSelector(state => state.storeWeather15);
+  const data_month = useSelector(getWeatherMonth_Data);
   const urlImage = 'https://www.visualcrossing.com/img/';
   const iconSVG = sprite;
   const [dataDays, setDataDays] = useState([]);

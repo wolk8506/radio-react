@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import sprite from '../../images/sprite.svg';
 
 import { getWeatherToday_Data } from 'store/selectors';
+
+import sprite from '../../images/sprite.svg';
 
 export const Compas = () => {
   const data_today = useSelector(getWeatherToday_Data);

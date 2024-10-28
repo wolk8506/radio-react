@@ -13,6 +13,10 @@
     @include button;
   }
 }
+.nameSection:first-child {
+  margin-top: 0;
+}
+
 .nameSection h2 {
   margin-right: 10px;
   margin-left: 10px;
@@ -101,5 +105,31 @@
 
   .textField {
     width: calc((100% - 20px) / 2);
+  }
+  // *-------------------------------
+  .nameSection {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-bottom: 16px;
+    position: relative;
+    background-color: $color-07;
+    padding: 8px 8px 8px 16px;
+
+    .load-btn {
+      font-size: 10px;
+      min-width: 100px;
+    }
+  }
+
+  .nameSection h2 {
+    font-size: 14px;
+    line-height: 16px;
+    padding: 0 10px;
+  }
+  .update-block {
+    text-align: center;
   }
 }

@@ -1,8 +1,9 @@
 import * as React from 'react';
-
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeThemeBackground } from 'store/actions';
+
+import { setThemeChengeWalpaper } from 'store/actions';
+import { getThemeChengeWalpaper } from 'store/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -41,13 +42,13 @@ import logo from '../../images/pngegg.png';
 
 export const ThemeChangeBackground = () => {
   const dispatch = useDispatch();
-  const THEME_BACKGROUND = useSelector(state => state.storeData.themeBackground);
+  const THEME_BACKGROUND = useSelector(getThemeChengeWalpaper);
   const name_holiday = 'Хэллоуин';
 
   const [value, setValue] = useState(THEME_BACKGROUND);
 
   const handleChange = e => {
-    dispatch(changeThemeBackground(e.target.value));
+    dispatch(setThemeChengeWalpaper(e.target.value));
     setValue(e.target.value);
   };
 

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import eventsJSON from './data/events.json';
 import anecdoteJSON from './data/anecdote.json';

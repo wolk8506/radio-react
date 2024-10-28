@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data } from 'store/selectors';
+import { getWeatherToday_Data, getWeatherElements_Data } from 'store/selectors';
 
 import moon_1 from '../../images/moon-phase/moon-phase-1.png';
 import moon_2 from '../../images/moon-phase/moon-phase-2.png';
@@ -18,7 +18,7 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherSunMoonMobile = () => {
-  const dataEvents = useSelector(state => state.storeWeatherElements);
+  const dataElements = useSelector(getWeatherElements_Data);
   const data_today = useSelector(getWeatherToday_Data);
 
   const moonPhaseImage = [moon_1, moon_2, moon_3, moon_4, moon_5, moon_6, moon_7, moon_8];
@@ -26,13 +26,13 @@ export const WeatherSunMoonMobile = () => {
   useEffect(() => {
     const hour = moment().format('H');
     setUv(data_today.days[0].hours[hour].uvindex); // Ультрофиолет
-    setMoonPhase(dataEvents.days[0].moonphase); //Фаза луны
-    setSunrise(dataEvents.days[0].sunrise); //Время рассвета
-    setSunset(dataEvents.days[0].sunset); //Время заката
-    setMoonrise(dataEvents.days[0].moonrise);
-    setMoonriseTomorrow(dataEvents.days[1].moonrise);
-    setMoonset(dataEvents.days[0].moonset);
-  }, [dataEvents.days, data_today.days]);
+    setMoonPhase(dataElements.days[0].moonphase); //Фаза луны
+    setSunrise(dataElements.days[0].sunrise); //Время рассвета
+    setSunset(dataElements.days[0].sunset); //Время заката
+    setMoonrise(dataElements.days[0].moonrise);
+    setMoonriseTomorrow(dataElements.days[1].moonrise);
+    setMoonset(dataElements.days[0].moonset);
+  }, [dataElements.days, data_today.days]);
 
   const [uv, setUv] = useState('--');
   const [moonPhase, setMoonPhase] = useState('0');
