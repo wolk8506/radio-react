@@ -240,7 +240,10 @@ export const CurrencyZVR = () => {
                       color: 'var(--color-2)',
                     }}
                   >
-                    <p>Золото-валютные резервы на {moment(storeData2[0].dt).format('MMMM YYYY')}</p>
+                    <p>
+                      Золото-валютные резервы на{' '}
+                      {storeData2[0]?.dt ? moment(storeData2[0].dt).format('MMMM YYYY') : moment().format('MMMM YYYY')}
+                    </p>
                     <div>
                       {status2 ? (
                         <CheckCircleOutlineIcon className="icon-success" />
