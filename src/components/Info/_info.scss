@@ -16,6 +16,18 @@
   }
 }
 
+.block__settings {
+  display: flex;
+
+  .settings:first-child {
+    margin-right: 16px;
+  }
+
+  .settings:nth-child(2) {
+    margin-right: 16px;
+  }
+}
+
 .settings {
   width: 380px;
   display: flex;
@@ -268,7 +280,7 @@
 }
 
 .settings--walpaper {
-  width: 1140px;
+  width: 1172px;
   position: relative;
   .logo {
     width: 250px;
@@ -288,6 +300,7 @@
     .wallpaper-collection__item {
       width: calc(100% / 3);
       padding: 16px;
+      margin-right: 16px;
     }
   }
 }
@@ -304,6 +317,18 @@
         width: 100%;
         padding: 16px;
       }
+    }
+  }
+
+  .block__settings {
+    display: block;
+
+    .settings:first-child {
+      margin-right: 0px;
+    }
+
+    .settings:nth-child(2) {
+      margin-right: 0px;
     }
   }
 }

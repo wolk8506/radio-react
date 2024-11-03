@@ -6,6 +6,10 @@
   }
 }
 
+.MuiAutocomplete-option {
+  color: rgb-a($color-03, 50%);
+}
+
 // TODO:  ⇩ ⇩ ⇩ погода от MSN
 
 .weather {
@@ -21,9 +25,44 @@
     align-items: center;
     @include card-style;
 
+    .MuiOutlinedInput-notchedOutline {
+      border-radius: 12px;
+    }
+    .MuiAutocomplete-root .MuiOutlinedInput-root {
+      padding: 2px;
+    }
     .search-group {
       display: flex;
       align-items: center;
+    }
+    .MuiInputLabel-root {
+      top: -5px;
+    }
+    .MuiFormLabel-root.Mui-focused {
+      top: 0px;
+    }
+  }
+
+  .weather__title {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 16px;
+    padding: 8px 8px 8px 16px;
+
+    @include card-style;
+
+    h1 {
+      position: relative;
+      align-items: center;
+      max-width: 612px;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.125;
+    }
+
+    .title__ico {
+      margin-right: 6px;
     }
   }
 
@@ -97,6 +136,7 @@
     box-sizing: border-box;
     flex-shrink: 0;
     height: 40px;
+    position: relative;
 
     .card-city {
       height: 40px;

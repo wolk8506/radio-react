@@ -1,12 +1,20 @@
 //
+export const getWeatherDayCity1_Data = state => state.storeWeatherDayCity.data_city1;
+export const getWeatherDayCity2_Data = state => state.storeWeatherDayCity.data_city2;
+export const getWeatherDayCity3_Data = state => state.storeWeatherDayCity.data_city3;
 
+//
 export const getPlayerStation = state => state.storeData.playerStation;
 export const getPlayerPlay = state => state.storeData.playerPlay;
 export const getCurrencyYesterday = state => state.storeData.currencyYesterday;
 export const getThemeChengeTheme = state => state.storeData.themeChengeTheme;
 export const getThemeAutoChengeTheme = state => state.storeData.themeAutoChengeTheme;
 export const getThemeChengeWalpaper = state => state.storeData.themeChengeWalpaper;
+export const getThemeWidgetClock = state => state.storeData.themeWidgetClock;
+export const getThemeTransporantClock = state => state.storeData.themeTransporantClock;
+
 export const getCityName = state => state.storeData.city;
+export const getCityList = state => state.storeData.cityList;
 
 //  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 //  -   -   П о г о д а -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
@@ -16,6 +24,8 @@ export const getCityName = state => state.storeData.city;
 export const getWeatherAirQuality_Data = state => state.storeWeatherAirQuality.data;
 export const getWeatherElements_Data = state => state.storeWeatherElements.data;
 export const getWeatherMonth_Data = state => state.storeWeatherMonth.data;
+export const getWeatherMonth_TimeUpdate = state => state.storeWeatherMonth.timeUpdate;
+
 //
 export const getWeatherYesterday_Loading = state => state.storeWeatherDay.loading_yesterday;
 export const getWeatherYesterday_Status = state => state.storeWeatherDay.status_yesterday;
@@ -26,6 +36,7 @@ export const getWeatherToday_Loading = state => state.storeWeatherDay.loading_to
 export const getWeatherToday_Status = state => state.storeWeatherDay.status_today;
 export const getWeatherToday_TimeUpdate = state => state.storeWeatherDay.timeUpdate_today;
 export const getWeatherToday_Data = state => state.storeWeatherDay.data_today;
+export const getWeatherToday_Error = state => state.storeWeatherDay.error_today;
 //
 export const getWeatherTomorrow_Loading = state => state.storeWeatherDay.loading_tomorrow;
 export const getWeatherTomorrow_Status = state => state.storeWeatherDay.status_tomorrow;

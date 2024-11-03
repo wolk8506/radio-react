@@ -86,6 +86,39 @@ export const fetchWeatherAirQuality = createAsyncThunk('weather/AirQuality', asy
   }
 });
 //
+// *    Погода на сегодня город 1
+//
+export const fetchWeatherTodayCity1 = createAsyncThunk('weather/TodayCity1', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('❌ error');
+  }
+});
+//
+// *    Погода на сегодня город 2
+//
+export const fetchWeatherTodayCity2 = createAsyncThunk('weather/TodayCity2', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('❌ error');
+  }
+});
+//
+// *    Погода на сегодня город 3
+//
+export const fetchWeatherTodayCity3 = createAsyncThunk('weather/TodayCity3', async url => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log('❌ error');
+  }
+});
+//
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ?  - - - - - -   Курс валют  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //

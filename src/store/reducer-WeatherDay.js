@@ -48,6 +48,13 @@ const status_today = createReducer(false, builder => {
     .addCase(fetchWeatherToday.rejected, () => false);
 });
 
+const error_today = createReducer(false, builder => {
+  builder
+    .addCase(fetchWeatherToday.pending, () => false)
+    .addCase(fetchWeatherToday.fulfilled, () => false)
+    .addCase(fetchWeatherToday.rejected, () => true);
+});
+
 const timeUpdate_today = createReducer('--:--', builder => {
   builder.addCase(fetchWeatherToday.fulfilled, () => moment().format('HH:mm'));
 });
@@ -89,6 +96,7 @@ export default combineReducers({
   loading_today,
   status_today,
   timeUpdate_today,
+  error_today,
   //
   data_tomorrow,
   loading_tomorrow,

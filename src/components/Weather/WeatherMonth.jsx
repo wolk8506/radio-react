@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import sprite from '../../images/sprite.svg';
 
-import { getWeatherMonth_Data } from 'store/selectors';
+import { getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/selectors';
 
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -12,15 +12,17 @@ moment.locale('ru');
 
 export const WeatherMonth = () => {
   const data_month = useSelector(getWeatherMonth_Data);
+  const timeUpdate = useSelector(getWeatherMonth_TimeUpdate);
   const urlImage = 'https://www.visualcrossing.com/img/';
   const iconSVG = sprite;
   const [dataDays, setDataDays] = useState([]);
   const [datetime, setDatetime] = useState('--:--');
+  // console.log(data_month);
 
   useEffect(() => {
     const data = [];
     const numberDay = moment().isoWeekday();
-    setDatetime(data_month.currentConditions.datetime.slice(0, -3));
+    setDatetime(timeUpdate);
 
     data_month.days.forEach((el, i) => {
       if (i > 0) {
@@ -29,7 +31,7 @@ export const WeatherMonth = () => {
     });
 
     setDataDays(data);
-  }, [data_month]);
+  }, [data_month, timeUpdate]);
 
   return (
     <>

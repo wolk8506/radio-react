@@ -43,7 +43,6 @@ import HomeIcon from '@mui/icons-material/Home'; //дом
 import MoreVertIcon from '@mui/icons-material/MoreVert'; //три точки
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import useDebounce from '../../hooks/use-Debounce';
 
@@ -224,7 +223,7 @@ export const Weather = () => {
   // Состояние и сеттер состояния для результатов поиска
   const [results, setResults] = useState([]);
   // Состояние для статуса поиска (есть ли ожидающий запрос API)
-  const [isSearching, setIsSearching] = useState(false);
+  // const [isSearching, setIsSearching] = useState(false);
 
   // Теперь мы вызываем наш хук, передавая текущее значение searchTerm.
   // Хук вернет только последне значение (которое мы передали) ...
@@ -241,11 +240,11 @@ export const Weather = () => {
       // Убедиться что у нас есть значение (пользователь ввел что-то)
       if (debouncedSearchTerm) {
         // Выставить состояние isSearching
-        setIsSearching(true);
+        // setIsSearching(true);
         // Сделать запрос к АПИ
         searchCharacters(debouncedSearchTerm).then(results => {
           // Выставить состояние в false, так-как запрос завершен
-          setIsSearching(false);
+          // setIsSearching(false);
           // Выставит состояние с результатом
           // console.log(results);
           setResults([
@@ -346,28 +345,12 @@ export const Weather = () => {
           <GpsFixedIcon fontSize="inherit" />
         </IconButton>
         <Autocomplete
-          // disablePortal
-          loading={isSearching}
+          disablePortal
           options={results}
           sx={{ width: 300 }}
           onClose={handleClose}
           renderInput={params => (
-            <TextField
-              {...params}
-              label="Поиск местоположения"
-              onChange={e => setSearchTerm(e.target.value)}
-              slotProps={{
-                input: {
-                  ...params.InputProps,
-                  endAdornment: (
-                    <React.Fragment>
-                      {isSearching ? <CircularProgress color="inherit" size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </React.Fragment>
-                  ),
-                },
-              }}
-            />
+            <TextField {...params} label="Поиск местоположения" onChange={e => setSearchTerm(e.target.value)} />
           )}
         />
 

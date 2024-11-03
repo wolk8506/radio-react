@@ -4,6 +4,7 @@ import Media from 'react-media';
 
 import { useTheme } from 'hooks/use-theme';
 import { useBackground } from 'hooks/use-background';
+import { useTransporantClock } from 'hooks/use-transporant-clock';
 
 import { RadioMini } from './Main/Radio-mini';
 import { Main } from './Main/Main';
@@ -11,7 +12,13 @@ import { CurrencyIndex } from './Currency/Currency-index';
 import { Weather } from './Weather/Weather';
 import { info } from './info';
 
-import { getThemeChengeTheme, getThemeChengeWalpaper, getPlayerPlay, getPlayerStation } from 'store/selectors';
+import {
+  getThemeChengeTheme,
+  getThemeChengeWalpaper,
+  getPlayerPlay,
+  getPlayerStation,
+  getThemeTransporantClock,
+} from 'store/selectors';
 
 import HomeIcon from '@mui/icons-material/Home';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -107,6 +114,17 @@ export const App = () => {
   useEffect(() => {
     setThemeBackground(THEME_BACKGROUND);
   }, [THEME_BACKGROUND, setThemeBackground]);
+
+  // eslint-disable-next-line no-unused-vars
+  const { themeTransporantClock, setThemeTransporantClock } = useTransporantClock('100%');
+
+  const THEME_T_C = useSelector(getThemeTransporantClock);
+
+  useEffect(() => {
+    setThemeTransporantClock(THEME_T_C);
+  }, [THEME_T_C, setThemeTransporantClock]);
+
+  // useTransporantClock
   // *  --------------------------------------------------------------
   const [state, setState] = React.useState({
     right: false,

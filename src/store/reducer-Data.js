@@ -8,7 +8,12 @@ import {
   setThemeChengeTheme,
   setThemeAutoChengeTheme,
   setThemeChengeWalpaper,
+  setThemeWidgetClock,
+  setThemeTransporantClock,
   setCityName,
+  addCityListItem,
+  deleteCityListItem,
+  homeCityListItem,
 } from './actions';
 import { fetchLocation } from './operation';
 
@@ -38,7 +43,25 @@ const themeChengeWalpaper = createReducer('color', builder => {
 });
 const city = createReducer(null, builder => {
   builder.addCase(setCityName, (state, action) => action.payload);
-  builder.addCase(fetchLocation.fulfilled, (state, action) => action.payload.city);
+  builder.addCase(fetchLocation.fulfilled, (state, action) => `${action.payload.city}, ${action.payload.country_name}`);
+});
+const cityList = createReducer([], builder => {
+  builder.addCase(addCityListItem, (state, action) => [...state, action.payload]);
+  builder.addCase(deleteCityListItem, (state, action) => state.filter(({ id }) => id !== action.payload));
+  builder.addCase(homeCityListItem, (state, action) =>
+    state.forEach(function (element) {
+      element.home = false;
+      if (element.id === action.payload.id) {
+        element.home = action.payload.home;
+      }
+    })
+  );
+});
+const themeWidgetClock = createReducer('0', builder => {
+  builder.addCase(setThemeWidgetClock, (state, action) => action.payload);
+});
+const themeTransporantClock = createReducer('100%', builder => {
+  builder.addCase(setThemeTransporantClock, (state, action) => action.payload);
 });
 
 export default combineReducers({
@@ -48,5 +71,8 @@ export default combineReducers({
   themeChengeTheme,
   themeAutoChengeTheme,
   themeChengeWalpaper,
+  themeWidgetClock,
+  themeTransporantClock,
   city,
+  cityList,
 });

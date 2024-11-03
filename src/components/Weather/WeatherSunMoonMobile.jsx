@@ -42,7 +42,6 @@ export const WeatherSunMoonMobile = () => {
   const [moonriseTomorrow, setMoonriseTomorrow] = useState('--:--');
   const [moonset, setMoonset] = useState('--:--');
   const [uvTitle, setUvTitle] = useState('');
-  //   const [uvSubTitle, setSubUvTitle] = useState('');
   const [phaseTitle, setPhaseTitle] = useState('--');
   const [phaseImage, setPhaseImage] = useState(0);
 
@@ -185,7 +184,7 @@ export const WeatherSunMoonMobile = () => {
 
     let sdvig;
     if (timeCurrent >= timeRise + timeDay) {
-      sdvig = (-1 * (timeCurrent - timeDay)) / ((86400 - timeDay) / 180);
+      sdvig = (-1 * (timeCurrent - timeRise)) / ((86400 - timeDay) / 180);
       setSunImage(false);
     } else if (timeRise <= timeCurrent) {
       const timeGraf = timeDay - (timeCurrent - timeRise);
