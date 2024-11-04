@@ -163,15 +163,17 @@ export const Weather = () => {
   }, [CITY, cityList, dispatch, ferstFetch]);
 
   useEffect(() => {
-    const BASE_URL_YESTERDAY = `${BASE_URL}${CITY.city}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_1}&contentType=json&lang=ru&unitGroup=metric`;
-    const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
-    const BASE_URL_TOMORROW = `${BASE_URL}${CITY.city}/tomorrow?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
-    const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY.city}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
+    if (CITY.city !== undefined) {
+      const BASE_URL_YESTERDAY = `${BASE_URL}${CITY.city}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_1}&contentType=json&lang=ru&unitGroup=metric`;
+      const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
+      const BASE_URL_TOMORROW = `${BASE_URL}${CITY.city}/tomorrow?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
+      const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY.city}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
-    dispatch(fetchWeatherYesterday(BASE_URL_YESTERDAY));
-    dispatch(fetchWeatherToday(BASE_URL_TODAY));
-    dispatch(fetchWeatherTomorrow(BASE_URL_TOMORROW));
-    dispatch(fetchWeatherElements(URL_WEATHER_ELEMENTS));
+      dispatch(fetchWeatherYesterday(BASE_URL_YESTERDAY));
+      dispatch(fetchWeatherToday(BASE_URL_TODAY));
+      dispatch(fetchWeatherTomorrow(BASE_URL_TOMORROW));
+      dispatch(fetchWeatherElements(URL_WEATHER_ELEMENTS));
+    }
   }, [CITY, dispatch]);
 
   useEffect(() => {
@@ -200,8 +202,9 @@ export const Weather = () => {
     const DATE = `${dateStart}/${dateEnd}`;
 
     const URL_WEATHER = `${BASE_URL}${CITY.city}/${DATE}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=days&elements=tempmax,tempmin,pressure,icon,humidity,uvindex,datetime`;
-
-    dispatch(fetchWeatherMonth(URL_WEATHER));
+    if (CITY.city !== undefined) {
+      dispatch(fetchWeatherMonth(URL_WEATHER));
+    }
   }, [CITY, dispatch]);
 
   // !!!!!!!!!!------------------------------------------------------------------------
@@ -247,7 +250,6 @@ export const Weather = () => {
           // Выставить состояние в false, так-как запрос завершен
           setIsSearching(false);
           // Выставит состояние с результатом
-          // console.log(results);
           setResults([
             ...results.map(i => {
               const isKyr = function (str) {
@@ -283,8 +285,6 @@ export const Weather = () => {
       setSearchCity({ city: valueCity, home: false });
     }
   };
-
-  // Довольно стандартный UI с полем поиска и результатами
 
   // --------------------------------------------------------
   const ITEM_HEIGHT = 48;

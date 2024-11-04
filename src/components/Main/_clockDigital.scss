@@ -1,5 +1,5 @@
 .clock-weather {
-  width: 800px;
+  max-width: 800px;
   //   border: 1px solid red;
   display: flex;
   padding: 16px;
@@ -8,10 +8,177 @@
   background: rgb-a($color-07, var(--transparency));
   //   background: var(--color-test);
 
-  .clock-weather__block-clock {
+  // *---------------------------------------------------------------------------
+  .block__clock-analog {
+    position: relative;
     border-right: 1px solid rgb-a($color-02, 50%);
+    margin-right: 16px;
+  }
+
+  .clock-analog {
+    display: grid;
+    // background-color: #1e2022;
+    width: 200px;
+    height: 200px;
+    position: relative;
+
+    // padding-right: 32px;
+    margin-right: 16px;
+    margin-top: -16px;
+    // margin-left: -16px;
+  }
+
+  .number:before {
+    content: '';
+    width: 10%;
+    height: 10%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    position: absolute;
+    background-color: $color-02;
+    // border: 4px solid #1e2022;
+    z-index: 10;
+  }
+
+  .number {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: $color-02;
+    font-size: 40px;
+    text-shadow: 5px 5px 20px $color-02;
+  }
+
+  .number1 {
+    transform: rotateZ(30deg);
+  }
+
+  .number2 {
+    transform: rotate(60deg);
+  }
+
+  .number3 {
+    transform: rotate(90deg);
+  }
+
+  .number4 {
+    transform: rotate(120deg);
+  }
+
+  .number5 {
+    transform: rotate(150deg);
+  }
+
+  .number6 {
+    transform: rotate(180deg);
+  }
+
+  .number7 {
+    transform: rotate(210deg);
+  }
+
+  .number8 {
+    transform: rotate(240deg);
+  }
+
+  .number9 {
+    transform: rotate(270deg);
+  }
+
+  .number10 {
+    transform: rotate(300deg);
+  }
+
+  .number11 {
+    transform: rotate(330deg);
+  }
+
+  .hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    transform-origin: bottom;
+  }
+
+  .hour {
+    width: 1.5%;
+    height: 33%;
+    z-index: 1;
+
+    .hour-p1 {
+      width: 100%;
+      height: 25%;
+    }
+    .hour-p2 {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      background-color: $color-02;
+      width: 100%;
+      height: 56%;
+    }
+
+    .hour-p3 {
+      width: 100%;
+      height: 19%;
+    }
+  }
+
+  .minute {
+    width: 1%;
+    height: 33%;
+    z-index: 2;
+
+    .minute-p1 {
+      width: 100%;
+      height: 10%;
+    }
+    .minute-p2 {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      background-color: $color-02;
+      width: 100%;
+      height: 69%;
+    }
+    .minute-p3 {
+      width: 100%;
+      height: 21%;
+    }
+  }
+
+  .second {
+    width: 0.5%;
+    height: 33%;
+    z-index: 3;
+    // transition: all 0.06s;
+    // transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+
+    .second-p1 {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      background-color: $color-03;
+      width: 100%;
+      height: 80%;
+    }
+  }
+
+  .clock-analog-text {
+    font-size: 16px;
+    text-align: center;
+    color: rgb-a($color-02, 70%);
+    padding-right: 16px;
+  }
+
+  // *---------------------------------------------------------------------------
+  .clock-weather__block-clock {
     height: 200px;
     width: 500px;
+    border-right: 1px solid rgb-a($color-02, 50%);
     padding-right: 16px;
     margin-right: 16px;
 

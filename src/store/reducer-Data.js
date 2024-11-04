@@ -10,6 +10,7 @@ import {
   setThemeChengeWalpaper,
   setThemeWidgetClock,
   setThemeTransporantClock,
+  setThemeClock_AnalogDigital,
   setCityName,
   addCityListItem,
   deleteCityListItem,
@@ -63,6 +64,9 @@ const themeWidgetClock = createReducer('0', builder => {
 const themeTransporantClock = createReducer('100%', builder => {
   builder.addCase(setThemeTransporantClock, (state, action) => action.payload);
 });
+const themeClock_AnalogDigital = createReducer(true, builder => {
+  builder.addCase(setThemeClock_AnalogDigital, (state, action) => action.payload);
+});
 
 export default combineReducers({
   playerStation,
@@ -73,6 +77,7 @@ export default combineReducers({
   themeChengeWalpaper,
   themeWidgetClock,
   themeTransporantClock,
+  themeClock_AnalogDigital,
   city,
   cityList,
 });

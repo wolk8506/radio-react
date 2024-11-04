@@ -12,6 +12,8 @@ export const getThemeAutoChengeTheme = state => state.storeData.themeAutoChengeT
 export const getThemeChengeWalpaper = state => state.storeData.themeChengeWalpaper;
 export const getThemeWidgetClock = state => state.storeData.themeWidgetClock;
 export const getThemeTransporantClock = state => state.storeData.themeTransporantClock;
+export const getThemeClock_AnalogDigital = state => state.storeData.themeClock_AnalogDigital;
+// themeClock_AnalogDigital
 
 export const getCityName = state => state.storeData.city;
 export const getCityList = state => state.storeData.cityList;

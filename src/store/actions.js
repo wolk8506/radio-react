@@ -10,6 +10,7 @@ export const setThemeChengeWalpaper = createAction('data/themeChengeWalpaper');
 export const setCityName = createAction('data/city');
 export const setThemeWidgetClock = createAction('data/themeWidgetClock');
 export const setThemeTransporantClock = createAction('data/themeTransporantClock');
+export const setThemeClock_AnalogDigital = createAction('data/themeClock_AnalogDigital');
 //
 export const addCityListItem = createAction('data/addCityListItem', ({ city, favorite, home, icon, temperature }) => ({
   payload: { id: nanoid(5), city, favorite, home, icon, temperature },
