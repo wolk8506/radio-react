@@ -11,6 +11,7 @@ import {
   setThemeWidgetClock,
   setThemeTransporantClock,
   setThemeClock_AnalogDigital,
+  setThemeNewYear,
   setCityName,
   addCityListItem,
   deleteCityListItem,
@@ -67,6 +68,23 @@ const themeTransporantClock = createReducer('100%', builder => {
 const themeClock_AnalogDigital = createReducer(true, builder => {
   builder.addCase(setThemeClock_AnalogDigital, (state, action) => action.payload);
 });
+const themeNewYear = createReducer(
+  {
+    snow: false,
+    timer: false,
+    sugrob: false,
+    blueWhiteIgloo: false,
+    snowMan: false,
+    christmasTree: false,
+    pole: false,
+    santaSleigh: false,
+    year: false,
+    snake: false,
+  },
+  builder => {
+    builder.addCase(setThemeNewYear, (state, action) => action.payload);
+  }
+);
 
 export default combineReducers({
   playerStation,
@@ -78,6 +96,7 @@ export default combineReducers({
   themeWidgetClock,
   themeTransporantClock,
   themeClock_AnalogDigital,
+  themeNewYear,
   city,
   cityList,
 });

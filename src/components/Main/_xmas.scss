@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css?family=Mountains+of+Christmas');
+
+// ? -  -   -   -   S n o w     -   -   -   -   -   -   -   -   -   -   -   -   -
+// ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+
+// body,
+.xmasTree {
+  height: 98%;
+  width: 99%;
+  left: 0;
+  position: absolute;
+  //   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  overflow: hidden;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px white);
+  z-index: 10;
+}
+
+@function random_range($min, $max) {
+  $rand: random();
+  $random_range: $min + floor($rand * (($max - $min) + 1));
+  @return $random_range;
+}
+
+.snow {
+  $total: 200;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+
+  @for $i from 1 through $total {
+    $random-x: random(1000000) * 0.0001vw;
+    $random-offset: random_range(-100000, 100000) * 0.0001vw;
+    $random-x-end: $random-x + $random-offset;
+    $random-x-end-yoyo: $random-x + calc($random-offset / 2);
+    $random-yoyo-time: calc(random_range(30000, 80000) / 100000);
+    $random-yoyo-y: $random-yoyo-time * 100vh;
+    $random-scale: random(10000) * 0.0001;
+    $fall-duration: random_range(10, 30) * 1s;
+    $fall-delay: random(30) * -1s;
+
+    &:nth-child(#{$i}) {
+      opacity: random(10000) * 0.0001;
+      transform: translate($random-x, -10px) scale($random-scale);
+      animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
+    }
+
+    @keyframes fall-#{$i} {
+      #{percentage($random-yoyo-time)} {
+        transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
+      }
+
+      to {
+        transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
+      }
+    }
+  }
+}
+
+// ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+// ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+
+.app {
+  height: 100vh;
+}
+
+// font-family: 'Mountains of Christmas';
+
+.merry {
+  position: absolute;
+  bottom: 500px;
+  left: 600px;
+  color: #c84257;
+
+  font-weight: 700;
+  font-style: normal;
+  text-align: center;
+  grid-row: 1;
+  grid-column: 1/4;
+  align-self: center;
+  justify-self: center;
+  font-size: 2rem;
+
+  h1 {
+    font-family: 'Mountains of Christmas', serif;
+    border-bottom: 4px solid #c84257;
+    filter: drop-shadow(0 0 10px white);
+  }
+  .xmas-timer {
+    display: flex;
+
+    div {
+      font-family: 'Mountains of Christmas', serif;
+      font-size: 72px;
+    }
+    .xmas-timer__item {
+      width: 100px;
+      filter: drop-shadow(0 0 10px white);
+
+      img {
+        width: 100px;
+      }
+    }
+
+    .xmas-timer__item-1 {
+      position: absolute;
+      left: 10px;
+      top: 105px;
+    }
+    .xmas-timer__item-2 {
+      position: absolute;
+      left: 80px;
+      top: 215px;
+    }
+    .xmas-timer__item-3 {
+      position: absolute;
+      left: 150px;
+      top: 105px;
+    }
+    .xmas-timer__item-4 {
+      position: absolute;
+      left: 260px;
+      top: 175px;
+    }
+    .globe-1 {
+      width: 120px;
+      position: absolute;
+      left: 0px;
+      top: 77px;
+      filter: drop-shadow(0 0 10px white);
+    }
+    .globe-2 {
+      width: 120px;
+      position: absolute;
+      left: 70px;
+      top: 77px;
+      filter: drop-shadow(0 0 10px white);
+    }
+    .globe-3 {
+      width: 120px;
+      position: absolute;
+      left: 140px;
+      top: 77px;
+      filter: drop-shadow(0 0 10px white);
+    }
+    .globe-4 {
+      width: 120px;
+      position: absolute;
+      left: 250px;
+      top: 77px;
+      filter: drop-shadow(0 0 10px white);
+    }
+
+    .label {
+      font-size: 24px;
+      margin-top: -10px;
+    }
+  }
+}
+
+.snow-man {
+  position: absolute;
+  bottom: 0;
+  left: 770px;
+  z-index: 10;
+
+  img {
+    width: 200px;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.christmas-tree {
+  position: absolute;
+  bottom: 50px;
+  left: 100px;
+
+  img {
+    width: 500px;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.christmas-tree-2 {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+
+  img {
+    width: 350px;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.pole {
+  position: absolute;
+  bottom: 105px;
+  left: 615px;
+
+  img {
+    width: 50px;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.sugrob {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+
+  img {
+    width: 1000px;
+    display: block;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.blue-white-igloo {
+  position: absolute;
+  bottom: 80px;
+  left: 0px;
+  // z-index: 5;
+  transform: rotate(-5deg);
+
+  img {
+    width: 250px;
+    display: block;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.santa-sleigh {
+  position: absolute;
+  bottom: 55px;
+  left: 430px;
+
+  img {
+    width: 200px;
+    display: block;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.year-2025 {
+  position: absolute;
+  bottom: 75px;
+  left: 630px;
+  z-index: 1;
+  transform: rotate(10deg);
+
+  img {
+    width: 200px;
+    display: block;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+
+.snake {
+  position: absolute;
+  bottom: 15px;
+  left: 90px;
+  z-index: 1;
+
+  img {
+    width: 170px;
+    display: block;
+    filter: drop-shadow(0 0 10px white);
+  }
+}
+// ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+// ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -

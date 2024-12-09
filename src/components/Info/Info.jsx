@@ -6,10 +6,11 @@ import { ThemeChangeAuto } from './ThemeChangeAuto';
 import { ThemeChangeBackground } from './ThemeChangeBackground';
 // import { ThemeClock } from './ThemeClock';
 import { ThemeRadius } from './ThemeRadius';
+import { ThemeNewYear } from './ThemeNewYear';
 
 export const Info = () => {
-  const { REACT_APP_TEST } = process.env;
-  console.log(REACT_APP_TEST);
+  // const { REACT_APP_TEST } = process.env;
+  // console.log(REACT_APP_TEST);
 
   return (
     <section>
@@ -21,9 +22,9 @@ export const Info = () => {
           <ThemeChange></ThemeChange>
           <ThemeChangeAuto></ThemeChangeAuto>
         </div>
-        {/* <div className="settings">
-          <ThemeClock></ThemeClock>
-        </div> */}
+        <div className="settings">
+          <ThemeNewYear></ThemeNewYear>
+        </div>
         <div className="settings">
           <ThemeRadius></ThemeRadius>
         </div>
