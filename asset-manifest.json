@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.392ca2bf.css",
-    "main.js": "/radio-react/static/js/main.7e1e017c.js",
+    "main.css": "/radio-react/static/css/main.9a7e3970.css",
+    "main.js": "/radio-react/static/js/main.b0745a07.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -92,11 +92,11 @@
     "static/media/maximum.webp": "/radio-react/static/media/maximum.c40b66457e94d27fc6f4.webp",
     "index.html": "/radio-react/index.html",
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
-    "main.392ca2bf.css.map": "/radio-react/static/css/main.392ca2bf.css.map",
-    "main.7e1e017c.js.map": "/radio-react/static/js/main.7e1e017c.js.map"
+    "main.9a7e3970.css.map": "/radio-react/static/css/main.9a7e3970.css.map",
+    "main.b0745a07.js.map": "/radio-react/static/js/main.b0745a07.js.map"
   },
   "entrypoints": [
-    "static/css/main.392ca2bf.css",
-    "static/js/main.7e1e017c.js"
+    "static/css/main.9a7e3970.css",
+    "static/js/main.b0745a07.js"
   ]
 }
