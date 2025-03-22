@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.9a7e3970.css",
-    "main.js": "/radio-react/static/js/main.b0745a07.js",
+    "main.css": "/radio-react/static/css/main.5d82bd2a.css",
+    "main.js": "/radio-react/static/js/main.e071988a.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -82,21 +82,43 @@
     "static/media/img_11_128.webp": "/radio-react/static/media/img_11_128.5cef9e17a8ffe0ea8edd.webp",
     "static/media/img_14_128.webp": "/radio-react/static/media/img_14_128.9b06de8bd23f9cff2faa.webp",
     "static/media/img_16_128.webp": "/radio-react/static/media/img_16_128.238d2147b64bca06d356.webp",
+    "static/media/snow-showers-night.svg": "/radio-react/static/media/snow-showers-night.f9af41d615983b86a91e16ad8d1389da.svg",
+    "static/media/snow-showers-day.svg": "/radio-react/static/media/snow-showers-day.4b481263984dc78c37aa7940db18e8b7.svg",
+    "static/media/snow.svg": "/radio-react/static/media/snow.5cd9d2df6b8a615bb430c05355cb04b8.svg",
     "static/media/makradiorusrock.webp": "/radio-react/static/media/makradiorusrock.77b8a7aadba12d97692d.webp",
     "static/media/kissfm.webp": "/radio-react/static/media/kissfm.04246f58b237fb7013e2.webp",
     "static/media/kissfmdeep.webp": "/radio-react/static/media/kissfmdeep.097eeac71497c278bd23.webp",
     "static/media/europaplus.webp": "/radio-react/static/media/europaplus.7a49fc4d8106b2313c1a.webp",
+    "static/media/rain-snow-showers-day.svg": "/radio-react/static/media/rain-snow-showers-day.bbae52cb3b31c779f05977f43b6e6aa1.svg",
     "static/media/radio7.webp": "/radio-react/static/media/radio7.50ec950df846c4f4f028.webp",
+    "static/media/rain-snow-showers-night.svg": "/radio-react/static/media/rain-snow-showers-night.682a1a4545acc2608da48faa1d0220b2.svg",
     "static/media/rockradio.webp": "/radio-react/static/media/rockradio.4cfae32a75b81a9da223.webp",
+    "static/media/thunder-showers-day.svg": "/radio-react/static/media/thunder-showers-day.03133e2a54cdc1e8cf84c41579d35ddf.svg",
+    "static/media/rain-snow.svg": "/radio-react/static/media/rain-snow.0007ef369b7c54d6283d4820b19beae4.svg",
+    "static/media/thunder-showers-night.svg": "/radio-react/static/media/thunder-showers-night.519367db791426b4585c45e006dc9f75.svg",
+    "static/media/showers-day.svg": "/radio-react/static/media/showers-day.99f737e43d74ac67225ab818870d99ad.svg",
     "static/media/dfm.webp": "/radio-react/static/media/dfm.40020459ba735640ac58.webp",
+    "static/media/sleet.svg": "/radio-react/static/media/sleet.6d8e4c6395f0482e8470646b382d8647.svg",
+    "static/media/thunder-rain.svg": "/radio-react/static/media/thunder-rain.2e9ae693dee5fdda6831cb94d16f0608.svg",
+    "static/media/partly-cloudy-day.svg": "/radio-react/static/media/partly-cloudy-day.749d1251900ec2449417380c191c267c.svg",
+    "static/media/showers-night.svg": "/radio-react/static/media/showers-night.391e6dd7e7c4056b3e0721bf8904234b.svg",
     "static/media/maximum.webp": "/radio-react/static/media/maximum.c40b66457e94d27fc6f4.webp",
+    "static/media/thunder.svg": "/radio-react/static/media/thunder.1f9fd4d2ee82c4c1e58c4c6a9895bd9c.svg",
+    "static/media/rain.svg": "/radio-react/static/media/rain.848651d20f3f58949d2634a65e330f1f.svg",
+    "static/media/partly-cloudy-night.svg": "/radio-react/static/media/partly-cloudy-night.173fae26cc0bdb5b2eed109b5d3f56ae.svg",
+    "static/media/hail.svg": "/radio-react/static/media/hail.136b4e1335cc8985fdff3b768896dfa4.svg",
+    "static/media/fog.svg": "/radio-react/static/media/fog.8ed0ad8b2298512aef461b28d0877af2.svg",
+    "static/media/wind.svg": "/radio-react/static/media/wind.5195e076b638f307f8947496c7043d5d.svg",
+    "static/media/cloudy.svg": "/radio-react/static/media/cloudy.9f58273146466ca7034fbb64aae16c2e.svg",
     "index.html": "/radio-react/index.html",
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
-    "main.9a7e3970.css.map": "/radio-react/static/css/main.9a7e3970.css.map",
-    "main.b0745a07.js.map": "/radio-react/static/js/main.b0745a07.js.map"
+    "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
+    "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
+    "main.5d82bd2a.css.map": "/radio-react/static/css/main.5d82bd2a.css.map",
+    "main.e071988a.js.map": "/radio-react/static/js/main.e071988a.js.map"
   },
   "entrypoints": [
-    "static/css/main.9a7e3970.css",
-    "static/js/main.b0745a07.js"
+    "static/css/main.5d82bd2a.css",
+    "static/js/main.e071988a.js"
   ]
 }
