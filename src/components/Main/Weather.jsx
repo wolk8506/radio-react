@@ -51,7 +51,7 @@ export const Weather = () => {
     setImage(weatherImage(data.days[0].hours[hour].icon, themeImageWeather)); //Иконка погодных условий
     setImageAlt(data.days[0].hours[hour].icon);
     // console.log(data.days[0].hours[hour].icon);
-  }, [data]);
+  }, [data, themeImageWeather]);
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
