@@ -9,6 +9,7 @@ import {
   setThemeAutoChengeTheme,
   setThemeChengeWalpaper,
   setThemeWidgetClock,
+  setThemeIconWeather,
   setThemeTransporantClock,
   setThemeClock_AnalogDigital,
   setThemeNewYear,
@@ -62,6 +63,9 @@ const cityList = createReducer([], builder => {
 const themeWidgetClock = createReducer('0', builder => {
   builder.addCase(setThemeWidgetClock, (state, action) => action.payload);
 });
+const themeIconWeather = createReducer('0', builder => {
+  builder.addCase(setThemeIconWeather, (state, action) => action.payload);
+});
 const themeTransporantClock = createReducer('100%', builder => {
   builder.addCase(setThemeTransporantClock, (state, action) => action.payload);
 });
@@ -94,6 +98,7 @@ export default combineReducers({
   themeAutoChengeTheme,
   themeChengeWalpaper,
   themeWidgetClock,
+  themeIconWeather,
   themeTransporantClock,
   themeClock_AnalogDigital,
   themeNewYear,

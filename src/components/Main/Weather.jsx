@@ -7,26 +7,31 @@ import { Humidity } from './Humidity';
 import { Clouds } from './Clouds';
 import { WindGust } from './WindGust';
 
-import { getWeatherToday_Data } from 'store/selectors';
+import { getThemeIconWeather, getWeatherToday_Data } from 'store/selectors';
 import { fetchWeatherToday } from 'store/operation';
 import { fetchLocation } from 'store/operation';
 import { getCityName } from 'store/selectors';
+
+import weatherImage from 'components/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const Weather = () => {
+  const themeImageWeather = useSelector(getThemeIconWeather);
+
   const CITY = useSelector(getCityName);
   const data = useSelector(getWeatherToday_Data);
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
-  const urlImage = 'https://www.visualcrossing.com/img/';
+  // const urlImage = 'https://www.visualcrossing.com/img/';
 
-  const [image, setImage] = useState(`${urlImage}clear-day.svg`);
+  const [image, setImage] = useState(weatherImage('clear-day', themeImageWeather));
+  const [imageAlt, setImageAlt] = useState(weatherImage('clear-day', themeImageWeather));
   const [temperature, setTemperature] = useState(0);
-  const [image2, setImage2] = useState(`${urlImage}clear-day.svg`);
+  const [image2, setImage2] = useState(weatherImage('clear-day', themeImageWeather));
   const [temperature2, setTemperature2] = useState(0);
   const [changeTemperature, setChangeTemperature] = useState(true);
   const [changeImage, setChangeImage] = useState(true);
@@ -42,8 +47,12 @@ export const Weather = () => {
     const hour = moment().format('H');
 
     setTemperature(data.days[0].hours[hour].temp.toFixed(0)); //Текущая температура в градусах цельсия
-    setImage(`${urlImage}${data.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
+    // setImage(`${urlImage}${data.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
+    setImage(weatherImage(data.days[0].hours[hour].icon, themeImageWeather)); //Иконка погодных условий
+    setImageAlt(data.days[0].hours[hour].icon);
+    // console.log(data.days[0].hours[hour].icon);
   }, [data]);
+
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
   useEffect(() => {
@@ -86,24 +95,24 @@ export const Weather = () => {
             <div className="gear"></div>
             <div className="top">
               <div className="text">
-                <img className="img" src={image} alt="hh" width={172} />
+                <img className="img" src={image} alt={imageAlt} width={172} />
               </div>
             </div>
             {changeImage && (
               <div className="top_new">
                 <div className="text_top_new">
-                  <img className="img" src={image2} alt="hh" width={172} />
+                  <img className="img" src={image2} alt={imageAlt} width={172} />
                 </div>
                 <div className="bottom_new">
                   <div className="text_bottom">
-                    <img className="img_bottom" src={image} alt="hh" width={172} />
+                    <img className="img_bottom" src={image} alt={imageAlt} width={172} />
                   </div>
                 </div>
               </div>
             )}
             <div className="bottom">
               <div className="text_bottom">
-                <img className="img_bottom" src={image2} alt="hh" width={172} />
+                <img className="img_bottom" src={image2} alt={imageAlt} width={172} />
               </div>
             </div>
           </div>

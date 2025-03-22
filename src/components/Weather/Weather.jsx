@@ -11,6 +11,7 @@ import {
   getWeatherDayCity2_Data,
   getCityList,
   getWeatherDayCity3_Data,
+  getThemeIconWeather,
 } from 'store/selectors';
 import {
   fetchWeatherYesterday,
@@ -47,12 +48,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import useDebounce from '../../hooks/use-Debounce';
 
+import weatherImage from 'components/weatherIcon';
+
 import moment from 'moment';
 import 'moment/locale/ru';
-
 moment.locale('ru');
 
 export const Weather = () => {
+  const themeImageWeather = useSelector(getThemeIconWeather);
   const dispatch = useDispatch();
   const data_today = useSelector(getWeatherToday_Data);
   const city_data = useSelector(getCityName);
@@ -62,7 +65,7 @@ export const Weather = () => {
   const data_today_city2 = useSelector(getWeatherDayCity2_Data);
   const data_today_city3 = useSelector(getWeatherDayCity3_Data);
 
-  const urlImage = 'https://www.visualcrossing.com/img/';
+  // const urlImage = 'https://www.visualcrossing.com/img/';
 
   const BASE_URL = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 
@@ -101,7 +104,8 @@ export const Weather = () => {
         city: cityList[0]?.city,
         favorite: cityList[0]?.favorite,
         home: cityList[0]?.home,
-        icon: `${urlImage}${data_today_city1.days[0].icon}.svg`,
+        icon: weatherImage(data_today_city1.days[0].icon, themeImageWeather),
+
         temperature: data_today_city1.days[0].tempmax.toFixed(0),
       };
       arr.push(a);
@@ -112,7 +116,7 @@ export const Weather = () => {
         city: cityList[1]?.city,
         favorite: cityList[1]?.favorite,
         home: cityList[1]?.home,
-        icon: `${urlImage}${data_today_city2.days[0].icon}.svg`,
+        icon: weatherImage(data_today_city2.days[0].icon, themeImageWeather),
         temperature: data_today_city2.days[0].tempmax.toFixed(0),
       };
       arr.push(a);
@@ -123,13 +127,13 @@ export const Weather = () => {
         city: cityList[2]?.city,
         favorite: cityList[2]?.favorite,
         home: cityList[2]?.home,
-        icon: `${urlImage}${data_today_city3.days[0].icon}.svg`,
+        icon: weatherImage(data_today_city3.days[0].icon, themeImageWeather),
         temperature: data_today_city3.days[0].tempmax.toFixed(0),
       };
       arr.push(a);
     }
     setcityListUpdate(arr);
-  }, [cityList, data_today_city1.days, data_today_city2.days, data_today_city3.days]);
+  }, [cityList, data_today_city1.days, data_today_city2.days, data_today_city3.days, themeImageWeather]);
 
   useEffect(() => {
     setcityListUpdate(cityList);
@@ -302,7 +306,7 @@ export const Weather = () => {
           city: data_today.address,
           favorite: true,
           home: false,
-          icon: `${urlImage}${data_today.days[0].icon}.svg`,
+          icon: weatherImage(data_today.days[0].icon, themeImageWeather),
           temperature: data_today.days[0].tempmax.toFixed(0),
         })
       );

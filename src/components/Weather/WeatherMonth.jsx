@@ -3,17 +3,20 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import sprite from '../../images/sprite.svg';
+import weatherImage from 'components/weatherIcon';
 
-import { getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/selectors';
+import { getThemeIconWeather, getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/selectors';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherMonth = () => {
+  const themeImageWeather = useSelector(getThemeIconWeather);
+  // const [imageAlt, setImageAlt] = useState(clearDay);
   const data_month = useSelector(getWeatherMonth_Data);
   const timeUpdate = useSelector(getWeatherMonth_TimeUpdate);
-  const urlImage = 'https://www.visualcrossing.com/img/';
+  // const urlImage = 'https://www.visualcrossing.com/img/';
   const iconSVG = sprite;
   const [dataDays, setDataDays] = useState([]);
   const [datetime, setDatetime] = useState('--:--');
@@ -60,7 +63,7 @@ export const WeatherMonth = () => {
                 >
                   <p className="block__title">{moment(i.datetime).format('DD MMMM')}</p>
                   <div className="block__description">
-                    <img src={`${urlImage}${i.icon}.svg`} alt="icon" width={48} />
+                    <img src={weatherImage(i.icon, themeImageWeather)} alt={i.icon} width={48} />
                     <div className="description__text">
                       <p>{i.tempmax}°</p>
                       <p>{i.tempmin}°</p>

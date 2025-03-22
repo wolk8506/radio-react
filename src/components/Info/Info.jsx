@@ -7,6 +7,7 @@ import { ThemeChangeBackground } from './ThemeChangeBackground';
 // import { ThemeClock } from './ThemeClock';
 import { ThemeRadius } from './ThemeRadius';
 import { ThemeNewYear } from './ThemeNewYear';
+import { ThemeWeather } from './ThemeWeather';
 
 export const Info = () => {
   // const { REACT_APP_TEST } = process.env;
@@ -27,6 +28,9 @@ export const Info = () => {
         </div>
         <div className="settings">
           <ThemeRadius></ThemeRadius>
+        </div>
+        <div className="settings">
+          <ThemeWeather></ThemeWeather>
         </div>
       </div>
 

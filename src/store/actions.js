@@ -9,6 +9,7 @@ export const setThemeAutoChengeTheme = createAction('data/themeAutoChengeTheme')
 export const setThemeChengeWalpaper = createAction('data/themeChengeWalpaper');
 export const setCityName = createAction('data/city');
 export const setThemeWidgetClock = createAction('data/themeWidgetClock');
+export const setThemeIconWeather = createAction('data/themeIconWeather');
 export const setThemeTransporantClock = createAction('data/themeTransporantClock');
 export const setThemeClock_AnalogDigital = createAction('data/themeClock_AnalogDigital');
 export const setThemeNewYear = createAction('data/themeNewYear');

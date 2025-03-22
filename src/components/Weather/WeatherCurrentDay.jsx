@@ -2,19 +2,23 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data, getWeatherToday_TimeUpdate } from 'store/selectors';
+import { getThemeIconWeather, getWeatherToday_Data, getWeatherToday_TimeUpdate } from 'store/selectors';
 
 import sprite from '../../images/sprite.svg';
+
+import weatherImage from 'components/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherCurrentDay = () => {
+  const themeImageWeather = useSelector(getThemeIconWeather);
+  // console.log('themeImageWeather:', themeImageWeather);
   const data_today = useSelector(getWeatherToday_Data);
   const timeUpdate = useSelector(getWeatherToday_TimeUpdate);
 
-  const urlImage = 'https://www.visualcrossing.com/img/';
+  // const urlImage = 'https://www.visualcrossing.com/img/';
   const iconSVG = sprite;
 
   const [temperature, setTemperature] = useState('--');
@@ -35,7 +39,8 @@ export const WeatherCurrentDay = () => {
     const hour = moment().format('H');
 
     setTemperature(data_today.days[0].hours[hour].temp.toFixed(0)); //Текущая температура в градусах цельсия
-    setIcon(`${urlImage}${data_today.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
+    // setIcon(weatherIcon[data_today.days[0].hours[hour].icon][themeImageWeather]); //Иконка погодных условий
+    setIcon(weatherImage(data_today.days[0].hours[hour].icon, themeImageWeather)); //Иконка погодных условий
     setUv(data_today.days[0].hours[hour].uvindex); // Ультрофиолет
     setPressure_mb((data_today.days[0].hours[hour].pressure * 0.75).toFixed(0)); //Давление мм рт сб
     setVis_km(data_today.days[0].hours[hour].visibility); // Видимость километров
@@ -48,7 +53,7 @@ export const WeatherCurrentDay = () => {
 
     setConditionText(data_today.days[0].hours[hour].conditions); //Погодные условия, описание
     setDescription(data_today.description);
-  }, [data_today]);
+  }, [data_today, themeImageWeather]);
 
   // !!!!!! Стили
 

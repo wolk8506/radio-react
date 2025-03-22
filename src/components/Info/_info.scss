@@ -26,6 +26,10 @@
   .settings:nth-child(2) {
     margin-right: 16px;
   }
+
+  .settings:nth-child(3) {
+    margin-right: 16px;
+  }
 }
 
 .settings {
@@ -328,6 +332,10 @@
     }
 
     .settings:nth-child(2) {
+      margin-right: 0px;
+    }
+
+    .settings:nth-child(3) {
       margin-right: 0px;
     }
   }
