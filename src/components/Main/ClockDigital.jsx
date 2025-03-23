@@ -2,16 +2,19 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getWeatherToday_Data, getThemeClock_AnalogDigital } from 'store/selectors';
+import { getWeatherToday_Data, getThemeClock_AnalogDigital, getThemeIconWeather } from 'store/selectors';
 import { fetchWeatherToday } from 'store/operation';
 import { fetchLocation } from 'store/operation';
 import { getCityName } from 'store/selectors';
+
+import weatherImage from 'components/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const ClockDigital = () => {
+  const themeImageWeather = useSelector(getThemeIconWeather);
   const clock_AnalogDigital = useSelector(getThemeClock_AnalogDigital);
   const [hh, setHh] = useState('00');
   const [mm, setMm] = useState('00');
@@ -61,9 +64,9 @@ export const ClockDigital = () => {
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
-  const urlImage = 'https://www.visualcrossing.com/img/';
+  // const urlImage = 'https://www.visualcrossing.com/img/';
 
-  const [image, setImage] = useState(`${urlImage}clear-day.svg`);
+  const [image, setImage] = useState(weatherImage('clear-day', themeImageWeather));
   const [temperature, setTemperature] = useState(0);
   const [conditionText, setConditionText] = useState('--');
   const [description, setDescription] = useState('-');
@@ -79,10 +82,10 @@ export const ClockDigital = () => {
     const hour = moment().format('H');
 
     setTemperature(data.days[0].hours[hour].temp.toFixed(0)); //Текущая температура в градусах цельсия
-    setImage(`${urlImage}${data.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
+    setImage(weatherImage(data.days[0].hours[hour].icon, themeImageWeather)); //Иконка погодных условий
     setConditionText(data.days[0].hours[hour].conditions); //Погодные условия, описание
     setDescription(data.description);
-  }, [data]);
+  }, [data, themeImageWeather]);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
   useEffect(() => {

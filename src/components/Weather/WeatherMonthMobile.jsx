@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherMonth_Data } from 'store/selectors';
+import { getThemeIconWeather, getWeatherMonth_Data } from 'store/selectors';
 
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import Modal from '@mui/joy/Modal';
@@ -11,13 +11,16 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 
+import weatherImage from 'components/weatherIcon';
+
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherMonthMobile = () => {
+  const themeImageWeather = useSelector(getThemeIconWeather);
   const data_month = useSelector(getWeatherMonth_Data);
-  const urlImage = 'https://www.visualcrossing.com/img/';
+  // const urlImage = 'https://www.visualcrossing.com/img/';
   const [data, setData] = useState(false);
   const [dataMonth, setDataMonth] = useState(false);
 
@@ -33,12 +36,12 @@ export const WeatherMonthMobile = () => {
           tempmin: i.tempmin,
           datetime: moment(i.datetime).format('DD'),
           day: moment(i.datetime).format('dd'),
-          icon: `${urlImage}${i.icon}.svg`,
+          icon: weatherImage(i.icon, themeImageWeather),
           precip: i.precip,
         })
     );
     setData(arr);
-  }, [data_month.days]);
+  }, [data_month.days, themeImageWeather]);
 
   useEffect(() => {
     const date = moment().format('YYYY-MM-DD');
@@ -50,13 +53,13 @@ export const WeatherMonthMobile = () => {
         tempmin: i.tempmin.toFixed(0),
         datetime: moment(i.datetime).format('DD'),
         day: moment(i.datetime).format('dd'),
-        icon: `${urlImage}${i.icon}.svg`,
+        icon: weatherImage(i.icon, themeImageWeather),
         activ: date === i.datetime ? 'activ' : 'no-activ',
       })
     );
     arr.shift();
     setDataMonth(arr);
-  }, [data_month.days]);
+  }, [data_month.days, themeImageWeather]);
 
   const [layout, setLayout] = React.useState(undefined);
   return (
