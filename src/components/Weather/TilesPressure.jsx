@@ -31,8 +31,9 @@ export const TilesPressure = () => {
     const arr_3 = [];
 
     // arr_1  day-1
-    arr_1.push(data_yesterday.days[0].hours[22].pressure);
-    arr_1.push(data_yesterday.days[0].hours[23].pressure);
+    const numberOfHoursInAday = data_yesterday.days[0].hours.length;
+    arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 3].pressure);
+    arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 2].pressure);
 
     // arr_2  day+0
     arr_1.push(...data_today.days[0].hours.map(i => i.pressure));

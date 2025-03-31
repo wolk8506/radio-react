@@ -29,8 +29,9 @@ export const TilesTemperatura = () => {
     const arr_3 = [];
 
     // arr_1  day-1
-    arr_1.push(data_yesterday.days[0].hours[22].temp);
-    arr_1.push(data_yesterday.days[0].hours[23].temp);
+    const numberOfHoursInAday = data_yesterday.days[0].hours.length;
+    arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 3].temp);
+    arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 2].temp);
 
     // arr_2  day+0
     arr_1.push(...data_today.days[0].hours.map(i => i.temp));

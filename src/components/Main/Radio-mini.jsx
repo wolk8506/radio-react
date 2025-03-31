@@ -20,11 +20,16 @@ export const RadioMini = ({ onAudio, open }) => {
   const radioStation = [
     'https://listen.181fm.com/181-rock_128k.mp3',
     'https://getradio.me/spdeep',
+    'https://stream05.pcradio.ru/sp_deep-hi', //https://pcradio.ru/radio/soundpark-deep
+    'https://stream.pcradio.ru/sp_deep-med', //https://pcradio.ru/radio/soundpark-deep
+    'https://stream05.pcradio.ru/sp_deep-low', //https://pcradio.ru/radio/soundpark-deep
     'https://pub0202.101.ru:8443/stream/air/aac/64/99',
-    'https://link.smmbox.ru/http://online.kissfm.ua/KissFM_HD',
+    // 'https://link.smmbox.ru/http://online.kissfm.ua/KissFM_HD',
     'https://ep256.hostingradio.ru:8052/europaplus256.mp3',
     'https://radio7.hostingradio.ru:8040/radio7256.mp3',
-    'https://stream05.pcradio.ru/radio7_ru-med',
+    'https://stream05.pcradio.ru/radio7_ru-hi', //https://pcradio.ru/radio/radio-7-0
+    'https://stream05.pcradio.ru/radio7_ru-med', //https://pcradio.ru/radio/radio-7-0
+    'https://stream.pcradio.ru/radio7_ru-low', //https://pcradio.ru/radio/radio-7-0
     'https://rock.amgradio.ru/RusRock?r_bells',
     'https://radiorecord.hostingradio.ru/rock96.aacp',
     'https://cast2.my-control-panel.com/proxy/vladas/stream',
@@ -35,11 +40,16 @@ export const RadioMini = ({ onAudio, open }) => {
   const radioStationName = [
     'Rock 181',
     'SOUNDPARK DEEP',
+    'SOUNDPARK DEEP (hi)',
+    'SOUNDPARK DEEP (med)',
+    'SOUNDPARK DEEP (low)',
     'Радио Energy',
-    'KissFM_HD',
+    // 'KissFM_HD',
     'Europa Plus',
     'Радио 7',
-    'Радио 7 (2)',
+    'Радио 7 (hi)',
+    'Радио 7 (med)',
+    'Радио 7 (low)',
     'Русский Рок',
     'Record Rock',
     'Rock Radio',

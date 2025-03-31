@@ -115,8 +115,8 @@ export const CurrencyNBU = () => {
     if (data.length !== 0) {
       dataTable[n].push(data.find(el => el.cc === 'USD').rate);
       dataTable[n].push(data.find(el => el.cc === 'EUR').rate);
-      dataTable[n].push(data.find(el => el.cc === 'RUB').rate);
-      dataTable[n].push(data.find(el => el.cc === 'BYN').rate);
+      // dataTable[n].push(data.find(el => el.cc === 'RUB').rate);
+      // dataTable[n].push(data.find(el => el.cc === 'BYN').rate);
       dataTable[n].push(data.find(el => el.cc === 'PLN').rate);
 
       dataTable[n].push(data.find(el => el.cc === 'XAU').rate);
@@ -142,14 +142,14 @@ export const CurrencyNBU = () => {
   const rows = [
     createData('Доллар США', dataTable[0][0], dataTable[1][0], dataTable[2][0]),
     createData('Евро', dataTable[0][1], dataTable[1][1], dataTable[2][1]),
-    createData('Российский рубль', dataTable[0][2], dataTable[1][2], dataTable[2][2]),
-    createData('Белорусский рубль', dataTable[0][3], dataTable[1][3], dataTable[2][3]),
-    createData('Злотый', dataTable[0][4], dataTable[1][4], dataTable[2][4]),
+    // createData('Российский рубль', dataTable[0][2], dataTable[1][2], dataTable[2][2]),
+    // createData('Белорусский рубль', dataTable[0][3], dataTable[1][3], dataTable[2][3]),
+    createData('Злотый', dataTable[0][2], dataTable[1][2], dataTable[2][2]),
 
-    createData('Золото', dataTable[0][5], dataTable[1][5], dataTable[2][5]),
-    createData('Серебро', dataTable[0][6], dataTable[1][6], dataTable[2][6]),
-    createData('Платина', dataTable[0][7], dataTable[1][7], dataTable[2][7]),
-    createData('Палладий', dataTable[0][8], dataTable[1][8], dataTable[2][8]),
+    createData('Золото', dataTable[0][3], dataTable[1][3], dataTable[2][3]),
+    createData('Серебро', dataTable[0][4], dataTable[1][4], dataTable[2][4]),
+    createData('Платина', dataTable[0][5], dataTable[1][5], dataTable[2][5]),
+    createData('Палладий', dataTable[0][6], dataTable[1][6], dataTable[2][6]),
   ];
 
   return (
