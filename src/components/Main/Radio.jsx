@@ -36,6 +36,7 @@ export const Radio = ({ onAudio }) => {
     img_kiss_fm,
     img_europa_plus,
     img_radio_7,
+    img_radio_7,
     img_makradiorusrock,
     img_recordrock,
     img_rockradio,
@@ -58,6 +59,7 @@ export const Radio = ({ onAudio }) => {
     'https://link.smmbox.ru/http://online.kissfm.ua/KissFM_HD',
     'https://ep256.hostingradio.ru:8052/europaplus256.mp3',
     'https://radio7.hostingradio.ru:8040/radio7256.mp3',
+    'https://stream05.pcradio.ru/radio7_ru-med',
     'https://rock.amgradio.ru/RusRock?r_bells',
     'https://radiorecord.hostingradio.ru/rock96.aacp',
     'https://cast2.my-control-panel.com/proxy/vladas/stream',
@@ -197,7 +199,7 @@ export const Radio = ({ onAudio }) => {
                 image={logo[6]}
                 alt="Live from space album cover"
               />
-              Русский Рок
+              Радио 7 (2)
             </MenuItem>
             <MenuItem value={7}>
               <CardMedia
@@ -206,7 +208,7 @@ export const Radio = ({ onAudio }) => {
                 image={logo[7]}
                 alt="Live from space album cover"
               />
-              Record Rock
+              Русский Рок
             </MenuItem>
             <MenuItem value={8}>
               <CardMedia
@@ -215,7 +217,7 @@ export const Radio = ({ onAudio }) => {
                 image={logo[8]}
                 alt="Live from space album cover"
               />
-              Rock Radio
+              Record Rock
             </MenuItem>
             <MenuItem value={9}>
               <CardMedia
@@ -224,13 +226,22 @@ export const Radio = ({ onAudio }) => {
                 image={logo[9]}
                 alt="Live from space album cover"
               />
-              Радио Максимум
+              Rock Radio
             </MenuItem>
             <MenuItem value={10}>
               <CardMedia
                 component="img"
                 sx={{ width: 36, marginRight: '8px' }}
                 image={logo[10]}
+                alt="Live from space album cover"
+              />
+              Радио Максимум
+            </MenuItem>
+            <MenuItem value={11}>
+              <CardMedia
+                component="img"
+                sx={{ width: 36, marginRight: '8px' }}
+                image={logo[11]}
                 alt="Live from space album cover"
               />
               DFM
