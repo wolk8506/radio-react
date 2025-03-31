@@ -16,7 +16,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 
 import img_181_fm from '../../images/station/img-181.fm.jpg';
-import img_kiss_fm from '../../images/station/kissfm.webp';
+// import img_kiss_fm from '../../images/station/kissfm.webp';
 import img_nrg_radio from '../../images/station/img-nrg-radio.jpg';
 import img_soundpark_deep from '../../images/station/img-soundpark-deep.jpg';
 import img_europa_plus from '../../images/station/europaplus.webp';
