@@ -7,6 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_meat } from '../data/data_meat';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import s from './meats.module.css';
 
 const style = {
@@ -26,7 +28,12 @@ export const Meats = () => {
   return (
     <>
       <div className="container  container-recipes">
-        <h1>Мясные блюда</h1>
+        <h1>
+          <Link className="link" to="/recipes">
+            <ArrowBackIcon />
+          </Link>
+          Мясные блюда
+        </h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuCakes}

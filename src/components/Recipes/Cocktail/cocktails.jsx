@@ -8,6 +8,7 @@ import s from './cocktail.module.css';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const style = {
   width: '100%',
@@ -26,7 +27,12 @@ export const Coctails = () => {
   return (
     <>
       <div className="container container-recipes">
-        <h1>Коктейли</h1>
+        <h1>
+          <Link className="link" to="/recipes">
+            <ArrowBackIcon />
+          </Link>
+          Коктейли
+        </h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuCoctails}

@@ -7,6 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_sousy } from '../data/data_sousy';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import s from '../group.module.css';
 
 const style = {
@@ -26,7 +28,12 @@ export const Sousys = () => {
   return (
     <>
       <div className="container container-recipes">
-        <h1>Соусы</h1>
+        <h1>
+          <Link className="link" to="/recipes">
+            <ArrowBackIcon />
+          </Link>
+          Соусы
+        </h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuItem}

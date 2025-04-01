@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_salad } from '../data/data_salad';
 
-import s from '../group.module.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const style = {
   width: '100%',
@@ -17,7 +17,7 @@ const style = {
 
 export const Salads = () => {
   const menuItem = data_salad.map(i => (
-    <Link className={s.menuItem} key={i.id} to={`/salad/${i.id}`}>
+    <Link className="menu-item" key={i.id} to={`/salad/${i.id}`}>
       <ListItem button>
         <ListItemText primary={i.name} />
       </ListItem>
@@ -26,7 +26,12 @@ export const Salads = () => {
   return (
     <>
       <div className="container container-recipes">
-        <h1>Салаты</h1>
+        <h1>
+          <Link className="link" to="/recipes">
+            <ArrowBackIcon />
+          </Link>
+          Салаты
+        </h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuItem}

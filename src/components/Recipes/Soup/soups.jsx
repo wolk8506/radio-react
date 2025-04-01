@@ -7,6 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_soup } from '../data/data_soup';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import s from './soups.module.css';
 
 const style = {
@@ -26,7 +28,12 @@ export const Soups = () => {
   return (
     <>
       <div className="container container-recipes">
-        <h1>Первые блюда</h1>
+        <h1>
+          <Link className="link" to="/recipes">
+            <ArrowBackIcon />
+          </Link>
+          Первые блюда
+        </h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuSoup}

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { data_coctail } from '../data/data_coctail';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import s from './cocktail.module.css';
+// import s from './cocktail.module.css';
 
 export const Coctail = () => {
   const location = useLocation();
@@ -18,16 +18,16 @@ export const Coctail = () => {
         </Link>
         <h2>{item.name}</h2>
 
-        <img className={s.images} src={item.img} alt={item.name} width={250} />
+        <img className="images" src={item.img} alt={item.name} width={250} />
         {item.ingredients && <h3>ИНГРЕДИЕНТЫ</h3>}
         <ul>
           {item.ingredients &&
             item.ingredients.map(i => (
               <li key={i.i_name}>
-                <p className={s.item}>
-                  <span className={s.i_name}>{i.i_name}</span>
-                  <span className={s.bracketLine}></span>
-                  <span className={s.i_weight}>{i.i_weight}</span>
+                <p className="item">
+                  <span className="i-name">{i.i_name}</span>
+                  <span className="bracket-line"></span>
+                  <span className="i-weight">{i.i_weight}</span>
                 </p>
               </li>
             ))}

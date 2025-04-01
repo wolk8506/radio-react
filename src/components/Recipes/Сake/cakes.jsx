@@ -7,6 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_cake } from '../data/data_cake';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import s from './cakes.module.css';
 
 const style = {
@@ -26,7 +28,12 @@ export const Cakes = () => {
   return (
     <>
       <div className="container container-recipes">
-        <h1>Кексы/торты</h1>
+        <h1>
+          <Link className="link" to="/recipes">
+            <ArrowBackIcon />
+          </Link>
+          Кексы/торты
+        </h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuCakes}

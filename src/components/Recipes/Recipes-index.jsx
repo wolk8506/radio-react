@@ -1,14 +1,14 @@
-import { IconPrrvyeBlyuda } from './icon_1';
-import { IconNapitki } from './icon_8';
-import { IconVypechka } from './icon_4';
-import { IconVtoryeBlyuda } from './icon_3';
-import { IconSalaty } from './icon_2';
-import { IconZagotovki } from './icon_5';
-import { IconSousy } from './icon_9';
-import { IconZakuski } from './icon_7';
-import { IconDeserty } from './icon_6';
+import { IconPrrvyeBlyuda } from './img/icon_1';
+import { IconNapitki } from './img/icon_8';
+import { IconVypechka } from './img/icon_4';
+import { IconVtoryeBlyuda } from './img/icon_3';
+import { IconSalaty } from './img/icon_2';
+import { IconZagotovki } from './img/icon_5';
+import { IconSousy } from './img/icon_9';
+import { IconZakuski } from './img/icon_7';
+import { IconDeserty } from './img/icon_6';
 import { Link } from 'react-router-dom';
-import s from './Home.module.css';
+// import s from './Home.module.css';
 export const RecipesIndex = () => {
   return (
     <>
@@ -23,53 +23,53 @@ export const RecipesIndex = () => {
           color: '#ffffff',
         }}
       >
-        <ul className={s.menuList}>
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/soup">
+        <ul className="menuList">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/soup">
               <IconPrrvyeBlyuda /> Первые блюда
             </Link>
           </li>
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/meat">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/meat">
               <IconVtoryeBlyuda /> Вторые блюда
             </Link>
           </li>
 
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/salad">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/salad">
               <IconSalaty /> Салаты
             </Link>
           </li>
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/zakuski">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/zakuski">
               <IconZakuski /> Закуски
             </Link>
           </li>
 
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/cakes">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/cakes">
               <IconVypechka /> Выпечка
             </Link>
           </li>
 
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/desert">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/desert">
               <IconDeserty /> Десерты
             </Link>
           </li>
 
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/cocktails">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/cocktails">
               <IconNapitki /> Коктейли
             </Link>
           </li>
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/sousy">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/sousy">
               <IconSousy /> Соусы
             </Link>
           </li>
-          <li className={s.menuItem}>
-            <Link className={s.linckPeople} to="/zagotovki">
+          <li className="menuItem">
+            <Link className="linckPeople" to="/zagotovki">
               <IconZagotovki /> Заготовки на зиму
             </Link>
           </li>
