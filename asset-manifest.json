@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.97359d2a.css",
-    "main.js": "/radio-react/static/js/main.97600a38.js",
+    "main.css": "/radio-react/static/css/main.f58a251c.css",
+    "main.js": "/radio-react/static/js/main.dc5c100e.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -9,7 +9,6 @@
     "static/media/new-year-04.jpg": "/radio-react/static/media/new-year-04.38a00774d29fe4e8ff10.jpg",
     "static/media/santa-claus.png": "/radio-react/static/media/santa-claus.7259eae1695087aefaf6.png",
     "static/media/christmas tree.png": "/radio-react/static/media/christmas tree.c91376f48a8b55cc7778.png",
-    "static/media/bg2.png": "/radio-react/static/media/bg2.f14083e1c1839a387a32.png",
     "static/media/new-year-14.jpg": "/radio-react/static/media/new-year-14.301cc8eb22e29f3beb58.jpg",
     "static/media/new-year-26.jpg": "/radio-react/static/media/new-year-26.fa160e46077aa70a6891.jpg",
     "static/media/new-year-28.jpg": "/radio-react/static/media/new-year-28.0f7feaf7127c94d419e4.jpg",
@@ -256,11 +255,11 @@
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
     "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
-    "main.97359d2a.css.map": "/radio-react/static/css/main.97359d2a.css.map",
-    "main.97600a38.js.map": "/radio-react/static/js/main.97600a38.js.map"
+    "main.f58a251c.css.map": "/radio-react/static/css/main.f58a251c.css.map",
+    "main.dc5c100e.js.map": "/radio-react/static/js/main.dc5c100e.js.map"
   },
   "entrypoints": [
-    "static/css/main.97359d2a.css",
-    "static/js/main.97600a38.js"
+    "static/css/main.f58a251c.css",
+    "static/js/main.dc5c100e.js"
   ]
 }
