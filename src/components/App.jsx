@@ -13,6 +13,27 @@ import { RadioMini } from './Main/Radio-mini';
 import { Main } from './Main/Main';
 import { CurrencyIndex } from './Currency/Currency-index';
 import { Weather } from './Weather/Weather';
+import { RecipesIndex } from './Recipes/Recipes-index';
+
+import { Cakes } from './Recipes/Сake/cakes';
+import { Cake } from './Recipes/Сake/cake';
+import { Meat } from './Recipes/Meat/meat';
+import { Meats } from './Recipes/Meat/meats';
+import { Soup } from './Recipes/Soup/soup';
+import { Soups } from './Recipes/Soup/soups';
+import { Salad } from './Recipes/Salad/salad';
+import { Salads } from './Recipes/Salad/salads';
+import { Desert } from './Recipes/Desert/desert';
+import { Deserts } from './Recipes/Desert/deserts';
+import { Zakuski } from './Recipes/Zakuski/zakuski';
+import { Zakuskis } from './Recipes/Zakuski/zakuskis';
+import { Sousy } from './Recipes/Sousy/sousy';
+import { Sousys } from './Recipes/Sousy/sousys';
+import { Zagotovki } from './Recipes/Zagotovki/zagotovki';
+import { Zagotovkis } from './Recipes/Zagotovki/zagotovkis';
+import { Coctails } from './Recipes/Cocktail/cocktails';
+import { Coctail } from './Recipes/Cocktail/cocktail';
+
 import { info } from './info';
 
 import {
@@ -41,6 +62,7 @@ import Drawer from '@mui/joy/Drawer';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 
 export const App = () => {
   const PLAYER_PLAY = useSelector(getPlayerPlay);
@@ -54,6 +76,7 @@ export const App = () => {
   const [classBtn_1, setClassBtn_1] = useState('navigation-btn toggle');
   const [classBtn_2, setClassBtn_2] = useState('navigation-btn toggle');
   const [classBtn_3, setClassBtn_3] = useState('navigation-btn toggle');
+  const [classBtn_4, setClassBtn_4] = useState('navigation-btn toggle');
   const [classBtn_menu, setClassBtn_menu] = useState('');
   const radioStationName = [
     'Rock 181',
@@ -89,13 +112,14 @@ export const App = () => {
 
   useEffect(() => setAudio(new Audio()), []);
 
-  const toolbarTitle = ['Главная', 'Курс валют', 'Погода', 'Инфо'];
+  const toolbarTitle = ['Главная', 'Курс валют', 'Погода', 'Рецепты', 'Инфо'];
 
   useEffect(() => {
     setClassBtn_0(btnTab === 0 ? 'activ' : '');
     setClassBtn_1(btnTab === 1 ? 'activ' : '');
     setClassBtn_2(btnTab === 2 ? 'activ' : '');
     setClassBtn_3(btnTab === 3 ? 'activ' : '');
+    setClassBtn_4(btnTab === 4 ? 'activ' : '');
   }, [btnTab]);
 
   // * Theme -----------------------------------
@@ -155,8 +179,12 @@ export const App = () => {
           <ListItemButton className={classBtn_2}>Погода</ListItemButton>
         </ListItem>
 
-        <ListItem value="3" onClick={handleBtnTab} component={Link} to={'/info'}>
-          <ListItemButton className={classBtn_3}>Инфо</ListItemButton>
+        <ListItem value="3" onClick={handleBtnTab} component={Link} to={'/recipes'}>
+          <ListItemButton className={classBtn_3}>Рецепты</ListItemButton>
+        </ListItem>
+
+        <ListItem value="4" onClick={handleBtnTab} component={Link} to={'/info'}>
+          <ListItemButton className={classBtn_4}>Инфо</ListItemButton>
         </ListItem>
       </List>
 
@@ -249,7 +277,7 @@ export const App = () => {
                         >
                           <AccountBalanceIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Инфо" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
+                        <ListItemText primary="Курс валют" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
                       </ListItemButton>
                     </ListItem>
 
@@ -286,6 +314,30 @@ export const App = () => {
                     >
                       <ListItemButton
                         component={Link}
+                        to={'/recipes'}
+                        sx={[
+                          { minHeight: 48, px: 2.5 },
+                          btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
+                        ]}
+                      >
+                        <ListItemIcon
+                          sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}
+                        >
+                          <FastfoodIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Рецепты" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
+                      </ListItemButton>
+                    </ListItem>
+
+                    <ListItem
+                      className={classBtn_4}
+                      value="4"
+                      onClick={handleBtnTab}
+                      disablePadding
+                      sx={{ display: 'block' }}
+                    >
+                      <ListItemButton
+                        component={Link}
                         to={'/info'}
                         sx={[
                           { minHeight: 48, px: 2.5 },
@@ -315,6 +367,27 @@ export const App = () => {
             <Route path="/" element={<Main onAudio={audio} />} />
             <Route path="/currency-index" element={<CurrencyIndex />} />
             <Route path="/weather" element={<Weather />} />
+            <Route path="/recipes" element={<RecipesIndex />} />
+
+            <Route path="/cocktails" element={<Coctails />} />
+            <Route path="/cocktails/:cocktailID" element={<Coctail />} />
+            <Route path="/cakes" element={<Cakes />} />
+            <Route path="/cakes/:cakeID" element={<Cake />} />
+            <Route path="/meat" element={<Meats />} />
+            <Route path="/meat/:meatID" element={<Meat />} />
+            <Route path="/soup" element={<Soups />} />
+            <Route path="/soup/:soupID" element={<Soup />} />
+            <Route path="/salad" element={<Salads />} />
+            <Route path="/salad/:saladID" element={<Salad />} />
+            <Route path="/desert" element={<Deserts />} />
+            <Route path="/desert/:desertID" element={<Desert />} />
+            <Route path="/zakuski" element={<Zakuskis />} />
+            <Route path="/zakuski/:zakuskiID" element={<Zakuski />} />
+            <Route path="/sousy" element={<Sousys />} />
+            <Route path="/sousy/:sousyID" element={<Sousy />} />
+            <Route path="/zagotovki" element={<Zagotovkis />} />
+            <Route path="/zagotovki/:zagotovkiID" element={<Zagotovki />} />
+
             <Route path="/info" element={<Info />} />
           </Routes>
         </Suspense>

@@ -1,0 +1,70 @@
+.header{
+    width: 412px;
+    height: 50px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navigation{
+    background-color: #000;
+
+
+display: flex;
+z-index: 1000;
+align-items: center;
+    justify-content: space-between;
+    position: relative;
+border-bottom: 1px solid #fff;
+}
+
+.menu{
+/* margin-top: 50px; */
+width: 412px;
+position: absolute;
+transform: translateY(-100%);
+transition: 500ms linear;
+    z-index: 1;
+
+
+}
+
+.activMenu{
+display: block;
+    padding-top: 176px;
+    
+    background-color: rgb(72, 67, 61);
+    position: absolute;
+    width: 412px;
+    height: 100%;
+transition: 500ms linear;
+        z-index: 1;
+        /* color:rgb(0, 0, 0); */
+
+}
+
+.menuList{
+    list-style: none;
+    background-color: #cdcb91;
+    background-image: linear-gradient(#cdcb91, #cdcb91b7), url(../../img/bg_1.jpg);
+    background-position: bottom;
+    background-size: 412px 300px;
+    background-repeat: no-repeat;
+    padding-bottom: 20px;
+    border-radius: 15px;
+}
+
+.menuItem a{
+text-decoration: none;
+font-size: 28px;
+font-weight: 500;
+color: #1976d2;
+}
+
+.menuItem + .menuItem{
+    margin-top: 20px;
+}
+.imgMenu{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
