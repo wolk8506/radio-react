@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Media from 'react-media';
+import { Routes, Route } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useTheme } from 'hooks/use-theme';
 import { useBackground } from 'hooks/use-background';
@@ -141,16 +144,18 @@ export const App = () => {
   const list = anchor => (
     <Box role="presentation" onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
-        <ListItem value="0" onClick={handleBtnTab}>
+        <ListItem value="0" onClick={handleBtnTab} component={Link} to={'/'}>
           <ListItemButton className={classBtn_0}>Главная</ListItemButton>
         </ListItem>
-        <ListItem value="1" onClick={handleBtnTab}>
+        <ListItem value="1" onClick={handleBtnTab} component={Link} to={'/currency-index'}>
           <ListItemButton className={classBtn_1}>Курс валют</ListItemButton>
         </ListItem>
-        <ListItem value="2" onClick={handleBtnTab}>
+
+        <ListItem value="2" onClick={handleBtnTab} component={Link} to={'/weather'}>
           <ListItemButton className={classBtn_2}>Погода</ListItemButton>
         </ListItem>
-        <ListItem value="3" onClick={handleBtnTab}>
+
+        <ListItem value="3" onClick={handleBtnTab} component={Link} to={'/info'}>
           <ListItemButton className={classBtn_3}>Инфо</ListItemButton>
         </ListItem>
       </List>
@@ -208,6 +213,8 @@ export const App = () => {
                       sx={{ display: 'block' }}
                     >
                       <ListItemButton
+                        component={Link}
+                        to={'/'}
                         sx={[
                           { minHeight: 48, px: 2.5 },
                           btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
@@ -230,6 +237,8 @@ export const App = () => {
                       sx={{ display: 'block' }}
                     >
                       <ListItemButton
+                        component={Link}
+                        to={'/currency-index'}
                         sx={[
                           { minHeight: 48, px: 2.5 },
                           btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
@@ -252,6 +261,8 @@ export const App = () => {
                       sx={{ display: 'block' }}
                     >
                       <ListItemButton
+                        component={Link}
+                        to={'/weather'}
                         sx={[
                           { minHeight: 48, px: 2.5 },
                           btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
@@ -274,6 +285,8 @@ export const App = () => {
                       sx={{ display: 'block' }}
                     >
                       <ListItemButton
+                        component={Link}
+                        to={'/info'}
                         sx={[
                           { minHeight: 48, px: 2.5 },
                           btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
@@ -294,12 +307,22 @@ export const App = () => {
           </Fragment>
         )}
       </Media>
-
       <div className="content">
-        {btnTab === 0 && <Main onAudio={audio}></Main>}
+        <Suspense fallback="Load...">
+          {/* <Header /> */}
+
+          <Routes>
+            <Route path="/" element={<Main onAudio={audio} />} />
+            <Route path="/currency-index" element={<CurrencyIndex />} />
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/info" element={<Info />} />
+          </Routes>
+        </Suspense>
+
+        {/* {btnTab === 0 && <Main onAudio={audio}></Main>}
         {btnTab === 1 && <CurrencyIndex></CurrencyIndex>}
         {btnTab === 2 && <Weather></Weather>}
-        {btnTab === 3 && <Info></Info>}
+        {btnTab === 3 && <Info></Info>} */}
       </div>
     </div>
   );
