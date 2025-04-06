@@ -13,8 +13,8 @@ import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 // import DirectionsIcon from '@mui/icons-material/Directions';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+// import Pagination from '@mui/material/Pagination';
+// import Stack from '@mui/material/Stack';
 import TablePagination from '@mui/material/TablePagination';
 
 export const News = () => {
@@ -24,13 +24,13 @@ export const News = () => {
   console.log(toalPages);
   console.log(news);
 
-  //   useEffect(() => {
-  //     dispatch(
-  //       fetchNews(
-  //         `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=Последние&country=by,ru,ua&language=ru`
-  //       )
-  //     );
-  //   }, [dispatch]);
+  useEffect(() => {
+    dispatch(
+      fetchNews(
+        `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=Последние&country=by,ru,ua&language=ru`
+      )
+    );
+  }, [dispatch]);
 
   //   const [news, setNews] = useState([]);
   //   fetch(
@@ -68,7 +68,7 @@ export const News = () => {
   };
 
   const [page, setPage] = useState(2);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
