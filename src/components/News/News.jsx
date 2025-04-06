@@ -65,9 +65,10 @@ export const News = () => {
         `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=${value}&country=by,ru,ua&language=ru`
       )
     );
+    setPage(0);
   };
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {

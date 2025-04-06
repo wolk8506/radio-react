@@ -25,5 +25,8 @@
     .MuiTablePagination-displayedRows {
       color: $color-03;
     }
+    .MuiButtonBase-root:nth-child(1) {
+      display: none;
+    }
   }
 }
