@@ -2,6 +2,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { data_salad } from '../data/data_salad';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+
+import { IconSalaty } from '../img/icon_2';
+
 export const Salad = () => {
   const location = useLocation();
   const ITEM_ID = Number(location.pathname.slice(7)) - 1;
@@ -13,6 +19,17 @@ export const Salad = () => {
         <Link className="link" to="/salad">
           <ArrowBackIcon />
         </Link>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
+            <FastfoodIcon sx={{ mr: 0.5 }} />
+            Рецепты
+          </Link>
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/salad">
+            <IconSalaty className="breadcrumb-icon" />
+            Салаты
+          </Link>
+          <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>{item?.name}</Typography>
+        </Breadcrumbs>
         <h2>{item.name}</h2>
 
         <img src={item.img} alt={item.name} width={412} />

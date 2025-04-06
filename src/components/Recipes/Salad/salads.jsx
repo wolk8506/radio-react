@@ -7,7 +7,11 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_salad } from '../data/data_salad';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+
+import { IconSalaty } from '../img/icon_2';
 
 const style = {
   width: '100%',
@@ -26,12 +30,17 @@ export const Salads = () => {
   return (
     <>
       <div className="container container-recipes">
-        <h1>
-          <Link className="link" to="/recipes">
-            <ArrowBackIcon />
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
+            <FastfoodIcon sx={{ mr: 0.5 }} />
+            Рецепты
           </Link>
-          Салаты
-        </h1>
+          <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+            <IconSalaty className="breadcrumb-icon-activ" />
+            Салаты
+          </Typography>
+        </Breadcrumbs>
+        <h1>Салаты</h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuItem}

@@ -27,7 +27,7 @@
   margin-bottom: 32px;
   // display: flex;
   align-items: center;
-  @include card-style;
+  // @include card-style;
 }
 
 .menuItem {
@@ -196,4 +196,62 @@ li::marker {
   margin-right: auto;
   margin-left: auto;
   display: block;
+}
+
+// !====================================================================
+// !
+// !        breadcrumbs
+// !
+// !
+// !====================================================================
+
+.MuiBreadcrumbs-li a {
+  font-size: 16px;
+  color: $color-03;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.MuiBreadcrumbs-separator {
+  color: $color-03;
+}
+
+.MuiBreadcrumbs-li {
+  background-color: rgb-a($color-02, 3%);
+  padding: 3px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+
+  svg {
+    margin-right: 5px;
+    fill: $color-03;
+  }
+}
+
+.MuiBreadcrumbs-li:hover {
+  background-color: rgb-a($color-02, 10%);
+}
+.MuiBreadcrumbs-li:hover:last-child {
+  background-color: rgb-a($color-02, 3%);
+  cursor: default;
+}
+
+.MuiBreadcrumbs-li:hover a {
+  color: $color-02;
+}
+.MuiBreadcrumbs-li:hover a:last-child {
+  color: $color-03;
+}
+
+.MuiBreadcrumbs-ol .MuiBreadcrumbs-li .MuiTypography-root {
+  color: $color-02;
+  svg {
+    margin-right: 5px;
+    fill: $color-02;
+  }
+}
+
+.breadcrumb-icon:hover {
+  color: $color-02;
 }

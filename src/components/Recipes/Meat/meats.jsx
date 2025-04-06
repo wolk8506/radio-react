@@ -7,7 +7,11 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import { data_meat } from '../data/data_meat';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+
+import { IconVtoryeBlyuda } from '../img/icon_3';
 
 import s from './meats.module.css';
 
@@ -28,12 +32,17 @@ export const Meats = () => {
   return (
     <>
       <div className="container  container-recipes">
-        <h1>
-          <Link className="link" to="/recipes">
-            <ArrowBackIcon />
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
+            <FastfoodIcon sx={{ mr: 0.5 }} />
+            Рецепты
           </Link>
-          Мясные блюда
-        </h1>
+          <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+            <IconVtoryeBlyuda className="breadcrumb-icon-activ" />
+            Вторые блюда
+          </Typography>
+        </Breadcrumbs>
+        <h1>Мясные блюда</h1>
 
         <List sx={style} component="nav" aria-label="mailbox folders">
           {menuCakes}

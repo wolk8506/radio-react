@@ -1,6 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { data_zagotovki } from '../data/data_zagotovki';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+
+import { IconZagotovki } from '../img/icon_5';
 
 export const Zagotovki = () => {
   const location = useLocation();
@@ -10,9 +15,17 @@ export const Zagotovki = () => {
   return (
     <>
       <div className="container container-recipes">
-        <Link className="link" to="/zagotovki">
-          <ArrowBackIcon />
-        </Link>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
+            <FastfoodIcon sx={{ mr: 0.5 }} />
+            Рецепты
+          </Link>
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/zagotovki">
+            <IconZagotovki className="breadcrumb-icon" />
+            Заготовки на зиму
+          </Link>
+          <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>{item?.name}</Typography>
+        </Breadcrumbs>
         <h2>{item.name}</h2>
 
         <img src={item.img} alt={item.name} width={412} />

@@ -15,8 +15,8 @@ import { CurrencyIndex } from './Currency/Currency-index';
 import { Weather } from './Weather/Weather';
 import { RecipesIndex } from './Recipes/Recipes-index';
 
-import { Cakes } from './Recipes/Сake/cakes';
-import { Cake } from './Recipes/Сake/cake';
+import { Cakes } from './Recipes/Cake/cakes';
+import { Cake } from './Recipes/Cake/cake';
 import { Meat } from './Recipes/Meat/meat';
 import { Meats } from './Recipes/Meat/meats';
 import { Soup } from './Recipes/Soup/soup';

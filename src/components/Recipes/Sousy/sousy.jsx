@@ -2,6 +2,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { data_sousy } from '../data/data_sousy';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+
+import { IconSousy } from '../img/icon_9';
+
 export const Sousy = () => {
   const location = useLocation();
   const ITEM_ID = Number(location.pathname.slice(7)) - 1;
@@ -13,6 +19,17 @@ export const Sousy = () => {
         <Link className="link" to="/sousy">
           <ArrowBackIcon />
         </Link>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
+            <FastfoodIcon sx={{ mr: 0.5 }} />
+            Рецепты
+          </Link>
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/sousy">
+            <IconSousy className="breadcrumb-icon" />
+            Соусы
+          </Link>
+          <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>{item?.name}</Typography>
+        </Breadcrumbs>
         <h2>{item.name}</h2>
 
         <img src={item.img} alt={item.name} width={412} />

@@ -1,6 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { data_zakuski } from '../data/data_zakuski';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+
+import { IconZakuski } from '../img/icon_7';
 
 export const Zakuski = () => {
   const location = useLocation();
@@ -10,9 +15,17 @@ export const Zakuski = () => {
   return (
     <>
       <div className="container container-recipes">
-        <Link className="link" to="/zakuski">
-          <ArrowBackIcon />
-        </Link>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
+            <FastfoodIcon sx={{ mr: 0.5 }} />
+            Рецепты
+          </Link>
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to="/zakuski">
+            <IconZakuski className="breadcrumb-icon" />
+            Закуски
+          </Link>
+          <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>{item?.name}</Typography>
+        </Breadcrumbs>
         <h2>{item.name}</h2>
 
         <img src={item.img} alt={item.name} width={412} />
