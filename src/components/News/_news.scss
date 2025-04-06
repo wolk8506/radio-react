@@ -1,0 +1,29 @@
+.container-news {
+  padding: 30px;
+  @include card-style;
+
+  li + li {
+    margin-top: 30px;
+  }
+
+  li a {
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .MuiInputBase-input {
+    color: $color-03;
+  }
+
+  .MuiToolbar-root {
+    .MuiTablePagination-selectLabel {
+      display: none;
+    }
+    .MuiInputBase-root {
+      display: none;
+    }
+    .MuiTablePagination-displayedRows {
+      color: $color-03;
+    }
+  }
+}

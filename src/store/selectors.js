@@ -90,3 +90,12 @@ export const getCurrencyZVRCurrent_Status = state => state.storeCurrencyZVRCurre
 export const getCurrencyZVRCurrent_TimeUpdate = state => state.storeCurrencyZVRCurrent.timeUpdate;
 export const getCurrencyZVRCurrent_Data = state => state.storeCurrencyZVRCurrent.data;
 //
+//  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+//  -   -   К у р с   в а л ю т -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+//  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+// *    Курс валют Mono bank
+//
+export const getNews_Loading = state => state.storeNews.loading;
+export const getNews_Status = state => state.storeNews.status;
+export const getNews_TimeUpdate = state => state.storeNews.timeUpdate;
+export const getNews_Data = state => state.storeNews.data;

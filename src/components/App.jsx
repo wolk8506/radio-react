@@ -14,6 +14,7 @@ import { Main } from './Main/Main';
 import { CurrencyIndex } from './Currency/Currency-index';
 import { Weather } from './Weather/Weather';
 import { RecipesIndex } from './Recipes/Recipes-index';
+import { News } from './News/News';
 
 import { Cakes } from './Recipes/Cake/cakes';
 import { Cake } from './Recipes/Cake/cake';
@@ -63,6 +64,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 
 export const App = () => {
   const PLAYER_PLAY = useSelector(getPlayerPlay);
@@ -77,6 +79,7 @@ export const App = () => {
   const [classBtn_2, setClassBtn_2] = useState('navigation-btn toggle');
   const [classBtn_3, setClassBtn_3] = useState('navigation-btn toggle');
   const [classBtn_4, setClassBtn_4] = useState('navigation-btn toggle');
+  const [classBtn_5, setClassBtn_5] = useState('navigation-btn toggle');
   const [classBtn_menu, setClassBtn_menu] = useState('');
   const radioStationName = [
     'Rock 181',
@@ -120,6 +123,7 @@ export const App = () => {
     setClassBtn_2(btnTab === 2 ? 'activ' : '');
     setClassBtn_3(btnTab === 3 ? 'activ' : '');
     setClassBtn_4(btnTab === 4 ? 'activ' : '');
+    setClassBtn_5(btnTab === 5 ? 'activ' : '');
   }, [btnTab]);
 
   // * Theme -----------------------------------
@@ -183,8 +187,12 @@ export const App = () => {
           <ListItemButton className={classBtn_3}>Рецепты</ListItemButton>
         </ListItem>
 
-        <ListItem value="4" onClick={handleBtnTab} component={Link} to={'/info'}>
-          <ListItemButton className={classBtn_4}>Инфо</ListItemButton>
+        <ListItem value="4" onClick={handleBtnTab} component={Link} to={'/news'}>
+          <ListItemButton className={classBtn_4}>Рецепты</ListItemButton>
+        </ListItem>
+
+        <ListItem value="5" onClick={handleBtnTab} component={Link} to={'/info'}>
+          <ListItemButton className={classBtn_5}>Инфо</ListItemButton>
         </ListItem>
       </List>
 
@@ -338,6 +346,30 @@ export const App = () => {
                     >
                       <ListItemButton
                         component={Link}
+                        to={'/news'}
+                        sx={[
+                          { minHeight: 48, px: 2.5 },
+                          btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
+                        ]}
+                      >
+                        <ListItemIcon
+                          sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}
+                        >
+                          <NewspaperIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Новости" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
+                      </ListItemButton>
+                    </ListItem>
+
+                    <ListItem
+                      className={classBtn_5}
+                      value="5"
+                      onClick={handleBtnTab}
+                      disablePadding
+                      sx={{ display: 'block' }}
+                    >
+                      <ListItemButton
+                        component={Link}
                         to={'/info'}
                         sx={[
                           { minHeight: 48, px: 2.5 },
@@ -368,6 +400,7 @@ export const App = () => {
             <Route path="/currency-index" element={<CurrencyIndex />} />
             <Route path="/weather" element={<Weather />} />
             <Route path="/recipes" element={<RecipesIndex />} />
+            <Route path="/news" element={<News />} />
 
             <Route path="/cocktails" element={<Coctails />} />
             <Route path="/cocktails/:cocktailID" element={<Coctail />} />

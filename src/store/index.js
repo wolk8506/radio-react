@@ -13,6 +13,7 @@ import weatherMonthReducer from './reducer-WeatherMonth';
 import weatherAirQualityReducer from './reducer-WeatherAirQuality';
 import weatherElementsReducer from './reducer-WeatherElements';
 import weatherDayCityReducer from './reducer-WeatherDayCity';
+import newsReducer from './reducer-News';
 
 export const rootReducer = combineReducers({
   storeWeatherElements: weatherElementsReducer,
@@ -28,6 +29,8 @@ export const rootReducer = combineReducers({
   storeCurrencyZVRCurrent: currencyZVRCurrentReducer,
   storeCurrencyNBU: currencyNBUReducer,
   storeCurrencyBanksToday: currencyBanksTodayReducer,
+  //
+  storeNews: newsReducer,
 });
 
 const persistConfig = {
