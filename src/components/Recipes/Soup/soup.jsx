@@ -10,7 +10,6 @@ import { IconPrrvyeBlyuda } from '../img/icon_1';
 export const Soup = () => {
   const location = useLocation();
   const ITEM_ID = Number(location.pathname.slice(6)) - 1;
-  //   console.log(CAKE_ID);
   const item = data_soup[ITEM_ID];
 
   return (

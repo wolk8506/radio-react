@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { data_sousy } from '../data/data_sousy';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
@@ -16,9 +15,6 @@ export const Sousy = () => {
   return (
     <>
       <div className="container container-recipes">
-        <Link className="link" to="/sousy">
-          <ArrowBackIcon />
-        </Link>
         <Breadcrumbs aria-label="breadcrumb">
           <Link sx={{ display: 'flex', alignItems: 'center' }} to="/recipes">
             <FastfoodIcon sx={{ mr: 0.5 }} />
