@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.a49bc7ef.css",
-    "main.js": "/radio-react/static/js/main.b431d3d1.js",
+    "main.css": "/radio-react/static/css/main.bade2286.css",
+    "main.js": "/radio-react/static/js/main.3934b2e5.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -146,7 +146,7 @@
     "static/media/square_dot_digital-7.ttf": "/radio-react/static/media/square_dot_digital-7.3787f671fbe7bb7b16da.ttf",
     "static/media/meat_07.jpg": "/radio-react/static/media/meat_07.c0f5f592fd6d86783a36.jpg",
     "static/media/meat_01_1.jpg": "/radio-react/static/media/meat_01_1.9374d960191ad79490ae.jpg",
-    "static/media/sprite.svg": "/radio-react/static/media/sprite.9ef8b75fd148aa197a5c150941c632bd.svg",
+    "static/media/sprite.svg": "/radio-react/static/media/sprite.7541ecb70850246f08645ca97a24e6c1.svg",
     "static/media/meat_05.jpg": "/radio-react/static/media/meat_05.e80fb91d9643a42c148c.jpg",
     "static/media/cake_04.jpg": "/radio-react/static/media/cake_04.5ac288bac74fd92e0e67.jpg",
     "static/media/zakuski_01.jpg": "/radio-react/static/media/zakuski_01.2d2399e675d64ffdea66.jpg",
@@ -255,11 +255,11 @@
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
     "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
-    "main.a49bc7ef.css.map": "/radio-react/static/css/main.a49bc7ef.css.map",
-    "main.b431d3d1.js.map": "/radio-react/static/js/main.b431d3d1.js.map"
+    "main.bade2286.css.map": "/radio-react/static/css/main.bade2286.css.map",
+    "main.3934b2e5.js.map": "/radio-react/static/js/main.3934b2e5.js.map"
   },
   "entrypoints": [
-    "static/css/main.a49bc7ef.css",
-    "static/js/main.b431d3d1.js"
+    "static/css/main.bade2286.css",
+    "static/js/main.3934b2e5.js"
   ]
 }
