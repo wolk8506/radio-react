@@ -16,24 +16,8 @@ import { Weather } from './Weather/Weather';
 import { RecipesIndex } from './Recipes/Recipes-index';
 import { News } from './News/News';
 
-import { Cakes } from './Recipes/Cake/cakes';
-import { Cake } from './Recipes/Cake/cake';
-import { Meat } from './Recipes/Meat/meat';
-import { Meats } from './Recipes/Meat/meats';
-import { Soup } from './Recipes/Soup/soup';
-import { Soups } from './Recipes/Soup/soups';
-import { Salad } from './Recipes/Salad/salad';
-import { Salads } from './Recipes/Salad/salads';
-import { Desert } from './Recipes/Desert/desert';
-import { Deserts } from './Recipes/Desert/deserts';
-import { Zakuski } from './Recipes/Zakuski/zakuski';
-import { Zakuskis } from './Recipes/Zakuski/zakuskis';
-import { Sousy } from './Recipes/Sousy/sousy';
-import { Sousys } from './Recipes/Sousy/sousys';
-import { Zagotovki } from './Recipes/Zagotovki/zagotovki';
-import { Zagotovkis } from './Recipes/Zagotovki/zagotovkis';
-import { Coctails } from './Recipes/Cocktail/cocktails';
-import { Coctail } from './Recipes/Cocktail/cocktail';
+import { Cakes } from './Recipes/Recipes';
+import { Cake } from './Recipes/Recipe';
 
 import { info } from './info';
 
@@ -402,11 +386,13 @@ export const App = () => {
             <Route path="/recipes" element={<RecipesIndex />} />
             <Route path="/news" element={<News />} />
 
-            <Route path="/cocktails" element={<Coctails />} />
-            <Route path="/cocktails/:cocktailID" element={<Coctail />} />
-            <Route path="/cakes" element={<Cakes />} />
-            <Route path="/cakes/:cakeID" element={<Cake />} />
-            <Route path="/meat" element={<Meats />} />
+            {/* <Route path="/cocktails" element={<Coctails />} />
+            <Route path="/cocktails/:cocktailID" element={<Coctail />} /> */}
+            <Route path="/:cakesID" element={<Cakes />} />
+            <Route path="/:cakesID/:cakeID" element={<Cake />} />
+            {/* <Route path="/cakes" element={<Cakes />} />
+            <Route path="/cakes/:cakeID" element={<Cake />} /> */}
+            {/* <Route path="/meat" element={<Meats />} />
             <Route path="/meat/:meatID" element={<Meat />} />
             <Route path="/soup" element={<Soups />} />
             <Route path="/soup/:soupID" element={<Soup />} />
@@ -419,7 +405,7 @@ export const App = () => {
             <Route path="/sousy" element={<Sousys />} />
             <Route path="/sousy/:sousyID" element={<Sousy />} />
             <Route path="/zagotovki" element={<Zagotovkis />} />
-            <Route path="/zagotovki/:zagotovkiID" element={<Zagotovki />} />
+            <Route path="/zagotovki/:zagotovkiID" element={<Zagotovki />} /> */}
 
             <Route path="/info" element={<Info />} />
           </Routes>

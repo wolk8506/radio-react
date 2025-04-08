@@ -64,7 +64,7 @@ import cocktail_63 from '../img/cocktail_63.png';
 import cocktail_64 from '../img/cocktail_64.png';
 import cocktail_65 from '../img/cocktail_55.png';
 
-export const data_coctail = [
+export const data_cocktail = [
   {
     id: '1',
     name: 'Vodka Spritz / Водка Шприц',

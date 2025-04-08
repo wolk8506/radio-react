@@ -16,7 +16,7 @@
   @include card-style;
 }
 
-.menuList {
+.menu-list {
   list-style: none;
 
   width: 1260px;
@@ -30,32 +30,35 @@
   // @include card-style;
 }
 
-.menuItem {
+.menu-item {
   padding: 5px;
 }
 
-.menuItem svg {
+.menu-item svg {
+  margin-right: 10px;
   fill: $color-03;
 }
 
-.menuItem a {
+.menu-item a {
   text-decoration: none;
   font-size: 28px;
   font-weight: 500;
   color: $color-03;
+  display: flex;
+  align-items: center;
 }
-.menuItem:hover a,
-.menuItem:hover svg {
+.menu-item:hover a,
+.menu-item:hover svg {
   color: $color-02;
   fill: $color-02;
   // background-color: rgb-a($color-02, 10%);
 }
 
-.menuItem + .menuItem {
+.menu-item + .menu-item {
   margin-top: 20px;
 }
 
-.imgMenu {
+.img-menu {
   position: absolute;
   right: 0;
   top: 0;
@@ -74,15 +77,19 @@
   flex-shrink: 0;
 }
 
-.menuList {
+.menu-list {
   list-style: none;
 }
 
-.menuItem {
-  text-decoration: none;
-  /* font-size: 26px; */
-  font-weight: 500;
-  color: #1976d2;
+.recipes__menu-item {
+  // text-decoration: none;
+  // /* font-size: 26px; */
+  // font-weight: 500;
+  // color: #1976d2;
+  img {
+    border-radius: 5px;
+    margin-right: 10px;
+  }
 }
 .bracket-line {
   width: 100%;
@@ -112,10 +119,10 @@ h2 {
   text-align: center;
   margin-bottom: 30px;
 }
-.imageStep {
+.image-step {
   border-radius: 5px;
 }
-.itemStep + .itemStep {
+.item-step + .item-step {
   margin-top: 40px;
 }
 li::marker {

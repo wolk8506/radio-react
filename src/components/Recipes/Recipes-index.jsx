@@ -1,26 +1,17 @@
-import { IconPrrvyeBlyuda } from './img/icon_1';
-import { IconNapitki } from './img/icon_8';
-import { IconVypechka } from './img/icon_4';
-import { IconVtoryeBlyuda } from './img/icon_3';
-import { IconSalaty } from './img/icon_2';
-import { IconZagotovki } from './img/icon_5';
-import { IconSousy } from './img/icon_9';
-import { IconZakuski } from './img/icon_7';
-import { IconDeserty } from './img/icon_6';
 import { Link } from 'react-router-dom';
+
+import sprite from './sprite.svg';
 
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
-// import { IconPrrvyeBlyuda } from '../img/icon_1';
-// import s from './Home.module.css';
+
 export const RecipesIndex = () => {
   return (
     <>
       <div
         className="container container-recipes"
         style={{
-          // height: '100vh',
           display: 'flex',
           alignItems: 'flex-start',
           flexDirection: 'column',
@@ -36,54 +27,81 @@ export const RecipesIndex = () => {
           </Typography>
         </Breadcrumbs>
 
-        <ul className="menuList">
-          <li className="menuItem">
-            <Link className="linckPeople" to="/soup">
-              <IconPrrvyeBlyuda /> Первые блюда
+        <ul className="menu-list">
+          <li className="menu-item">
+            <Link className="linck-people" to="/soup">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-soup`}></use>
+              </svg>
+              Первые блюда
             </Link>
           </li>
-          <li className="menuItem">
-            <Link className="linckPeople" to="/meat">
-              <IconVtoryeBlyuda /> Вторые блюда
-            </Link>
-          </li>
-
-          <li className="menuItem">
-            <Link className="linckPeople" to="/salad">
-              <IconSalaty /> Салаты
-            </Link>
-          </li>
-          <li className="menuItem">
-            <Link className="linckPeople" to="/zakuski">
-              <IconZakuski /> Закуски
+          <li className="menu-item">
+            <Link className="linck-people" to="/meat">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-meat`}></use>
+              </svg>
+              Вторые блюда
             </Link>
           </li>
 
-          <li className="menuItem">
-            <Link className="linckPeople" to="/cakes">
-              <IconVypechka /> Выпечка
+          <li className="menu-item">
+            <Link className="linck-people" to="/salad">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-salad`}></use>
+              </svg>
+              Салаты
+            </Link>
+          </li>
+          <li className="menu-item">
+            <Link className="linck-people" to="/zakuski">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-zakuski`}></use>
+              </svg>
+              Закуски
             </Link>
           </li>
 
-          <li className="menuItem">
-            <Link className="linckPeople" to="/desert">
-              <IconDeserty /> Десерты
+          <li className="menu-item">
+            <Link className="linck-people" to="/cake">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-cake`}></use>
+              </svg>
+              Выпечка
             </Link>
           </li>
 
-          <li className="menuItem">
-            <Link className="linckPeople" to="/cocktails">
-              <IconNapitki /> Коктейли
+          <li className="menu-item">
+            <Link className="linck-people" to="/desert">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-desert`}></use>
+              </svg>
+              Десерты
             </Link>
           </li>
-          <li className="menuItem">
-            <Link className="linckPeople" to="/sousy">
-              <IconSousy /> Соусы
+
+          <li className="menu-item">
+            <Link className="linck-people" to="/cocktail">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-cocktail`}></use>
+              </svg>
+              Коктейли
             </Link>
           </li>
-          <li className="menuItem">
-            <Link className="linckPeople" to="/zagotovki">
-              <IconZagotovki /> Заготовки на зиму
+          <li className="menu-item">
+            <Link className="linck-people" to="/sousy">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-sousy`}></use>
+              </svg>
+              Соусы
+            </Link>
+          </li>
+          <li className="menu-item">
+            <Link className="linck-people" to="/zagotovki">
+              <svg className="icon" width="36" height="36">
+                <use href={`${sprite}#icon-zagotovki`}></use>
+              </svg>
+              Заготовки на зиму
             </Link>
           </li>
         </ul>

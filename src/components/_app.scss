@@ -25,6 +25,14 @@
       }
     }
 
+    .MuiListItem-root {
+      .MuiListItemText-root {
+        .MuiTypography-root {
+          min-width: 147px;
+        }
+      }
+    }
+
     .menu-btn {
       height: calc(100vh - 20px);
       width: 80px;
