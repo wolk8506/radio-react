@@ -5,7 +5,7 @@ import soup_02_02 from '../img/soup/02-02.png';
 import soup_02_03 from '../img/soup/02-03.png';
 import soup_02_04 from '../img/soup/02-04.png';
 
-import cake_00 from '../img/load.gif';
+// import cake_00 from '../img/load.gif';
 
 export const data_soup = [
   {
