@@ -89,6 +89,13 @@
 // !  ⇧ end - - - Десктопное меню - - - - - - -  ⇧
 //
 // !  ⇩ start - - Мобильное меню  - - - - - - -  ⇩
+
+.app {
+  .MuiBox-root {
+    flex-grow: 0;
+  }
+}
+
 .MuiDrawer-root {
   .MuiDrawer-content {
     background-color: $color-07;

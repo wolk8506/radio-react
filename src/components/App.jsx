@@ -172,7 +172,7 @@ export const App = () => {
         </ListItem>
 
         <ListItem value="4" onClick={handleBtnTab} component={Link} to={'/news'}>
-          <ListItemButton className={classBtn_4}>Рецепты</ListItemButton>
+          <ListItemButton className={classBtn_4}>Новости</ListItemButton>
         </ListItem>
 
         <ListItem value="5" onClick={handleBtnTab} component={Link} to={'/info'}>

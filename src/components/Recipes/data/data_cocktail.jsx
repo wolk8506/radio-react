@@ -1,68 +1,68 @@
-import cocktail_01 from '../img/cocktail_01.png';
-import cocktail_02 from '../img/cocktail_02.png';
-import cocktail_03 from '../img/cocktail_03.png';
-import cocktail_04 from '../img/cocktail_04.png';
-import cocktail_05 from '../img/cocktail_05.png';
-import cocktail_06 from '../img/cocktail_06.png';
-import cocktail_07 from '../img/cocktail_07.png';
-import cocktail_08 from '../img/cocktail_08.png';
-import cocktail_09 from '../img/cocktail_09.png';
-import cocktail_10 from '../img/cocktail_10.png';
-import cocktail_11 from '../img/cocktail_11.png';
-import cocktail_12 from '../img/cocktail_12.png';
-import cocktail_13 from '../img/cocktail_13.png';
-import cocktail_14 from '../img/cocktail_14.png';
-import cocktail_15 from '../img/cocktail_15.png';
-import cocktail_16 from '../img/cocktail_16.png';
-import cocktail_17 from '../img/cocktail_17.png';
-import cocktail_18 from '../img/cocktail_18.png';
-import cocktail_19 from '../img/cocktail_19.png';
-import cocktail_20 from '../img/cocktail_20.png';
-import cocktail_21 from '../img/cocktail_21.png';
-import cocktail_22 from '../img/cocktail_22.png';
-import cocktail_23 from '../img/cocktail_23.png';
-import cocktail_24 from '../img/cocktail_24.png';
-import cocktail_25 from '../img/cocktail_25.png';
-import cocktail_26 from '../img/cocktail_26.png';
-import cocktail_27 from '../img/cocktail_27.png';
-import cocktail_28 from '../img/cocktail_28.png';
-import cocktail_29 from '../img/cocktail_29.png';
-import cocktail_30 from '../img/cocktail_30.png';
-import cocktail_31 from '../img/cocktail_31.png';
-import cocktail_32 from '../img/cocktail_32.png';
-import cocktail_33 from '../img/cocktail_33.png';
-import cocktail_34 from '../img/cocktail_34.png';
-import cocktail_35 from '../img/cocktail_35.png';
-import cocktail_36 from '../img/cocktail_36.png';
-import cocktail_37 from '../img/cocktail_37.png';
-import cocktail_38 from '../img/cocktail_38.png';
-import cocktail_39 from '../img/cocktail_39.png';
-import cocktail_40 from '../img/cocktail_40.png';
-import cocktail_41 from '../img/cocktail_41.png';
-import cocktail_42 from '../img/cocktail_42.png';
-import cocktail_43 from '../img/cocktail_43.png';
-import cocktail_44 from '../img/cocktail_44.png';
-import cocktail_45 from '../img/cocktail_45.png';
-import cocktail_46 from '../img/cocktail_46.png';
-import cocktail_47 from '../img/cocktail_47.png';
-import cocktail_48 from '../img/cocktail_48.png';
-import cocktail_49 from '../img/cocktail_49.png';
-import cocktail_50 from '../img/cocktail_50.png';
-import cocktail_51 from '../img/cocktail_51.png';
-import cocktail_52 from '../img/cocktail_52.png';
-import cocktail_53 from '../img/cocktail_53.png';
-import cocktail_54 from '../img/cocktail_54.png';
-import cocktail_55 from '../img/cocktail_55.png';
-import cocktail_56 from '../img/cocktail_56.png';
-import cocktail_57 from '../img/cocktail_57.png';
-import cocktail_58 from '../img/cocktail_58.png';
-import cocktail_59 from '../img/cocktail_59.png';
-import cocktail_60 from '../img/cocktail_60.png';
-import cocktail_61 from '../img/cocktail_61.png';
-import cocktail_62 from '../img/cocktail_62.png';
-import cocktail_63 from '../img/cocktail_63.png';
-import cocktail_64 from '../img/cocktail_64.png';
-import cocktail_65 from '../img/cocktail_55.png';
+import cocktail_01 from '../img/cocktail/cocktail_01.png';
+import cocktail_02 from '../img/cocktail/cocktail_02.png';
+import cocktail_03 from '../img/cocktail/cocktail_03.png';
+import cocktail_04 from '../img/cocktail/cocktail_04.png';
+import cocktail_05 from '../img/cocktail/cocktail_05.png';
+import cocktail_06 from '../img/cocktail/cocktail_06.png';
+import cocktail_07 from '../img/cocktail/cocktail_07.png';
+import cocktail_08 from '../img/cocktail/cocktail_08.png';
+import cocktail_09 from '../img/cocktail/cocktail_09.png';
+import cocktail_10 from '../img/cocktail/cocktail_10.png';
+import cocktail_11 from '../img/cocktail/cocktail_11.png';
+import cocktail_12 from '../img/cocktail/cocktail_12.png';
+import cocktail_13 from '../img/cocktail/cocktail_13.png';
+import cocktail_14 from '../img/cocktail/cocktail_14.png';
+import cocktail_15 from '../img/cocktail/cocktail_15.png';
+import cocktail_16 from '../img/cocktail/cocktail_16.png';
+import cocktail_17 from '../img/cocktail/cocktail_17.png';
+import cocktail_18 from '../img/cocktail/cocktail_18.png';
+import cocktail_19 from '../img/cocktail/cocktail_19.png';
+import cocktail_20 from '../img/cocktail/cocktail_20.png';
+import cocktail_21 from '../img/cocktail/cocktail_21.png';
+import cocktail_22 from '../img/cocktail/cocktail_22.png';
+import cocktail_23 from '../img/cocktail/cocktail_23.png';
+import cocktail_24 from '../img/cocktail/cocktail_24.png';
+import cocktail_25 from '../img/cocktail/cocktail_25.png';
+import cocktail_26 from '../img/cocktail/cocktail_26.png';
+import cocktail_27 from '../img/cocktail/cocktail_27.png';
+import cocktail_28 from '../img/cocktail/cocktail_28.png';
+import cocktail_29 from '../img/cocktail/cocktail_29.png';
+import cocktail_30 from '../img/cocktail/cocktail_30.png';
+import cocktail_31 from '../img/cocktail/cocktail_31.png';
+import cocktail_32 from '../img/cocktail/cocktail_32.png';
+import cocktail_33 from '../img/cocktail/cocktail_33.png';
+import cocktail_34 from '../img/cocktail/cocktail_34.png';
+import cocktail_35 from '../img/cocktail/cocktail_35.png';
+import cocktail_36 from '../img/cocktail/cocktail_36.png';
+import cocktail_37 from '../img/cocktail/cocktail_37.png';
+import cocktail_38 from '../img/cocktail/cocktail_38.png';
+import cocktail_39 from '../img/cocktail/cocktail_39.png';
+import cocktail_40 from '../img/cocktail/cocktail_40.png';
+import cocktail_41 from '../img/cocktail/cocktail_41.png';
+import cocktail_42 from '../img/cocktail/cocktail_42.png';
+import cocktail_43 from '../img/cocktail/cocktail_43.png';
+import cocktail_44 from '../img/cocktail/cocktail_44.png';
+import cocktail_45 from '../img/cocktail/cocktail_45.png';
+import cocktail_46 from '../img/cocktail/cocktail_46.png';
+import cocktail_47 from '../img/cocktail/cocktail_47.png';
+import cocktail_48 from '../img/cocktail/cocktail_48.png';
+import cocktail_49 from '../img/cocktail/cocktail_49.png';
+import cocktail_50 from '../img/cocktail/cocktail_50.png';
+import cocktail_51 from '../img/cocktail/cocktail_51.png';
+import cocktail_52 from '../img/cocktail/cocktail_52.png';
+import cocktail_53 from '../img/cocktail/cocktail_53.png';
+import cocktail_54 from '../img/cocktail/cocktail_54.png';
+import cocktail_55 from '../img/cocktail/cocktail_55.png';
+import cocktail_56 from '../img/cocktail/cocktail_56.png';
+import cocktail_57 from '../img/cocktail/cocktail_57.png';
+import cocktail_58 from '../img/cocktail/cocktail_58.png';
+import cocktail_59 from '../img/cocktail/cocktail_59.png';
+import cocktail_60 from '../img/cocktail/cocktail_60.png';
+import cocktail_61 from '../img/cocktail/cocktail_61.png';
+import cocktail_62 from '../img/cocktail/cocktail_62.png';
+import cocktail_63 from '../img/cocktail/cocktail_63.png';
+import cocktail_64 from '../img/cocktail/cocktail_64.png';
+import cocktail_65 from '../img/cocktail/cocktail_55.png';
 
 export const data_cocktail = [
   {
@@ -75,6 +75,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '2',
@@ -85,6 +92,13 @@ export const data_cocktail = [
       { i_name: 'Вино игристое', i_weight: '100 мл' },
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -97,6 +111,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '4',
@@ -107,6 +128,13 @@ export const data_cocktail = [
       { i_name: 'Травяной ликер', i_weight: '50 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -119,6 +147,13 @@ export const data_cocktail = [
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '6',
@@ -129,6 +164,13 @@ export const data_cocktail = [
       { i_name: 'Джин', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -141,6 +183,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '8',
@@ -151,6 +200,13 @@ export const data_cocktail = [
       { i_name: 'Ром', i_weight: '50 мл' },
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -163,6 +219,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '10',
@@ -173,6 +236,13 @@ export const data_cocktail = [
       { i_name: 'Яблочный сок', i_weight: '75 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -185,6 +255,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '12',
@@ -195,6 +272,13 @@ export const data_cocktail = [
       { i_name: 'Водка', i_weight: '50 мл' },
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -207,6 +291,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '14',
@@ -217,6 +308,13 @@ export const data_cocktail = [
       { i_name: 'Экспрессо', i_weight: '40 мл' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
       { i_name: 'Сахарный сироп', i_weight: '15 мл' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -229,6 +327,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '16',
@@ -239,6 +344,13 @@ export const data_cocktail = [
       { i_name: 'Ром белый', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -251,6 +363,13 @@ export const data_cocktail = [
       { i_name: 'Огурец', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '18',
@@ -261,6 +380,13 @@ export const data_cocktail = [
       { i_name: 'Текила', i_weight: '50 мл' },
       { i_name: 'Огурец', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -273,6 +399,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '20',
@@ -283,6 +416,13 @@ export const data_cocktail = [
       { i_name: 'Травяной ликер', i_weight: '50 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -295,6 +435,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '22',
@@ -305,6 +452,13 @@ export const data_cocktail = [
       { i_name: 'Вермут Белый', i_weight: '50 мл' },
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -317,6 +471,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '24',
@@ -327,6 +488,13 @@ export const data_cocktail = [
       { i_name: 'Коньяк', i_weight: '50 мл' },
       { i_name: 'Виноград', i_weight: '3 ягоды' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -339,6 +507,13 @@ export const data_cocktail = [
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '26',
@@ -349,6 +524,13 @@ export const data_cocktail = [
       { i_name: 'Виски', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -361,6 +543,13 @@ export const data_cocktail = [
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '28',
@@ -371,6 +560,13 @@ export const data_cocktail = [
       { i_name: 'Сок апельсиновый', i_weight: '75 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -383,6 +579,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '30',
@@ -393,6 +596,13 @@ export const data_cocktail = [
       { i_name: 'Текила', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -405,6 +615,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '32',
@@ -415,6 +632,13 @@ export const data_cocktail = [
       { i_name: 'Водка', i_weight: '50 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -427,6 +651,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '34',
@@ -437,6 +668,13 @@ export const data_cocktail = [
       { i_name: 'Сок яблочный', i_weight: '100 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -449,6 +687,13 @@ export const data_cocktail = [
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '36',
@@ -459,6 +704,13 @@ export const data_cocktail = [
       { i_name: 'Сок апельсиновый', i_weight: '100 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -471,6 +723,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '38',
@@ -481,6 +740,13 @@ export const data_cocktail = [
       { i_name: 'Сухое красное вино', i_weight: '60 мл' },
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -493,6 +759,13 @@ export const data_cocktail = [
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '40',
@@ -503,6 +776,13 @@ export const data_cocktail = [
       { i_name: 'Водка', i_weight: '50 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -515,6 +795,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '42',
@@ -525,6 +812,13 @@ export const data_cocktail = [
       { i_name: 'Вино Игристое', i_weight: '100 мл' },
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -537,6 +831,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '44',
@@ -547,6 +848,13 @@ export const data_cocktail = [
       { i_name: 'Текила', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -559,6 +867,13 @@ export const data_cocktail = [
       { i_name: 'Апельсин', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '46',
@@ -569,6 +884,13 @@ export const data_cocktail = [
       { i_name: 'Ром белый', i_weight: '50 мл' },
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -581,6 +903,13 @@ export const data_cocktail = [
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '48',
@@ -591,6 +920,13 @@ export const data_cocktail = [
       { i_name: 'Ром белый', i_weight: '50 мл' },
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -603,6 +939,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '50',
@@ -613,6 +956,13 @@ export const data_cocktail = [
       { i_name: 'Джин', i_weight: '50 мл' },
       { i_name: 'Огурец', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -625,6 +975,13 @@ export const data_cocktail = [
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '52',
@@ -635,6 +992,13 @@ export const data_cocktail = [
       { i_name: 'Бурбон', i_weight: '50 мл' },
       { i_name: 'Мята', i_weight: '3 листочка' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -647,6 +1011,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '54',
@@ -657,6 +1028,13 @@ export const data_cocktail = [
       { i_name: 'Сок яблочно-виноградный', i_weight: '75 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -669,6 +1047,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '56',
@@ -679,6 +1064,13 @@ export const data_cocktail = [
       { i_name: 'Вермут белый', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -691,6 +1083,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '58',
@@ -701,6 +1100,13 @@ export const data_cocktail = [
       { i_name: 'Ром', i_weight: '50 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -713,6 +1119,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '60',
@@ -723,6 +1136,13 @@ export const data_cocktail = [
       { i_name: 'Вино игристое', i_weight: '100 мл' },
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -735,6 +1155,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '62',
@@ -745,6 +1172,13 @@ export const data_cocktail = [
       { i_name: 'Вермут Белый', i_weight: '50 мл' },
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
   {
@@ -757,6 +1191,13 @@ export const data_cocktail = [
       { i_name: 'Лайм', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '64',
@@ -768,6 +1209,13 @@ export const data_cocktail = [
       { i_name: 'Лимон', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
     ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+    ],
   },
   {
     id: '65',
@@ -778,6 +1226,13 @@ export const data_cocktail = [
       { i_name: 'Сок экзотик', i_weight: '75 мл' },
       { i_name: 'Грейпфрут', i_weight: '1 слайс' },
       { i_name: 'Лёд', i_weight: '5 кубиков' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
     ],
   },
 ];

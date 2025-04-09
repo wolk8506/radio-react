@@ -61,7 +61,7 @@ export const Cake = () => {
         </Breadcrumbs>
         <h2>{recept.name}</h2>
         <div className="ingredients">
-          <img className="ingredients__img" src={recept.img} alt={recept.name} width={412} />
+          <img className="ingredients__img" src={recept.img} alt={recept.name} width={412} height={412} />
           <div>
             <h3 className="ingredients__title">ИНГРЕДИЕНТЫ</h3>
             <ul>
@@ -79,7 +79,7 @@ export const Cake = () => {
           </div>
         </div>
 
-        {'cocktail' !== item_ID && (
+        {'' !== recept.steps[0].text && (
           <div className="step">
             <h3 className="step__title">ПОШАГОВЫЙ РЕЦЕПТ ПРИГОТОВЛЕНИЯ</h3>
             <ol>
