@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.373d6ed9.css",
-    "main.js": "/radio-react/static/js/main.093ec1fb.js",
+    "main.css": "/radio-react/static/css/main.9c57c2a3.css",
+    "main.js": "/radio-react/static/js/main.14dc0de2.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -128,6 +128,7 @@
     "static/media/cake_05.jpg": "/radio-react/static/media/cake_05.61945478acf2fa66d14b.jpg",
     "static/media/dotf1.ttf": "/radio-react/static/media/dotf1.b959cb0ac57821ab6a89.ttf",
     "static/media/img-soundpark-deep.jpg": "/radio-react/static/media/img-soundpark-deep.d53d2e7c8ac8882c408b.jpg",
+    "static/media/03-00.jpg": "/radio-react/static/media/03-00.61ebc8644ba0b83c42a2.jpg",
     "static/media/year_2025.png": "/radio-react/static/media/year_2025.d298e5dbefa1bcd60194.png",
     "static/media/cake_09.jpg": "/radio-react/static/media/cake_09.866d5958531384de751e.jpg",
     "static/media/cake_08.jpg": "/radio-react/static/media/cake_08.bf68a62fe2c7925d01dd.jpg",
@@ -168,7 +169,7 @@
     "static/media/salad_01_14.jpg": "/radio-react/static/media/salad_01_14.7433a44ff957c27c3b26.jpg",
     "static/media/meat_06_1.jpg": "/radio-react/static/media/meat_06_1.dae844acd861c8bafd51.jpg",
     "static/media/salad_01_11.jpg": "/radio-react/static/media/salad_01_11.55f789962e574cdfb9dc.jpg",
-    "static/media/soup_01.jpg": "/radio-react/static/media/soup_01.ce06c9872156d689279e.jpg",
+    "static/media/01-00.jpg": "/radio-react/static/media/01-00.ce06c9872156d689279e.jpg",
     "static/media/cake_06.jpg": "/radio-react/static/media/cake_06.a3b3215e2164c66290fb.jpg",
     "static/media/cake_06_4.jpg": "/radio-react/static/media/cake_06_4.a3b3215e2164c66290fb.jpg",
     "static/media/cake_06_3.jpg": "/radio-react/static/media/cake_06_3.1b5c01da8be668792c05.jpg",
@@ -260,11 +261,11 @@
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
     "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
-    "main.373d6ed9.css.map": "/radio-react/static/css/main.373d6ed9.css.map",
-    "main.093ec1fb.js.map": "/radio-react/static/js/main.093ec1fb.js.map"
+    "main.9c57c2a3.css.map": "/radio-react/static/css/main.9c57c2a3.css.map",
+    "main.14dc0de2.js.map": "/radio-react/static/js/main.14dc0de2.js.map"
   },
   "entrypoints": [
-    "static/css/main.373d6ed9.css",
-    "static/js/main.093ec1fb.js"
+    "static/css/main.9c57c2a3.css",
+    "static/js/main.14dc0de2.js"
   ]
 }
