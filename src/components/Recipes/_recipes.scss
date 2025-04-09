@@ -1,33 +1,148 @@
 .container-recipes {
-  // background-color: rgba(0, 0, 0, 0.8);
-  // padding: 30px;
-  // border-radius: 15px;
-
   list-style: none;
-
   width: 1260px;
   margin-right: auto;
   margin-left: auto;
   padding: 16px 16px 16px 32px;
   width: 100%;
   margin-bottom: 32px;
-  // display: flex;
   align-items: center;
   @include card-style;
 }
 
+// !====================================================================
+// !
+// !        breadcrumbs
+// !
+// !
+// !====================================================================
+
+.MuiBreadcrumbs-li a {
+  font-size: 16px;
+  color: $color-03;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.MuiBreadcrumbs-separator {
+  color: $color-03;
+}
+
+.MuiBreadcrumbs-li {
+  background-color: rgb-a($color-02, 3%);
+  padding: 3px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+
+  svg {
+    margin-right: 5px;
+    fill: $color-03;
+  }
+}
+
+.MuiBreadcrumbs-li:hover {
+  background-color: rgb-a($color-02, 10%);
+}
+.MuiBreadcrumbs-li:hover:last-child {
+  background-color: rgb-a($color-02, 3%);
+  cursor: default;
+}
+
+.MuiBreadcrumbs-li:hover a {
+  color: $color-02;
+}
+.MuiBreadcrumbs-li:hover a:last-child {
+  color: $color-03;
+}
+
+.MuiBreadcrumbs-ol .MuiBreadcrumbs-li .MuiTypography-root {
+  color: $color-02;
+  svg {
+    margin-right: 5px;
+    fill: $color-02;
+  }
+}
+
+.breadcrumb-icon:hover {
+  color: $color-02;
+}
+
+// !====================================================================
+// !
+// !        items
+// !
+// !====================================================================
+
+// !====================================================================
+// !
+// !        item
+// !
+// !====================================================================
+
+.ingredients {
+  display: flex;
+  margin-bottom: 30px;
+
+  .ingredients__img {
+    border-radius: 15px;
+  }
+
+  div {
+    width: 100%;
+    padding-left: 40px;
+
+    .ingredients__title {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    li + li {
+      margin-top: 15px;
+    }
+  }
+}
+
+.step {
+  margin-bottom: 32px;
+  .step__title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .item-step {
+    display: flex;
+
+    .item-step__marker {
+      margin-right: 16px;
+      font-size: 18px;
+    }
+
+    .item-step__img {
+      margin-right: 20px;
+      border-radius: 15px;
+    }
+
+    .item-step__discription {
+      width: 100%;
+      color: $color-03;
+    }
+  }
+
+  .item-step + .item-step {
+    margin-top: 32px;
+  }
+}
+
+// ********************************************************************
 .menu-list {
   list-style: none;
-
   width: 1260px;
   margin-right: auto;
   margin-left: auto;
   padding: 16px 16px 16px 32px;
   width: 100%;
   margin-bottom: 32px;
-  // display: flex;
   align-items: center;
-  // @include card-style;
 }
 
 .menu-item {
@@ -51,7 +166,6 @@
 .menu-item:hover svg {
   color: $color-02;
   fill: $color-02;
-  // background-color: rgb-a($color-02, 10%);
 }
 
 .menu-item + .menu-item {
@@ -82,10 +196,6 @@
 }
 
 .recipes__menu-item {
-  // text-decoration: none;
-  // /* font-size: 26px; */
-  // font-weight: 500;
-  // color: #1976d2;
   img {
     border-radius: 5px;
     margin-right: 10px;
@@ -149,9 +259,7 @@ li::marker {
 
 .menu-item {
   text-decoration: none;
-  /* font-size: 26px; */
   font-weight: 500;
-  // color: #1976d2;
 }
 
 .bracket-line {
@@ -203,62 +311,4 @@ li::marker {
   margin-right: auto;
   margin-left: auto;
   display: block;
-}
-
-// !====================================================================
-// !
-// !        breadcrumbs
-// !
-// !
-// !====================================================================
-
-.MuiBreadcrumbs-li a {
-  font-size: 16px;
-  color: $color-03;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.MuiBreadcrumbs-separator {
-  color: $color-03;
-}
-
-.MuiBreadcrumbs-li {
-  background-color: rgb-a($color-02, 3%);
-  padding: 3px 15px;
-  border-radius: 15px;
-  cursor: pointer;
-
-  svg {
-    margin-right: 5px;
-    fill: $color-03;
-  }
-}
-
-.MuiBreadcrumbs-li:hover {
-  background-color: rgb-a($color-02, 10%);
-}
-.MuiBreadcrumbs-li:hover:last-child {
-  background-color: rgb-a($color-02, 3%);
-  cursor: default;
-}
-
-.MuiBreadcrumbs-li:hover a {
-  color: $color-02;
-}
-.MuiBreadcrumbs-li:hover a:last-child {
-  color: $color-03;
-}
-
-.MuiBreadcrumbs-ol .MuiBreadcrumbs-li .MuiTypography-root {
-  color: $color-02;
-  svg {
-    margin-right: 5px;
-    fill: $color-02;
-  }
-}
-
-.breadcrumb-icon:hover {
-  color: $color-02;
 }

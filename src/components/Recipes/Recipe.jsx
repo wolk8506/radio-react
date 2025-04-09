@@ -60,33 +60,38 @@ export const Cake = () => {
           <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>{recept.name}</Typography>
         </Breadcrumbs>
         <h2>{recept.name}</h2>
+        <div className="ingredients">
+          <img className="ingredients__img" src={recept.img} alt={recept.name} width={412} />
+          <div>
+            <h3 className="ingredients__title">ИНГРЕДИЕНТЫ</h3>
+            <ul>
+              {recept.ingredients &&
+                recept.ingredients.map(i => (
+                  <li key={i.i_name}>
+                    <p className="item">
+                      <span className="i-name">{i.i_name}</span>
+                      <span className="bracket-line"></span>
+                      <span className="i-weight">{i.i_weight}</span>
+                    </p>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
 
-        <img src={recept.img} alt={recept.name} width={412} />
-        <h3>ИНГРЕДИЕНТЫ</h3>
-        <ul>
-          {recept.ingredients &&
-            recept.ingredients.map(i => (
-              <li key={i.i_name}>
-                <p className="item">
-                  <span className="i-name">{i.i_name}</span>
-                  <span className="bracket-line"></span>
-                  <span className="i-weight">{i.i_weight}</span>
-                </p>
-              </li>
-            ))}
-        </ul>
         {'cocktail' !== item_ID && (
-          <>
-            <h3>ПОШАГОВЫЙ РЕЦЕПТ ПРИГОТОВЛЕНИЯ</h3>
+          <div className="step">
+            <h3 className="step__title">ПОШАГОВЫЙ РЕЦЕПТ ПРИГОТОВЛЕНИЯ</h3>
             <ol>
-              {recept.steps.map(i => (
+              {recept.steps.map((i, index) => (
                 <li className="item-step" key={i.step}>
-                  {i.img && <img className="image-step" src={i.img} alt="" width={200} />}
-                  <p className="item">{i.text}</p>
+                  <i className="item-step__marker">{index + 1}.</i>
+                  {i.img && <img className="item-step__img" src={i.img} alt="" width={200} />}
+                  <p className="item-step__discription">{i.text}</p>
                 </li>
               ))}
             </ol>
-          </>
+          </div>
         )}
       </div>
     </>
