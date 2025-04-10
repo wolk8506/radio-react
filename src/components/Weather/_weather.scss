@@ -17,29 +17,39 @@
   margin-right: auto;
   margin-left: auto;
 
-  .weather__search {
-    padding: 16px;
+  .weather__search-block {
+    overflow: hidden; // for mobile
+    scrollbar-width: none;
+    padding: 10px 8px 16px 8px;
     width: 100%;
     margin-bottom: 32px;
-    display: flex;
-    align-items: center;
     @include card-style;
 
-    .MuiOutlinedInput-notchedOutline {
-      border-radius: 12px;
-    }
-    .MuiAutocomplete-root .MuiOutlinedInput-root {
-      padding: 2px;
-    }
-    .search-group {
+    .weather__search {
+      padding-top: 6px;
+      overflow: auto; // for mobile
+      scrollbar-width: none;
+      border-radius: 15px;
+      width: 100%;
       display: flex;
       align-items: center;
-    }
-    .MuiInputLabel-root {
-      top: -5px;
-    }
-    .MuiFormLabel-root.Mui-focused {
-      top: 0px;
+
+      .MuiOutlinedInput-notchedOutline {
+        border-radius: 12px;
+      }
+      .MuiAutocomplete-root .MuiOutlinedInput-root {
+        padding: 2px;
+      }
+      .search-group {
+        display: flex;
+        align-items: center;
+      }
+      .MuiInputLabel-root {
+        top: -5px;
+      }
+      .MuiFormLabel-root.Mui-focused {
+        top: 0px;
+      }
     }
   }
 
@@ -145,7 +155,8 @@
       border-radius: 12px;
       border: 1px solid rgb-a($color-02, 50%);
       box-sizing: border-box;
-      background: rgb-a($color-09, 51%);
+      // background: rgb-a($color-09, 51%);
+      background: rgb-a($color-02, 4%);
       display: flex;
       align-items: center;
       font-size: 14px;
@@ -169,7 +180,6 @@
     width: 620px;
     height: 270px;
     padding: 16px 0px 0px;
-    // margin-bottom: 20px;
     @include card-style;
 
     .current-day__label {
@@ -495,8 +505,6 @@
               width: calc((100vw - 64px) / 5);
               box-sizing: border-box;
               padding: 0px 0px 16px;
-              // margin: 0;
-              // padding: 0;
               text-align: center;
 
               .day-card {
@@ -516,7 +524,6 @@
                 text-align: center;
                 background: rgb-a($color-02, 3%);
                 border-radius: 15px;
-                // -webkit-tap-highlight-color: transparent;
                 padding: 0;
                 margin: 0;
                 padding: 0;
@@ -558,7 +565,6 @@
                       box-sizing: border-box;
 
                       .icon-temp-part__image {
-                        // width: 36px;
                         height: 36px;
                       }
 
@@ -612,7 +618,6 @@
 
   .sun-and-moon {
     margin: 16px 0px 16px;
-    // background-color: rgba(255, 255, 255, 0.05);
     background: $color-07;
     border-radius: 4px;
     @include card-style;
@@ -648,7 +653,6 @@
               justify-content: space-between;
 
               .detail-items__grid {
-                // width: calc(50% - 8px);
                 max-width: 154px;
                 display: flex;
                 justify-content: center;
@@ -665,10 +669,6 @@
                   margin-right: 16px;
                 }
 
-                // & *:first-child {
-                //   margin-right: 16px;
-                // }
-
                 .label {
                   width: unset;
                   max-width: 140px;
@@ -678,7 +678,6 @@
                   font-weight: 400;
                   opacity: 0.8;
                   white-space: normal;
-                  // word-break: break-word;
                   position: relative;
                 }
                 .value {
@@ -700,7 +699,6 @@
               .day-night__grid {
                 display: block;
                 text-align: center;
-                // width: calc(50% - 8px);
                 max-width: 154px;
                 margin-top: 20px;
 
@@ -884,23 +882,11 @@
 }
 
 .modal {
-  // position: absolute;
-  // opacity: 0;
   pointer-events: none;
-  // width: calc(100% - 20px);
-  // height: 100%;
   background: $color-07;
   z-index: -5;
   top: 0;
-  // margin-top: 45px;
-  // border-radius: 15px;
   @include card-style;
-
-  // &.open {
-  //   opacity: 1;
-  //   pointer-events: all;
-  //   z-index: 100;
-  // }
 
   .modal__header {
     display: flex;
@@ -1038,6 +1024,18 @@
 @media screen and (max-width: 720px) {
   .weather {
     width: 100%;
+
+    .MuiInputBase-root {
+      width: 200px;
+    }
+
+    .MuiAutocomplete-root .MuiOutlinedInput-root {
+      font-size: 14px;
+    }
+
+    .MuiFormLabel-root {
+      font-size: 14px;
+    }
 
     .dayCard {
       width: 100%;

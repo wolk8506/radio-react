@@ -345,245 +345,247 @@ export const Weather = () => {
 
   return (
     <div className="weather">
-      <div className="weather__search">
-        <IconButton onClick={handleLocation}>
-          <GpsFixedIcon fontSize="inherit" />
-        </IconButton>
-        <Autocomplete
-          // disablePortal
-          loading={isSearching}
-          options={results}
-          sx={{ width: 300 }}
-          onClose={handleClose}
-          renderInput={params => (
-            <TextField
-              {...params}
-              label="Поиск местоположения"
-              onChange={e => setSearchTerm(e.target.value)}
-              slotProps={{
-                input: {
-                  ...params.InputProps,
-                  endAdornment: (
-                    <React.Fragment>
-                      {isSearching ? <CircularProgress color="inherit" size={20} /> : null}
-                      {params.InputProps.endAdornment}
-                    </React.Fragment>
-                  ),
-                },
+      <div className="weather__search-block">
+        <div className="weather__search">
+          <IconButton onClick={handleLocation}>
+            <GpsFixedIcon fontSize="inherit" />
+          </IconButton>
+          <Autocomplete
+            // disablePortal
+            loading={isSearching}
+            options={results}
+            sx={{ width: 300 }}
+            onClose={handleClose}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Поиск местоположения"
+                onChange={e => setSearchTerm(e.target.value)}
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    endAdornment: (
+                      <React.Fragment>
+                        {isSearching ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </React.Fragment>
+                    ),
+                  },
+                }}
+              />
+            )}
+          />
+
+          {cityListUpdate[0] !== undefined && (
+            <div
+              className="search__card-city"
+              onClick={() => {
+                handleShowCity(cityListUpdate[0].id);
               }}
-            />
+            >
+              <div className="card-city">
+                {cityListUpdate[0].home && (
+                  <IconButton aria-label="delete" size="small">
+                    <HomeIcon fontSize="inherit" />
+                  </IconButton>
+                )}
+                <p>{cityListUpdate[0]?.city.split(',')[0]}</p>
+                <img className="card-city__image" src={cityListUpdate[0]?.icon} widh="17" alt="icon" />
+                <p>{cityListUpdate[0]?.temperature}°</p>
+                <div>
+                  <IconButton
+                    aria-label="more"
+                    id="long-button_1"
+                    aria-controls={open_1 ? 'long-menu_1' : undefined}
+                    aria-expanded={open_1 ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick_1}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="long-menu_1"
+                    MenuListProps={{
+                      'aria-labelledby_1': 'long-button_1',
+                    }}
+                    anchorEl={anchorEl_1}
+                    open={open_1}
+                    onClose={() => setAnchorEl_1(null)}
+                    slotProps={{
+                      paper: {
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: '20ch',
+                        },
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl_1(null);
+                        dispatch(homeCityListItem({ id: cityListUpdate[0].id, home: !cityListUpdate[0].home }));
+                      }}
+                      disableRipple
+                    >
+                      <HomeIcon />
+                      Дом
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl_1(null);
+                        dispatch(deleteCityListItem(cityListUpdate[0].id));
+                      }}
+                      disableRipple
+                    >
+                      <DeleteIcon />
+                      Удалить
+                    </MenuItem>
+                  </Menu>
+                </div>
+              </div>
+            </div>
           )}
-        />
 
-        {cityListUpdate[0] !== undefined && (
-          <div
-            className="search__card-city"
-            onClick={() => {
-              handleShowCity(cityListUpdate[0].id);
-            }}
-          >
-            <div className="card-city">
-              {cityListUpdate[0].home && (
-                <IconButton aria-label="delete" size="small">
-                  <HomeIcon fontSize="inherit" />
-                </IconButton>
-              )}
-              <p>{cityListUpdate[0]?.city.split(',')[0]}</p>
-              <img className="card-city__image" src={cityListUpdate[0]?.icon} widh="17" alt="icon" />
-              <p>{cityListUpdate[0]?.temperature}°</p>
-              <div>
-                <IconButton
-                  aria-label="more"
-                  id="long-button_1"
-                  aria-controls={open_1 ? 'long-menu_1' : undefined}
-                  aria-expanded={open_1 ? 'true' : undefined}
-                  aria-haspopup="true"
-                  onClick={handleClick_1}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="long-menu_1"
-                  MenuListProps={{
-                    'aria-labelledby_1': 'long-button_1',
-                  }}
-                  anchorEl={anchorEl_1}
-                  open={open_1}
-                  onClose={() => setAnchorEl_1(null)}
-                  slotProps={{
-                    paper: {
-                      style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: '20ch',
+          {cityListUpdate[1] !== undefined && (
+            <div
+              className="search__card-city"
+              onClick={() => {
+                handleShowCity(cityListUpdate[1].id);
+              }}
+            >
+              <div className="card-city">
+                {cityListUpdate[1].home && (
+                  <IconButton aria-label="delete" size="small">
+                    <HomeIcon fontSize="inherit" />
+                  </IconButton>
+                )}
+                <p>{cityListUpdate[1]?.city.split(',')[0]}</p>
+                <img className="card-city__image" src={cityListUpdate[1]?.icon} widh="17" alt="icon" />
+                <p>{cityListUpdate[1]?.temperature}°</p>
+                <div>
+                  <IconButton
+                    aria-label="more"
+                    id="long-button_2"
+                    aria-controls={open_2 ? 'long-menu_2' : undefined}
+                    aria-expanded={open_2 ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick_2}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="long-menu_2"
+                    MenuListProps={{
+                      'aria-labelledby_2': 'long-button_2',
+                    }}
+                    anchorEl={anchorEl_2}
+                    open={open_2}
+                    onClose={() => setAnchorEl_1(null)}
+                    slotProps={{
+                      paper: {
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: '20ch',
+                        },
                       },
-                    },
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl_1(null);
-                      dispatch(homeCityListItem({ id: cityListUpdate[0].id, home: !cityListUpdate[0].home }));
                     }}
-                    disableRipple
                   >
-                    <HomeIcon />
-                    Дом
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl_1(null);
-                      dispatch(deleteCityListItem(cityListUpdate[0].id));
-                    }}
-                    disableRipple
-                  >
-                    <DeleteIcon />
-                    Удалить
-                  </MenuItem>
-                </Menu>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl_2(null);
+                        dispatch(homeCityListItem({ id: cityListUpdate[1].id, home: !cityListUpdate[1].home }));
+                      }}
+                      disableRipple
+                    >
+                      <HomeIcon />
+                      Дом
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl_2(null);
+                        dispatch(deleteCityListItem(cityListUpdate[1].id));
+                      }}
+                      disableRipple
+                    >
+                      <DeleteIcon />
+                      Удалить
+                    </MenuItem>
+                  </Menu>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {cityListUpdate[1] !== undefined && (
-          <div
-            className="search__card-city"
-            onClick={() => {
-              handleShowCity(cityListUpdate[1].id);
-            }}
-          >
-            <div className="card-city">
-              {cityListUpdate[1].home && (
-                <IconButton aria-label="delete" size="small">
-                  <HomeIcon fontSize="inherit" />
-                </IconButton>
-              )}
-              <p>{cityListUpdate[1]?.city.split(',')[0]}</p>
-              <img className="card-city__image" src={cityListUpdate[1]?.icon} widh="17" alt="icon" />
-              <p>{cityListUpdate[1]?.temperature}°</p>
-              <div>
-                <IconButton
-                  aria-label="more"
-                  id="long-button_2"
-                  aria-controls={open_2 ? 'long-menu_2' : undefined}
-                  aria-expanded={open_2 ? 'true' : undefined}
-                  aria-haspopup="true"
-                  onClick={handleClick_2}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="long-menu_2"
-                  MenuListProps={{
-                    'aria-labelledby_2': 'long-button_2',
-                  }}
-                  anchorEl={anchorEl_2}
-                  open={open_2}
-                  onClose={() => setAnchorEl_1(null)}
-                  slotProps={{
-                    paper: {
-                      style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: '20ch',
+          {cityListUpdate[2] !== undefined && (
+            <div
+              className="search__card-city"
+              onClick={() => {
+                handleShowCity(cityListUpdate[2].id);
+              }}
+            >
+              <div className="card-city">
+                {cityListUpdate[2].home && (
+                  <IconButton aria-label="delete" size="small">
+                    <HomeIcon fontSize="inherit" />
+                  </IconButton>
+                )}
+                <p>{cityListUpdate[2]?.city.split(',')[0]}</p>
+                <img className="card-city__image" src={cityListUpdate[2]?.icon} widh="17" alt="icon" />
+                <p>{cityListUpdate[2]?.temperature}°</p>
+                <div>
+                  <IconButton
+                    aria-label="more"
+                    id="long-button_3"
+                    aria-controls={open_3 ? 'long-menu_3' : undefined}
+                    aria-expanded={open_3 ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick_3}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="long-menu_3"
+                    MenuListProps={{
+                      'aria-labelledby_3': 'long-button_3',
+                    }}
+                    anchorEl={anchorEl_3}
+                    open={open_3}
+                    onClose={() => setAnchorEl_1(null)}
+                    slotProps={{
+                      paper: {
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: '20ch',
+                        },
                       },
-                    },
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl_2(null);
-                      dispatch(homeCityListItem({ id: cityListUpdate[1].id, home: !cityListUpdate[1].home }));
                     }}
-                    disableRipple
                   >
-                    <HomeIcon />
-                    Дом
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl_2(null);
-                      dispatch(deleteCityListItem(cityListUpdate[1].id));
-                    }}
-                    disableRipple
-                  >
-                    <DeleteIcon />
-                    Удалить
-                  </MenuItem>
-                </Menu>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl_3(null);
+                        dispatch(homeCityListItem({ id: cityListUpdate[2].id, home: !cityListUpdate[2].home }));
+                      }}
+                      disableRipple
+                    >
+                      <HomeIcon />
+                      Дом
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl_3(null);
+                        dispatch(deleteCityListItem(cityListUpdate[2].id));
+                      }}
+                      disableRipple
+                    >
+                      <DeleteIcon />
+                      Удалить
+                    </MenuItem>
+                  </Menu>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {cityListUpdate[2] !== undefined && (
-          <div
-            className="search__card-city"
-            onClick={() => {
-              handleShowCity(cityListUpdate[2].id);
-            }}
-          >
-            <div className="card-city">
-              {cityListUpdate[2].home && (
-                <IconButton aria-label="delete" size="small">
-                  <HomeIcon fontSize="inherit" />
-                </IconButton>
-              )}
-              <p>{cityListUpdate[2]?.city.split(',')[0]}</p>
-              <img className="card-city__image" src={cityListUpdate[2]?.icon} widh="17" alt="icon" />
-              <p>{cityListUpdate[2]?.temperature}°</p>
-              <div>
-                <IconButton
-                  aria-label="more"
-                  id="long-button_3"
-                  aria-controls={open_3 ? 'long-menu_3' : undefined}
-                  aria-expanded={open_3 ? 'true' : undefined}
-                  aria-haspopup="true"
-                  onClick={handleClick_3}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="long-menu_3"
-                  MenuListProps={{
-                    'aria-labelledby_3': 'long-button_3',
-                  }}
-                  anchorEl={anchorEl_3}
-                  open={open_3}
-                  onClose={() => setAnchorEl_1(null)}
-                  slotProps={{
-                    paper: {
-                      style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: '20ch',
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl_3(null);
-                      dispatch(homeCityListItem({ id: cityListUpdate[2].id, home: !cityListUpdate[2].home }));
-                    }}
-                    disableRipple
-                  >
-                    <HomeIcon />
-                    Дом
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl_3(null);
-                      dispatch(deleteCityListItem(cityListUpdate[2].id));
-                    }}
-                    disableRipple
-                  >
-                    <DeleteIcon />
-                    Удалить
-                  </MenuItem>
-                </Menu>
-              </div>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="weather__title">
