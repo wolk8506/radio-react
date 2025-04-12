@@ -35,6 +35,11 @@
     }
   }
 
+  .category {
+    overflow: auto;
+    width: 700px;
+  }
+
   li + li {
     margin-top: 32px;
   }
@@ -122,8 +127,8 @@
     .MuiTablePagination-displayedRows {
       color: $color-03;
     }
-    .MuiButtonBase-root:nth-child(1) {
-      display: none;
-    }
+    // .MuiButtonBase-root:nth-child(1) {
+    //   display: none;
+    // }
   }
 }

@@ -1,23 +1,10 @@
-import cake_01 from '../img/cake/cake_01.jpg';
-import cake_02 from '../img/cake/cake_02.png';
-import cake_03 from '../img/cake/cake_03.jpg';
-import cake_04 from '../img/cake/cake_04.jpg';
-import cake_05 from '../img/cake/cake_05.jpg';
-import cake_06 from '../img/cake/cake_06.jpg';
-import cake_06_1 from '../img/cake/cake_06_1.jpg';
-import cake_06_2 from '../img/cake/cake_06_2.jpg';
-import cake_06_3 from '../img/cake/cake_06_3.jpg';
-import cake_06_4 from '../img/cake/cake_06_4.jpg';
-import cake_07 from '../img/cake/cake_07.jpg';
-import cake_08 from '../img/cake/cake_08.jpg';
-import cake_09 from '../img/cake/cake_09.jpg';
-import cake_00 from '../img/load.gif';
+import img from '../img/cake/index';
 
 export const data_cake = [
   {
     id: '1',
     name: 'Шоколадные кексы',
-    img: cake_01,
+    img: img.cake_01_00,
     ingredients: [
       { i_name: 'Мука', i_weight: '150 г.' },
       { i_name: 'Яйца', i_weight: '1 шт.' },
@@ -66,7 +53,7 @@ export const data_cake = [
   {
     id: '2',
     name: 'Шоколадный пирог',
-    img: cake_02,
+    img: img.cake_02_00,
     ingredients: [
       { i_name: 'Молоко', i_weight: '200 г.' },
       { i_name: 'Сахар', i_weight: '200 г.' },
@@ -118,7 +105,7 @@ export const data_cake = [
   {
     id: '3',
     name: 'Кексы на майонезе',
-    img: cake_03,
+    img: img.cake_03_00,
     ingredients: [
       { i_name: 'Майонез (стакан )', i_weight: '250 г.' },
       { i_name: 'Сахар', i_weight: '1 стак.' },
@@ -169,7 +156,7 @@ export const data_cake = [
   {
     id: '4',
     name: 'Шарлотка с яблоками',
-    img: cake_04,
+    img: img.cake_04_00,
     ingredients: [
       { i_name: 'Мука', i_weight: '1 стакан.' },
       { i_name: 'Сахар', i_weight: '1 стакан.' },
@@ -218,7 +205,7 @@ export const data_cake = [
   {
     id: '5',
     name: 'Тонкое тесто дляпиццы',
-    img: cake_05,
+    img: img.cake_05_00,
     ingredients: [
       { i_name: 'Пшеничная мука', i_weight: '175 г.' },
       { i_name: 'Оливковое масло', i_weight: ' 1 ст.л.' },
@@ -244,7 +231,7 @@ export const data_cake = [
   {
     id: '6',
     name: 'Гречневые блины',
-    img: cake_06,
+    img: img.cake_06_00,
     ingredients: [
       { i_name: 'Мука гречневая', i_weight: '250 г.' },
       { i_name: 'Мука пшеничная', i_weight: '250 г.' },
@@ -259,22 +246,22 @@ export const data_cake = [
     steps: [
       {
         step: 1,
-        img: cake_06_1,
+        img: img.cake_06_01,
         text: 'Молоко нагрейте в кастрюле, но не доводите до кипения. Затем перелейте его в миску, положите кусочек дрожжей и насыпьте сахар и гречневую муку. Полученную массу нужно размешать, а потом взбить венчиком до образования пюре-образной массы без комочков. Миску нужно накрыть толстым полотенцем, тесто должно «подойти» в течение часа в теплом месте.',
       },
       {
         step: 2,
-        img: cake_06_2,
+        img: img.cake_06_02,
         text: 'Яйца хорошенько помойте, разбейте в сепаратор для яиц таким образом, чтобы желток отделился от белка. Пшеничную муку просейте с помощью мелкого сита. В настоявшееся тесто нужно налить растительное масло (1 столовую ложку) и воду, добавить желтки и муку и посолить. Тесто для будущих блинов необходимо взбить венчиком и опять настоять, но уже в течение 10 – 15 минут.',
       },
       {
         step: 3,
-        img: cake_06_3,
+        img: img.cake_06_03,
         text: 'На раскалённую сковороду следует налить растительное масло и нагреть его. Большой ложкой или половником (1 половник = 1 блин) черпайте жидкое тесто и наливайте его на сковороду. Обжарив блин с двух сторон по 1 – 2 минуты, переворачивая деревянной лопаткой. Они должны быть темно-коричневого цвета. Блины складываем стопкой на плоское блюдо.',
       },
       {
         step: 4,
-        img: cake_06_4,
+        img: img.cake_06_04,
         text: 'Гречневые блины можно подавать горячими, так и холодными на плоском сервировочном блюде или разложенными на порционные тарелки, развернутыми или завернутыми с какой-нибудь начинкой: сладкой или соленой, кислой или горькой. Запивать гречневые блины со сладкой начинкой можно чаем, кофе или какао, с соленой или горькой начинкой лучше всего – томатным соком, или вообще не запивать, кому как нравится. Приятного Вам аппетита!',
       },
     ],
@@ -282,7 +269,7 @@ export const data_cake = [
   {
     id: '7',
     name: 'Французские гречневые блины (крепы)',
-    img: cake_07,
+    img: img.cake_07_00,
     ingredients: [
       { i_name: 'мука гречневая', i_weight: '200 г.' },
       { i_name: 'мука пшеничная', i_weight: '130 г.' },
@@ -343,7 +330,7 @@ export const data_cake = [
   {
     id: '8',
     name: 'Блины на кефире',
-    img: cake_08,
+    img: img.cake_08_00,
     ingredients: [
       { i_name: 'Кефир', i_weight: '500 мл.' },
       { i_name: 'Яйца', i_weight: '3 шт.' },
@@ -382,7 +369,7 @@ export const data_cake = [
   {
     id: '9',
     name: 'Дрожжевые блины',
-    img: cake_09,
+    img: img.cake_09_00,
     ingredients: [
       { i_name: 'Мука', i_weight: '300 гр.' },
       { i_name: 'Молоко', i_weight: '500 мл.' },
@@ -419,7 +406,7 @@ export const data_cake = [
   {
     id: 10,
     name: 'Панкейки',
-    img: cake_00,
+    img: img.cake_00_00,
     ingredients: [
       { i_name: 'Пшеничная мука', i_weight: '1 стакан' },
       { i_name: 'Кефир', i_weight: ' 1 стакан' },
@@ -446,7 +433,7 @@ export const data_cake = [
   {
     id: 11,
     name: 'Блины',
-    img: cake_00,
+    img: img.cake_00_00,
     ingredients: [
       { i_name: 'Молоко', i_weight: '300 мл.' },
       { i_name: 'Вода', i_weight: '300 мл.' },
@@ -472,7 +459,7 @@ export const data_cake = [
   {
     id: 12,
     name: 'Булочки сдобные',
-    img: cake_00,
+    img: img.cake_00_00,
     ingredients: [
       { i_name: 'Молоко', i_weight: '0,5 л.' },
       { i_name: 'Сахар', i_weight: '100 гр.' },
@@ -523,7 +510,7 @@ export const data_cake = [
   {
     id: 13,
     name: 'Батон (хлеб)',
-    img: cake_00,
+    img: img.cake_00_00,
     ingredients: [
       { i_name: 'Вода', i_weight: '250 мл.' },
       { i_name: 'Соль', i_weight: '10 гр.' },
@@ -562,7 +549,7 @@ export const data_cake = [
   {
     id: 14,
     name: 'Хлеб черный',
-    img: cake_00,
+    img: img.cake_00_00,
     ingredients: [
       { i_name: 'Пшеничная мука', i_weight: '300 гр.' },
       { i_name: 'Ржаная мука', i_weight: '300 гр.' },
@@ -598,7 +585,7 @@ export const data_cake = [
   // {
   //   id: '10',
   //   name: 'Шаблон 5',
-  //   img: cake_05,
+  //   img: img.cake_05,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },
@@ -641,7 +628,7 @@ export const data_cake = [
   // {
   //   id: '11',
   //   name: 'Шаблон 5',
-  //   img: cake_00,
+  //   img: img.cake_00,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },
@@ -684,7 +671,7 @@ export const data_cake = [
   // {
   //   id: '12',
   //   name: 'Шаблон 5',
-  //   img: cake_00,
+  //   img: img.cake_00,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },
@@ -727,7 +714,7 @@ export const data_cake = [
   // {
   //   id: '13',
   //   name: 'Шаблон 5',
-  //   img: cake_00,
+  //   img: img.cake_00,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },
@@ -770,7 +757,7 @@ export const data_cake = [
   // {
   //   id: '14',
   //   name: 'Шаблон 5',
-  //   img: cake_00,
+  //   img: img.cake_00,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },
@@ -813,7 +800,7 @@ export const data_cake = [
   // {
   //   id: '15',
   //   name: 'Шаблон 5',
-  //   img: cake_00,
+  //   img: img.cake_00,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },
@@ -856,7 +843,7 @@ export const data_cake = [
   // {
   //   id: '16',
   //   name: 'Шаблон 5',
-  //   img: cake_00,
+  //   img: img.cake_00,
   //   ingredients: [
   //     { i_name: '', i_weight: '' },
   //     { i_name: '', i_weight: '' },

@@ -13,8 +13,23 @@ import { data_zakuski as zakuski } from './data/data_zakuski';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 import sprite from './sprite.svg';
+import { useState } from 'react';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '402px',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 1,
+};
 
 export const Cake = () => {
   const location = useLocation();
@@ -34,6 +49,14 @@ export const Cake = () => {
     zagotovki: 'Заготовки на зиму',
     zakuski: 'Закуски',
   };
+
+  const [open, setOpen] = useState(false);
+  const [imgModal, setImgModal] = useState();
+  const handleOpen = img => {
+    setOpen(true);
+    setImgModal(img);
+  };
+  const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -86,13 +109,27 @@ export const Cake = () => {
               {recept.steps.map((i, index) => (
                 <li className="item-step" key={i.step}>
                   <i className="item-step__marker">{index + 1}.</i>
-                  {i.img && <img className="item-step__img" src={i.img} alt="" width={200} />}
+                  {i.img && (
+                    <img className="item-step__img" src={i.img} alt="" width={200} onClick={() => handleOpen(i.img)} />
+                  )}
                   <p className="item-step__discription">{i.text}</p>
                 </li>
               ))}
             </ol>
           </div>
         )}
+        <div>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style} onClick={handleClose}>
+              <img src={imgModal} alt="" style={{ width: '100%' }} onClick={handleClose} />
+            </Box>
+          </Modal>
+        </div>
       </div>
     </>
   );

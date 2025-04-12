@@ -1,12 +1,10 @@
-import zakuski_01 from '../img/zakuski_01.jpg';
-
-// import cake_00 from '../img/load.gif';
+import img from '../img/zakuski/index';
 
 export const data_zakuski = [
   {
     id: '1',
     name: 'Бутерброд с бананом и корицей',
-    img: zakuski_01,
+    img: img.zakuski_01_00,
     ingredients: [
       { i_name: 'Яйца', i_weight: '2 шт.' },
       { i_name: 'Банан', i_weight: '1 шт.' },

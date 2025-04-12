@@ -1,18 +1,11 @@
-import soup_01_00 from '../img/soup/01-00.jpg';
-import soup_02_00 from '../img/soup/02-00.png';
-import soup_02_01 from '../img/soup/02-01.png';
-import soup_02_02 from '../img/soup/02-02.png';
-import soup_02_03 from '../img/soup/02-03.png';
-import soup_02_04 from '../img/soup/02-04.png';
-import soup_03_00 from '../img/soup/03-00.jpg';
-
-// import cake_00 from '../img/load.gif';
+import img from '../img/soup/index';
 
 export const data_soup = [
+  // 1-Сырный суп
   {
     id: '1',
     name: 'Сырный суп',
-    img: soup_01_00,
+    img: img.soup_01_00,
     ingredients: [
       { i_name: 'Бульон', i_weight: '1 л.' },
       { i_name: 'Картофель', i_weight: '2 шт.' },
@@ -42,10 +35,11 @@ export const data_soup = [
       },
     ],
   },
+  // 2-Турецкий грибной суп
   {
     id: '2',
     name: 'Турецкий грибной суп',
-    img: soup_02_00,
+    img: img.soup_02_00,
     ingredients: [
       { i_name: 'Лук', i_weight: '2 шт.' },
       { i_name: 'Чеснок', i_weight: '5 зубчиков' },
@@ -62,30 +56,31 @@ export const data_soup = [
     steps: [
       {
         step: 1,
-        img: soup_02_01,
+        img: img.soup_02_01,
         text: 'На сливочно оливковом масле обжареваем лук и чеснок.',
       },
       {
         step: 2,
-        img: soup_02_02,
+        img: img.soup_02_02,
         text: 'К обжареному луку добавляем грибы и обжареваем, по готовности грибов добавляем 3 ст.л. муки, перемешиваем  и готовим около минуты.',
       },
       {
         step: 3,
-        img: soup_02_03,
+        img: img.soup_02_03,
         text: 'Солим грибы и к ним добавляем кипяток и варим 15 минут',
       },
       {
         step: 4,
-        img: soup_02_04,
+        img: img.soup_02_04,
         text: 'Добавить сливки, перец, укроп и довести до кипения. Суп готов!',
       },
     ],
   },
+  // 3-Борщ
   {
     id: '3',
     name: 'Борщ',
-    img: soup_03_00,
+    img: img.soup_03_00,
     ingredients: [
       { i_name: 'Кости для бульона', i_weight: '0,8-1 кг.' },
       { i_name: 'Вода', i_weight: '5 л.' },
@@ -144,6 +139,59 @@ export const data_soup = [
         step: 8,
         img: null,
         text: 'Поред выключением добавить порезанный укроп.',
+      },
+    ],
+  },
+  // 4-Холодник
+  {
+    id: '4',
+    name: 'Холодник',
+    img: img.soup_04_00,
+    ingredients: [
+      { i_name: 'Свекла', i_weight: '3 шт. ø7 см.' },
+      { i_name: 'Огурцы', i_weight: '3 шт.' },
+      { i_name: 'Яйца', i_weight: '3 шт.' },
+      { i_name: 'Лимон', i_weight: 'сок 2 ст.л.' },
+      { i_name: 'Зеленый лук', i_weight: '1 пучок' },
+      { i_name: 'Укроп', i_weight: '1 пучок' },
+      { i_name: 'Петрушка', i_weight: '1 пучок' },
+      { i_name: 'Кефир', i_weight: '0,75-1 л.' },
+      { i_name: 'Газировка', i_weight: '250 мл.' },
+      { i_name: 'Перец', i_weight: '1/4 ч.л.' },
+      { i_name: 'Соль', i_weight: '1-1,5 ч.л.' },
+      { i_name: 'Американская горчица', i_weight: '1-1,5 ст. л.' },
+      { i_name: 'Яйца на подачу', i_weight: '1 шт./1 порция' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: null,
+        text: '',
+      },
+      {
+        step: 2,
+        img: null,
+        text: '',
+      },
+      {
+        step: 3,
+        img: null,
+        text: '',
+      },
+      {
+        step: 4,
+        img: null,
+        text: '',
+      },
+      {
+        step: 5,
+        img: null,
+        text: '',
+      },
+      {
+        step: 6,
+        img: null,
+        text: '',
       },
     ],
   },

@@ -1,74 +1,10 @@
-import cocktail_01 from '../img/cocktail/cocktail_01.png';
-import cocktail_02 from '../img/cocktail/cocktail_02.png';
-import cocktail_03 from '../img/cocktail/cocktail_03.png';
-import cocktail_04 from '../img/cocktail/cocktail_04.png';
-import cocktail_05 from '../img/cocktail/cocktail_05.png';
-import cocktail_06 from '../img/cocktail/cocktail_06.png';
-import cocktail_07 from '../img/cocktail/cocktail_07.png';
-import cocktail_08 from '../img/cocktail/cocktail_08.png';
-import cocktail_09 from '../img/cocktail/cocktail_09.png';
-import cocktail_10 from '../img/cocktail/cocktail_10.png';
-import cocktail_11 from '../img/cocktail/cocktail_11.png';
-import cocktail_12 from '../img/cocktail/cocktail_12.png';
-import cocktail_13 from '../img/cocktail/cocktail_13.png';
-import cocktail_14 from '../img/cocktail/cocktail_14.png';
-import cocktail_15 from '../img/cocktail/cocktail_15.png';
-import cocktail_16 from '../img/cocktail/cocktail_16.png';
-import cocktail_17 from '../img/cocktail/cocktail_17.png';
-import cocktail_18 from '../img/cocktail/cocktail_18.png';
-import cocktail_19 from '../img/cocktail/cocktail_19.png';
-import cocktail_20 from '../img/cocktail/cocktail_20.png';
-import cocktail_21 from '../img/cocktail/cocktail_21.png';
-import cocktail_22 from '../img/cocktail/cocktail_22.png';
-import cocktail_23 from '../img/cocktail/cocktail_23.png';
-import cocktail_24 from '../img/cocktail/cocktail_24.png';
-import cocktail_25 from '../img/cocktail/cocktail_25.png';
-import cocktail_26 from '../img/cocktail/cocktail_26.png';
-import cocktail_27 from '../img/cocktail/cocktail_27.png';
-import cocktail_28 from '../img/cocktail/cocktail_28.png';
-import cocktail_29 from '../img/cocktail/cocktail_29.png';
-import cocktail_30 from '../img/cocktail/cocktail_30.png';
-import cocktail_31 from '../img/cocktail/cocktail_31.png';
-import cocktail_32 from '../img/cocktail/cocktail_32.png';
-import cocktail_33 from '../img/cocktail/cocktail_33.png';
-import cocktail_34 from '../img/cocktail/cocktail_34.png';
-import cocktail_35 from '../img/cocktail/cocktail_35.png';
-import cocktail_36 from '../img/cocktail/cocktail_36.png';
-import cocktail_37 from '../img/cocktail/cocktail_37.png';
-import cocktail_38 from '../img/cocktail/cocktail_38.png';
-import cocktail_39 from '../img/cocktail/cocktail_39.png';
-import cocktail_40 from '../img/cocktail/cocktail_40.png';
-import cocktail_41 from '../img/cocktail/cocktail_41.png';
-import cocktail_42 from '../img/cocktail/cocktail_42.png';
-import cocktail_43 from '../img/cocktail/cocktail_43.png';
-import cocktail_44 from '../img/cocktail/cocktail_44.png';
-import cocktail_45 from '../img/cocktail/cocktail_45.png';
-import cocktail_46 from '../img/cocktail/cocktail_46.png';
-import cocktail_47 from '../img/cocktail/cocktail_47.png';
-import cocktail_48 from '../img/cocktail/cocktail_48.png';
-import cocktail_49 from '../img/cocktail/cocktail_49.png';
-import cocktail_50 from '../img/cocktail/cocktail_50.png';
-import cocktail_51 from '../img/cocktail/cocktail_51.png';
-import cocktail_52 from '../img/cocktail/cocktail_52.png';
-import cocktail_53 from '../img/cocktail/cocktail_53.png';
-import cocktail_54 from '../img/cocktail/cocktail_54.png';
-import cocktail_55 from '../img/cocktail/cocktail_55.png';
-import cocktail_56 from '../img/cocktail/cocktail_56.png';
-import cocktail_57 from '../img/cocktail/cocktail_57.png';
-import cocktail_58 from '../img/cocktail/cocktail_58.png';
-import cocktail_59 from '../img/cocktail/cocktail_59.png';
-import cocktail_60 from '../img/cocktail/cocktail_60.png';
-import cocktail_61 from '../img/cocktail/cocktail_61.png';
-import cocktail_62 from '../img/cocktail/cocktail_62.png';
-import cocktail_63 from '../img/cocktail/cocktail_63.png';
-import cocktail_64 from '../img/cocktail/cocktail_64.png';
-import cocktail_65 from '../img/cocktail/cocktail_55.png';
+import img from '../img/cocktail/index';
 
 export const data_cocktail = [
   {
     id: '1',
     name: 'Vodka Spritz / Водка Шприц',
-    img: cocktail_01,
+    img: img.cocktail_01_00,
     ingredients: [
       { i_name: 'Schweppes Spritz Aperitivo', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -86,7 +22,7 @@ export const data_cocktail = [
   {
     id: '2',
     name: 'Sparkling Spritz / Игристый Шприц',
-    img: cocktail_02,
+    img: img.cocktail_02_00,
     ingredients: [
       { i_name: 'Schweppes Spritz Aperitivo', i_weight: '100 мл' },
       { i_name: 'Вино игристое', i_weight: '100 мл' },
@@ -104,7 +40,7 @@ export const data_cocktail = [
   {
     id: '3',
     name: 'Vodka Lemonade / Водка Лимонад',
-    img: cocktail_03,
+    img: img.cocktail_03_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -122,7 +58,7 @@ export const data_cocktail = [
   {
     id: '4',
     name: 'Herbal Lemonade / Травяной Лимонад',
-    img: cocktail_04,
+    img: img.cocktail_04_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Травяной ликер', i_weight: '50 мл' },
@@ -140,7 +76,7 @@ export const data_cocktail = [
   {
     id: '5',
     name: 'Aperitivo Lemonade / Аперитив Лимонад',
-    img: cocktail_05,
+    img: img.cocktail_05_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Аперитив', i_weight: '50 мл' },
@@ -158,7 +94,7 @@ export const data_cocktail = [
   {
     id: '6',
     name: 'Gin Lemonade / Джин Лимонад',
-    img: cocktail_06,
+    img: img.cocktail_06_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Джин', i_weight: '50 мл' },
@@ -176,7 +112,7 @@ export const data_cocktail = [
   {
     id: '7',
     name: 'Whiskey Lemonade / Виски Лимонад',
-    img: cocktail_07,
+    img: img.cocktail_07_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Виски', i_weight: '50 мл' },
@@ -194,7 +130,7 @@ export const data_cocktail = [
   {
     id: '8',
     name: 'Rum Lemonade / Ром Лимонад',
-    img: cocktail_08,
+    img: img.cocktail_08_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Ром', i_weight: '50 мл' },
@@ -212,7 +148,7 @@ export const data_cocktail = [
   {
     id: '9',
     name: 'Exotic Lemonade / Экзотик Лимонад',
-    img: cocktail_09,
+    img: img.cocktail_09_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Сок экзотик', i_weight: '75 мл' },
@@ -230,7 +166,7 @@ export const data_cocktail = [
   {
     id: '10',
     name: 'Apple Lemonade / Яблоко Лимонад',
-    img: cocktail_10,
+    img: img.cocktail_10_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Яблочный сок', i_weight: '75 мл' },
@@ -248,7 +184,7 @@ export const data_cocktail = [
   {
     id: '11',
     name: 'Cognac Lemonade / Коньяк Лимонад',
-    img: cocktail_11,
+    img: img.cocktail_11_00,
     ingredients: [
       { i_name: 'Schweppes Lemonade', i_weight: '125 мл' },
       { i_name: 'Коньяк', i_weight: '50 мл' },
@@ -266,7 +202,7 @@ export const data_cocktail = [
   {
     id: '12',
     name: 'Vodka Tonic / Водка Тоник',
-    img: cocktail_12,
+    img: img.cocktail_12_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -284,7 +220,7 @@ export const data_cocktail = [
   {
     id: '13',
     name: 'Gin Tonic / Джин Тоник',
-    img: cocktail_13,
+    img: img.cocktail_13_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Джин', i_weight: '50 мл' },
@@ -302,7 +238,7 @@ export const data_cocktail = [
   {
     id: '14',
     name: 'Coffee Tonic / Кофе Тоник',
-    img: cocktail_14,
+    img: img.cocktail_14_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '150 мл' },
       { i_name: 'Экспрессо', i_weight: '40 мл' },
@@ -320,7 +256,7 @@ export const data_cocktail = [
   {
     id: '15',
     name: 'Aperitivo Tonic / Аперитив Тоник',
-    img: cocktail_15,
+    img: img.cocktail_15_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Аперитив', i_weight: '50 мл' },
@@ -338,7 +274,7 @@ export const data_cocktail = [
   {
     id: '16',
     name: 'Rum Tonic / Ром Тоник',
-    img: cocktail_16,
+    img: img.cocktail_16_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Ром белый', i_weight: '50 мл' },
@@ -356,7 +292,7 @@ export const data_cocktail = [
   {
     id: '17',
     name: 'Vermouth Tonic / Вермут Тоник',
-    img: cocktail_17,
+    img: img.cocktail_17_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Вермут белый', i_weight: '50 мл' },
@@ -374,7 +310,7 @@ export const data_cocktail = [
   {
     id: '18',
     name: 'Tequila Tonic / Текила Тоник',
-    img: cocktail_18,
+    img: img.cocktail_18_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Текила', i_weight: '50 мл' },
@@ -392,7 +328,7 @@ export const data_cocktail = [
   {
     id: '19',
     name: 'Cherry Tonic / Вишня Тоник',
-    img: cocktail_19,
+    img: img.cocktail_19_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Сок вишневый', i_weight: '75 мл' },
@@ -410,7 +346,7 @@ export const data_cocktail = [
   {
     id: '20',
     name: 'Herbal Tonic / Травяной Тоник',
-    img: cocktail_20,
+    img: img.cocktail_20_00,
     ingredients: [
       { i_name: 'Schweppes Indian Tonic', i_weight: '125 мл' },
       { i_name: 'Травяной ликер', i_weight: '50 мл' },
@@ -428,7 +364,7 @@ export const data_cocktail = [
   {
     id: '21',
     name: 'Vodka Bitter / Водка Биттер',
-    img: cocktail_21,
+    img: img.cocktail_21_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -446,7 +382,7 @@ export const data_cocktail = [
   {
     id: '22',
     name: 'Vermouth Bitter / Вермут Биттер',
-    img: cocktail_22,
+    img: img.cocktail_22_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Вермут Белый', i_weight: '50 мл' },
@@ -464,7 +400,7 @@ export const data_cocktail = [
   {
     id: '23',
     name: 'Bourbon Bitter / Бурбон Биттер',
-    img: cocktail_23,
+    img: img.cocktail_23_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Бурбон', i_weight: '50 мл' },
@@ -482,7 +418,7 @@ export const data_cocktail = [
   {
     id: '24',
     name: 'Cognac Bitter / Коньяк Биттер',
-    img: cocktail_24,
+    img: img.cocktail_24_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Коньяк', i_weight: '50 мл' },
@@ -500,7 +436,7 @@ export const data_cocktail = [
   {
     id: '25',
     name: 'Sparkling Bitter / Игристый Биттер',
-    img: cocktail_25,
+    img: img.cocktail_25_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '100 мл' },
       { i_name: 'Вино игристое', i_weight: '100 мл' },
@@ -518,7 +454,7 @@ export const data_cocktail = [
   {
     id: '26',
     name: 'Whiskey Bitter / Виски Биттер',
-    img: cocktail_26,
+    img: img.cocktail_26_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Виски', i_weight: '50 мл' },
@@ -536,7 +472,7 @@ export const data_cocktail = [
   {
     id: '27',
     name: 'Exotic Bitter / Экзотик Биттер',
-    img: cocktail_27,
+    img: img.cocktail_27_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Сок экзотик', i_weight: '75 мл' },
@@ -554,7 +490,7 @@ export const data_cocktail = [
   {
     id: '28',
     name: 'Orange Bitter / Апельсин Биттер',
-    img: cocktail_28,
+    img: img.cocktail_28_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Сок апельсиновый', i_weight: '75 мл' },
@@ -572,7 +508,7 @@ export const data_cocktail = [
   {
     id: '29',
     name: 'Amaretto Bitter / Амарето Биттер',
-    img: cocktail_29,
+    img: img.cocktail_29_00,
     ingredients: [
       { i_name: 'Schweppes Original Bitter Lemon', i_weight: '125 мл' },
       { i_name: 'Ликер амарето', i_weight: '40 мл' },
@@ -590,7 +526,7 @@ export const data_cocktail = [
   {
     id: '30',
     name: 'Tequila Pomegranate / Текила Гранат',
-    img: cocktail_30,
+    img: img.cocktail_30_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '125 мл' },
       { i_name: 'Текила', i_weight: '50 мл' },
@@ -608,7 +544,7 @@ export const data_cocktail = [
   {
     id: '31',
     name: 'Vermouth Pomegranate / Вермут Гранат',
-    img: cocktail_31,
+    img: img.cocktail_31_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '125 мл' },
       { i_name: 'Вермут сухой', i_weight: '50 мл' },
@@ -626,7 +562,7 @@ export const data_cocktail = [
   {
     id: '32',
     name: 'Vodka Pomegranate / Водка Гранат',
-    img: cocktail_32,
+    img: img.cocktail_32_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -644,7 +580,7 @@ export const data_cocktail = [
   {
     id: '33',
     name: 'Gin Pomegranate / Джин Гранат',
-    img: cocktail_33,
+    img: img.cocktail_33_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '125 мл' },
       { i_name: 'Джин', i_weight: '50 мл' },
@@ -662,7 +598,7 @@ export const data_cocktail = [
   {
     id: '34',
     name: 'Apple Pomegranate / Яблоко Гранат',
-    img: cocktail_34,
+    img: img.cocktail_34_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '100 мл' },
       { i_name: 'Сок яблочный', i_weight: '100 мл' },
@@ -680,7 +616,7 @@ export const data_cocktail = [
   {
     id: '35',
     name: 'Sparkling Pomegranate / Игристый Гранат',
-    img: cocktail_35,
+    img: img.cocktail_35_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '100 мл' },
       { i_name: 'Вино игристое', i_weight: '100 мл' },
@@ -698,7 +634,7 @@ export const data_cocktail = [
   {
     id: '36',
     name: 'Orange Pomegranate / Апельсин Гранат',
-    img: cocktail_36,
+    img: img.cocktail_36_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '100 мл' },
       { i_name: 'Сок апельсиновый', i_weight: '100 мл' },
@@ -716,7 +652,7 @@ export const data_cocktail = [
   {
     id: '37',
     name: 'Whiskey Pomegranate / Виски Гранат',
-    img: cocktail_37,
+    img: img.cocktail_37_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '125 мл' },
       { i_name: 'Виски', i_weight: '50 мл' },
@@ -734,7 +670,7 @@ export const data_cocktail = [
   {
     id: '38',
     name: 'Wine Pomegranate / Вино Гранат',
-    img: cocktail_38,
+    img: img.cocktail_38_00,
     ingredients: [
       { i_name: 'Schweppes Pomegranate', i_weight: '125 мл' },
       { i_name: 'Сухое красное вино', i_weight: '60 мл' },
@@ -752,7 +688,7 @@ export const data_cocktail = [
   {
     id: '39',
     name: 'Gin Grapefruit / Джин Грейпфрут',
-    img: cocktail_39,
+    img: img.cocktail_39_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Джин', i_weight: '50 мл' },
@@ -770,7 +706,7 @@ export const data_cocktail = [
   {
     id: '40',
     name: 'Vodka Grapefruit / Водка Грейпфрут',
-    img: cocktail_40,
+    img: img.cocktail_40_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -788,7 +724,7 @@ export const data_cocktail = [
   {
     id: '41',
     name: 'Vermouth Grapefruit / Вермут Грепфрут',
-    img: cocktail_41,
+    img: img.cocktail_41_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Вермут сухой', i_weight: '50 мл' },
@@ -806,7 +742,7 @@ export const data_cocktail = [
   {
     id: '42',
     name: 'Sparkling Grapefruit / Игристый Грейпфрут',
-    img: cocktail_42,
+    img: img.cocktail_42_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Вино Игристое', i_weight: '100 мл' },
@@ -824,7 +760,7 @@ export const data_cocktail = [
   {
     id: '43',
     name: 'Peach Grapefruit / Персик Грейпфрут',
-    img: cocktail_43,
+    img: img.cocktail_43_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Сок персиковый', i_weight: '75 мл' },
@@ -842,7 +778,7 @@ export const data_cocktail = [
   {
     id: '44',
     name: 'Tequila Grapefruit / Текила Грейпфрут',
-    img: cocktail_44,
+    img: img.cocktail_44_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Текила', i_weight: '50 мл' },
@@ -860,7 +796,7 @@ export const data_cocktail = [
   {
     id: '45',
     name: 'Cranberry Grapefruit / Клюква Грейпфрут',
-    img: cocktail_45,
+    img: img.cocktail_45_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Морс клюква', i_weight: '75 мл' },
@@ -878,7 +814,7 @@ export const data_cocktail = [
   {
     id: '46',
     name: 'Rum Grapefruit / Ром Грейпфрут',
-    img: cocktail_46,
+    img: img.cocktail_46_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Ром белый', i_weight: '50 мл' },
@@ -896,7 +832,7 @@ export const data_cocktail = [
   {
     id: '47',
     name: 'Aperitivo Grapefruit / Аперитив Грейпфрут',
-    img: cocktail_47,
+    img: img.cocktail_47_00,
     ingredients: [
       { i_name: 'Schweppes Grapefruit', i_weight: '125 мл' },
       { i_name: 'Аперитив', i_weight: '50 мл' },
@@ -914,7 +850,7 @@ export const data_cocktail = [
   {
     id: '48',
     name: 'Rum Mojito / Ром Мохито',
-    img: cocktail_48,
+    img: img.cocktail_48_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Ром белый', i_weight: '50 мл' },
@@ -932,7 +868,7 @@ export const data_cocktail = [
   {
     id: '49',
     name: 'Vodka Mojito / Водка Мохито',
-    img: cocktail_49,
+    img: img.cocktail_49_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -950,7 +886,7 @@ export const data_cocktail = [
   {
     id: '50',
     name: 'Gin Mojito / Джин Мохито',
-    img: cocktail_50,
+    img: img.cocktail_50_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Джин', i_weight: '50 мл' },
@@ -968,7 +904,7 @@ export const data_cocktail = [
   {
     id: '51',
     name: 'Sparkling Mojito / Игристый Мохито',
-    img: cocktail_51,
+    img: img.cocktail_51_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '100 мл' },
       { i_name: 'Вино Игристое', i_weight: '100 мл' },
@@ -986,7 +922,7 @@ export const data_cocktail = [
   {
     id: '52',
     name: 'Bourbon Mojito / Бурбон Мохито',
-    img: cocktail_52,
+    img: img.cocktail_52_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Бурбон', i_weight: '50 мл' },
@@ -1004,7 +940,7 @@ export const data_cocktail = [
   {
     id: '53',
     name: 'Whiskey Mojito / Виски Мохито',
-    img: cocktail_53,
+    img: img.cocktail_53_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Виски', i_weight: '50 мл' },
@@ -1022,7 +958,7 @@ export const data_cocktail = [
   {
     id: '54',
     name: 'Rruity Mojito / Фруктовый мохито',
-    img: cocktail_54,
+    img: img.cocktail_54_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Сок яблочно-виноградный', i_weight: '75 мл' },
@@ -1040,7 +976,7 @@ export const data_cocktail = [
   {
     id: '55',
     name: 'Tropical Mojito / Тропический мохито',
-    img: cocktail_55,
+    img: img.cocktail_55_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Сок Экзотик', i_weight: '75 мл' },
@@ -1058,7 +994,7 @@ export const data_cocktail = [
   {
     id: '56',
     name: 'Vermouth Mojito / Вермут Мохито',
-    img: cocktail_56,
+    img: img.cocktail_56_00,
     ingredients: [
       { i_name: 'Schweppes Mojito', i_weight: '125 мл' },
       { i_name: 'Вермут белый', i_weight: '50 мл' },
@@ -1076,7 +1012,7 @@ export const data_cocktail = [
   {
     id: '57',
     name: 'Vodka Colada / Водка Колада',
-    img: cocktail_57,
+    img: img.cocktail_57_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Водка', i_weight: '50 мл' },
@@ -1094,7 +1030,7 @@ export const data_cocktail = [
   {
     id: '58',
     name: 'Rum Colada / Ром Колада',
-    img: cocktail_58,
+    img: img.cocktail_58_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Ром', i_weight: '50 мл' },
@@ -1112,7 +1048,7 @@ export const data_cocktail = [
   {
     id: '59',
     name: 'Whiskey Colada / Виски Колада',
-    img: cocktail_59,
+    img: img.cocktail_59_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Виски', i_weight: '50 мл' },
@@ -1130,7 +1066,7 @@ export const data_cocktail = [
   {
     id: '60',
     name: 'Sparkling Colada / Игристая Колада',
-    img: cocktail_60,
+    img: img.cocktail_60_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '100 мл' },
       { i_name: 'Вино игристое', i_weight: '100 мл' },
@@ -1148,7 +1084,7 @@ export const data_cocktail = [
   {
     id: '61',
     name: 'Apple Colada / Яблоко Колада',
-    img: cocktail_61,
+    img: img.cocktail_61_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Сок яблочный', i_weight: '75 мл' },
@@ -1166,7 +1102,7 @@ export const data_cocktail = [
   {
     id: '62',
     name: 'Vermouth Colada / Вермут колада',
-    img: cocktail_62,
+    img: img.cocktail_62_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Вермут Белый', i_weight: '50 мл' },
@@ -1184,7 +1120,7 @@ export const data_cocktail = [
   {
     id: '63',
     name: 'Tequila Colada / Текила Колада',
-    img: cocktail_63,
+    img: img.cocktail_63_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Текила', i_weight: '50 мл' },
@@ -1202,7 +1138,7 @@ export const data_cocktail = [
   {
     id: '64',
     name: 'Amaretto Colada / Амарето Колада',
-    img: cocktail_64,
+    img: img.cocktail_64_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Ликер амарето', i_weight: '40 мл' },
@@ -1220,7 +1156,7 @@ export const data_cocktail = [
   {
     id: '65',
     name: 'Exotic Colada / Экзотик Колада',
-    img: cocktail_65,
+    img: img.cocktail_65_00,
     ingredients: [
       { i_name: 'Schweppes Pina Colada', i_weight: '125 мл' },
       { i_name: 'Сок экзотик', i_weight: '75 мл' },
@@ -1232,6 +1168,72 @@ export const data_cocktail = [
         step: 1,
         img: null,
         text: '',
+      },
+    ],
+  },
+  {
+    id: '66',
+    name: 'Чай',
+    img: img.tea_66_00,
+    ingredients: [
+      { i_name: 'Вода', i_weight: '250 мл' },
+      { i_name: 'Чай', i_weight: '1 пакетик' },
+    ],
+    steps: [
+      {
+        step: 1,
+        img: img.tea_66_01,
+        text: 'CHRISTMAS MYSTERY',
+      },
+      {
+        step: 2,
+        img: img.tea_66_02,
+        text: 'CLASSIC BREAKFAST',
+      },
+      {
+        step: 3,
+        img: img.tea_66_03,
+        text: 'CURRENT MINT',
+      },
+      {
+        step: 4,
+        img: img.tea_66_04,
+        text: 'ENGLISH EDITION',
+      },
+      {
+        step: 5,
+        img: img.tea_66_05,
+        text: 'FESTIVE GRAPE',
+      },
+      {
+        step: 6,
+        img: img.tea_66_06,
+        text: 'GREEN MELISSA',
+      },
+      {
+        step: 7,
+        img: img.tea_66_07,
+        text: 'HONEY LINDEN',
+      },
+      {
+        step: 8,
+        img: img.tea_66_08,
+        text: 'KENYAN SUNRISE',
+      },
+      {
+        step: 9,
+        img: img.tea_66_09,
+        text: 'RICH CAMOMILE',
+      },
+      {
+        step: 10,
+        img: img.tea_66_10,
+        text: 'SPRING MELODY',
+      },
+      {
+        step: 11,
+        img: img.tea_66_11,
+        text: 'VANILLA CRANBERRY',
       },
     ],
   },

@@ -213,6 +213,14 @@ h2 {
   }
 }
 
+// !    Modal
+
+.MuiModal-root {
+  .MuiBox-root {
+    background-color: $color-07;
+  }
+}
+
 @media screen and (max-width: 720px) {
   .container-recipes {
     padding: 0;

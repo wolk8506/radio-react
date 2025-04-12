@@ -1,12 +1,10 @@
-// import soup_01 from '../img/soup_01.jpg';
-
-import cake_00 from '../img/load.gif';
+import img from '../img/sousy/index';
 
 export const data_sousy = [
   {
     id: '1',
     name: 'Шаблон 1',
-    img: cake_00,
+    img: img.sousy_00_00,
     ingredients: [
       { i_name: '', i_weight: '' },
       { i_name: '', i_weight: '' },

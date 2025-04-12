@@ -191,14 +191,14 @@ export const fetchCurrencyZVRCurrent = createAsyncThunk('currency/ZVRCurrent', a
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ?  - - - - - -   Новости   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //
-// *    Погода на вчера
+// *    Новости
 //
 export const fetchNews = createAsyncThunk('news', async url => {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.log('❌ error');
+    console.log('❌ error', error.response.status, ' ', error.response.statusText);
   }
 });
 //
