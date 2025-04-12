@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .container-recipes {
   list-style: none;
   width: 1260px;
@@ -7,7 +10,7 @@
   width: 100%;
   margin-bottom: 32px;
   align-items: center;
-  @include card-style;
+  @include function.card-style;
 }
 
 // !====================================================================
@@ -19,53 +22,53 @@
 
 .MuiBreadcrumbs-li a {
   font-size: 16px;
-  color: $color-03;
+  color: colors.$color-03;
   text-decoration: none;
   display: flex;
   align-items: center;
 }
 
 .MuiBreadcrumbs-separator {
-  color: $color-03;
+  color: colors.$color-03;
 }
 
 .MuiBreadcrumbs-li {
-  background-color: rgb-a($color-02, 3%);
+  background-color: function.rgb-a(colors.$color-02, 3%);
   padding: 3px 15px;
   border-radius: 15px;
   cursor: pointer;
 
   svg {
     margin-right: 5px;
-    fill: $color-03;
+    fill: colors.$color-03;
   }
 }
 
 .MuiBreadcrumbs-li:hover {
-  background-color: rgb-a($color-02, 10%);
+  background-color: function.rgb-a(colors.$color-02, 10%);
 }
 .MuiBreadcrumbs-li:hover:last-child {
-  background-color: rgb-a($color-02, 3%);
+  background-color: function.rgb-a(colors.$color-02, 3%);
   cursor: default;
 }
 
 .MuiBreadcrumbs-li:hover a {
-  color: $color-02;
+  color: colors.$color-02;
 }
 .MuiBreadcrumbs-li:hover a:last-child {
-  color: $color-03;
+  color: colors.$color-03;
 }
 
 .MuiBreadcrumbs-ol .MuiBreadcrumbs-li .MuiTypography-root {
-  color: $color-02;
+  color: colors.$color-02;
   svg {
     margin-right: 5px;
-    fill: $color-02;
+    fill: colors.$color-02;
   }
 }
 
 .breadcrumb-icon:hover {
-  color: $color-02;
+  color: colors.$color-02;
 }
 
 // !===============================================
@@ -90,7 +93,7 @@
 
 .menu-item svg {
   margin-right: 10px;
-  fill: $color-03;
+  fill: colors.$color-03;
 }
 
 .menu-item a,
@@ -98,15 +101,15 @@
   text-decoration: none;
   font-size: 28px;
   font-weight: 500;
-  color: $color-03;
+  color: colors.$color-03;
   display: flex;
   align-items: center;
 }
 
 .menu-item:hover a,
 .menu-item:hover svg {
-  color: $color-02;
-  fill: $color-02;
+  color: colors.$color-02;
+  fill: colors.$color-02;
 }
 
 .menu-item + .menu-item {
@@ -164,7 +167,7 @@ h2 {
       justify-content: space-between;
       padding-right: 20px;
       flex-shrink: 0;
-      color: $color-03;
+      color: colors.$color-03;
 
       .i-name {
         flex-shrink: 0;
@@ -172,7 +175,7 @@ h2 {
       .bracket-line {
         width: 100%;
         height: 18px;
-        border-bottom: 1px dashed rgb-a($color-01, 20%);
+        border-bottom: 1px dashed function.rgb-a(colors.$color-01, 20%);
         margin-right: 5px;
         margin-left: 5px;
       }
@@ -204,7 +207,7 @@ h2 {
 
     .item-step__discription {
       width: 100%;
-      color: $color-03;
+      color: colors.$color-03;
     }
   }
 
@@ -217,7 +220,7 @@ h2 {
 
 .MuiModal-root {
   .MuiBox-root {
-    background-color: $color-07;
+    background-color: colors.$color-07;
   }
 }
 

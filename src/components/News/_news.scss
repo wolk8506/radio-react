@@ -1,9 +1,12 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .container-news {
   height: calc(100% - 10px);
   padding: 30px;
   padding-top: 20px;
   padding-bottom: 20px;
-  @include card-style;
+  @include function.card-style;
 
   .news-list {
     overflow: auto;
@@ -27,11 +30,11 @@
 
   .MuiToggleButtonGroup-root {
     .MuiButtonBase-root.MuiButtonBase-root {
-      color: $color-02;
+      color: colors.$color-02;
     }
 
     .MuiToggleButton-root.Mui-selected {
-      color: $color-03;
+      color: colors.$color-03;
     }
   }
 
@@ -53,7 +56,7 @@
     justify-content: space-between;
     list-style: none;
     padding: 16px;
-    @include card-style;
+    @include function.card-style;
 
     div {
       display: flex;
@@ -101,7 +104,7 @@
 
   li a {
     text-decoration: none;
-    color: $color-03;
+    color: colors.$color-03;
     font-weight: 600;
     font-size: 20px;
     letter-spacing: -0.0125rem;
@@ -114,7 +117,7 @@
   }
 
   .MuiInputBase-input {
-    color: $color-03;
+    color: colors.$color-03;
   }
 
   .MuiToolbar-root {
@@ -125,7 +128,7 @@
       display: none;
     }
     .MuiTablePagination-displayedRows {
-      color: $color-03;
+      color: colors.$color-03;
     }
     // .MuiButtonBase-root:nth-child(1) {
     //   display: none;

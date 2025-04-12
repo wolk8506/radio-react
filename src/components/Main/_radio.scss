@@ -1,23 +1,26 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .maim-player {
   padding: 10px;
   width: 100%;
   height: 170px;
-  color: $color-02;
+  color: colors.$color-02;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  @include card-style;
+  @include function.card-style;
 
   .logoRadio {
     border-radius: 15px;
     width: 128px;
     height: 128px;
-    border: 2px solid rgb-a($color-02, 50%);
+    border: 2px solid function.rgb-a(colors.$color-02, 50%);
   }
 
   .selectRadioStation > div {
     text-align: center;
-    color: $color-02;
+    color: colors.$color-02;
     border-radius: 15px;
     height: 40px;
     margin-top: 20px;
@@ -41,12 +44,12 @@
       width: 60px;
       text-align: center;
       font-size: 26px;
-      text-shadow: 0 0 10px rgb-a($color-02, 50%);
+      text-shadow: 0 0 10px function.rgb-a(colors.$color-02, 50%);
     }
   }
 
   .btn {
-    @include button;
+    @include function.button;
     & {
       border-radius: 50%;
       padding: 8px;

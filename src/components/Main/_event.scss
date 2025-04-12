@@ -1,12 +1,15 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .graph {
   width: 495px;
   min-height: 281px;
   position: relative;
   margin-right: 7px;
-  color: $color-02;
+  color: colors.$color-02;
   font-size: 32px;
   overflow: hidden;
-  @include card-style;
+  @include function.card-style;
 }
 
 .graph > div {
@@ -19,7 +22,7 @@
   margin: 0;
   padding-top: 10px;
   padding-bottom: 5px;
-  border-bottom: 2px solid $color-06;
+  border-bottom: 2px solid colors.$color-06;
   font-weight: 500;
   font-family: 'Montserrat Alternates', sans-serif;
 }
@@ -39,17 +42,17 @@
     list-style: circle;
     font-size: 18px;
     vertical-align: bottom;
-    fill: $color-02;
+    fill: colors.$color-02;
     font-family: 'Montserrat Alternates', sans-serif;
 
     &.event-item--event {
       font-size: 14px;
-      color: rgb-a($color-02, 70%);
+      color: function.rgb-a(colors.$color-02, 70%);
       margin-top: 5px;
     }
     & span {
       font-size: 14px;
-      color: rgb-a($color-02, 70%);
+      color: function.rgb-a(colors.$color-02, 70%);
     }
   }
 }

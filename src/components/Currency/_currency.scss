@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 // * *** Страница CurrencyMono  ***  */
 
 .nameSection {
@@ -7,10 +10,10 @@
   margin-top: 32px;
   padding-left: 16px;
   padding: 16px;
-  @include card-style;
+  @include function.card-style;
 
   .load-btn {
-    @include button;
+    @include function.button;
   }
 }
 .nameSection:first-child {
@@ -68,7 +71,7 @@
   margin-left: 16px;
 }
 .update-time {
-  color: rgb-a($color-02, 50%);
+  color: function.rgb-a(colors.$color-02, 50%);
   font-size: 12px;
   padding-top: 4px;
 }
@@ -82,11 +85,11 @@
 // *----------------
 
 .icon-success {
-  color: $color-04;
+  color: colors.$color-04;
 }
 
 .icon-warning {
-  color: $color-05;
+  color: colors.$color-05;
 }
 
 @media screen and (max-width: 720px) {
@@ -115,7 +118,7 @@
     line-height: 18px;
     margin-bottom: 16px;
     position: relative;
-    background-color: $color-07;
+    background-color: colors.$color-07;
     padding: 8px 8px 8px 16px;
 
     .load-btn {

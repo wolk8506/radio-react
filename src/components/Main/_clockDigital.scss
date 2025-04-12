@@ -1,17 +1,20 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .clock-weather {
   max-width: 800px;
   //   border: 1px solid red;
   display: flex;
   padding: 16px;
   height: 236px;
-  @include card-style;
-  background: rgb-a($color-07, var(--transparency));
+  @include function.card-style;
+  background: function.rgb-a(colors.$color-07, var(--transparency));
   //   background: var(--color-test);
 
   // *---------------------------------------------------------------------------
   .block__clock-analog {
     position: relative;
-    border-right: 1px solid rgb-a($color-02, 50%);
+    border-right: 1px solid function.rgb-a(colors.$color-02, 50%);
     margin-right: 16px;
   }
 
@@ -37,7 +40,7 @@
     transform: translate(-50%, -50%);
     border-radius: 50%;
     position: absolute;
-    background-color: $color-02;
+    background-color: colors.$color-02;
     // border: 4px solid #1e2022;
     z-index: 10;
   }
@@ -49,9 +52,9 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    color: $color-02;
+    color: colors.$color-02;
     font-size: 40px;
-    text-shadow: 5px 5px 20px $color-02;
+    text-shadow: 5px 5px 20px colors.$color-02;
   }
 
   .number1 {
@@ -118,7 +121,7 @@
     .hour-p2 {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
-      background-color: $color-02;
+      background-color: colors.$color-02;
       width: 100%;
       height: 56%;
     }
@@ -141,7 +144,7 @@
     .minute-p2 {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
-      background-color: $color-02;
+      background-color: colors.$color-02;
       width: 100%;
       height: 69%;
     }
@@ -161,7 +164,7 @@
     .second-p1 {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
-      background-color: $color-03;
+      background-color: colors.$color-03;
       width: 100%;
       height: 80%;
     }
@@ -170,7 +173,7 @@
   .clock-analog-text {
     font-size: 16px;
     text-align: center;
-    color: rgb-a($color-02, 70%);
+    color: function.rgb-a(colors.$color-02, 70%);
     padding-right: 16px;
   }
 
@@ -178,7 +181,7 @@
   .clock-weather__block-clock {
     height: 200px;
     width: 500px;
-    border-right: 1px solid rgb-a($color-02, 50%);
+    border-right: 1px solid function.rgb-a(colors.$color-02, 50%);
     padding-right: 16px;
     margin-right: 16px;
 
@@ -203,7 +206,7 @@
       .clock__second {
         width: 100px;
         text-align: center;
-        color: rgb-a($color-02, 50%);
+        color: function.rgb-a(colors.$color-02, 50%);
         font-size: 60px;
         font-weight: 400;
         line-height: 1.2;
@@ -212,7 +215,7 @@
 
     .clock__text {
       font-size: 28px;
-      color: rgb-a($color-02, 50%);
+      color: function.rgb-a(colors.$color-02, 50%);
       font-family: 'Montserrat';
       margin-top: 16px;
     }
@@ -226,7 +229,7 @@
     .block-weather__weather {
       display: flex;
       justify-content: space-around;
-      border-bottom: 1px solid rgb-a($color-02, 50%);
+      border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
       margin-bottom: 16px;
 
       .weather__img {
@@ -247,7 +250,7 @@
     }
 
     p {
-      color: rgb-a($color-02, 70%);
+      color: function.rgb-a(colors.$color-02, 70%);
       margin-bottom: 6px;
     }
   }

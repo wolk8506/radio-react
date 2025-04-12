@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .weather {
   /* Отключает стрелочки у input type=number */
   input::-webkit-outer-spin-button,
@@ -7,7 +10,7 @@
 }
 
 .MuiAutocomplete-option {
-  color: rgb-a($color-03, 50%);
+  color: function.rgb-a(colors.$color-03, 50%);
 }
 
 // TODO:  ⇩ ⇩ ⇩ погода от MSN
@@ -23,7 +26,7 @@
     padding: 10px 8px 16px 8px;
     width: 100%;
     margin-bottom: 32px;
-    @include card-style;
+    @include function.card-style;
 
     .weather__search {
       padding-top: 6px;
@@ -60,7 +63,7 @@
     margin-bottom: 16px;
     padding: 8px 8px 8px 16px;
 
-    @include card-style;
+    @include function.card-style;
 
     h1 {
       position: relative;
@@ -79,7 +82,7 @@
   .search__input-group {
     right: 0px;
     padding-right: 10px;
-    border: 1px solid rgb-a($color-02, 50%);
+    border: 1px solid function.rgb-a(colors.$color-02, 50%);
     border-radius: 12px;
     box-sizing: border-box;
     display: flex;
@@ -90,7 +93,7 @@
     box-shadow: none;
     color: unset;
     backdrop-filter: blur(60px);
-    background: rgb-a($color-09, 50%);
+    background: function.rgb-a(colors.$color-09, 50%);
     margin-left: 0px !important;
     flex-wrap: wrap;
     padding: 0;
@@ -118,7 +121,7 @@
       border: 0px;
       background: none !important;
       padding: 0 10px;
-      color: $color-02;
+      color: colors.$color-02;
     }
 
     .input-group__btn-location {
@@ -137,7 +140,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: $color-03;
+      color: colors.$color-03;
     }
   }
 
@@ -153,16 +156,16 @@
       padding: 9px 16px 9px 16px;
       gap: 10px;
       border-radius: 12px;
-      border: 1px solid rgb-a($color-02, 50%);
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
       box-sizing: border-box;
       // background: rgb-a($color-09, 51%);
-      background: rgb-a($color-02, 4%);
+      background: function.rgb-a(colors.$color-02, 4%);
       display: flex;
       align-items: center;
       font-size: 14px;
       line-height: 16px;
       cursor: pointer;
-      color: $color-02;
+      color: colors.$color-02;
     }
 
     .card-city__image {
@@ -180,7 +183,7 @@
     width: 620px;
     height: 270px;
     padding: 16px 0px 0px;
-    @include card-style;
+    @include function.card-style;
 
     .current-day__label {
       padding: 0px 16px;
@@ -276,7 +279,7 @@
         align-items: center;
 
         & svg {
-          fill: $color-02;
+          fill: colors.$color-02;
         }
       }
     }
@@ -289,9 +292,9 @@
     line-height: 18px;
     margin-bottom: 16px;
     position: relative;
-    background-color: $color-07;
+    background-color: colors.$color-07;
     padding: 8px 8px 8px 16px;
-    @include card-style;
+    @include function.card-style;
 
     .title__time-update {
       font-size: 14px;
@@ -306,7 +309,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 32px;
-    @include card-style;
+    @include function.card-style;
 
     .month__day-name {
       display: flex;
@@ -351,13 +354,13 @@
             width: 100%;
             height: 100%;
             border-radius: 15px;
-            background: rgb-a($color-07, 50%);
+            background: function.rgb-a(colors.$color-07, 50%);
             top: 0;
             left: 0;
           }
 
           &.card__block--current {
-            border: 1px $color-03 solid;
+            border: 1px colors.$color-03 solid;
           }
 
           .block__title {
@@ -384,8 +387,8 @@
         }
 
         .card__block:hover {
-          border: 1px $color-03 solid;
-          @include animation-slider(border);
+          border: 1px colors.$color-03 solid;
+          @include function.animation-slider(border);
         }
 
         .card__detail {
@@ -394,14 +397,14 @@
           left: 50%;
           width: 80%;
           z-index: 1;
-          background: $color-08;
+          background: colors.$color-08;
           display: block;
           border-radius: 15px;
           padding: 10px;
-          fill: $color-03;
+          fill: colors.$color-03;
           opacity: 0;
           pointer-events: none;
-          @include animation-slider(all);
+          @include function.animation-slider(all);
 
           .detail__item {
             display: flex;
@@ -420,7 +423,7 @@
         }
 
         .card__detail:hover ~ .card__block:hover {
-          border: 1px $color-03 solid;
+          border: 1px colors.$color-03 solid;
         }
       }
     }
@@ -433,7 +436,7 @@
   .weather10days {
     padding: 0px 6px 0;
 
-    background: $color-07;
+    background: colors.$color-07;
     border-radius: 15px;
 
     .weather10days__title {
@@ -443,10 +446,10 @@
       box-sizing: border-box;
       margin: 0px;
       padding: 8px 16px;
-      border-bottom: 1px solid rgb-a($color-03, 12%);
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 12%);
       text-transform: capitalize;
       position: relative;
-      color: $color-02;
+      color: colors.$color-02;
       display: flex;
       justify-content: space-between;
 
@@ -460,7 +463,7 @@
         text-overflow: ellipsis;
         text-align: right;
         padding-right: 12px;
-        color: rgb-a($color-02, 60%);
+        color: function.rgb-a(colors.$color-02, 60%);
         background: none;
         border: none;
         text-transform: capitalize;
@@ -522,7 +525,7 @@
                 cursor: pointer;
                 height: 155px;
                 text-align: center;
-                background: rgb-a($color-02, 3%);
+                background: function.rgb-a(colors.$color-02, 3%);
                 border-radius: 15px;
                 padding: 0;
                 margin: 0;
@@ -549,7 +552,7 @@
                     .header {
                       font-size: 12px;
                       line-height: 16px;
-                      color: $color-02;
+                      color: colors.$color-02;
                       opacity: 1;
                       margin-bottom: 12px;
                       text-overflow: ellipsis;
@@ -572,7 +575,7 @@
                         font-size: 14px;
                         line-height: 22px;
                         margin-top: 12px;
-                        color: $color-02;
+                        color: colors.$color-02;
                         opacity: 1;
                       }
 
@@ -580,21 +583,21 @@
                         font-size: 14px;
                         line-height: 22px;
                         margin-top: 2px;
-                        color: $color-02;
+                        color: colors.$color-02;
                       }
 
                       .icon-temp-part__precip {
                         font-size: 14px;
                         line-height: 22px;
                         margin-top: 2px;
-                        color: $color-02;
+                        color: colors.$color-02;
 
                         .icon-temp-part__precip-icon {
                           font-size: 14px;
                           line-height: 22px;
                           margin-top: 2px;
                           margin-right: 6px;
-                          color: $color-02;
+                          color: colors.$color-02;
                         }
                       }
                     }
@@ -618,9 +621,9 @@
 
   .sun-and-moon {
     margin: 16px 0px 16px;
-    background: $color-07;
+    background: colors.$color-07;
     border-radius: 4px;
-    @include card-style;
+    @include function.card-style;
 
     h2 {
       font-size: 16px;
@@ -629,7 +632,7 @@
       box-sizing: border-box;
       margin: 0px;
       padding: 8px 16px;
-      border-bottom: 1px solid rgb-a($color-03, 12%);
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 12%);
     }
     div {
       width: 100%;
@@ -638,7 +641,7 @@
           font-size: 12px;
           line-height: 16px;
           font-weight: normal;
-          color: $color-02;
+          color: colors.$color-02;
           position: relative;
           padding: 16px;
           box-sizing: border-box;
@@ -792,7 +795,7 @@
     .weather__current-day {
       width: 100%;
       margin-top: 40px;
-      background: rgb-a($color-07, 70%);
+      background: function.rgb-a(colors.$color-07, 70%);
       padding: 16px;
       border-radius: 15px;
       margin-top: 0;
@@ -865,13 +868,13 @@
 
 .MuiModal-root {
   .MuiModalDialog-root {
-    background-color: $color-07;
-    color: rgb-a($color-02, 70%);
+    background-color: colors.$color-07;
+    color: function.rgb-a(colors.$color-02, 70%);
 
     .MuiModalClose-root {
       .MuiSvgIcon-root {
-        color: rgb-a($color-03, 54%);
-        @include button;
+        color: function.rgb-a(colors.$color-03, 54%);
+        @include function.button;
         &,
         &:hover {
           border: none;
@@ -883,10 +886,10 @@
 
 .modal {
   pointer-events: none;
-  background: $color-07;
+  background: colors.$color-07;
   z-index: -5;
   top: 0;
-  @include card-style;
+  @include function.card-style;
 
   .modal__header {
     display: flex;
@@ -894,7 +897,7 @@
     margin: 16px;
 
     .btn-close {
-      @include button;
+      @include function.button;
     }
   }
 
@@ -914,7 +917,7 @@
       width: 100%;
       padding: 16px 12px;
       box-sizing: border-box;
-      background: rgb-a($color-02, 3%);
+      background: function.rgb-a(colors.$color-02, 3%);
       backdrop-filter: blur(25px);
       border-radius: 8px;
 
@@ -942,12 +945,12 @@
             margin-bottom: 0;
             display: flex;
             justify-content: center;
-            border-bottom: 1px solid rgb-a($color-03, 15%);
+            border-bottom: 1px solid function.rgb-a(colors.$color-03, 15%);
 
             & div {
               border-radius: 12px;
               background: transparent;
-              border-top: 0.5px solid rgb-a($color-03, 15%);
+              border-top: 0.5px solid function.rgb-a(colors.$color-03, 15%);
               box-shadow: none;
               position: relative;
               border: none;
@@ -959,8 +962,8 @@
               display: inline-block;
 
               &.activ {
-                border: 0.5px solid rgb-a($color-03, 15%);
-                background: rgb-a($color-03, 5%);
+                border: 0.5px solid function.rgb-a(colors.$color-03, 15%);
+                background: function.rgb-a(colors.$color-03, 5%);
               }
 
               .calendar-table-day {
@@ -977,11 +980,11 @@
                 & span:first-child {
                   font-size: 18px;
                   font-weight: 600;
-                  color: $color-02;
+                  color: colors.$color-02;
                 }
                 & span:last-child {
                   font-size: 12px;
-                  color: rgb-a($color-02, 40%);
+                  color: function.rgb-a(colors.$color-02, 40%);
                 }
               }
 
@@ -1001,11 +1004,11 @@
                   justify-content: space-between;
                   text-align: right;
                   & span:first-child {
-                    color: rgb-a($color-02, 80%);
+                    color: function.rgb-a(colors.$color-02, 80%);
                     font-weight: 600;
                   }
                   & span:last-child {
-                    color: rgb-a($color-02, 80%);
+                    color: function.rgb-a(colors.$color-02, 80%);
                   }
                 }
               }

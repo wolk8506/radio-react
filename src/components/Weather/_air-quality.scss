@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .weather__air-quality {
   display: flex;
   flex-wrap: wrap;
@@ -6,13 +9,13 @@
   width: 620px;
   height: 270px;
   padding: 16px;
-  @include card-style;
+  @include function.card-style;
 
   .air-quality__card {
     width: calc(556px / 3);
     height: 111px;
     padding: 8px;
-    border: 1px solid rgb-a($color-02, 50%);
+    border: 1px solid function.rgb-a(colors.$color-02, 50%);
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -34,7 +37,7 @@
       .name__text {
         font-size: 14px;
         text-align: center;
-        color: rgb-a($color-02, 50%);
+        color: function.rgb-a(colors.$color-02, 50%);
         height: 40px;
         display: flex;
         align-items: center;
@@ -62,7 +65,7 @@
       background: none;
 
       .info__icon {
-        color: rgb-a($color-02, 50%);
+        color: function.rgb-a(colors.$color-02, 50%);
         font-size: 12px;
       }
     }
@@ -84,11 +87,11 @@
     position: absolute;
     width: 588px;
     height: 238px;
-    border: 1px solid rgb-a($color-02, 50%);
+    border: 1px solid function.rgb-a(colors.$color-02, 50%);
     border-radius: 15px;
-    background: $color-07;
+    background: colors.$color-07;
     transform: scale(0.25);
-    @include animation(opacity visibility);
+    @include function.animation(opacity visibility);
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
@@ -113,7 +116,7 @@
           width: 100px;
           margin: 8px 0 8px 0;
           height: 1px;
-          background: rgb-a($color-02, 50%);
+          background: function.rgb-a(colors.$color-02, 50%);
         }
 
         .description__value {
@@ -130,12 +133,12 @@
     .description__text-block {
       .text-block__title {
         font-size: 9px;
-        color: rgb-a($color-02, 50%);
+        color: function.rgb-a(colors.$color-02, 50%);
       }
 
       .text-block__text {
         font-size: 8px;
-        color: rgb-a($color-02, 50%);
+        color: function.rgb-a(colors.$color-02, 50%);
       }
     }
 
@@ -160,7 +163,7 @@
           border: 0 solid transparent;
           border-bottom-width: 4px;
           border-top-width: 4px;
-          border-left: 15px solid $color-03;
+          border-left: 15px solid colors.$color-03;
         }
       }
 
@@ -223,7 +226,7 @@
     }
 
     .btn-close {
-      color: $color-03;
+      color: colors.$color-03;
     }
   }
 }

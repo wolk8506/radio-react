@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .currency-main {
   padding: 10px;
   width: 100%;
@@ -5,18 +8,18 @@
   flex-direction: column;
   margin-bottom: 30px;
   margin-top: 30px;
-  @include card-style;
+  @include function.card-style;
 
   .currency-main__title {
     display: flex;
     align-items: center;
 
     .icon-success {
-      color: $color-04;
+      color: colors.$color-04;
     }
 
     .icon-warning {
-      color: $color-05;
+      color: colors.$color-05;
     }
 
     h2 {
@@ -38,13 +41,13 @@
       justify-content: flex-end;
 
       span.arrow--up {
-        color: $color-04;
+        color: colors.$color-04;
         width: 5px;
         margin-left: 5px;
       }
 
       span.arrow--dn {
-        color: $color-05;
+        color: colors.$color-05;
         width: 5px;
         margin-left: 5px;
       }
@@ -95,9 +98,9 @@
     left: 0;
     top: 0; //* Положение подсказки */
     // background: $color-background-6; //* Синий цвет фона */
-    color: $color-01; //* Цвет текста */
+    color: colors.$color-01; //* Цвет текста */
     padding: 0.5em; //* Поля вокруг текста */
-    box-shadow: 2px 2px 5px rgb-a($color-07, 30%); //* Параметры тени */
+    box-shadow: 2px 2px 5px function.rgb-a(colors.$color-07, 30%); //* Параметры тени */
     pointer-events: none; //* Подсказка */
     opacity: 0; //* Подсказка невидима */
     transition: 1s; //* Время появления подсказки */

@@ -1,3 +1,6 @@
+@use "colors";
+@use "function";
+
 // *  scrollbar - - - - - - - - - - - - - - - - - - - - -
 
 *::-webkit-scrollbar {
@@ -6,14 +9,14 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: $color-07; /* Цвет дорожки */
+  background: colors.$color-07; /* Цвет дорожки */
   // border-radius: 20px;
   // margin-top: 4px;
   // margin-bottom: 4px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: $color-02; /* Цвет бегунка */
+  background-color: colors.$color-02; /* Цвет бегунка */
   border-radius: 20px; /* Округление бегунка */
   // border: 3px solid #050c26; /* Оформление границ бегунка */
 }
@@ -21,57 +24,57 @@
 // * select  - - - - - - - - - - - - - - - - - - - - -
 .MuiFormControl-root {
   .MuiFormLabel-root {
-    color: rgb-a($color-03, 60%);
+    color: function.rgb-a(colors.$color-03, 60%);
 
     &.MuiFormLabel-root.Mui-focused {
-      color: rgb-a($color-02, 100%);
+      color: function.rgb-a(colors.$color-02, 100%);
     }
   }
 
   .MuiInputBase-root {
-    color: rgb-a($color-03, 87%);
+    color: function.rgb-a(colors.$color-03, 87%);
 
     &.MuiInputBase-root::before {
-      border-bottom: 1px solid rgb-a($color-03, 42%);
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 42%);
     }
 
     &.MuiInputBase-root::after {
-      border-bottom: 2px solid rgb-a($color-02, 100%);
+      border-bottom: 2px solid function.rgb-a(colors.$color-02, 100%);
     }
 
     .MuiSvgIcon-root {
-      color: rgb-a($color-03, 54%);
+      color: function.rgb-a(colors.$color-03, 54%);
     }
 
     &.MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before {
-      border-bottom: 2px solid rgb-a($color-03, 87%);
+      border-bottom: 2px solid function.rgb-a(colors.$color-03, 87%);
     }
 
     &.MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-      border-color: $color-03;
+      border-color: colors.$color-03;
     }
 
     .MuiOutlinedInput-notchedOutline {
-      border-color: rgb-a($color-03, 23%);
+      border-color: function.rgb-a(colors.$color-03, 23%);
     }
 
     &.MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
-      border-color: rgb-a($color-03, 87%);
+      border-color: function.rgb-a(colors.$color-03, 87%);
     }
   }
 }
 
 .MuiPaper-root.MuiPopover-paper.MuiMenu-paper {
-  background-color: $color-07;
-  color: $color-03;
+  background-color: colors.$color-07;
+  color: colors.$color-03;
 
   .MuiList-root {
     .MuiButtonBase-root.MuiMenuItem-root.Mui-selected {
-      background-color: rgb-a($color-03, 10%);
+      background-color: function.rgb-a(colors.$color-03, 10%);
     }
 
     .MuiButtonBase-root.MuiMenuItem-root:hover {
-      background-color: rgb-a($color-03, 4%);
+      background-color: function.rgb-a(colors.$color-03, 4%);
     }
   }
 }
@@ -79,31 +82,31 @@
 //* calendar   - - - - - - - - - - - - - - - - - - - - -
 .base-Popper-root.MuiPickersPopper-root {
   .MuiPaper-root {
-    background-color: $color-07;
-    color: rgb-a($color-03, 87%);
+    background-color: colors.$color-07;
+    color: function.rgb-a(colors.$color-03, 87%);
     .MuiPickersYear-yearButton.Mui-selected {
-      background-color: $color-02;
-      color: $color-07;
+      background-color: colors.$color-02;
+      color: colors.$color-07;
     }
     .MuiPickersYear-yearButton:hover {
-      background-color: rgb-a($color-03, 4%);
+      background-color: function.rgb-a(colors.$color-03, 4%);
     }
     .MuiPickersMonth-monthButton.Mui-selected {
-      background-color: $color-02;
-      color: $color-07;
+      background-color: colors.$color-02;
+      color: colors.$color-07;
     }
     .MuiPickersMonth-monthButton:hover {
-      background-color: rgb-a($color-03, 4%);
+      background-color: function.rgb-a(colors.$color-03, 4%);
     }
     .MuiPickersMonth-monthButton.Mui-disabled {
-      color: rgb-a($color-03, 50%);
+      color: function.rgb-a(colors.$color-03, 50%);
     }
 
     .MuiButtonBase-root {
-      color: $color-03;
+      color: colors.$color-03;
 
       &.MuiButtonBase-root:hover {
-        background-color: rgb-a($color-03, 4%);
+        background-color: function.rgb-a(colors.$color-03, 4%);
       }
     }
   }
@@ -111,7 +114,7 @@
 
 // * - - table   - - - - - - - - - - - - - - - - - - - - -
 .MuiPaper-root.MuiTableContainer-root {
-  @include card-style;
+  @include function.card-style;
 
   .MuiTable-root {
     border-collapse: inherit;
@@ -119,9 +122,9 @@
 
     .MuiTableHead-root {
       .MuiTableCell-root {
-        border-bottom: 1px solid rgb-a($color-02, 50%);
-        color: $color-02;
-        background-color: $color-07;
+        border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
+        color: colors.$color-02;
+        background-color: colors.$color-07;
         border-radius: 30px 30px 0 0;
       }
     }
@@ -129,18 +132,18 @@
 
   .MuiTableBody-root {
     .MuiTableRow-root {
-      background-color: rgb-a($color-09, 30%);
+      background-color: function.rgb-a(colors.$color-09, 30%);
 
       .MuiTableCell-root {
-        color: $color-03;
-        border-bottom: 1px solid rgb-a($color-02, 20%);
+        color: colors.$color-03;
+        border-bottom: 1px solid function.rgb-a(colors.$color-02, 20%);
       }
     }
     .MuiTableRow-root:nth-of-type(odd) {
-      background-color: rgb-a($color-09, 50%);
+      background-color: function.rgb-a(colors.$color-09, 50%);
 
       .MuiTableCell-root {
-        color: $color-03;
+        color: colors.$color-03;
       }
     }
   }
@@ -151,41 +154,41 @@
 // линии на графике
 .MuiChartsGrid-root {
   .MuiChartsGrid-line {
-    stroke: rgb-a($color-03, 12%);
+    stroke: function.rgb-a(colors.$color-03, 12%);
   }
 }
 
 // линия пунктирная на точке
 g > .MuiChartsAxisHighlight-root {
-  stroke: rgb-a($color-03, 20%);
+  stroke: function.rgb-a(colors.$color-03, 20%);
 }
 
 // --- всплывающее окно
 .MuiChartsTooltip-root {
   .MuiChartsTooltip-paper {
-    background-color: $color-08;
-    color: rgb-a($color-03, 87%);
+    background-color: colors.$color-08;
+    color: function.rgb-a(colors.$color-03, 87%);
 
     .MuiChartsTooltip-table {
       & thead td {
-        border-bottom: solid rgb-a($color-03, 12%) 1px;
-        color: rgb-a($color-03, 60%);
+        border-bottom: solid function.rgb-a(colors.$color-03, 12%) 1px;
+        color: function.rgb-a(colors.$color-03, 60%);
       }
     }
 
     .MuiChartsTooltip-cell {
-      color: rgb-a($color-03, 60%);
+      color: function.rgb-a(colors.$color-03, 60%);
 
       .MuiChartsTooltip-mark {
-        border: solid $color-03 2px;
+        border: solid colors.$color-03 2px;
       }
     }
 
     .MuiChartsTooltip-valueCell {
-      color: rgb-a($color-03, 87%);
+      color: function.rgb-a(colors.$color-03, 87%);
 
       .MuiTypography-root {
-        color: rgb-a($color-03, 87%);
+        color: function.rgb-a(colors.$color-03, 87%);
       }
     }
   }
@@ -194,13 +197,13 @@ g > .MuiChartsAxisHighlight-root {
 // * - - menu   - - - - - - - - - - - - - - - - - - - - -
 
 .MuiList-root {
-  border-top: 1px solid rgb-a($color-03, 10%);
+  border-top: 1px solid function.rgb-a(colors.$color-03, 10%);
   .MuiButtonBase-root:hover {
-    background-color: rgb-a($color-03, 4%);
+    background-color: function.rgb-a(colors.$color-03, 4%);
   }
 
   .MuiListItemIcon-root {
-    color: rgb-a($color-03, 54%);
+    color: function.rgb-a(colors.$color-03, 54%);
     // .MuiSvgIcon-root {
     // font-size: 36px;
     // }
@@ -208,7 +211,7 @@ g > .MuiChartsAxisHighlight-root {
 
   .MuiListItemText-root {
     .MuiTypography-root {
-      color: rgb-a($color-03, 54%);
+      color: function.rgb-a(colors.$color-03, 54%);
     }
   }
 }

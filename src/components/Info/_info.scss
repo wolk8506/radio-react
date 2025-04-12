@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .about {
   display: flex;
   align-items: center;
@@ -12,7 +15,7 @@
     letter-spacing: 10px;
     line-height: 0.5;
     margin-bottom: 32px;
-    @include card-style;
+    @include function.card-style;
   }
 }
 
@@ -39,17 +42,17 @@
   flex-direction: column;
   padding: 16px;
   margin-bottom: 16px;
-  @include card-style;
+  @include function.card-style;
 
   .btn {
     .MuiButtonBase-root {
-      color: rgb-a($color-03, 60%);
+      color: function.rgb-a(colors.$color-03, 60%);
 
       &.MuiButtonBase-root:hover {
-        background-color: rgb-a($color-02, 4%);
+        background-color: function.rgb-a(colors.$color-02, 4%);
       }
       &.MuiButtonBase-root.Mui-checked {
-        color: rgb-a($color-03, 100%);
+        color: function.rgb-a(colors.$color-03, 100%);
       }
     }
   }
@@ -61,7 +64,7 @@
     align-content: space-between;
     margin-bottom: 5px;
     padding-bottom: 5px;
-    border-bottom: 1px solid rgb-a($color-02, 50%);
+    border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
 
     .theme__color {
       display: flex;
@@ -73,7 +76,7 @@
       height: 36px;
 
       .color__item {
-        border: 1px solid rgb-a($color-02, 50%);
+        border: 1px solid function.rgb-a(colors.$color-02, 50%);
         width: 16px;
         height: 16px;
         margin: 2px;
@@ -220,20 +223,20 @@
     justify-content: space-between;
     margin-bottom: 5px;
     padding-bottom: 5px;
-    border-bottom: 1px solid rgb-a($color-02, 50%);
+    border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
 
     .item-background-color {
       width: 64px;
       // background-color: $color-07;
       height: 36px;
-      border: 1px solid rgb-a($color-02, 50%);
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
       border-radius: 10px;
     }
 
     //
 
     img {
-      border: 1px solid rgb-a($color-02, 50%);
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
       border-radius: 10px;
     }
   }
@@ -275,7 +278,7 @@
   }
 
   label {
-    color: $color-02;
+    color: colors.$color-02;
   }
 }
 

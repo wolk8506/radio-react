@@ -1,3 +1,6 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 form {
   display: flex;
   align-items: center;
@@ -7,7 +10,7 @@ form {
   padding: 30px;
   width: 500px;
   margin: 20px;
-  @include card-style;
+  @include function.card-style;
 
   .text-field-block {
     display: flex;
@@ -20,7 +23,7 @@ form {
   }
 
   .currency-btn-revert {
-    color: $color-03;
+    color: colors.$color-03;
   }
 
   .currency-select {
@@ -30,7 +33,7 @@ form {
 
 @media screen and (max-width: 720px) {
   .converter-block {
-    background: $color-07;
+    background: colors.$color-07;
     padding: 15px;
     width: 100%;
     border-radius: 15px;

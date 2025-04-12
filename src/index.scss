@@ -1,36 +1,36 @@
-@import 'scss/colors';
-@import 'scss/walpaper';
-@import 'scss/fonts';
-@import 'scss/function';
+@use 'scss/colors';
+@use 'scss/walpaper';
+@use 'scss/fonts';
+@use 'scss/function';
 
-@import 'scss/common-style';
+@use 'scss/common-style';
 
-@import 'components/app';
+@use 'components/app';
 
-@import 'components/Main/xmas';
-@import 'components/Main/main';
-@import 'components/Main/currency';
-@import 'components/Main/event';
-@import 'components/Main/radio';
-@import 'components/Main/clock';
-@import 'components/Main/clockDigital';
-@import 'components/Main/compas';
-@import 'components/Main/weather-dashboard';
-@import 'components/Main/wind-gust';
+@use 'components/Main/xmas';
+@use 'components/Main/main';
+@use 'components/Main/currency';
+@use 'components/Main/event';
+@use 'components/Main/radio';
+@use 'components/Main/clock';
+@use 'components/Main/clockDigital';
+@use 'components/Main/compas';
+@use 'components/Main/weather-dashboard';
+@use 'components/Main/wind-gust';
 
-@import 'components/Currency/currency';
-@import 'components/Currency/currency-mono';
+@use 'components/Currency/currency' as currency2;
+@use 'components/Currency/currency-mono';
 
-@import 'components/Weather/weather';
-@import 'components/Weather/air-quality';
-@import 'components/Weather/chart-weather';
-@import 'components/Weather/tiles';
+@use 'components/Weather/weather';
+@use 'components/Weather/air-quality';
+@use 'components/Weather/chart-weather';
+@use 'components/Weather/tiles';
 
-@import 'components/News/news';
+@use 'components/News/news';
 
-@import 'components/Recipes/recipes';
+@use 'components/Recipes/recipes';
 
-@import 'components/Info/info';
+@use 'components/Info/info';
 
 @import-normalize; /* bring in normalize.css styles */
 
@@ -40,10 +40,10 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: $color-02;
+  color: colors.$color-02;
   transition: background 0.25s;
-  background-color: $background-color;
-  background-image: $background-image-1;
+  background-color: walpaper.$background-color;
+  background-image: walpaper.$background-image-1;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

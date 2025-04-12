@@ -1,8 +1,11 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
 .chart {
   padding-top: 20px;
   padding-bottom: 20px;
   padding-right: 20px;
-  @include card-style;
+  @include function.card-style;
   margin-bottom: 32px;
 }
 
@@ -13,21 +16,21 @@
   margin-bottom: 16px;
 
   & button {
-    border-color: rgb-a($color-02, 50%);
+    border-color: function.rgb-a(colors.$color-02, 50%);
   }
 
   & button:hover {
-    border: 1px solid $color-02;
-    background-color: rgb-a($color-02, 4%);
-    color: $color-02;
+    border: 1px solid colors.$color-02;
+    background-color: function.rgb-a(colors.$color-02, 4%);
+    color: colors.$color-02;
   }
 
   .chart__buttons {
     .header__btn {
-      color: $color-03;
+      color: colors.$color-03;
     }
     .header__btn--activ {
-      color: $color-02;
+      color: colors.$color-02;
     }
   }
 
@@ -42,5 +45,5 @@
 }
 
 .MuiMarkElement-root {
-  fill: $color-03 !important;
+  fill: colors.$color-03 !important;
 }
