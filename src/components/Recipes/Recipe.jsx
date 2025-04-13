@@ -33,8 +33,8 @@ const style = {
 
 export const Cake = () => {
   const location = useLocation();
-  const item_ID = location.pathname.split('/')[1];
-  const ID = Number(location.pathname.split('/')[2]) - 1;
+  const item_ID = location.pathname.split('/')[2];
+  const ID = Number(location.pathname.split('/')[3]) - 1;
   const data = { cake, soup, cocktail, desert, meat, salad, sousy, zagotovki, zakuski };
   const recept = data[item_ID][ID];
 
@@ -66,7 +66,7 @@ export const Cake = () => {
             <FastfoodIcon sx={{ mr: 0.5 }} />
             Рецепты
           </Link>
-          <Link sx={{ display: 'flex', alignItems: 'center' }} to={`/${item_ID}`}>
+          <Link sx={{ display: 'flex', alignItems: 'center' }} to={`/recipes/${item_ID}`}>
             <svg className="icon" width="24" height="24">
               {'soup' === item_ID && <use href={`${sprite}#icon-soup`}></use>}
               {'meat' === item_ID && <use href={`${sprite}#icon-meat`}></use>}

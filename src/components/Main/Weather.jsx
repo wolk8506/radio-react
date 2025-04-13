@@ -12,7 +12,7 @@ import { fetchWeatherToday } from 'store/operation';
 import { fetchLocation } from 'store/operation';
 import { getCityName } from 'store/selectors';
 
-import weatherImage from 'components/weatherIcon';
+import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';

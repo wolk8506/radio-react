@@ -8,15 +8,15 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 
 export const RecipesIndex = () => {
   const menuList = [
-    { name: 'Первые блюда', svgId: '#icon-soup', link: '/soup', key: 0 },
-    { name: 'Вторые блюда', svgId: '#icon-meat', link: '/meat', key: 1 },
-    { name: 'Салаты', svgId: '#icon-salad', link: '/salad', key: 2 },
-    { name: 'Закуски', svgId: '#icon-zakuski', link: '/zakuski', key: 3 },
-    { name: 'Выпечка', svgId: '#icon-cake', link: '/cake', key: 4 },
-    // { name: 'Десерты', svgId: '#icon-desert', link: '/desert', key: 5 },
-    { name: 'Коктейли', svgId: '#icon-cocktail', link: '/cocktail', key: 6 },
-    // { name: 'Соусы', svgId: '#icon-sousy', link: '/sousy', key: 7 },
-    // { name: 'Заготовки на зиму', svgId: '#icon-zagotovki', link: '/zagotovki', key: 8 },
+    { name: 'Первые блюда', svgId: '#icon-soup', link: '/recipes/soup', key: 0 },
+    { name: 'Вторые блюда', svgId: '#icon-meat', link: '/recipes/meat', key: 1 },
+    { name: 'Салаты', svgId: '#icon-salad', link: '/recipes/salad', key: 2 },
+    { name: 'Закуски', svgId: '#icon-zakuski', link: '/recipes/zakuski', key: 3 },
+    { name: 'Выпечка', svgId: '#icon-cake', link: '/recipes/cake', key: 4 },
+    // { name: 'Десерты', svgId: '#icon-desert', link: '/recipes/desert', key: 5 },
+    { name: 'Коктейли', svgId: '#icon-cocktail', link: '/recipes/cocktail', key: 6 },
+    // { name: 'Соусы', svgId: '#icon-sousy', link: '/recipes/sousy', key: 7 },
+    // { name: 'Заготовки на зиму', svgId: '#icon-zagotovki', link: '/recipes/zagotovki', key: 8 },
   ];
   return (
     <>

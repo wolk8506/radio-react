@@ -6,7 +6,7 @@ import { getThemeIconWeather, getWeatherToday_Data, getWeatherToday_TimeUpdate }
 
 import sprite from '../../images/sprite.svg';
 
-import weatherImage from 'components/weatherIcon';
+import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';

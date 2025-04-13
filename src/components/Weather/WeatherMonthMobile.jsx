@@ -11,7 +11,7 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 
-import weatherImage from 'components/weatherIcon';
+import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
