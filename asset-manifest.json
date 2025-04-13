@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.4abf1a74.css",
-    "main.js": "/radio-react/static/js/main.1ffe1c49.js",
+    "main.css": "/radio-react/static/css/main.17748464.css",
+    "main.js": "/radio-react/static/js/main.b10f78ba.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -217,6 +217,7 @@
     "static/media/08-03.jpg": "/radio-react/static/media/08-03.94f1884fe7729b20110a.jpg",
     "static/media/02-02.jpg": "/radio-react/static/media/02-02.e1b116b9422f2b56f992.jpg",
     "static/media/img_1_128.webp": "/radio-react/static/media/img_1_128.eab92f24d6d5ba1a35ec.webp",
+    "static/media/404.jpg": "/radio-react/static/media/404.d9013b41c9a2ae9f62d5.jpg",
     "static/media/08-01.jpg": "/radio-react/static/media/08-01.3c9e66b2ceba617fee5a.jpg",
     "static/media/08-02.jpg": "/radio-react/static/media/08-02.f09181a4957e107b33d7.jpg",
     "static/media/img-181.fm.jpg": "/radio-react/static/media/img-181.fm.b2970b049dfd1d231aca.jpg",
@@ -259,11 +260,11 @@
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
     "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
-    "main.4abf1a74.css.map": "/radio-react/static/css/main.4abf1a74.css.map",
-    "main.1ffe1c49.js.map": "/radio-react/static/js/main.1ffe1c49.js.map"
+    "main.17748464.css.map": "/radio-react/static/css/main.17748464.css.map",
+    "main.b10f78ba.js.map": "/radio-react/static/js/main.b10f78ba.js.map"
   },
   "entrypoints": [
-    "static/css/main.4abf1a74.css",
-    "static/js/main.1ffe1c49.js"
+    "static/css/main.17748464.css",
+    "static/js/main.b10f78ba.js"
   ]
 }
