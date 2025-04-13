@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import sprite from '../../images/sprite.svg';
-import weatherImage from 'components/weatherIcon';
+import weatherImage from 'components/Weather/weatherIcon';
 
 import { getThemeIconWeather, getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/selectors';
 

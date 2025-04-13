@@ -28,7 +28,7 @@ const style = {
 
 export const Cakes = () => {
   const location = useLocation();
-  const item_ID = location.pathname.split('/')[1];
+  const item_ID = location.pathname.split('/')[2];
   const data = { cake, soup, cocktail, desert, meat, salad, sousy, zagotovki, zakuski };
   const pageName = {
     cake: 'Выпечка',
@@ -43,7 +43,7 @@ export const Cakes = () => {
   };
 
   const menuCakes = data[item_ID].map(i => (
-    <Link className="menu-item recipes__menu-item" key={i.id} to={`/${item_ID}/${i.id}`}>
+    <Link className="menu-item recipes__menu-item" key={i.id} to={`/recipes/${item_ID}/${i.id}`}>
       <ListItem button>
         <img src={i.img} alt={i.name} width={64} />
         <ListItemText primary={i.name} />

@@ -8,7 +8,9 @@
   width: 100%;
 
   .about__title {
-    font-family: 'Vermin Vibes Redux(RUS BY LYAJK';
+    font-family: "Audiowide", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     font-size: 72px;
     text-align: center;
     padding: 16px;
@@ -51,6 +53,7 @@
       &.MuiButtonBase-root:hover {
         background-color: function.rgb-a(colors.$color-02, 4%);
       }
+
       &.MuiButtonBase-root.Mui-checked {
         color: function.rgb-a(colors.$color-03, 100%);
       }
@@ -88,30 +91,39 @@
       .color__item:nth-child(1) {
         background: rgb(255, 255, 255);
       }
+
       .color__item:nth-child(2) {
         background: rgb(185, 182, 182);
       }
+
       .color__item:nth-child(3) {
         background: rgb(252, 227, 175);
       }
+
       .color__item:nth-child(4) {
         background: rgb(145, 225, 70);
       }
+
       .color__item:nth-child(5) {
         background: rgb(225, 72, 70);
       }
+
       .color__item:nth-child(6) {
         background: rgb(47, 41, 45);
       }
+
       .color__item:nth-child(7) {
         background: rgb(39, 33, 33);
       }
+
       .color__item:nth-child(8) {
         background: rgb(41, 35, 37);
       }
+
       .color__item:nth-child(9) {
         background: #000000;
       }
+
       .color__item:nth-child(10) {
         background: rgb(0, 0, 0);
       }
@@ -121,30 +133,39 @@
       .color__item:nth-child(1) {
         background: #ffffff;
       }
+
       .color__item:nth-child(2) {
         background: #e19646;
       }
+
       .color__item:nth-child(3) {
         background: #fce3af;
       }
+
       .color__item:nth-child(4) {
         background: #91e146;
       }
+
       .color__item:nth-child(5) {
         background: #e14846;
       }
+
       .color__item:nth-child(6) {
         background: #27292d;
       }
+
       .color__item:nth-child(7) {
         background: #212527;
       }
+
       .color__item:nth-child(8) {
         background: #000000;
       }
+
       .color__item:nth-child(9) {
         background: #212325;
       }
+
       .color__item:nth-child(10) {
         background: #1e1e1e;
       }
@@ -154,30 +175,39 @@
       .color__item:nth-child(1) {
         background: #4d4b4a;
       }
+
       .color__item:nth-child(2) {
         background: rgb(66, 63, 56);
       }
+
       .color__item:nth-child(3) {
         background: #999999;
       }
+
       .color__item:nth-child(4) {
         background: #466249;
       }
+
       .color__item:nth-child(5) {
         background: #c36b72;
       }
+
       .color__item:nth-child(6) {
         background: rgb(202, 167, 112);
       }
+
       .color__item:nth-child(7) {
         background: rgb(196, 159, 104);
       }
+
       .color__item:nth-child(8) {
         background: rgb(205, 168, 114);
       }
+
       .color__item:nth-child(9) {
         background: rgb(205, 168, 114);
       }
+
       .color__item:nth-child(10) {
         background: rgb(161, 130, 89);
       }
@@ -187,30 +217,39 @@
       .color__item:nth-child(1) {
         background: rgb(77, 75, 74);
       }
+
       .color__item:nth-child(2) {
         background: rgb(66, 63, 56);
       }
+
       .color__item:nth-child(3) {
         background: #999999;
       }
+
       .color__item:nth-child(4) {
         background: #466249;
       }
+
       .color__item:nth-child(5) {
         background: #c36b72;
       }
+
       .color__item:nth-child(6) {
         background: rgb(242 242 236);
       }
+
       .color__item:nth-child(7) {
         background: rgb(236 234 228);
       }
+
       .color__item:nth-child(8) {
         background: rgb(245 243 238);
       }
+
       .color__item:nth-child(9) {
         background: rgb(215 213 208);
       }
+
       .color__item:nth-child(10) {
         background: #cccccc;
       }
@@ -240,39 +279,42 @@
       border-radius: 10px;
     }
   }
+
   .item-background:nth-child(3) .item-background-color {
     background: rgb(39, 33, 33);
   }
+
   .item-background:nth-child(4) .item-background-color {
     background: rgb(33, 37, 39);
   }
+
   .item-background:nth-child(5) .item-background-color {
     background: rgb(196, 159, 104);
   }
+
   .item-background:nth-child(6) .item-background-color {
     background: rgb(236 234 228);
   }
+
   .item-background:nth-child(7) .item-background-color {
-    background: radial-gradient(
-        ellipse farthest-corner at right bottom,
+    background: radial-gradient(ellipse farthest-corner at right bottom,
         rgb(254, 219, 55) 0%,
         rgb(253, 185, 49) 8%,
         rgb(159, 121, 40) 30%,
         rgb(138, 110, 47) 40%,
-        transparent 80%
-      ),
-      radial-gradient(
-        ellipse farthest-corner at left top,
+        transparent 80%),
+      radial-gradient(ellipse farthest-corner at left top,
         rgb(255, 255, 255) 0%,
         rgb(255, 255, 172) 8%,
         rgb(209, 180, 100) 25%,
         rgb(93, 74, 31) 62.5%,
-        rgb(93, 74, 31) 100%
-      );
+        rgb(93, 74, 31) 100%);
   }
+
   .item-background:nth-child(8) .item-background-color {
     background: linear-gradient(90deg, rgb(62, 77, 74), rgb(126, 72, 161));
   }
+
   .item-background:nth-child(9) .item-background-color {
     background: linear-gradient(90deg, rgb(72, 92, 100), rgb(68, 76, 84), rgb(52, 60, 60), rgb(24, 36, 44));
   }
@@ -289,6 +331,7 @@
 .settings--walpaper {
   width: 1568px;
   position: relative;
+
   .logo {
     width: 250px;
     position: absolute;
@@ -315,6 +358,7 @@
 @media screen and (max-width: 720px) {
   .settings--walpaper {
     width: 380px;
+
     .wallpaper-collection {
       display: flex;
       flex-direction: column;

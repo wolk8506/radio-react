@@ -48,7 +48,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import useDebounce from '../../hooks/use-Debounce';
 
-import weatherImage from 'components/weatherIcon';
+import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
