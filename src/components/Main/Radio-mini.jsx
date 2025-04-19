@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getPlayerPlay, getPlayerStation } from 'store/selectors';
+import { getPlayerPlay, getPlayerStation } from 'store/root/selectors';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';

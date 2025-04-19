@@ -12,7 +12,7 @@ import {
   getCityList,
   getWeatherDayCity3_Data,
   getThemeIconWeather,
-} from 'store/selectors';
+} from 'store/root/selectors';
 import {
   fetchWeatherYesterday,
   fetchWeatherToday,
@@ -22,8 +22,8 @@ import {
   // fetchLocation,
   fetchWeatherTodayCity1,
   fetchWeatherTodayCity2,
-} from 'store/operation';
-import { addCityListItem, deleteCityListItem, homeCityListItem, setCityName } from 'store/actions';
+} from 'store/root/operation';
+import { addCityListItem, deleteCityListItem, homeCityListItem, setCityName } from 'store/root/actions';
 
 // import SearchIcon from '@mui/icons-material/Search';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';

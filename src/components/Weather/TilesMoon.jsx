@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherElements_Data } from 'store/selectors';
+import { getWeatherElements_Data } from 'store/root/selectors';
 
 import moment from 'moment';
 

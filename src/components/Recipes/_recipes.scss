@@ -15,61 +15,92 @@
 
 // !====================================================================
 // !
-// !        breadcrumbs
+// !        breadcrumbs + header
 // !
 // !
 // !====================================================================
 
-.MuiBreadcrumbs-li a {
-  font-size: 16px;
-  color: colors.$color-03;
-  text-decoration: none;
+.header {
   display: flex;
   align-items: center;
-}
+  justify-content: space-between;
 
-.MuiBreadcrumbs-separator {
-  color: colors.$color-03;
-}
+  .header__btn-block {
+    display: flex;
+    align-items: center;
 
-.MuiBreadcrumbs-li {
-  background-color: function.rgb-a(colors.$color-02, 3%);
-  padding: 3px 15px;
-  border-radius: 15px;
-  cursor: pointer;
-
-  svg {
-    margin-right: 5px;
-    fill: colors.$color-03;
+    .btn-block__help {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
   }
-}
 
-.MuiBreadcrumbs-li:hover {
-  background-color: function.rgb-a(colors.$color-02, 10%);
-}
-.MuiBreadcrumbs-li:hover:last-child {
-  background-color: function.rgb-a(colors.$color-02, 3%);
-  cursor: default;
-}
 
-.MuiBreadcrumbs-li:hover a {
-  color: colors.$color-02;
-}
-.MuiBreadcrumbs-li:hover a:last-child {
-  color: colors.$color-03;
-}
-
-.MuiBreadcrumbs-ol .MuiBreadcrumbs-li .MuiTypography-root {
-  color: colors.$color-02;
-  svg {
-    margin-right: 5px;
-    fill: colors.$color-02;
+  .MuiButtonBase-root.MuiButtonBase-root.Mui-disabled {
+    color: function.rgb-a(colors.$color-03, 20%);
   }
+
+
+  .MuiBreadcrumbs-li a {
+    font-size: 16px;
+    color: colors.$color-03;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .MuiBreadcrumbs-separator {
+    color: colors.$color-03;
+  }
+
+  .MuiBreadcrumbs-li {
+    background-color: function.rgb-a(colors.$color-02, 3%);
+    padding: 3px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+
+    svg {
+      margin-right: 5px;
+      fill: colors.$color-03;
+    }
+  }
+
+  .MuiBreadcrumbs-li:hover {
+    background-color: function.rgb-a(colors.$color-02, 10%);
+  }
+
+  .MuiBreadcrumbs-li:hover:last-child {
+    background-color: function.rgb-a(colors.$color-02, 3%);
+    cursor: default;
+  }
+
+  .MuiBreadcrumbs-li:hover a {
+    color: colors.$color-02;
+  }
+
+  .MuiBreadcrumbs-li:hover a:last-child {
+    color: colors.$color-03;
+  }
+
+  .MuiBreadcrumbs-ol .MuiBreadcrumbs-li .MuiTypography-root {
+    color: colors.$color-02;
+
+    svg {
+      margin-right: 5px;
+      fill: colors.$color-02;
+    }
+  }
+
+  .breadcrumb-icon:hover {
+    color: colors.$color-02;
+  }
+
+  // ----
+
+
 }
 
-.breadcrumb-icon:hover {
-  color: colors.$color-02;
-}
+
 
 // !===============================================
 // !
@@ -87,6 +118,7 @@
   margin-bottom: 32px;
   align-items: center;
 }
+
 .menu-item {
   padding: 5px;
 }
@@ -112,7 +144,7 @@
   fill: colors.$color-02;
 }
 
-.menu-item + .menu-item {
+.menu-item+.menu-item {
   margin-top: 20px;
 }
 
@@ -127,6 +159,7 @@
     margin-right: 10px;
   }
 }
+
 // !====================================================================
 // !
 // !        item
@@ -158,7 +191,7 @@ h2 {
       text-align: center;
     }
 
-    li + li {
+    li+li {
       margin-top: 15px;
     }
 
@@ -172,6 +205,7 @@ h2 {
       .i-name {
         flex-shrink: 0;
       }
+
       .bracket-line {
         width: 100%;
         height: 18px;
@@ -179,6 +213,7 @@ h2 {
         margin-right: 5px;
         margin-left: 5px;
       }
+
       .i-weight {
         flex-shrink: 0;
       }
@@ -188,10 +223,12 @@ h2 {
 
 .step {
   margin-bottom: 32px;
+
   .step__title {
     margin-bottom: 20px;
     text-align: center;
   }
+
   .item-step {
     display: flex;
 
@@ -211,9 +248,144 @@ h2 {
     }
   }
 
-  .item-step + .item-step {
+  .item-step+.item-step {
     margin-top: 32px;
   }
+}
+
+// !===============================================
+// !
+// !        recipes add
+// !
+// !===============================================
+.container-recipe-add {
+  width: 1260px;
+  height: calc(100% - 20px);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 16px 16px 16px 32px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  @include function.card-style;
+
+  .overflov {
+    overflow: auto;
+    // margin-bottom: 24px;
+    padding-right: 200px;
+    padding-left: 200px;
+  }
+
+
+  .main-block {
+    // border: 1px solid greenyellow;
+    width: 690px;
+    padding: 12px;
+    margin-bottom: 24px;
+
+    .main-block__title {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .ingredient {
+    // border: 1px solid coral;
+    width: 690px;
+    margin-bottom: 24px;
+
+    .ingredient__title {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    .ingredient__item {
+      padding: 12px;
+
+      .item__title {
+        padding-bottom: 12px;
+      }
+
+      .ingredient-item {
+        display: flex;
+        align-items: center;
+
+        .MuiButtonBase-root.MuiButtonBase-root.Mui-disabled {
+          color: function.rgb-a(colors.$color-03, 30%);
+        }
+
+        .MuiButtonBase-root.MuiButtonBase-root {
+          color: function.rgb-a(colors.$color-03, 80%);
+
+
+        }
+      }
+    }
+  }
+
+  .step {
+    // border: 1px solid blueviolet;
+    width: 690px;
+    margin-bottom: 12px;
+
+
+    .step__title {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .step__item {
+      padding: 12px;
+
+      .item__title {
+        padding-bottom: 12px;
+      }
+
+      .item__description-bloc {
+        display: flex;
+        align-items: center;
+
+        .MuiButtonBase-root.MuiButtonBase-root.Mui-disabled {
+          color: function.rgb-a(colors.$color-03, 30%);
+        }
+
+        .MuiButtonBase-root.MuiButtonBase-root {
+          color: function.rgb-a(colors.$color-03, 80%);
+
+
+        }
+      }
+
+    }
+
+  }
+
+  .save-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // .save-block__btn {
+    //   display: flex;
+    //   align-items: center;
+    //   color: colors.$color-03;
+    //   text-decoration: none;
+    //   font-weight: 600;
+    //   font-size: 13px;
+    //   line-height: 1.75;
+    //   letter-spacing: 0.02857em;
+    //   text-transform: uppercase;
+    //   text-align: center;
+    // }
+  }
+
+
+
 }
 
 // !    Modal
@@ -250,5 +422,13 @@ h2 {
       width: 100px;
       height: 100px;
     }
+  }
+
+  .header {
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid function.rgb-a(colors.$color-03, 20%);
+    ;
   }
 }

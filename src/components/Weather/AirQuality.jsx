@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchWeatherAirQuality } from 'store/operation';
-import { getWeatherAirQuality_Data, getCityName } from 'store/selectors';
+import { fetchWeatherAirQuality } from 'store/root/operation';
+import { getWeatherAirQuality_Data, getCityName } from 'store/root/selectors';
 
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';

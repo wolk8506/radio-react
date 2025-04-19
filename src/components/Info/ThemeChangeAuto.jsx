@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setThemeAutoChengeTheme } from 'store/actions';
-import { getThemeAutoChengeTheme } from 'store/selectors';
+import { setThemeAutoChengeTheme } from 'store/root/actions';
+import { getThemeAutoChengeTheme } from 'store/root/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';

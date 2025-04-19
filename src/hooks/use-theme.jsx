@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { changeTheme } from 'store/actions';
-import { setThemeChengeTheme } from 'store/actions';
-import { getThemeChengeTheme } from 'store/selectors';
+import { setThemeChengeTheme } from 'store/root/actions';
+import { getThemeChengeTheme } from 'store/root/selectors';
 
 const isDarkTheme = window?.matchMedia('(prefers-color-scheme: dark)').matches;
 const defaultTheme = isDarkTheme ? 'dark' : 'light';

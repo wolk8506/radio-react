@@ -11,8 +11,8 @@ import {
   getCurrencyNBUtomorrow_Loading,
   getCurrencyNBUtomorrow_Status,
   getCurrencyNBUtomorrow_TimeUpdate,
-} from '../../store/selectors';
-import { fetchCurrencyNBUtoday, fetchCurrencyNBUtomorrow } from '../../store/operation';
+} from '../../store/root/selectors';
+import { fetchCurrencyNBUtoday, fetchCurrencyNBUtomorrow } from '../../store/root/operation';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';

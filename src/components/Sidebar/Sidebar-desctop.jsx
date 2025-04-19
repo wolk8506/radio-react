@@ -15,6 +15,7 @@ import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import InfoIcon from '@mui/icons-material/Info';
+import PersonIcon from '@mui/icons-material/Person';
 
 import { RadioMini } from '../Main/Radio-mini';
 
@@ -74,6 +75,26 @@ export const SidebarDesctop = ({ audio }) => {
               </ListItem>
             );
           })}
+        </List>
+        <List>
+          {/* { name: 'User', link: '/user', icon: PersonIcon }, */}
+          <ListItem
+            className={currentPage === '/user' ? 'activ' : ''}
+            onClick={handleBtnTab}
+            disablePadding
+            sx={{ display: 'block' }}
+          >
+            <ListItemButton
+              component={Link}
+              to={'/user'}
+              sx={[{ minHeight: 48, px: 2.5 }, btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' }]}
+            >
+              <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}>
+                {React.createElement(PersonIcon)}
+              </ListItemIcon>
+              <ListItemText primary="User" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </div>
     </div>

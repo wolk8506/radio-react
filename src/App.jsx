@@ -12,27 +12,49 @@ import {
   getPlayerPlay,
   getPlayerStation,
   getThemeTransporantClock,
-} from 'store/selectors';
+} from 'store/root/selectors';
 
 import { Main } from './components/Main/Main';
 import { CurrencyIndex } from './components/Currency/Currency-index';
 import { Weather } from './components/Weather/Weather';
 import { RecipesIndex } from './components/Recipes/Recipes-index';
+import { RecipeAdd } from './components/Recipes/RecipeAdd';
 import { News } from './components/News/News';
-import { Cakes } from './components/Recipes/Recipes';
-import { Cake } from './components/Recipes/Recipe';
+import { Recipes } from './components/Recipes/Recipes';
+import { Recipe } from './components/Recipes/Recipe';
 import { info } from './components/info';
 import { radioData } from './components/Main/Radio-data';
 import { Info } from './components/Info/Info';
 import { SidebarDesctop } from './components/Sidebar/Sidebar-desctop';
 import { SidebarMobile } from './components/Sidebar/Sidebar-mobile';
+import { RegisterView } from './Pages/RegisterView';
 
 import { NotFoundView } from './Pages/NotFoundView';
+import { LoginView } from 'Pages/LoginView';
+import { ToastContainer } from 'react-toastify';
+
+import { PrivateRoute } from 'components/Route/PrivateRoute';
+import { PublicRoute } from './components/Route/PublicRoute';
+import { getIsLoggedIn } from './store/auth/selectors';
+import { fetchCurrentUser } from './store/auth/operations';
+import { useDispatch } from 'react-redux';
+import { UserView } from 'Pages/UserView';
+import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
 
 export const App = () => {
   const PLAYER_PLAY = useSelector(getPlayerPlay);
   const PLAYER_STATION = useSelector(getPlayerStation);
   const [audio, setAudio] = useState();
+
+  const dispatch = useDispatch();
+  // const isFetchingCurrentUser = useSelector(getIsFetchingCurrent);
+  const isLoggedIn = useSelector(getIsLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+    }
+    dispatch(fetchCurrentUser());
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => setAudio(new Audio()), []);
   useEffect(() => {
@@ -79,19 +101,132 @@ export const App = () => {
       <div className="content">
         <Suspense fallback="Load...">
           <Routes>
-            <Route path="/" element={<Main onAudio={audio} />} />
-            <Route path="/currency-index" element={<CurrencyIndex />} />
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/recipes" element={<RecipesIndex />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/recipes/:cakesID" element={<Cakes />} />
-            <Route path="/recipes/:cakesID/:cakeID" element={<Cake />} />
-            <Route path="/info" element={<Info />} />
-            <Route path="/404" element={<NotFoundView />} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <Main onAudio={audio} />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/currency-index"
+              element={
+                <PublicRoute>
+                  <CurrencyIndex />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/weather"
+              element={
+                <PublicRoute>
+                  <Weather />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/recipes"
+              element={
+                <PublicRoute>
+                  <RecipesIndex />
+                </PublicRoute>
+              }
+            />
+
+            <Route
+              path="/news"
+              element={
+                <PublicRoute>
+                  <News />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/recipes/:recipesID"
+              element={
+                <PublicRoute>
+                  <Recipes />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/recipes/:recipesID/:recipeID"
+              element={
+                <PublicRoute>
+                  <Recipe />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/404"
+              element={
+                <PublicRoute>
+                  <NotFoundView />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <PublicRoute>
+                  <Navigate to="/404" replace />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/info"
+              element={
+                <PrivateRoute>
+                  <Info />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/recipes/recipes-add"
+              element={
+                <PrivateRoute>
+                  <RecipeAdd />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/recipes/:recipesID/:recipeID/edit"
+              // /recipes/${item_ID}/${_ID}/edit
+              element={
+                <PrivateRoute>
+                  <RecipeUpdate />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/user"
+              element={
+                <PrivateRoute>
+                  <UserView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute restricted>
+                  <RegisterView />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute restricted>
+                  <LoginView />
+                </PublicRoute>
+              }
+            />
           </Routes>
         </Suspense>
       </div>
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 };

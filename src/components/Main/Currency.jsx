@@ -6,9 +6,9 @@ import {
   getCurrencyMonoCurrent_Status,
   getCurrencyMonoCurrent_Data,
   getCurrencyYesterday,
-} from '../../store/selectors';
-import { fetchCurrencyMonoCurrent } from '../../store/operation';
-import { setCurrencyYesterday } from 'store/actions';
+} from '../../store/root/selectors';
+import { fetchCurrencyMonoCurrent } from '../../store/root/operation';
+import { setCurrencyYesterday } from 'store/root/actions';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';

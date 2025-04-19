@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setThemeChengeWalpaper } from 'store/actions';
-import { getThemeChengeWalpaper } from 'store/selectors';
+import { setThemeChengeWalpaper } from 'store/root/actions';
+import { getThemeChengeWalpaper } from 'store/root/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';

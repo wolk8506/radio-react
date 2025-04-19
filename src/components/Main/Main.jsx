@@ -7,7 +7,7 @@ import { Currency } from './Currency';
 import { Clock } from './Clock';
 import { Event } from './Event';
 import { ClockDigital } from './ClockDigital';
-import { getThemeWidgetClock, getThemeNewYear } from 'store/selectors';
+import { getThemeWidgetClock, getThemeNewYear } from 'store/root/selectors';
 
 import snowMan from '../../images/winter/snowman-min.png';
 import christmasTree from '../../images/winter/christmas tree.png';

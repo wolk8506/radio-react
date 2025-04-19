@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data, getWeatherElements_Data } from 'store/selectors';
+import { getWeatherToday_Data, getWeatherElements_Data } from 'store/root/selectors';
 
 import moon_1 from '../../images/moon-phase/moon-phase-1.png';
 import moon_2 from '../../images/moon-phase/moon-phase-2.png';

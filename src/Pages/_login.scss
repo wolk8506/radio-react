@@ -1,0 +1,60 @@
+@use "../scss/colors";
+@use "../scss/function";
+
+.container-login {
+    width: 1260px;
+    height: calc(100% - 20px);
+    padding: 32px;
+    margin-right: auto;
+    margin-left: auto;
+    @include function.card-style;
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid function.rgb-a(colors.$color-03, 20%);
+        padding-bottom: 6px;
+
+        .navigation__page-name {
+            display: flex;
+            align-items: center;
+
+            .page-name__name {
+                font-weight: 600;
+            }
+        }
+
+        .link {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px;
+            font-weight: 700;
+            color: function.rgb-a(colors.$color-03, 54%);
+        }
+
+        .activeLink {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px;
+            font-weight: 700;
+            color: colors.$color-02;
+        }
+    }
+
+    .form {
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        margin-top: 120px;
+
+        .MuiFormControl-root.MuiTextField-root {
+            width: 230px;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+    }
+}

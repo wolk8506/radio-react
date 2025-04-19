@@ -7,8 +7,8 @@ import {
   getCurrencyBanksToday_Status,
   getCurrencyBanksToday_TimeUpdate,
   getCurrencyBanksToday_Data,
-} from '../../store/selectors';
-import { fetchCurrencyBanksToday } from '../../store/operation';
+} from '../../store/root/selectors';
+import { fetchCurrencyBanksToday } from '../../store/root/operation';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';

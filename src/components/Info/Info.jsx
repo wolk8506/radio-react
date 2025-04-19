@@ -1,4 +1,9 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchCurrentUser } from '../../store/auth/operations';
+import { getIsLoggedIn } from '../../store/auth/selectors';
 
 import { version } from 'components/info';
 import { ThemeChange } from './ThemeChange';
@@ -10,8 +15,13 @@ import { ThemeNewYear } from './ThemeNewYear';
 import { ThemeWeather } from './ThemeWeather';
 
 export const Info = () => {
-  // const { REACT_APP_TEST } = process.env;
-  // console.log(REACT_APP_TEST);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn) {
+    }
+    dispatch(fetchCurrentUser());
+  }, [dispatch, isLoggedIn]);
 
   return (
     <section>

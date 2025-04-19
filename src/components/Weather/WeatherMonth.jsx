@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import sprite from '../../images/sprite.svg';
 import weatherImage from 'components/Weather/weatherIcon';
 
-import { getThemeIconWeather, getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/selectors';
+import { getThemeIconWeather, getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/root/selectors';
 
 import moment from 'moment';
 import 'moment/locale/ru';
