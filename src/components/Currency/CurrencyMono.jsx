@@ -8,8 +8,8 @@ import {
   getCurrencyMonoCurrent_Status,
   getCurrencyMonoCurrent_TimeUpdate,
   getCurrencyMonoCurrent_Data,
-} from '../../store/selectors';
-import { fetchCurrencyMonoCurrent } from '../../store/operation';
+} from '../../store/root/selectors';
+import { fetchCurrencyMonoCurrent } from '../../store/root/operation';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';

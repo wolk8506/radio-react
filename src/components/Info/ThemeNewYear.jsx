@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setThemeNewYear } from 'store/actions';
-import { getThemeNewYear } from 'store/selectors';
+import { setThemeNewYear } from 'store/root/actions';
+import { getThemeNewYear } from 'store/root/selectors';
 
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';

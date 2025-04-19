@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setThemeIconWeather } from 'store/actions';
-import { getThemeIconWeather } from 'store/selectors';
+import { setThemeIconWeather } from 'store/root/actions';
+import { getThemeIconWeather } from 'store/root/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';

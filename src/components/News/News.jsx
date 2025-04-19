@@ -1,9 +1,9 @@
 // https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=Последние&country=by,ru,ua&language=ru
 
 import { useState } from 'react';
-import { getNews_Data } from 'store/selectors';
+import { getNews_Data } from 'store/root/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchNews } from 'store/operation';
+import { fetchNews } from 'store/root/operation';
 import { useEffect } from 'react';
 
 import Paper from '@mui/material/Paper';

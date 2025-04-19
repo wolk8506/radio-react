@@ -7,10 +7,10 @@ import { Humidity } from './Humidity';
 import { Clouds } from './Clouds';
 import { WindGust } from './WindGust';
 
-import { getThemeIconWeather, getWeatherToday_Data } from 'store/selectors';
-import { fetchWeatherToday } from 'store/operation';
-import { fetchLocation } from 'store/operation';
-import { getCityName } from 'store/selectors';
+import { getThemeIconWeather, getWeatherToday_Data } from 'store/root/selectors';
+import { fetchWeatherToday } from 'store/root/operation';
+import { fetchLocation } from 'store/root/operation';
+import { getCityName } from 'store/root/selectors';
 
 import weatherImage from 'components/Weather/weatherIcon';
 

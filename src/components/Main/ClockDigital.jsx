@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getWeatherToday_Data, getThemeClock_AnalogDigital, getThemeIconWeather } from 'store/selectors';
-import { fetchWeatherToday } from 'store/operation';
-import { fetchLocation } from 'store/operation';
-import { getCityName } from 'store/selectors';
+import { getWeatherToday_Data, getThemeClock_AnalogDigital, getThemeIconWeather } from 'store/root/selectors';
+import { fetchWeatherToday } from 'store/root/operation';
+import { fetchLocation } from 'store/root/operation';
+import { getCityName } from 'store/root/selectors';
 
 import weatherImage from 'components/Weather/weatherIcon';
 

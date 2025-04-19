@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getThemeIconWeather, getWeatherMonth_Data } from 'store/selectors';
+import { getThemeIconWeather, getWeatherMonth_Data } from 'store/root/selectors';
 
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import Modal from '@mui/joy/Modal';

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setThemeWidgetClock } from 'store/actions';
-import { getThemeWidgetClock } from 'store/selectors';
+import { setThemeWidgetClock } from 'store/root/actions';
+import { getThemeWidgetClock } from 'store/root/selectors';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';

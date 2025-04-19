@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getThemeIconWeather, getWeatherToday_Data, getWeatherToday_TimeUpdate } from 'store/selectors';
+import { getThemeIconWeather, getWeatherToday_Data, getWeatherToday_TimeUpdate } from 'store/root/selectors';
 
 import sprite from '../../images/sprite.svg';
 

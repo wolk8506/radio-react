@@ -10,8 +10,8 @@ import {
   getCurrencyZVRCurrent_Status,
   getCurrencyZVRCurrent_TimeUpdate,
   getCurrencyZVRCurrent_Data,
-} from '../../store/selectors';
-import { fetchCurrencyZVRPrevious, fetchCurrencyZVRCurrent } from '../../store/operation';
+} from '../../store/root/selectors';
+import { fetchCurrencyZVRPrevious, fetchCurrencyZVRCurrent } from '../../store/root/operation';
 
 import { styled } from '@mui/material/styles';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';

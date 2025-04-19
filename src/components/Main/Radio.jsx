@@ -10,9 +10,9 @@ import PauseIcon from '@mui/icons-material/Pause';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 
-import { setPlayerStation } from 'store/actions';
-import { getPlayerStation } from 'store/selectors';
-import { setPlayerPlay } from 'store/actions';
+import { setPlayerStation } from 'store/root/actions';
+import { getPlayerStation } from 'store/root/selectors';
+import { setPlayerPlay } from 'store/root/actions';
 import { radioData } from './Radio-data';
 
 export const Radio = ({ onAudio }) => {

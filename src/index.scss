@@ -32,7 +32,12 @@
 
 @use 'components/Info/info';
 
-@import-normalize; /* bring in normalize.css styles */
+@use 'Pages/user';
+@use 'Pages/login';
+@use 'Pages/register';
+
+@import-normalize;
+/* bring in normalize.css styles */
 
 body {
   margin: 0;

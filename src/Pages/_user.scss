@@ -1,0 +1,58 @@
+@use "../scss/colors";
+@use "../scss/function";
+
+.container-user {
+    width: 1260px;
+    height: calc(100% - 20px);
+    padding: 32px;
+    margin-right: auto;
+    margin-left: auto;
+    @include function.card-style;
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid function.rgb-a(colors.$color-03, 20%);
+        padding-bottom: 6px;
+
+        .navigation__user {
+            display: flex;
+            align-items: center;
+
+            .user__avatar {
+                margin-right: 12px;
+            }
+
+            .user__name {
+                font-weight: 600;
+            }
+        }
+    }
+
+    .container-user__block {
+        .user-info {
+            margin-left: auto;
+            margin-top: 60px;
+            padding: 10px;
+            width: 390px;
+
+            .user-info__item {
+                td {
+                    padding: 6px;
+                }
+
+                .item__title {
+                    text-transform: uppercase;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+
+}
+
+.modal-title-value {
+    color: function.rgb-a(colors.$color-02, 60%);
+    // color: colors.$color-03;
+}

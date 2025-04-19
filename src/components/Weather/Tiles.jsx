@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_TimeUpdate } from 'store/selectors';
+import { getWeatherToday_TimeUpdate } from 'store/root/selectors';
 
 import { TilesTemperatura } from './TilesTemperatura';
 import { TilesCloud } from './TilesCloud';
