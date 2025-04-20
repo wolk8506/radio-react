@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getAvatar, getUsername, getCreatedAt, getEmail, getIsLoggedIn } from '../store/auth/selectors';
-import { fetchCurrentUser, logOut, updateName, updateEmail } from '../store/auth/operations';
+import { fetchCurrentUser, logOut, updateName, updateEmail, updateAvatar } from '../store/auth/operations';
+import { BASE_URL } from 'store/env';
 
 import { Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -22,6 +23,7 @@ export const UserView = () => {
   const createdAt = useSelector(getCreatedAt);
   const isLoggedIn = useSelector(getIsLoggedIn);
   const [nameChange, setNameChange] = useState(name);
+  const baseUrlImg = BASE_URL;
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -31,7 +33,7 @@ export const UserView = () => {
 
   // ------------------------------
   const [open, setOpen] = useState(false);
-  // const [file, setFile] = useState();
+  const [file, setFile] = useState();
   const [modalVariant, setModalVariant] = useState(0);
 
   const handleOpen = e => {
@@ -45,7 +47,7 @@ export const UserView = () => {
   const UploadContent = e => {
     e.preventDefault();
     if (e.target.files[0]) {
-      // setFile(e.target.files[0]);
+      setFile(e.target.files[0]);
       console.log(e.target.files[0]);
     }
   };
@@ -77,8 +79,19 @@ export const UserView = () => {
   };
 
   const OnSumbitChangeName = e => {
-    // const formData = new FormData();
-    // formData.append('avatar', file);
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    if (modalVariant === 0) {
+      dispatch(
+        updateAvatar(formData, {
+          headers: {
+            'Content-type': 'multipart/form-data',
+          },
+        })
+      );
+    }
+
     if (modalVariant === 1) dispatch(updateName({ name: nameChange }));
 
     if (modalVariant === 2) dispatch(updateEmail({ email: nameChange }));
@@ -107,7 +120,7 @@ export const UserView = () => {
     <div className="container-user">
       <nav className="navigation">
         <div className="navigation__user">
-          <img src={avatar} alt="" width="32" className="user__avatar" />
+          <img className="user__avatar" src={baseUrlImg + avatar} alt="" width="32" />
           <span className="user__name">Привет, {name}</span>
         </div>
 
@@ -120,12 +133,12 @@ export const UserView = () => {
           <tr className="user-info__item">
             <td className="item__title">Аватар:</td>
             <td>
-              <img className="item__img" src={avatar} alt="" width={128} />
+              <img className="item__img" src={baseUrlImg + avatar} alt="" width={128} />
             </td>
             <td>
-              {/* <Button onClick={handleOpen} value={0}>
+              <Button onClick={handleOpen} value={0}>
                 <EditIcon />
-              </Button> */}
+              </Button>
             </td>
           </tr>
           <tr className="user-info__item">

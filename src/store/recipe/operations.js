@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { BASE_URL } from 'store/env';
 
-// axios.defaults.baseURL = 'http://localhost:8080/api';
-axios.defaults.baseURL =
-  'https://8080-idx-radio-react-backendgit-1745093926321.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev/api';
+axios.defaults.baseURL = BASE_URL;
 
 export const fetchRecipe = createAsyncThunk('recipe/fetchRecipe', async () => {
   const response = await axios.get('/recipe');
