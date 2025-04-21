@@ -3,28 +3,6 @@ import { combineReducers } from 'redux';
 import { fetchRecipe, addRecipe, deleteRecipe, favoriteRecipe, updateRecipe } from './operations';
 import { setStatusAddRecipe, setStatusDeleteRecipe, setStatusUpdateRecipe } from './actions';
 
-// const initState = [
-//   {
-//     favorite: false,
-//     name: '',
-//     category: '',
-//     img: null,
-//     ingredients: [
-//       {
-//         i_name: '',
-//         i_weight: '',
-//       },
-//     ],
-//     steps: [
-//       {
-//         step: 1,
-//         img: null,
-//         text: '',
-//       },
-//     ],
-//   },
-// ];
-
 const recipe = createReducer([], builder => {
   builder
     .addCase(fetchRecipe.fulfilled, (state, action) => action.payload)

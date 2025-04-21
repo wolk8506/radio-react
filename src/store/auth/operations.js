@@ -32,14 +32,13 @@ export const register = createAsyncThunk('auth/register', async credentials => {
     }
     return response.data;
   } catch (error) {
-    console.log('❌ error');
+    console.log('❌ error', error);
   }
 });
 
 export const logIn = createAsyncThunk('auth/login', async credentials => {
   try {
     const { data } = await axios.post('/auth/login', credentials);
-    // console.log(data);
     token.set(data.token);
     return data.data;
   } catch (error) {
@@ -60,7 +59,6 @@ export const updateAvatar = createAsyncThunk('auth/avatars', async credentials =
 export const updateName = createAsyncThunk('auth/name', async credentials => {
   try {
     const response = await axios.patch('/user/name', credentials);
-    // console.log(response.data);
     return response.data;
   } catch (error) {}
 });
@@ -68,10 +66,9 @@ export const updateName = createAsyncThunk('auth/name', async credentials => {
 export const updateEmail = createAsyncThunk('auth/email', async credentials => {
   try {
     const response = await axios.patch('/user/email', credentials);
-    // console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log('error', error);
+    console.log('❌ error', error);
     if (error.status === 409) {
       toast.error(`${error.response.data.message}`, {
         position: 'top-center',
@@ -93,14 +90,18 @@ export const verifyEmail = createAsyncThunk('auth/verify', async credentials => 
     const { data } = await axios.post('/user/verify', credentials);
 
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.log('❌ error', error);
+  }
 });
 
 export const logOut = createAsyncThunk('auth/logout', async () => {
   try {
     await axios.get('/auth/logout');
     token.unset();
-  } catch (error) {}
+  } catch (error) {
+    console.log('❌ error', error);
+  }
 });
 
 export const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
@@ -117,18 +118,7 @@ export const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunk
     return data.data.user;
   } catch (error) {
     if (error.status === 401) {
-      // token.set(null);
       return { token: null, status: 401 };
-      // console.log(error);
-      // toast.error(`${error}`, {
-      //   position: 'top-center',
-      //   autoClose: 5000,
-      //   hideProgressBar: true,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: 1,
-      // });
-    }
+    } else console.log('❌ error', error);
   }
 });

@@ -1,4 +1,3 @@
-//
 export const getRecipe = state => state.recipe.recipe;
 export const getLoadingAddRecipe = state => state.recipe.loadingAddRecipe;
 export const getStatusAddRecipe = state => state.recipe.statusAddRecipe;

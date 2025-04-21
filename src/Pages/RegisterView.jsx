@@ -71,13 +71,13 @@ export const RegisterView = () => {
   const handleSubmit = e => {
     e.preventDefault();
     if (password.length < 6) {
-      toast.warn('Password must not be less than 6 characters');
+      toast.warn('Пароль не должен быть короче 6 символов');
       setPassword('');
       setConfirmPassword('');
       return;
     }
     if (password !== confirmPassword) {
-      toast.warn('Passwords do not match, please re-enter your password');
+      toast.warn('Пароли не совпадают, пожалуйста, введите пароль еще раз');
       setPassword('');
       setConfirmPassword('');
       return;
@@ -101,22 +101,22 @@ export const RegisterView = () => {
     <div className="container-register">
       <nav className="navigation">
         <div className="navigation__page-name">
-          <span className="page-name__name">Registration page</span>
+          <span className="page-name__name">Страница регистрации</span>
         </div>
 
         <div>
           <NavLink to="/register" className={({ isActive }) => (isActive ? 'activeLink' : 'link')}>
-            Registration
+            Регистрация
           </NavLink>
           <NavLink to="/login" className={({ isActive }) => (isActive ? 'activeLink' : 'link')}>
-            Login
+            Вход
           </NavLink>
         </div>
       </nav>
 
       <form onSubmit={handleSubmit} className="form" autoComplete="off">
         <TextField
-          label="Name"
+          label="Имя"
           variant="standard"
           type="text"
           name="name"
@@ -126,7 +126,7 @@ export const RegisterView = () => {
         />
 
         <TextField
-          label="Email"
+          label="Почта"
           variant="standard"
           type="email"
           name="email"
@@ -136,7 +136,7 @@ export const RegisterView = () => {
         />
 
         <FormControl color="success" sx={{ width: '320' }} variant="standard">
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="password">Пароль</InputLabel>
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
@@ -158,7 +158,7 @@ export const RegisterView = () => {
         </FormControl>
 
         <FormControl color="success" sx={{ width: '320' }} variant="standard">
-          <InputLabel htmlFor="confirmPassword">Сonfirm password</InputLabel>
+          <InputLabel htmlFor="confirmPassword">Подтвердите пароль</InputLabel>
           <Input
             id="confirmPassword"
             type={showPassword ? 'text' : 'password'}
@@ -180,11 +180,11 @@ export const RegisterView = () => {
         </FormControl>
 
         <Button type="submit" variant="outlined" color="success">
-          Register
+          Регистрация
         </Button>
       </form>
       <button className="btn-form-resend" onClick={handleOpen}>
-        I didn't receive a confirmation email
+        Я не получил письмо с подтверждением
       </button>
       <div>
         <Modal
@@ -195,19 +195,19 @@ export const RegisterView = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              To resend the verification email, enter your email specified at registration.
+              Чтобы повторно отправить проверочное письмо, введите адрес электронной почты, указанный при регистрации.
             </Typography>
             <div className="block-resend">
               <TextField
                 id="resendEmail"
-                label="Email"
+                label="Почта"
                 variant="standard"
                 type="email"
                 name="resendEmail"
                 onChange={handleChange}
               />
 
-              <Button onClick={OnSumbit}>to send email</Button>
+              <Button onClick={OnSumbit}>отправить письмо</Button>
             </div>
           </Box>
         </Modal>

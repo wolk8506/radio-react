@@ -69,35 +69,35 @@ export const updateRecipe = createAsyncThunk('recipe/updateRecipe', async data =
     return response.data.data.result;
   } catch (error) {
     console.log('❌ error');
-    // if (error.status === 400) {
-    //   const errorMesage = error.response.data.message.split('"')[1];
-    //   let field = '';
-    //   switch (errorMesage) {
-    //     case 'name':
-    //       field = 'Поле назавания рецепта не заполнено. Заполните поле и повторите попытку';
-    //       break;
-    //     case 'category':
-    //       field = 'Категория рецепта не выбрана. Повторите выбор категории и повторите попытку';
-    //       break;
-    //     case 'ingredients':
-    //       field = 'Поля ингридиентов не заполнены. Заполните поле и повторите попытку';
-    //       break;
-    //     case 'ingredients[0].i_weight':
-    //       field = 'Поле с количеством ингридиента не заполнено. Заполните поле и повторите попытку';
-    //       break;
-    //     case 'ingredients[0].i_name':
-    //       field = 'Поле названия ингридиента не заполнено. Заполните поле и повторите попытку';
-    //       break;
-    //     default:
-    //   }
-    //   toast.error(field, {
-    //     position: 'top-center',
-    //     autoClose: 5000,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //   });
-    // }
+    if (error.status === 400) {
+      const errorMesage = error.response.data.message.split('"')[1];
+      let field = '';
+      switch (errorMesage) {
+        case 'name':
+          field = 'Поле назавания рецепта не заполнено. Заполните поле и повторите попытку';
+          break;
+        case 'category':
+          field = 'Категория рецепта не выбрана. Повторите выбор категории и повторите попытку';
+          break;
+        case 'ingredients':
+          field = 'Поля ингридиентов не заполнены. Заполните поле и повторите попытку';
+          break;
+        case 'ingredients[0].i_weight':
+          field = 'Поле с количеством ингридиента не заполнено. Заполните поле и повторите попытку';
+          break;
+        case 'ingredients[0].i_name':
+          field = 'Поле названия ингридиента не заполнено. Заполните поле и повторите попытку';
+          break;
+        default:
+      }
+      toast.error(field, {
+        position: 'top-center',
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
     return Promise.reject(error);
   }
 });
