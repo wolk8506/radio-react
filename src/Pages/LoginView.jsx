@@ -49,22 +49,22 @@ export const LoginView = () => {
     <div className="container-login">
       <nav className="navigation">
         <div className="navigation__page-name">
-          <span className="page-name__name">Login page</span>
+          <span className="page-name__name">Страница входа</span>
         </div>
 
         <div>
           <NavLink to="/register" className={({ isActive }) => (isActive ? 'activeLink' : 'link')}>
-            Registration
+            Регистрация
           </NavLink>
           <NavLink to="/login" className={({ isActive }) => (isActive ? 'activeLink' : 'link')}>
-            Login
+            Вход
           </NavLink>
         </div>
       </nav>
 
       <form onSubmit={handleSubmit} className="form" autoComplete="off">
         <TextField
-          label="Email"
+          label="Почта"
           variant="standard"
           type="email"
           name="email"
@@ -74,7 +74,7 @@ export const LoginView = () => {
         />
 
         <FormControl color="success" sx={{ width: '320' }} variant="standard">
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="password">Пароль</InputLabel>
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
@@ -96,7 +96,7 @@ export const LoginView = () => {
         </FormControl>
 
         <Button type="submit" variant="outlined" color="success">
-          Login
+          Вход
         </Button>
       </form>
     </div>

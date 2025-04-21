@@ -1,8 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-// import { combineReducers } from 'redux';
 import { register, logIn, logOut, fetchCurrentUser, updateAvatar, updateName, updateEmail } from './operations';
-// import { initStateCurrencyBanksToday as initState } from './init-state-mock';
-// import moment from 'moment';
 
 const initState = {
   user: { name: null, email: null, avatarURL: null, createdAt: null },
@@ -14,7 +11,6 @@ const initState = {
 };
 
 export const auth = createReducer(initState, builder => {
-  // builder.addCase(register.fulfilled, (state, action) => action.payload);
   builder
     .addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.data.user;
@@ -37,7 +33,7 @@ export const auth = createReducer(initState, builder => {
     //   state.isFetchingCurrentUser = true;
     // })
     .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       // state.token = action.payload.token;
       if (action.payload.status === 401) {
         state.token = action.payload.token;
