@@ -8,6 +8,7 @@ const initState = {
   isFetchingCurrentUser: false,
   isVeryfy: false,
   isCode: null,
+  isFetchingUploadAvatar: false,
 };
 
 export const auth = createReducer(initState, builder => {
@@ -19,7 +20,6 @@ export const auth = createReducer(initState, builder => {
       state.isCode = action.code;
     })
     .addCase(logIn.fulfilled, (state, action) => {
-      // console.log(action.payload.token);
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
@@ -33,8 +33,6 @@ export const auth = createReducer(initState, builder => {
     //   state.isFetchingCurrentUser = true;
     // })
     .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-      // console.log(action.payload);
-      // state.token = action.payload.token;
       if (action.payload.status === 401) {
         state.token = action.payload.token;
       }
@@ -45,9 +43,21 @@ export const auth = createReducer(initState, builder => {
     // .addCase(fetchCurrentUser.fulfilled, (state, action) => {
     //   state.isFetchingCurrentUser = false;
     // })
+    // -------------------------------------------------------
     .addCase(updateAvatar.fulfilled, (state, action) => {
       state.user.avatarURL = action.payload.avatarURL;
+      state.isFetchingUploadAvatar = false;
     })
+    .addCase(updateAvatar.pending, (state, action) => {
+      state.isFetchingUploadAvatar = true;
+    })
+    // .addCase(updateAvatar.fulfilled, (state, action) => {
+    //   state.isFetchingUploadAvatar = false;
+    // })
+    .addCase(updateAvatar.rejected, (state, action) => {
+      state.isFetchingUploadAvatar = false;
+    })
+    // -------------------------------------------------------
     .addCase(updateName.fulfilled, (state, action) => {
       state.user = action.payload.data;
     })
