@@ -53,7 +53,9 @@ export const updateAvatar = createAsyncThunk('auth/avatars', async credentials =
     const { data } = await axios.patch('/user/avatars', credentials);
 
     return data;
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 });
 
 export const updateName = createAsyncThunk('auth/name', async credentials => {

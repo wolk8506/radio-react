@@ -2,7 +2,14 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getAvatar, getUsername, getCreatedAt, getEmail, getIsLoggedIn } from '../store/auth/selectors';
+import {
+  getAvatar,
+  getUsername,
+  getCreatedAt,
+  getEmail,
+  getIsLoggedIn,
+  getIsFetchingUploadAvatar,
+} from '../store/auth/selectors';
 import { fetchCurrentUser, logOut, updateName, updateEmail, updateAvatar } from '../store/auth/operations';
 import { BASE_URL } from 'store/env';
 
@@ -12,6 +19,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import moment from 'moment';
 
@@ -22,6 +30,7 @@ export const UserView = () => {
   const email = useSelector(getEmail);
   const createdAt = useSelector(getCreatedAt);
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const isFetchingUploadAvatar = useSelector(getIsFetchingUploadAvatar);
   const [nameChange, setNameChange] = useState(name);
   const baseUrlImg = BASE_URL;
 
@@ -38,8 +47,6 @@ export const UserView = () => {
 
   const handleOpen = e => {
     setOpen(true);
-    console.log(e.currentTarget.value);
-    console.log(Number(e.currentTarget.value));
     setModalVariant(Number(e.currentTarget.value));
   };
   const handleClose = () => setOpen(false);
@@ -48,24 +55,8 @@ export const UserView = () => {
     e.preventDefault();
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
-
-  // const OnSumbit = e => {
-  //   const formData = new FormData();
-  //   formData.append('avatar', file);
-
-  //   dispatch(
-  //     updateAvatar(formData, {
-  //       headers: {
-  //         'Content-type': 'multipart/form-data',
-  //       },
-  //     })
-  //   );
-  //   setOpen(false);
-  // };
-  // ------------------------------
 
   const handleChangeName = ({ target: { name, value } }) => {
     switch (name) {
@@ -108,6 +99,8 @@ export const UserView = () => {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    display: 'flex',
+    flexDirection: 'column',
   };
 
   const modalData = [
@@ -124,77 +117,53 @@ export const UserView = () => {
           <span className="user__name">Привет, {name}</span>
         </div>
 
-        <Button type="button" variant="outlined" color="success" onClick={() => dispatch(logOut())}>
+        <Button type="button" variant="outlined" onClick={() => dispatch(logOut())}>
           Выход
         </Button>
       </nav>
       <div className="container-user__block">
-        <table className="user-info">
-          <tr className="user-info__item">
-            <td className="item__title">Аватар:</td>
-            <td>
-              <img className="item__img" src={baseUrlImg + avatar} alt="" width={128} />
-            </td>
-            <td>
-              <Button onClick={handleOpen} value={0}>
+        <div className="block__user-info">
+          <div className="user-info__item">
+            <div className="item__name">Аватар:</div>
+            <div className="item__value item__value--img">
+              {isFetchingUploadAvatar ? (
+                <CircularProgress />
+              ) : (
+                <img className="item__img" src={baseUrlImg + avatar} alt="" width={128} />
+              )}
+            </div>
+            <div className="item__btn">
+              <Button onClick={handleOpen} value="0">
                 <EditIcon />
               </Button>
-            </td>
-          </tr>
-          <tr className="user-info__item">
-            <td className="item__title">Имя:</td>
-            <td className="item__text">{name}</td>
-            <td>
+            </div>
+          </div>
+          <div className="user-info__item">
+            <div className="item__name">Имя:</div>
+            <div className="item__value">{name}</div>
+            <div className="item__btn">
               <Button onClick={handleOpen} value="1">
                 <EditIcon />
               </Button>
-            </td>
-          </tr>
-          <tr className="user-info__item">
-            <td className="item__title">Почта:</td>
-            <td className="item__text">{email}</td>
-            <td>
+            </div>
+          </div>
+          <div className="user-info__item">
+            <div className="item__name">Почта:</div>
+            <div className="item__value">{email}</div>
+            <div className="item__btn">
               <Button onClick={handleOpen} value="2">
                 <EditIcon />
               </Button>
-            </td>
-          </tr>
-          <tr className="user-info__item">
-            <td className="item__title">Дата регистрации:</td>
-            <td className="item__text">{moment(createdAt).format('DD MMMM YYYY [г.]')}</td>
-            <td></td>
-          </tr>
-        </table>
+            </div>
+          </div>
+          <div className="user-info__item">
+            <div className="item__name">Дата регистрации:</div>
+            <div className="item__value">{moment(createdAt).format('DD MMMM YYYY [г.]')}</div>
+            <div className="item__btn"></div>
+          </div>
+        </div>
       </div>
-      <div>
-        {/* <Modal
-          open={open1}
-          onClose={handleClose1}
-          aria-labelledby="modal-title-avatar"
-          aria-describedby="modal-description-avatar"
-        >
-          <Box sx={style}>
-            <Typography id="modal-title-avatar" variant="h6" component="h2">
-              Change avatar
-            </Typography>
-            <Typography id="modal-description-avatar" sx={{ mt: 2 }}>
-              To change the avatar, select the file
-            </Typography>
-            <TextField
-              id="avatar"
-              variant="standard"
-              name="avatar"
-              accept="image/png"
-              type="file"
-              onChange={UploadContent}
-              color="success"
-            />
-            <Button type="submit" onClick={OnSumbit}>
-              Change
-            </Button>
-          </Box>
-        </Modal> */}
-      </div>
+      <div></div>
       <div>
         <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
           <Box sx={style}>
@@ -204,7 +173,7 @@ export const UserView = () => {
             </Typography>
             {modalVariant === 0 && (
               <Typography id="modal-description" sx={{ mt: 2 }}>
-                To change the avatar, select the file
+                Чтобы изменить аватар, выберите файл
               </Typography>
             )}
             {modalVariant === 0 ? (
@@ -215,7 +184,7 @@ export const UserView = () => {
                 accept="image/png"
                 type="file"
                 onChange={UploadContent}
-                color="success"
+                sx={{ marginBottom: '24px', marginTop: '24px' }}
               />
             ) : (
               <TextField
@@ -224,11 +193,11 @@ export const UserView = () => {
                 name={modalData[modalVariant].id}
                 type={modalData[modalVariant].currentValue}
                 onChange={handleChangeName}
-                color="success"
+                sx={{ marginBottom: '24px', marginTop: '24px' }}
               />
             )}
             <Button type="submit" onClick={OnSumbitChangeName}>
-              Change
+              Изменить
             </Button>
           </Box>
         </Modal>
