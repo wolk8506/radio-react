@@ -57,6 +57,15 @@ export const updateAvatar = createAsyncThunk('auth/avatars', async credentials =
     return Promise.reject(error);
   }
 });
+export const uploadFiles = createAsyncThunk('files/upload', async credentials => {
+  try {
+    const { data } = await axios.post('/files/upload', credentials);
+
+    return data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
 
 export const updateName = createAsyncThunk('auth/name', async credentials => {
   try {
@@ -123,4 +132,24 @@ export const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunk
       return { token: null, status: 401 };
     } else console.log('❌ error', error);
   }
+});
+// ~ Изменение пароля
+export const changePassword = createAsyncThunk('user/changePassword', async credentials => {
+  try {
+    const { data } = await axios.post('/user/change-password', credentials);
+
+    return data;
+  } catch (error) {
+    console.log('❌ error', error);
+  }
+});
+// ~ Добавление рецепта в избранное, запись рецептов юзеру
+export const updateRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id => {
+  const response = await axios.patch(`/recipe/${_id}/favorite`);
+  return response.data.data;
+});
+// ~ Удаление рецептп из избранного
+export const removeRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id => {
+  const response = await axios.delete(`/recipe/${_id}/favorite`);
+  return response.data.data;
 });

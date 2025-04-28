@@ -1,5 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { register, logIn, logOut, fetchCurrentUser, updateAvatar, updateName, updateEmail } from './operations';
+import {
+  register,
+  logIn,
+  logOut,
+  fetchCurrentUser,
+  updateAvatar,
+  updateName,
+  updateEmail,
+  updateRecipeFavoriteById,
+} from './operations';
 
 const initState = {
   user: { name: null, email: null, avatarURL: null, createdAt: null },
@@ -19,6 +28,9 @@ export const auth = createReducer(initState, builder => {
       state.isLoggedIn = false;
       state.isCode = action.code;
     })
+    .addCase(updateRecipeFavoriteById.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
     .addCase(logIn.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -29,13 +41,11 @@ export const auth = createReducer(initState, builder => {
       state.token = null;
       state.isLoggedIn = false;
     })
-    // .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-    //   state.isFetchingCurrentUser = true;
-    // })
     .addCase(fetchCurrentUser.fulfilled, (state, action) => {
       if (action.payload.status === 401) {
         state.token = action.payload.token;
       }
+
       state.user = action.payload;
       state.isLoggedIn = true;
       state.isFetchingCurrentUser = false;
@@ -65,25 +75,3 @@ export const auth = createReducer(initState, builder => {
       state.user = action.payload.data;
     });
 });
-
-// const loading = createReducer(false, builder => {
-//   builder
-//     .addCase(register.pending, () => true)
-//     .addCase(register.fulfilled, () => false)
-//     .addCase(register.rejected, () => false);
-// });
-
-// const status = createReducer(false, builder => {
-//   builder
-//     .addCase(register.pending, () => false)
-//     .addCase(register.fulfilled, () => true)
-//     .addCase(register.rejected, () => false);
-// });
-
-// const timeUpdate = createReducer('----.--.-- --:--:--', builder => {
-//   builder.addCase(register.fulfilled, () => moment().format('YYYY.MM.DD HH:mm:ss'));
-// });
-
-// export default combineReducers({
-//   auth,
-// });

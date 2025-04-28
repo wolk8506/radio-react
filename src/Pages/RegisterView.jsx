@@ -37,7 +37,7 @@ export const RegisterView = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resendEmail, setResendEmail] = useState();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {

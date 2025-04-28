@@ -59,10 +59,10 @@ export const getCurrencyMonoCurrent_Data = state => state.root.storeCurrencyMono
 //
 // *    Курс валют в банках на сегодня
 //
-export const getCurrencyBanksToday_Loading = state => state.root.storeCurrencyBanksToday.loading;
-export const getCurrencyBanksToday_Status = state => state.root.storeCurrencyBanksToday.status;
-export const getCurrencyBanksToday_TimeUpdate = state => state.root.storeCurrencyBanksToday.timeUpdate;
-export const getCurrencyBanksToday_Data = state => state.root.storeCurrencyBanksToday.data;
+// export const getCurrencyBanksToday_Loading = state => state.root.storeCurrencyBanksToday.loading;
+// export const getCurrencyBanksToday_Status = state => state.root.storeCurrencyBanksToday.status;
+// export const getCurrencyBanksToday_TimeUpdate = state => state.root.storeCurrencyBanksToday.timeUpdate;
+// export const getCurrencyBanksToday_Data = state => state.root.storeCurrencyBanksToday.data;
 //
 // *    Курс валют НБУ на сегодни и завтра
 //

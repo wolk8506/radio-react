@@ -1,13 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { fetchRecipe, addRecipe, deleteRecipe, favoriteRecipe, updateRecipe } from './operations';
+import { fetchRecipe, addRecipe, deleteRecipe, updateRecipe, fetchCategories } from './operations';
 import { setStatusAddRecipe, setStatusDeleteRecipe, setStatusUpdateRecipe } from './actions';
+import { updateRecipeFavoriteById } from 'store/auth/operations';
 
 const recipe = createReducer([], builder => {
   builder
     .addCase(fetchRecipe.fulfilled, (state, action) => action.payload)
     .addCase(addRecipe.fulfilled, (state, action) => [...state, action.payload])
-    .addCase(favoriteRecipe.fulfilled, (state, action) =>
+    .addCase(updateRecipeFavoriteById.fulfilled, (state, action) =>
       state.forEach(function (element) {
         if (element._id === action.payload._id) {
           element.favorite = action.payload.favorite;
@@ -23,6 +24,9 @@ const recipe = createReducer([], builder => {
       });
     })
     .addCase(deleteRecipe.fulfilled, (state, action) => state.filter(({ _id }) => _id !== action.meta.arg));
+});
+const recipeCategories = createReducer(false, builder => {
+  builder.addCase(fetchCategories.fulfilled, (state, action) => action.payload);
 });
 
 const loadingAddRecipe = createReducer(false, builder => {
@@ -78,6 +82,7 @@ const statusUpdateRecipe = createReducer(false, builder => {
 
 export default combineReducers({
   recipe,
+  recipeCategories,
   loadingAddRecipe,
   statusAddRecipe,
   loadingDeleteRecipe,

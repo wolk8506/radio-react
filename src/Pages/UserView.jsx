@@ -9,9 +9,18 @@ import {
   getEmail,
   getIsLoggedIn,
   getIsFetchingUploadAvatar,
+  getUserID,
 } from '../store/auth/selectors';
-import { fetchCurrentUser, logOut, updateName, updateEmail, updateAvatar } from '../store/auth/operations';
+import {
+  fetchCurrentUser,
+  logOut,
+  updateName,
+  updateEmail,
+  updateAvatar,
+  changePassword,
+} from '../store/auth/operations';
 import { BASE_URL } from 'store/env';
+import { toast } from 'react-toastify';
 
 import { Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -20,6 +29,13 @@ import Box from '@mui/material/Box';
 import { TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import moment from 'moment';
 
@@ -28,6 +44,7 @@ export const UserView = () => {
   const avatar = useSelector(getAvatar);
   const name = useSelector(getUsername);
   const email = useSelector(getEmail);
+  const userId = useSelector(getUserID);
   const createdAt = useSelector(getCreatedAt);
   const isLoggedIn = useSelector(getIsLoggedIn);
   const isFetchingUploadAvatar = useSelector(getIsFetchingUploadAvatar);
@@ -44,6 +61,22 @@ export const UserView = () => {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
   const [modalVariant, setModalVariant] = useState(0);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [newPassword, setNewPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+
+  // ----------------------------------------------------------------
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
+  // ----------------------------------------------------------------
 
   const handleOpen = e => {
     setOpen(true);
@@ -58,12 +91,18 @@ export const UserView = () => {
     }
   };
 
-  const handleChangeName = ({ target: { name, value } }) => {
+  const handleChange = ({ target: { name, value } }) => {
     switch (name) {
       case 'name':
         return setNameChange(value);
       case 'email':
         return setNameChange(value);
+      case 'password':
+        return setPassword(value);
+      case 'newPassword':
+        return setNewPassword(value);
+      case 'confirmPassword':
+        return setConfirmPassword(value);
       default:
         return;
     }
@@ -86,6 +125,26 @@ export const UserView = () => {
     if (modalVariant === 1) dispatch(updateName({ name: nameChange }));
 
     if (modalVariant === 2) dispatch(updateEmail({ email: nameChange }));
+
+    if (modalVariant === 3) {
+      if (newPassword.length < 6) {
+        toast.warn('Пароль не должен быть короче 6 символов');
+        setNewPassword('');
+        setConfirmPassword('');
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        toast.warn('Пароли не совпадают, пожалуйста, введите пароль еще раз');
+        setNewPassword('');
+        setConfirmPassword('');
+        return;
+      }
+
+      dispatch(changePassword({ userId, oldPassword: password, newPassword: newPassword }));
+      setNewPassword('');
+      setPassword('');
+      setConfirmPassword('');
+    }
     setOpen(false);
   };
 
@@ -107,6 +166,7 @@ export const UserView = () => {
     { title: 'Изменить аватар', id: 'image', currentValue: '' },
     { title: 'Изменить имя', id: 'name', currentValue: name },
     { title: 'Изменить почту', id: 'email', currentValue: email },
+    { title: 'Изменить пароль', id: 'password', currentValue: '' },
   ];
 
   return (
@@ -161,6 +221,15 @@ export const UserView = () => {
             <div className="item__value">{moment(createdAt).format('DD MMMM YYYY [г.]')}</div>
             <div className="item__btn"></div>
           </div>
+          <div className="user-info__item">
+            <div className="item__name"></div>
+            <div className="item__value">Изменить пароль</div>
+            <div className="item__btn">
+              <Button onClick={handleOpen} value="3">
+                <EditIcon />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
       <div></div>
@@ -176,7 +245,7 @@ export const UserView = () => {
                 Чтобы изменить аватар, выберите файл
               </Typography>
             )}
-            {modalVariant === 0 ? (
+            {modalVariant === 0 && (
               <TextField
                 id="avatar"
                 variant="standard"
@@ -186,15 +255,85 @@ export const UserView = () => {
                 onChange={UploadContent}
                 sx={{ marginBottom: '24px', marginTop: '24px' }}
               />
-            ) : (
+            )}
+            {modalVariant > 0 && modalVariant < 3 && (
               <TextField
                 id={modalData[modalVariant].id}
                 variant="standard"
                 name={modalData[modalVariant].id}
                 type={modalData[modalVariant].currentValue}
-                onChange={handleChangeName}
+                onChange={handleChange}
                 sx={{ marginBottom: '24px', marginTop: '24px' }}
               />
+            )}
+            {modalVariant === 3 && (
+              <>
+                <FormControl color="success" sx={{ width: '320' }} variant="standard">
+                  <InputLabel htmlFor="password">Пароль</InputLabel>
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={password}
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl color="success" sx={{ width: '320' }} variant="standard">
+                  <InputLabel htmlFor="newPassword">Новый пароль</InputLabel>
+                  <Input
+                    id="newPassword"
+                    type={showPassword ? 'text' : 'password'}
+                    name="newPassword"
+                    value={newPassword}
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl color="success" sx={{ width: '320' }} variant="standard">
+                  <InputLabel htmlFor="confirmPassword">Подтвердите пароль</InputLabel>
+                  <Input
+                    id="confirmPassword"
+                    type={showPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </>
             )}
             <Button type="submit" onClick={OnSumbitChangeName}>
               Изменить
