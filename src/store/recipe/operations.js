@@ -4,10 +4,15 @@ import { toast } from 'react-toastify';
 import { BASE_URL } from 'store/env';
 
 axios.defaults.baseURL = BASE_URL;
-
+// ~ Получение всех рецептов
 export const fetchRecipe = createAsyncThunk('recipe/fetchRecipe', async () => {
   const response = await axios.get('/recipe');
   return response.data.data.result;
+});
+// ~ Получение категорий рецептов
+export const fetchCategories = createAsyncThunk('recipe/fetchCategories', async () => {
+  const response = await axios.get('/recipe/categories');
+  return response.data.data;
 });
 
 export const addRecipe = createAsyncThunk('recipe/addRecipe', async data => {

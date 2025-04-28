@@ -21,7 +21,7 @@ export const SidebarMobile = () => {
     { name: 'Погода', link: '/weather' },
     { name: 'Рецепты', link: '/recipes' },
     { name: 'Новости', link: '/news' },
-    { name: 'Инфо', link: '/info' },
+    { name: 'Настройки', link: '/info' },
   ];
   const [btnMenuMobile, setBtnMenuMobile] = useState(true);
   const [state, setState] = React.useState({ right: false });

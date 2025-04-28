@@ -10,19 +10,19 @@ import ListItemText from '@mui/material/ListItemText';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
+import { TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import images from './img/load.gif';
+import { categoryList } from './ComponentDataCategory';
 
 import sprite from './sprite.svg';
 
-import { data_cake as cake } from './data/data_cake';
-import { data_soup as soup } from './data/data_soup';
-import { data_cocktail as cocktail } from './data/data_cocktail';
-import { data_desert as desert } from './data/data_desert';
-import { data_meat as meat } from './data/data_meat';
-import { data_salad as salad } from './data/data_salad';
-import { data_sousy as sousy } from './data/data_sousy';
-import { data_zagotovki as zagotovki } from './data/data_zagotovki';
-import { data_zakuski as zakuski } from './data/data_zakuski';
+import { BASE_URL } from 'store/env';
+import { getFavorites } from 'store/auth/selectors';
 
 const style = {
   width: '100%',
@@ -32,53 +32,89 @@ const style = {
 
 export const Recipes = () => {
   const dispatch = useDispatch();
+  const baseURL = BASE_URL + '/files';
 
   useEffect(() => {
     dispatch(fetchRecipe());
   }, [dispatch]);
 
   const dataRecipe = useSelector(getRecipe);
-
+  const favorites = useSelector(getFavorites);
   const location = useLocation();
-  const item_ID = location.pathname.split('/')[2];
-  const data = { cake, soup, cocktail, desert, meat, salad, sousy, zagotovki, zakuski };
+  const category_ID = location.pathname.split('/')[2];
   const [dataNew, setDataNew] = useState([]);
-  const pageName = {
-    cake: 'Выпечка',
-    soup: 'Первые блюда',
-    cocktail: 'Коктейли',
-    desert: 'Десерты',
-    meat: 'Вторые блюда',
-    salad: 'Салаты',
-    sousy: 'Соусы',
-    zagotovki: 'Заготовки на зиму',
-    zakuski: 'Закуски',
-  };
+  const [sortField, setSortField] = useState('none'); // Поле для сортировки: none, name, date
+  const [sortOrder, setSortOrder] = useState('none'); // Направление сортировки: none, ascending, descending
+  const [onlyFavorites, setOnlyFavorites] = useState(false); // Фильтр избранного
+  const [searchQuery, setSearchQuery] = useState('');
 
+  // Обновление данных на основе категории
   useEffect(() => {
-    if (dataRecipe.lenght !== 0) {
-      const dataFilter = dataRecipe.filter(c => c.category?.toLowerCase().includes(item_ID));
-
+    if (dataRecipe.length !== 0) {
+      const dataFilter = dataRecipe.filter(c => c.category?.toLowerCase().includes(category_ID));
       setDataNew(dataFilter);
     }
-  }, [dataRecipe, item_ID]);
+  }, [dataRecipe, category_ID]);
 
-  const menuRecipes = data[item_ID].map(i => (
-    <Link className="menu-item recipes__menu-item" key={i.id} to={`/recipes/${item_ID}/${i.id}`}>
-      <ListItem button>
-        <img src={i.img} alt={i.name} width={64} />
-        <ListItemText primary={i.name} />
-      </ListItem>
-    </Link>
-  ));
+  // Обработчик сортировки
+  const handleSortToggle = field => {
+    const nextOrder = sortOrder === 'none' ? 'ascending' : sortOrder === 'ascending' ? 'descending' : 'none';
+
+    setSortField(field);
+    setSortOrder(nextOrder);
+
+    if (nextOrder === 'ascending') {
+      const sortedData = [...dataNew].sort((a, b) =>
+        field === 'name' ? a.name.localeCompare(b.name) : new Date(a.createdAt) - new Date(b.createdAt)
+      );
+      setDataNew(sortedData);
+    } else if (nextOrder === 'descending') {
+      const sortedData = [...dataNew].sort((a, b) =>
+        field === 'name' ? b.name.localeCompare(a.name) : new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setDataNew(sortedData);
+    } else {
+      const dataFilter = dataRecipe.filter(c => c.category?.toLowerCase().includes(category_ID)); // Сброс
+      setDataNew(dataFilter);
+    }
+  };
+
+  // Обработчик поиска
+  const handleSearch = e => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filtered = dataRecipe.filter(
+      recipe => recipe.category?.toLowerCase().includes(category_ID) && recipe.name.toLowerCase().includes(query)
+    );
+    setDataNew(filtered);
+  };
+
+  // Фильтрация избранного
+  const handleFavoritesToggle = () => {
+    setOnlyFavorites(!onlyFavorites);
+
+    if (!onlyFavorites) {
+      const filteredFavorites = dataRecipe.filter(
+        recipe => recipe.category?.toLowerCase().includes(category_ID) && favorites.find(c => c === recipe._id)
+      );
+      setDataNew(filteredFavorites);
+    } else {
+      const dataFilter = dataRecipe.filter(c => c.category?.toLowerCase().includes(category_ID)); // Сброс
+      setDataNew(dataFilter);
+    }
+  };
+
   const menu = dataNew.map(i => (
-    <Link className="menu-item recipes__menu-item" key={i._id} to={`/recipes/${item_ID}/${i._id}`}>
-      <ListItem button>
-        <img src={i.img ? i.img : images} alt={i.name} width={64} />
+    <Link className="menu-item recipes__menu-item" key={i._id} to={`/recipes/${category_ID}/${i._id}`}>
+      <ListItem>
+        <img sx={{ width: '64px' }} src={i.img ? `${baseURL}${i.img}` : images} alt={''} width={64} />
         <ListItemText primary={i.name} />
+        {favorites?.find(c => c === i._id) && <FavoriteIcon />}
       </ListItem>
     </Link>
   ));
+
   return (
     <>
       <div className="container container-recipes">
@@ -90,25 +126,51 @@ export const Recipes = () => {
             </Link>
             <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
               <svg className="icon" width="24" height="24">
-                {'soup' === item_ID && <use href={`${sprite}#icon-soup`}></use>}
-                {'meat' === item_ID && <use href={`${sprite}#icon-meat`}></use>}
-                {'salad' === item_ID && <use href={`${sprite}#icon-salad`}></use>}
-                {'zakuski' === item_ID && <use href={`${sprite}#icon-zakuski`}></use>}
-                {'cake' === item_ID && <use href={`${sprite}#icon-cake`}></use>}
-                {'desert' === item_ID && <use href={`${sprite}#icon-desert`}></use>}
-                {'cocktail' === item_ID && <use href={`${sprite}#icon-cocktail`}></use>}
-                {'sousy' === item_ID && <use href={`${sprite}#icon-sousy`}></use>}
-                {'zagotovki' === item_ID && <use href={`${sprite}#icon-zagotovki`}></use>}
+                {<use href={`${sprite}#icon-${category_ID}`}></use>}
               </svg>
-              {pageName[item_ID]}
+              {categoryList.find(c => c.key === category_ID).name}
             </Typography>
           </Breadcrumbs>
+          <div className="header__btn-block">
+            <TextField
+              id="search"
+              variant="standard"
+              name="search"
+              value={searchQuery}
+              type="text"
+              onChange={handleSearch}
+              placeholder="Поиск по названию"
+              sx={{ marginBottom: '24px', marginTop: '24px' }}
+            />
+            <Button onClick={() => handleSortToggle('name')}>
+              {sortField === 'name' && sortOrder !== 'none' ? (
+                sortOrder === 'ascending' ? (
+                  <FilterListIcon sx={{ transform: 'rotate(180deg)' }} />
+                ) : (
+                  <FilterListIcon />
+                )
+              ) : (
+                <FilterListOffIcon />
+              )}
+              по названию
+            </Button>
+            <Button onClick={() => handleSortToggle('date')}>
+              {sortField === 'date' && sortOrder !== 'none' ? (
+                sortOrder === 'ascending' ? (
+                  <FilterListIcon sx={{ transform: 'rotate(180deg)' }} />
+                ) : (
+                  <FilterListIcon />
+                )
+              ) : (
+                <FilterListOffIcon />
+              )}
+              по дате
+            </Button>
+            <Button onClick={handleFavoritesToggle}>{onlyFavorites ? <FavoriteIcon /> : <FavoriteBorderIcon />}</Button>
+          </div>
         </div>
 
-        <h1>{pageName[item_ID]}</h1>
-
         <List sx={style} component="nav" aria-label="mailbox folders">
-          {menuRecipes}
           {menu}
         </List>
       </div>

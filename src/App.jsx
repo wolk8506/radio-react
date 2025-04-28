@@ -17,7 +17,7 @@ import {
 import { Main } from './components/Main/Main';
 import { CurrencyIndex } from './components/Currency/Currency-index';
 import { Weather } from './components/Weather/Weather';
-import { RecipesIndex } from './components/Recipes/Recipes-index';
+import { RecipesIndex } from './components/Recipes/RecipesMain';
 import { RecipeAdd } from './components/Recipes/RecipeAdd';
 import { News } from './components/News/News';
 import { Recipes } from './components/Recipes/Recipes';
@@ -47,7 +47,6 @@ export const App = () => {
   const [audio, setAudio] = useState();
 
   const dispatch = useDispatch();
-  // const isFetchingCurrentUser = useSelector(getIsFetchingCurrent);
   const isLoggedIn = useSelector(getIsLoggedIn);
 
   useEffect(() => {
@@ -192,7 +191,6 @@ export const App = () => {
             />
             <Route
               path="/recipes/:recipesID/:recipeID/edit"
-              // /recipes/${item_ID}/${_ID}/edit
               element={
                 <PrivateRoute>
                   <RecipeUpdate />

@@ -14,7 +14,8 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-import InfoIcon from '@mui/icons-material/Info';
+// import InfoIcon from '@mui/icons-material/Info';
+import TuneIcon from '@mui/icons-material/Tune';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { RadioMini } from '../Main/Radio-mini';
@@ -28,7 +29,7 @@ export const SidebarDesctop = ({ audio }) => {
     { name: 'Погода', link: '/weather', icon: ThunderstormIcon },
     { name: 'Рецепты', link: '/recipes', icon: FastfoodIcon },
     { name: 'Новости', link: '/news', icon: NewspaperIcon },
-    { name: 'Инфо', link: '/info', icon: InfoIcon },
+    { name: 'Настройки', link: '/info', icon: TuneIcon },
   ];
   const [classBtn_menu, setClassBtn_menu] = useState('');
   const [btnMenu, setBtnMenu] = useState(false);
@@ -92,7 +93,7 @@ export const SidebarDesctop = ({ audio }) => {
               <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}>
                 {React.createElement(PersonIcon)}
               </ListItemIcon>
-              <ListItemText primary="User" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
+              <ListItemText primary="Профиль" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
             </ListItemButton>
           </ListItem>
         </List>

@@ -7,6 +7,7 @@ export const getAvatar = state => state.auth.user.avatarURL;
 export const getCreatedAt = state => state.auth.user.createdAt;
 export const getEmail = state => state.auth.user.email;
 export const getUserID = state => state.auth.user._id;
+export const getFavorites = state => state.auth.user.favorites;
 
 export const authSelectors = {
   getIsLoggedIn,

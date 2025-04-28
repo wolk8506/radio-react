@@ -3,6 +3,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const URL_LOCATION = 'https://ipapi.co/json/';
 
+async function fetchData(url) {
+  const response = await fetch(url, { mode: 'cors' });
+  const data = await response.json();
+  return data;
+}
+
 //
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ?  - - - - - -   * * * *   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -20,11 +26,6 @@ export const fetchLocation = createAsyncThunk('weather/Location', async () => {
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ?  - - - - - -   Погода    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //
-async function fetchData(url) {
-  const response = await fetch(url, { mode: 'cors' });
-  const data = await response.json();
-  return data;
-}
 
 // export const fetchWeatherMonth = createAsyncThunk('weather/Month', async url => {
 //   const response = await fetchData(url);
@@ -144,23 +145,13 @@ export const fetchCurrencyMonoCurrent = createAsyncThunk('currency/MonoCurrent',
   }
 });
 //
-// *    Курс валют в банках на сегодня
-//
-export const fetchCurrencyBanksToday = createAsyncThunk('currency/BanksToday', async url => {
-  try {
-    const response = await axios.get(url);
-    return response.data.data.exchangers;
-  } catch (error) {
-    console.log('❌ error');
-  }
-});
-//
 // *    Курс валют НБУ на сегодни
 //
 export const fetchCurrencyNBUtoday = createAsyncThunk('currency/NBUtoday', async url => {
   try {
-    const response = await axios.get(url);
-    return response.data;
+    // const response = await axios.get(url);
+    const response = await fetchData(url);
+    return response;
   } catch (error) {
     console.log('❌ error');
   }
@@ -170,8 +161,10 @@ export const fetchCurrencyNBUtoday = createAsyncThunk('currency/NBUtoday', async
 //
 export const fetchCurrencyNBUtomorrow = createAsyncThunk('currency/NBUtomorrow', async url => {
   try {
-    const response = await axios.get(url);
-    return response.data;
+    // const response = await axios.get(url);
+    const response = await fetchData(url);
+    // console.log(response);
+    return response;
   } catch (error) {
     console.log('❌ error');
   }
@@ -181,8 +174,10 @@ export const fetchCurrencyNBUtomorrow = createAsyncThunk('currency/NBUtomorrow',
 //
 export const fetchCurrencyZVRPrevious = createAsyncThunk('currency/ZVRPrevious', async url => {
   try {
-    const response = await axios.get(url);
-    return response.data;
+    // const response = await axios.get(url);
+    const response = await fetchData(url);
+    // console.log(response);
+    return response;
   } catch (error) {
     console.log('❌ error');
   }
@@ -192,8 +187,10 @@ export const fetchCurrencyZVRPrevious = createAsyncThunk('currency/ZVRPrevious',
 //
 export const fetchCurrencyZVRCurrent = createAsyncThunk('currency/ZVRCurrent', async url => {
   try {
-    const response = await axios.get(url);
-    return response.data;
+    // const response = await axios.get(url);
+    const response = await fetchData(url);
+    // console.log(response);
+    return response;
   } catch (error) {
     console.log('❌ error');
   }

@@ -6,7 +6,7 @@ import weatherDayReducer from './root/reducer-WeatherDay';
 import currencyZVRPreviousReducer from './root/reducer-CurrencyZVRPrevious';
 import currencyZVRCurrentReducer from './root/reducer-CurrencyZVRCurrent';
 import currencyNBUReducer from './root/reducer-CurrencyNBU';
-import currencyBanksTodayReducer from './root/reducer-CurrencyBanksToday';
+// import currencyBanksTodayReducer from './root/reducer-CurrencyBanksToday';
 import currencyMonoCurrentReducer from './root/reducer-CurrencyMonoCurrent';
 import dataReducer from './root/reducer-Data';
 import weatherMonthReducer from './root/reducer-WeatherMonth';
@@ -16,6 +16,7 @@ import weatherDayCityReducer from './root/reducer-WeatherDayCity';
 import newsReducer from './root/reducer-News';
 import recipeReducer from './recipe/reducer';
 import { auth as authReducer } from './auth/reducer';
+import filesReducer from './files/reducer';
 // import authReducer2 from './auth/reducer';
 
 export const rootReducer = combineReducers({
@@ -31,7 +32,7 @@ export const rootReducer = combineReducers({
   storeCurrencyZVRPrevious: currencyZVRPreviousReducer,
   storeCurrencyZVRCurrent: currencyZVRCurrentReducer,
   storeCurrencyNBU: currencyNBUReducer,
-  storeCurrencyBanksToday: currencyBanksTodayReducer,
+  // storeCurrencyBanksToday: currencyBanksTodayReducer,
   //
   storeNews: newsReducer,
   // storeAuth: authReducer2,
@@ -49,6 +50,10 @@ const persistConfigRecipe = {
   key: 'recipe',
   storage,
 };
+const persistConfigFiles = {
+  key: 'files',
+  storage,
+};
 const persistConfigAuth = {
   key: 'auth',
   storage,
@@ -62,11 +67,14 @@ const persistedRootReducer = persistReducer(persistConfig, rootReducer);
 const persistedAuthReducer = persistReducer(persistConfigAuth, authReducer);
 // Создаем persistedReducer для recipe
 const persistedRecipeReducer = persistReducer(persistConfigRecipe, recipeReducer);
+// Создаем persistedReducer для recipe
+const persistedRecipeFiles = persistReducer(persistConfigFiles, filesReducer);
 
 const store = configureStore({
   reducer: {
     root: persistedRootReducer, // Главный редюсер
     recipe: persistedRecipeReducer,
+    files: persistedRecipeFiles,
     auth: persistedAuthReducer, // Редюсер для авторизации
   },
   middleware: getDefaultMiddleware =>
