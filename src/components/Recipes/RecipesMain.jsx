@@ -28,7 +28,7 @@ export const RecipesIndex = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (categories.length > 0) {
+    if (categories?.length > 0) {
       setMenuList(categoryList.filter(item => categories.includes(item.key)));
     }
   }, [categories]);
