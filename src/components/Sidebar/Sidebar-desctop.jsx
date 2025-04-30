@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { authSelectors } from 'store/auth/selectors';
 
+import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -14,13 +17,17 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-// import InfoIcon from '@mui/icons-material/Info';
 import TuneIcon from '@mui/icons-material/Tune';
 import PersonIcon from '@mui/icons-material/Person';
+import { BASE_URL } from 'store/env';
 
 import { RadioMini } from '../Main/Radio-mini';
 
 export const SidebarDesctop = ({ audio }) => {
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const avatar = useSelector(authSelectors.getAvatar);
+  // const name = useSelector(authSelectors.getUsername);
+  const baseUrlImg = BASE_URL;
   const location = useLocation();
   const currentPage = '/' + location.pathname.split('/')[1];
   const menuData = [
@@ -78,7 +85,6 @@ export const SidebarDesctop = ({ audio }) => {
           })}
         </List>
         <List>
-          {/* { name: 'User', link: '/user', icon: PersonIcon }, */}
           <ListItem
             className={currentPage === '/profile' ? 'activ' : ''}
             onClick={handleBtnTab}
@@ -91,7 +97,7 @@ export const SidebarDesctop = ({ audio }) => {
               sx={[{ minHeight: 48, px: 2.5 }, btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' }]}
             >
               <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}>
-                {React.createElement(PersonIcon)}
+                {isLoggedIn ? <Avatar alt="Remy Sharp" src={baseUrlImg + avatar} /> : React.createElement(PersonIcon)}
               </ListItemIcon>
               <ListItemText primary="Профиль" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
             </ListItemButton>

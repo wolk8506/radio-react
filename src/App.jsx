@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Media from 'react-media';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -14,7 +13,6 @@ import {
   getPlayerStation,
   getThemeTransporantClock,
 } from 'store/root/selectors';
-// import { authSelectors } from './store/auth/selectors';
 import { fetchCurrentUser } from './store/auth/operations';
 
 // Компоненты
@@ -29,8 +27,7 @@ import { Recipe } from './components/Recipes/Recipe';
 import { info } from './components/info';
 import { radioData } from './components/Main/Radio-data';
 import { Info } from './components/Info/InfoPage';
-import { SidebarDesctop } from './components/Sidebar/Sidebar-desctop';
-import { SidebarMobile } from './components/Sidebar/Sidebar-mobile';
+import { Sidebar } from 'components/Sidebar/Sidebar';
 import { PrivateRoute } from 'components/Route/PrivateRoute';
 import { PublicRoute } from './components/Route/PublicRoute';
 import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
@@ -40,31 +37,6 @@ import { authSelectors } from 'store/auth/selectors';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-// Конфигурация маршрутов
-const routes = [
-  { path: '/', element: <Main />, isPublic: true },
-  { path: '/currency-index', element: <CurrencyIndex />, isPublic: true },
-  { path: '/weather', element: <Weather />, isPublic: true },
-  { path: '/recipes', element: <RecipesIndex />, isPublic: true },
-  { path: '/news', element: <News />, isPublic: true },
-  { path: '/recipes/:recipesID', element: <Recipes />, isPublic: true },
-  { path: '/recipes/:recipesID/:recipeID', element: <Recipe />, isPublic: true },
-  { path: '/recipes/recipes-add', element: <RecipeAdd />, isPublic: false },
-  { path: '/recipes/:recipesID/:recipeID/edit', element: <RecipeUpdate />, isPublic: false },
-  { path: '/404', element: <NotFoundPage />, isPublic: true },
-  { path: '*', element: <Navigate to="/404" replace />, isPublic: true },
-  { path: '/settings', element: <Info />, isPublic: false },
-  { path: '/profile', element: <ProfilePage />, isPublic: false },
-  { path: '/register', element: <RegisterPage />, isPublic: true, restricted: true },
-  { path: '/login', element: <LoginPage />, isPublic: true, restricted: true },
-];
-
-// Универсальная функция рендера маршрутов
-const renderRoute = ({ path, element, isPublic, restricted }) => {
-  const RouteWrapper = isPublic ? PublicRoute : PrivateRoute;
-  return <Route key={path} path={path} element={<RouteWrapper restricted={restricted}>{element}</RouteWrapper>} />;
-};
-
 export const App = () => {
   const PLAYER_PLAY = useSelector(getPlayerPlay);
   const PLAYER_STATION = useSelector(getPlayerStation);
@@ -72,6 +44,31 @@ export const App = () => {
 
   const isFetching = useSelector(authSelectors.getIsFetchingCurrent);
   const dispatch = useDispatch();
+
+  // Конфигурация маршрутов
+  const routes = [
+    { path: '/', element: <Main onAudio={audio} />, isPublic: true },
+    { path: '/currency-index', element: <CurrencyIndex />, isPublic: true },
+    { path: '/weather', element: <Weather />, isPublic: true },
+    { path: '/recipes', element: <RecipesIndex />, isPublic: true },
+    { path: '/news', element: <News />, isPublic: true },
+    { path: '/recipes/:recipesID', element: <Recipes />, isPublic: true },
+    { path: '/recipes/:recipesID/:recipeID', element: <Recipe />, isPublic: true },
+    { path: '/recipes/recipes-add', element: <RecipeAdd />, isPublic: false },
+    { path: '/recipes/:recipesID/:recipeID/edit', element: <RecipeUpdate />, isPublic: false },
+    { path: '/404', element: <NotFoundPage />, isPublic: true },
+    { path: '*', element: <Navigate to="/404" replace />, isPublic: true },
+    { path: '/settings', element: <Info />, isPublic: false },
+    { path: '/profile', element: <ProfilePage />, isPublic: false },
+    { path: '/register', element: <RegisterPage />, isPublic: true, restricted: true },
+    { path: '/login', element: <LoginPage />, isPublic: true, restricted: true },
+  ];
+
+  // Универсальная функция рендера маршрутов
+  const renderRoute = ({ path, element, isPublic, restricted }) => {
+    const RouteWrapper = isPublic ? PublicRoute : PrivateRoute;
+    return <Route key={path} path={path} element={<RouteWrapper restricted={restricted}>{element}</RouteWrapper>} />;
+  };
 
   // Загрузка текущего пользователя
   useEffect(() => {
@@ -111,26 +108,12 @@ export const App = () => {
   // Если загрузка завершена, рендерим приложение
   return (
     <div className="app">
-      <Media
-        queries={{
-          small: '(max-width: 599px)',
-          large: '(min-width: 600px)',
-        }}
-      >
-        {matches => (
-          <Fragment>
-            {matches.small && <SidebarMobile />}
-            {matches.large && <SidebarDesctop audio={audio} />}
-          </Fragment>
-        )}
-      </Media>
-
+      <Sidebar audio={audio} />
       <div className="content">
         <Suspense fallback="Load...">
           <Routes>{routes.map(renderRoute)}</Routes>
         </Suspense>
       </div>
-
       <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
