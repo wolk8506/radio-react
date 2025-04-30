@@ -22,7 +22,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -153,9 +153,9 @@ export const CurrencyNBU = () => {
   ];
 
   return (
-    <div>
-      <div className="nameSection">
-        <LoadingButton
+    <section className="secton-nbu">
+      <div className="name-section">
+        <Button
           className="load-btn"
           onClick={handleUpdateCurrency}
           loading={loading_today || loading_tomorrow}
@@ -165,8 +165,8 @@ export const CurrencyNBU = () => {
           startIcon={<AutorenewIcon />}
         >
           Обновить
-        </LoadingButton>
-        <h2>Курс валют НБУ.</h2>
+        </Button>
+        <h2 className="name-section__title">Курс валют НБУ.</h2>
         <div className="update-block">
           {STATUS ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
           <p className="update-time" title="Время обновления данных с сервера.">
@@ -200,6 +200,6 @@ export const CurrencyNBU = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </section>
   );
 };

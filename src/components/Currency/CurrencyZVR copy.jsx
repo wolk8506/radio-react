@@ -30,9 +30,9 @@ import Button from '@mui/material/Button';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import dayjs from 'dayjs';
+import ru from 'dayjs/locale/ru';
 
 import moment from 'moment';
-import { useCallback } from 'react';
 
 export const CurrencyZVR = () => {
   const BASE_URL = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/res';
@@ -57,24 +57,25 @@ export const CurrencyZVR = () => {
   const [valueZVRPrevious, setValueZVRPrevious] = React.useState(dayjs(currentDateZVRPrevious));
   const [valueZVRCurrent, setValueZVRCurrent] = React.useState(dayjs(currentDateZVRCurrent));
 
-  const valueData = useCallback(value => {
-    const mm = value.$M + 1 < 10 ? '0' + (value.$M + 1) : value.$M + 1;
-    return `${value.$y}${mm}`;
-  }, []);
-
-  //  ~ DatePicker
   useEffect(() => {
-    const date = valueData(valueZVRPrevious);
+    let mm;
+    if (valueZVRPrevious.$M + 1 < 10) mm = '0' + (valueZVRPrevious.$M + 1);
+    else mm = valueZVRPrevious.$M + 1;
+    const date = `${valueZVRPrevious.$y}${mm}`;
     setMonthPreviousNew(date);
-    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${date}&json`));
-  }, [dispatch, valueData, valueZVRPrevious]);
 
-  // ~ DatePicker
+    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${date}&json`));
+  }, [dispatch, valueZVRPrevious]);
+
   useEffect(() => {
-    const date = valueData(valueZVRCurrent);
+    let mm;
+    if (valueZVRCurrent.$M + 1 < 10) mm = '0' + (valueZVRCurrent.$M + 1);
+    else mm = valueZVRCurrent.$M + 1;
+    const date = `${valueZVRCurrent.$y}${mm}`;
     setMonthCurrentNew(date);
+
     dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${date}&json`));
-  }, [dispatch, valueData, valueZVRCurrent]);
+  }, [dispatch, valueZVRCurrent]);
 
   useEffect(() => {
     const monthPrevious = moment().add(-1, 'month').format('YYYYMM');
@@ -89,29 +90,8 @@ export const CurrencyZVR = () => {
     dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrentNew}&json`));
   };
 
-  // ~  Создание данных для наполнения таблиц
-  const createDataTable = data => {
-    const createData = (name, value, fat, carbs, protein) => {
-      return { name, value, fat, carbs, protein };
-    };
-    const getValueById = (data, id) => data.find(el => el.id_api === id)?.value || '0';
+  // --------------------------------
 
-    const createRows = data => [
-      createData('Прочие резервные активы', getValueById(data, 'RES_OthReserveAssets')),
-      createData('Резервная позиция в МВФ', getValueById(data, 'RES_IMFResPosition')),
-      createData('Специальные права заимствования', getValueById(data, 'RES_SDRs')),
-      createData('Золото', getValueById(data, 'RES_Gold')),
-      createData('Резервы в иностранной валюте', getValueById(data, 'RES_ForCurrencyAssets')),
-      createData('Официальные резервные активы', getValueById(data, 'RES_OffReserveAssets')),
-    ];
-
-    return data.length ? createRows(data) : [createData('Данные доступны после 6-го числа текущего месяца')];
-  };
-
-  const rows = createDataTable(storeData); //  # Данные для таблицы 1
-  const rows2 = createDataTable(storeData2); //  # Данные для таблицы 2
-
-  // ~ Стили таблиц
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -126,38 +106,73 @@ export const CurrencyZVR = () => {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
+    // hide last border
     '&:last-child td, &:last-child th': {
       border: 0,
     },
   }));
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  function createData(name, value, fat, carbs, protein) {
+    return { name, value, fat, carbs, protein };
+  }
+  let rows = [createData('Данные доступны после 6-го числа текущего месяца')];
+  if (storeData.length !== 0) {
+    rows = [
+      createData('Прочие резервные активы', storeData.find(el => el.id_api === 'RES_OthReserveAssets').value),
+      createData('Резервная позиция в МВФ ', storeData.find(el => el.id_api === 'RES_IMFResPosition').value),
+      createData('Специальные права заимствования ', storeData.find(el => el.id_api === 'RES_SDRs').value),
+      createData('Золото ', storeData.find(el => el.id_api === 'RES_Gold').value),
+      createData('Резервы в иностранной валюте', storeData.find(el => el.id_api === 'RES_ForCurrencyAssets').value),
+      createData('Официальные резервные активы', storeData.find(el => el.id_api === 'RES_OffReserveAssets').value),
+    ];
+  }
+
+  let rows2 = [];
+  if (storeData2.length === 0) {
+    rows2 = [createData('Данные доступны после 6-го числа текущего месяца')];
+  } else {
+    rows2 = [
+      createData('Прочие резервные активы', storeData2.find(el => el.id_api === 'RES_OthReserveAssets').value),
+      createData('Резервная позиция в МВФ ', storeData2.find(el => el.id_api === 'RES_IMFResPosition').value),
+      createData('Специальные права заимствования ', storeData2.find(el => el.id_api === 'RES_SDRs').value),
+      createData('Золото ', storeData2.find(el => el.id_api === 'RES_Gold').value),
+      createData('Резервы в иностранной валюте', storeData2.find(el => el.id_api === 'RES_ForCurrencyAssets').value),
+      createData('Официальные резервные активы', storeData2.find(el => el.id_api === 'RES_OffReserveAssets').value),
+    ];
+  }
 
   return (
-    <section className="secton-zvr">
-      <div className="name-section">
+    <div>
+      <div className="nameSection">
         <Button
           className="load-btn"
           onClick={hahdleCurrencyZVR}
           loading={loading || loading2}
+          // loadingIndicator="Loading…"
           loadingPosition="start" //loadingPosition="end"
           variant="outlined" //outlined // contained
           startIcon={<AutorenewIcon />}
         >
           Обновить
         </Button>
-        <h2 className="name-section__title">Золото-валютные резервы</h2>
+        <h2>Золото-валютные резервы</h2>
       </div>
       <div className="tables">
         <TableContainer className="table" component={Paper}>
-          <Table aria-label="customized table">
+          <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>
-                  <div className="table__table-header">
-                    <div className="table-header__title">
-                      <p>Золото-валютные резервы на</p>
-                      <p>{moment(storeData[0].dt).format('MMMM YYYY')}</p>
-                    </div>
-
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginLeft: '16px',
+                      color: 'var(--color-2)',
+                    }}
+                  >
+                    <p>Золото-валютные резервы на {moment(storeData[0].dt).format('MMMM YYYY')}</p>
                     <div>
                       {status ? (
                         <CheckCircleOutlineIcon className="icon-success" />
@@ -169,7 +184,7 @@ export const CurrencyZVR = () => {
                       </p>
                     </div>
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ru'}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={ru}>
                       <DemoContainer
                         components={['MobileDatePicker', 'DatePicker', 'DesktopDatePicker', 'StaticDatePicker']}
                       >
@@ -216,16 +231,19 @@ export const CurrencyZVR = () => {
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>
-                  <div className="table__table-header">
-                    <div className="table-header__title">
-                      <p>Золото-валютные резервы на</p>
-                      <p>
-                        {storeData2[0]?.dt
-                          ? moment(storeData2[0].dt).format('MMMM YYYY')
-                          : moment().format('MMMM YYYY')}
-                      </p>
-                    </div>
-
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginLeft: '16px',
+                      color: 'var(--color-2)',
+                    }}
+                  >
+                    <p>
+                      Золото-валютные резервы на{' '}
+                      {storeData2[0]?.dt ? moment(storeData2[0].dt).format('MMMM YYYY') : moment().format('MMMM YYYY')}
+                    </p>
                     <div>
                       {status2 ? (
                         <CheckCircleOutlineIcon className="icon-success" />
@@ -237,7 +255,7 @@ export const CurrencyZVR = () => {
                       </p>
                     </div>
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ru'}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={ru}>
                       <DemoContainer
                         components={['MobileDatePicker', 'DatePicker', 'DesktopDatePicker', 'StaticDatePicker']}
                       >
@@ -279,6 +297,6 @@ export const CurrencyZVR = () => {
           </Table>
         </TableContainer>
       </div>
-    </section>
+    </div>
   );
 };

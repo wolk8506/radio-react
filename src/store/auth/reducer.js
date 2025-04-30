@@ -24,54 +24,73 @@ export const auth = createReducer(initState, builder => {
   builder
     .addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.data.user;
-      state.token = 'sgasgaasg.sgasgdagas.asgagadfh';
+      state.token = action.payload.token;
+      localStorage.setItem('authToken', action.payload.token);
       state.isLoggedIn = false;
-      state.isCode = action.code;
-    })
-    .addCase(updateRecipeFavoriteById.fulfilled, (state, action) => {
-      state.user = action.payload;
+      state.isCode = action.payload.code;
     })
     .addCase(logIn.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
+      localStorage.setItem('authToken', action.payload.token);
     })
-    .addCase(logOut.fulfilled, (state, action) => {
-      state.user = { name: null, email: null };
+    .addCase(logOut.fulfilled, state => {
+      state.user = { name: null, email: null, avatarURL: null };
       state.token = null;
       state.isLoggedIn = false;
+      localStorage.removeItem('authToken');
+    })
+    // .addCase(fetchCurrentUser.pending, state => {
+    //   state.isFetchingCurrentUser = true; // Проверка начата
+    // })
+    // .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+    //   state.user = action.payload;
+    //   state.isLoggedIn = true;
+    //   state.isFetchingCurrentUser = false; // Проверка завершена
+    // })
+    // .addCase(fetchCurrentUser.rejected, state => {
+    //   state.isFetchingCurrentUser = false;
+    //   state.isLoggedIn = false; // Пользователь не авторизован
+    // })
+
+    .addCase(fetchCurrentUser.pending, state => {
+      state.isFetchingCurrentUser = true;
     })
     .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-      if (action.payload.status === 401) {
-        state.token = action.payload.token;
+      if (action.payload?.status === 401) {
+        state.token = null;
+        state.isLoggedIn = false;
+        localStorage.removeItem('authToken');
+      } else {
+        state.user = action.payload;
+        state.isFetchingCurrentUser = false;
+        state.isLoggedIn = true;
       }
-
-      state.user = action.payload;
-      state.isLoggedIn = true;
-      state.isFetchingCurrentUser = false;
     })
-    // .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-    //   state.isFetchingCurrentUser = false;
-    // })
-    // -------------------------------------------------------
+    .addCase(fetchCurrentUser.rejected, state => {
+      state.isFetchingCurrentUser = false;
+      state.isLoggedIn = false;
+      state.token = null;
+      localStorage.removeItem('authToken');
+    })
     .addCase(updateAvatar.fulfilled, (state, action) => {
       state.user.avatarURL = action.payload.avatarURL;
       state.isFetchingUploadAvatar = false;
     })
-    .addCase(updateAvatar.pending, (state, action) => {
+    .addCase(updateAvatar.pending, state => {
       state.isFetchingUploadAvatar = true;
     })
-    // .addCase(updateAvatar.fulfilled, (state, action) => {
-    //   state.isFetchingUploadAvatar = false;
-    // })
-    .addCase(updateAvatar.rejected, (state, action) => {
+    .addCase(updateAvatar.rejected, state => {
       state.isFetchingUploadAvatar = false;
     })
-    // -------------------------------------------------------
     .addCase(updateName.fulfilled, (state, action) => {
       state.user = action.payload.data;
     })
     .addCase(updateEmail.fulfilled, (state, action) => {
       state.user = action.payload.data;
+    })
+    .addCase(updateRecipeFavoriteById.fulfilled, (state, action) => {
+      state.user = action.payload;
     });
 });

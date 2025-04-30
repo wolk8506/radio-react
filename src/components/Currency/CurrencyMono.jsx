@@ -19,7 +19,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import LoadingButton from '@mui/lab/LoadingButton';
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -30,6 +30,7 @@ import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import Button from '@mui/material/Button';
 
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -274,9 +275,9 @@ export const CurrencyMono = () => {
   };
 
   return (
-    <div>
-      <div className="nameSection">
-        <h2>Конвертер валют.</h2>
+    <section className="secton-mono">
+      <div className="name-section">
+        <h2 className="name-section__title">Конвертер валют.</h2>
       </div>
 
       <div className="converter-block">
@@ -352,8 +353,8 @@ export const CurrencyMono = () => {
         </div>
       </div>
 
-      <div className="nameSection">
-        <LoadingButton
+      <div className="name-section">
+        <Button
           className="load-btn"
           onClick={handleUpdateCurrency}
           loading={loading}
@@ -362,8 +363,8 @@ export const CurrencyMono = () => {
           startIcon={<AutorenewIcon />}
         >
           Обновить
-        </LoadingButton>
-        <h2>Курс MONObank на {dateToday}.</h2>
+        </Button>
+        <h2 className="name-section__title">Курс MONObank на {dateToday}.</h2>
         <div className="update-block">
           {status ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
           <p className="update-time" title="Время обновления данных с сервера.">
@@ -393,6 +394,6 @@ export const CurrencyMono = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </section>
   );
 };

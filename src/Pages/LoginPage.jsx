@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export const LoginView = () => {
+export const LoginPage = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

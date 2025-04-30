@@ -1,6 +1,30 @@
 @use "../../scss/colors";
 @use "../../scss/function";
 
+.container-settings {
+  list-style: none;
+  width: 1260px;
+  min-height: calc(100% - 10px);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 16px 16px 16px 32px;
+  margin-bottom: 32px;
+  align-items: center;
+  @include function.card-style;
+
+
+  .tab-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .settings {
+      border: 1px solid function.rgb-a(colors.$color-03, 10%);
+      border-radius: 15px;
+    }
+  }
+}
+
 .about {
   display: flex;
   align-items: center;
@@ -17,7 +41,7 @@
     letter-spacing: 10px;
     line-height: 0.5;
     margin-bottom: 32px;
-    @include function.card-style;
+    // @include function.card-style;
   }
 }
 
@@ -44,7 +68,7 @@
   flex-direction: column;
   padding: 16px;
   margin-bottom: 16px;
-  @include function.card-style;
+  // @include function.card-style;
 
   .btn {
     .MuiButtonBase-root {
@@ -324,9 +348,9 @@
   }
 }
 
-.form-auto-chenge-theme {
-  margin-top: 32px !important;
-}
+// .form-auto-chenge-theme {
+//   margin-top: 32px !important;
+// }
 
 .settings--walpaper {
   width: 1568px;

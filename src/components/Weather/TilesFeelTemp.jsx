@@ -144,8 +144,8 @@ export const TilesFeelTemp = () => {
         <svg width="260" height="77" viewBox="0 0 260 77" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="FeelslikeCardGradient" x1="0%" x2="100%" y1="0%" y2="0%">
-              <stop offset="0" stop-color="#96C6FA"></stop>
-              <stop offset="74%" stop-color="#96C6FA"></stop>
+              <stop offset="0" stopColor="#96C6FA"></stop>
+              <stop offset="74%" stopColor="#96C6FA"></stop>
               <stop offset="74%" className="feel-temp__svg-line"></stop>
             </linearGradient>
           </defs>
@@ -154,13 +154,13 @@ export const TilesFeelTemp = () => {
               <path
                 d={steps}
                 stroke="url('#FeelslikeCardGradient')"
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>
               <circle
                 stroke="#fff"
-                stroke-width="3"
+                strokeWidth="3"
                 fill="#96C6FA"
                 cx={valueArr[2].x}
                 cy={valueArr[2].y}

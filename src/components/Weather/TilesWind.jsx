@@ -402,51 +402,51 @@ export const TilesWind = () => {
                 d="M90 10 A 80 80, 0, 0, 1, 165.18 62.64 "
                 fill="none"
                 className="image__svg-segment"
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-opacity="0.1"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeOpacity="0.1"
                 transform="rotate(10 90 90)"
               ></path>
               <path
                 d="M90 10 A 80 80, 0, 0, 1, 165.18 62.64 "
                 fill="none"
                 className="image__svg-segment"
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-opacity="0.1"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeOpacity="0.1"
                 transform="rotate(100 90 90)"
               ></path>
               <path
                 d="M90 10 A 80 80, 0, 0, 1, 165.18 62.64 "
                 fill="none"
                 className="image__svg-segment"
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-opacity="0.1"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeOpacity="0.1"
                 transform="rotate(190 90 90)"
               ></path>
               <path
                 d="M90 10 A 80 80, 0, 0, 1, 165.18 62.64 "
                 fill="none"
                 className="image__svg-segment"
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-opacity="0.1"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeOpacity="0.1"
                 transform="rotate(280 90 90)"
               ></path>
               <path
                 d={`M${axisX} ${axisY}A 80 80, 0, 0, 1, ${axisX2} ${axisY2}`}
                 fill="none"
                 stroke={windName[2]}
-                stroke-width="8"
-                stroke-linecap="round"
+                strokeWidth="8"
+                strokeLinecap="round"
               ></path>
               <path
                 d={`M${axisX3} ${axisY3}A 80 80, 0, 0, 1, ${axisX4} ${axisY4}`}
                 fill="none"
                 stroke={windName[2]}
-                stroke-width="8"
-                stroke-linecap="round"
+                strokeWidth="8"
+                strokeLinecap="round"
               ></path>
               <g>
                 <path

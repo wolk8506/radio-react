@@ -29,7 +29,7 @@ export const SidebarDesctop = ({ audio }) => {
     { name: 'Погода', link: '/weather', icon: ThunderstormIcon },
     { name: 'Рецепты', link: '/recipes', icon: FastfoodIcon },
     { name: 'Новости', link: '/news', icon: NewspaperIcon },
-    { name: 'Настройки', link: '/info', icon: TuneIcon },
+    { name: 'Настройки', link: '/settings', icon: TuneIcon },
   ];
   const [classBtn_menu, setClassBtn_menu] = useState('');
   const [btnMenu, setBtnMenu] = useState(false);
@@ -80,14 +80,14 @@ export const SidebarDesctop = ({ audio }) => {
         <List>
           {/* { name: 'User', link: '/user', icon: PersonIcon }, */}
           <ListItem
-            className={currentPage === '/user' ? 'activ' : ''}
+            className={currentPage === '/profile' ? 'activ' : ''}
             onClick={handleBtnTab}
             disablePadding
             sx={{ display: 'block' }}
           >
             <ListItemButton
               component={Link}
-              to={'/user'}
+              to={'/profile'}
               sx={[{ minHeight: 48, px: 2.5 }, btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' }]}
             >
               <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}>

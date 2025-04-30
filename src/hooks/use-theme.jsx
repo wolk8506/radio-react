@@ -1,19 +1,18 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { changeTheme } from 'store/actions';
 import { setThemeChengeTheme } from 'store/root/actions';
-import { getThemeChengeTheme } from 'store/root/selectors';
+import { getThemeAutoChengeTheme } from 'store/root/selectors';
 
 const isDarkTheme = window?.matchMedia('(prefers-color-scheme: dark)').matches;
-const defaultTheme = isDarkTheme ? 'dark' : 'light';
+const defaultTheme = isDarkTheme ? 'dark' : 'light-2';
 
 export const useTheme = () => {
   const dispatch = useDispatch();
-  const THEME_AUTO_CHANGE = useSelector(getThemeChengeTheme);
+  const THEME_AUTO_CHANGE = useSelector(getThemeAutoChengeTheme);
   const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {
-    if (THEME_AUTO_CHANGE === true) dispatch(setThemeChengeTheme(defaultTheme));
+    THEME_AUTO_CHANGE && dispatch(setThemeChengeTheme(defaultTheme));
   }, [THEME_AUTO_CHANGE, dispatch]);
 
   useLayoutEffect(() => {

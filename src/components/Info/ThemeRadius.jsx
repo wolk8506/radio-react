@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setThemeWidgetClock, setThemeTransporantClock, setThemeClock_AnalogDigital } from 'store/root/actions';
@@ -14,69 +14,78 @@ import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-// import Divider from '@mui/material/Divider';
 
 export const ThemeRadius = () => {
   const dispatch = useDispatch();
 
+  // Состояние для виджета часов
   const THEME_WIDGET_CHANGE = useSelector(getThemeWidgetClock);
-  const [value, setValue] = useState(THEME_WIDGET_CHANGE);
+  const [widgetValue, setWidgetValue] = useState(THEME_WIDGET_CHANGE);
 
-  const handleChange = e => {
-    dispatch(setThemeWidgetClock(e.target.value));
-    setValue(e.target.value);
+  const handleWidgetChange = e => {
+    const newValue = e.target.value;
+    dispatch(setThemeWidgetClock(newValue));
+    setWidgetValue(newValue);
   };
 
-  // ----------
+  // Состояние для прозрачности
   const THEME_T_C = useSelector(getThemeTransporantClock);
-  const THEME_T_C_number = Number(THEME_T_C.slice(0, -1));
+  const [transparencyValue, setTransparencyValue] = useState(Number(THEME_T_C.replace('%', '')));
 
-  const [value2, setValue2] = useState(THEME_T_C_number);
-
-  const handleChange2 = (event, newValue) => {
-    setValue2(newValue);
+  const handleTransparencyChange = (event, newValue) => {
+    setTransparencyValue(newValue);
     dispatch(setThemeTransporantClock(`${newValue}%`));
   };
 
-  // ---------
+  // Состояние для типа часов (аналоговые/цифровые)
+  const clockAnalogDigital = useSelector(getThemeClock_AnalogDigital);
+  const [isAnalogClock, setIsAnalogClock] = useState(clockAnalogDigital);
 
-  const clock_AnalogDigital = useSelector(getThemeClock_AnalogDigital);
-  const [checkedClock_AnalogDigital, setCheckedClock_AnalogDigital] = React.useState(clock_AnalogDigital);
+  useEffect(() => {
+    setIsAnalogClock(clockAnalogDigital);
+  }, [clockAnalogDigital]);
 
-  React.useEffect(() => {
-    setCheckedClock_AnalogDigital(clock_AnalogDigital);
-  }, [clock_AnalogDigital]);
-
-  const handleChangeClock_AnalogDigital = event => {
-    setCheckedClock_AnalogDigital(event.target.checked);
-    dispatch(setThemeClock_AnalogDigital(event.target.checked));
+  const handleClockTypeChange = event => {
+    const isChecked = event.target.checked;
+    setIsAnalogClock(isChecked);
+    dispatch(setThemeClock_AnalogDigital(isChecked));
   };
 
   return (
-    <FormControl className="form-auto-chenge-theme">
+    <FormControl className="form-auto-change-theme">
       <FormLabel id="controlled-radio-widget">Виджет часов и погоды</FormLabel>
       <RadioGroup
         aria-labelledby="controlled-radio-widget"
         name="radio-theme-auto"
-        value={value}
-        onChange={handleChange}
+        value={widgetValue}
+        onChange={handleWidgetChange}
       >
         <FormControlLabel className="btn" value={0} control={<Radio />} label="Вариант 1" />
-        {/* <Divider /> */}
         <FormControlLabel className="btn" value={1} control={<Radio />} label="Вариант 2" />
       </RadioGroup>
+
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
         <Typography>Аналоговые</Typography>
         <Switch
-          defaultChecked
-          checked={checkedClock_AnalogDigital}
-          onChange={handleChangeClock_AnalogDigital}
-          inputProps={{ 'aria-label': 'ant design' }}
+          checked={isAnalogClock}
+          onChange={handleClockTypeChange}
+          inputProps={{ 'aria-label': 'Switch between analog and digital clocks' }}
         />
         <Typography>Цифровые</Typography>
       </Stack>
-      <FormLabel id="controlled-radio-widget">Прозрачность для "Вариант 2" -- {THEME_T_C}</FormLabel>
-      <Slider aria-label="Volume" value={value2} onChange={handleChange2} />
+
+      {widgetValue === '1' && (
+        <>
+          <FormLabel id="controlled-radio-widget">Прозрачность для "Вариант 2" -- {transparencyValue}%</FormLabel>
+          <Slider
+            aria-label="Transparency"
+            value={transparencyValue}
+            onChange={handleTransparencyChange}
+            min={0}
+            max={100}
+          />
+        </>
+      )}
     </FormControl>
   );
 };
