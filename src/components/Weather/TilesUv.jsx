@@ -63,45 +63,45 @@ export const TilesUv = () => {
             transform="rotate(13 90.5 80)"
             fill="none"
             stroke="#5C2E91"
-            stroke-width="8"
-            stroke-linecap="round"
+            strokeWidth="8"
+            strokeLinecap="round"
           ></path>
           <path
             d="M 90.5 80 m 76 0 a 76 76 0 0 1 -32 62.3 "
             transform="rotate(-52 90.5 80)"
             fill="none"
             stroke="#D13438"
-            stroke-width="8"
-            stroke-linecap="round"
+            strokeWidth="8"
+            strokeLinecap="round"
           ></path>
           <path
             d="M 90.5 80 m 76 0 a 76 76 0 0 1 -32 62.3 "
             transform="rotate(-115 90.5 80)"
             fill="none"
             stroke="#FF8C00"
-            stroke-width="8"
-            stroke-linecap="round"
+            strokeWidth="8"
+            strokeLinecap="round"
           ></path>
           <path
             d="M 90.5 80 m 76 0 a 76 76 0 0 1 -32 62.3 "
             transform="rotate(-178 90.5 80)"
             fill="none"
             stroke="#FDE300"
-            stroke-width="8"
-            stroke-linecap="round"
+            strokeWidth="8"
+            strokeLinecap="round"
           ></path>
           <path
             d="M 90.5 80 m 76 0 a 76 76 0 0 1 -32 62.3 "
             transform="rotate(-243 90.5 80)"
             fill="none"
             stroke="#73AA24"
-            stroke-width="8"
-            stroke-linecap="round"
+            strokeWidth="8"
+            strokeLinecap="round"
           ></path>
           {axisX && (
             <g>
               <circle cx={axisX} cy={axisY} r="10" fill="#FDE300"></circle>
-              <circle cx={axisX} cy={axisY} r="11.5" stroke="white" stroke-width="3"></circle>
+              <circle cx={axisX} cy={axisY} r="11.5" stroke="white" strokeWidth="3"></circle>
             </g>
           )}
         </svg>

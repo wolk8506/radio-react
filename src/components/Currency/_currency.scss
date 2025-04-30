@@ -3,7 +3,36 @@
 
 // * *** Страница CurrencyMono  ***  */
 
-.nameSection {
+.secton-zvr {
+  margin-top: 32px;
+  width: 1260px;
+  padding-bottom: 64px;
+
+  .table__table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 16px;
+    color: colors.$color-02;
+
+    .table-header__title {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.secton-nbu {
+  margin-top: 32px;
+  width: 1260px;
+}
+
+.secton-mono {
+  margin-top: 32px;
+  width: 1260px;
+}
+
+.name-section {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
@@ -15,12 +44,18 @@
   .load-btn {
     @include function.button;
   }
+
+  .name-section__title {
+    // justify-content: center;
+    margin: 0 0 0 32px;
+  }
 }
-.nameSection:first-child {
+
+.name-section:first-child {
   margin-top: 0;
 }
 
-.nameSection h2 {
+.name-section h2 {
   margin-right: 10px;
   margin-left: 10px;
 }
@@ -37,7 +72,7 @@
 }
 
 .table {
-  max-width: 700px;
+  max-width: 614px;
 }
 
 .table-name {
@@ -70,6 +105,7 @@
   align-items: center;
   margin-left: 16px;
 }
+
 .update-time {
   color: function.rgb-a(colors.$color-02, 50%);
   font-size: 12px;
@@ -96,12 +132,15 @@
   .tables {
     flex-direction: column;
   }
+
   .table {
     margin-bottom: 10px;
   }
+
   .currencyBTN {
     justify-content: space-around;
   }
+
   .currency-select {
     width: calc((100% - 60px) / 2);
   }
@@ -109,8 +148,9 @@
   .textField {
     width: calc((100% - 20px) / 2);
   }
+
   // *-------------------------------
-  .nameSection {
+  .name-section {
     display: flex;
     align-items: center;
     font-size: 16px;
@@ -127,11 +167,12 @@
     }
   }
 
-  .nameSection h2 {
+  .name-section h2 {
     font-size: 14px;
     line-height: 16px;
     padding: 0 10px;
   }
+
   .update-block {
     text-align: center;
   }

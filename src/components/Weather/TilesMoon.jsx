@@ -116,42 +116,34 @@ export const TilesMoon = () => {
             <path
               d="M63 61.3773C63 61.3773 60 59.8773 42.5 44.3881C33 34.3773 26.6179 28.3307 4.73328 4"
               className="moon-img"
-              stroke-opacity="0.1"
-              stroke-width="8"
-              stroke-linecap="round"
+              strokeOpacity="0.1"
+              strokeWidth="8"
+              strokeLinecap="round"
             ></path>
           </g>
           <g filter="url(#filter0_i_3881_557)" transform="translate(0 60)">
             <path
               d="M4 62.0002C4 62.0002 15.5 58.5001 31.3913 45.0109C38.1924 39.2378 52.0654 21.3662 66.5 4.6228"
               className="moon-img"
-              stroke-opacity="0.1"
-              stroke-width="8"
-              stroke-linecap="round"
+              strokeOpacity="0.1"
+              strokeWidth="8"
+              strokeLinecap="round"
             ></path>
           </g>
-          <line
-            x1="3"
-            y1="67.5"
-            x2="253"
-            y2="67.5"
-            className="moon-img"
-            stroke-opacity="0.2"
-            stroke-width="0.84"
-          ></line>
+          <line x1="3" y1="67.5" x2="253" y2="67.5" className="moon-img" strokeOpacity="0.2" strokeWidth="0.84"></line>
           <path
             d="M 64 65 Q 129 -42 194 65"
             stroke="url(#paint0_linear_2195_5734)"
-            stroke-width="8"
-            stroke-linecap="round"
+            strokeWidth="8"
+            strokeLinecap="round"
           ></path>
           <g filter="url(#filter1_d_4430_8884)">
             <circle cx="63" cy="68" r="4" className="moon-img-point"></circle>
-            <circle cx="63" cy="68" r="5.5" stroke="white" stroke-width="3"></circle>
+            <circle cx="63" cy="68" r="5.5" stroke="white" strokeWidth="3"></circle>
           </g>
           <g filter="url(#filter2_d_4430_8884)">
             <circle cx="196" cy="68" r="4" className="moon-img-point"></circle>
-            <circle cx="196" cy="68" r="5.5" stroke="white" stroke-width="3"></circle>
+            <circle cx="196" cy="68" r="5.5" stroke="white" strokeWidth="3"></circle>
           </g>
           {moonY && (
             <g filter="url(#filter3_d_4430_8884)" transform={`translate(${moonX} ${moonY})`}>
@@ -172,9 +164,9 @@ export const TilesMoon = () => {
               width="68"
               height="66"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+              <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
               <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
               <feColorMatrix
                 in="SourceAlpha"
@@ -195,9 +187,9 @@ export const TilesMoon = () => {
               width="18"
               height="18"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+              <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -218,9 +210,9 @@ export const TilesMoon = () => {
               width="18"
               height="18"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+              <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -241,9 +233,9 @@ export const TilesMoon = () => {
               width="30"
               height="30"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+              <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -265,10 +257,10 @@ export const TilesMoon = () => {
               y2="76.7188"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#552278"></stop>
-              <stop offset="0.255606" stop-color="#D13438"></stop>
-              <stop offset="0.824634" stop-color="#BA4D52"></stop>
-              <stop offset="1" stop-color="#F87528"></stop>
+              <stop stopColor="#552278"></stop>
+              <stop offset="0.255606" stopColor="#D13438"></stop>
+              <stop offset="0.824634" stopColor="#BA4D52"></stop>
+              <stop offset="1" stopColor="#F87528"></stop>
             </linearGradient>
             <linearGradient
               id="paint0_linear_2195_5734"
@@ -278,10 +270,10 @@ export const TilesMoon = () => {
               y2="78.6025"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#FF6B00"></stop>
-              <stop offset="0.255606" stop-color="#EFB839"></stop>
-              <stop offset="0.824634" stop-color="#EFB839"></stop>
-              <stop offset="1" stop-color="#EF5A39"></stop>
+              <stop stopColor="#FF6B00"></stop>
+              <stop offset="0.255606" stopColor="#EFB839"></stop>
+              <stop offset="0.824634" stopColor="#EFB839"></stop>
+              <stop offset="1" stopColor="#EF5A39"></stop>
             </linearGradient>
           </defs>
         </svg>

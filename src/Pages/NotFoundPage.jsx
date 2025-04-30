@@ -1,7 +1,7 @@
 // import error404 from '../images/error404.svg';
 import error404 from '../images/404.jpg';
 
-export const NotFoundView = () => {
+export const NotFoundPage = () => {
   return (
     <div
       style={{

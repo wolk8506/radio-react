@@ -30,7 +30,7 @@ const style = {
   p: 4,
 };
 
-export const RegisterView = () => {
+export const RegisterPage = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

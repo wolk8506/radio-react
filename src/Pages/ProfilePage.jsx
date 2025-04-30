@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -7,18 +7,10 @@ import {
   getUsername,
   getCreatedAt,
   getEmail,
-  getIsLoggedIn,
   getIsFetchingUploadAvatar,
   getUserID,
 } from '../store/auth/selectors';
-import {
-  fetchCurrentUser,
-  logOut,
-  updateName,
-  updateEmail,
-  updateAvatar,
-  changePassword,
-} from '../store/auth/operations';
+import { logOut, updateName, updateEmail, updateAvatar, changePassword } from '../store/auth/operations';
 import { BASE_URL } from 'store/env';
 import { toast } from 'react-toastify';
 
@@ -36,28 +28,22 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Backdrop from '@mui/material/Backdrop';
+// import CircularProgress from '@mui/material/CircularProgress';
 
 import moment from 'moment';
 
-export const UserView = () => {
+export const ProfilePage = () => {
   const dispatch = useDispatch();
   const avatar = useSelector(getAvatar);
   const name = useSelector(getUsername);
   const email = useSelector(getEmail);
   const userId = useSelector(getUserID);
   const createdAt = useSelector(getCreatedAt);
-  const isLoggedIn = useSelector(getIsLoggedIn);
   const isFetchingUploadAvatar = useSelector(getIsFetchingUploadAvatar);
   const [nameChange, setNameChange] = useState(name);
   const baseUrlImg = BASE_URL;
 
-  useEffect(() => {
-    if (isLoggedIn) {
-    }
-    dispatch(fetchCurrentUser());
-  }, [dispatch, isLoggedIn]);
-
-  // ------------------------------
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
   const [modalVariant, setModalVariant] = useState(0);
@@ -168,6 +154,16 @@ export const UserView = () => {
     { title: 'Изменить почту', id: 'email', currentValue: email },
     { title: 'Изменить пароль', id: 'password', currentValue: '' },
   ];
+
+  const isFetching = useSelector(state => state.auth.isFetchingCurrentUser);
+
+  if (isFetching) {
+    return (
+      <Backdrop sx={theme => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })} open={true}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    ); // Показываем спиннер или сообщение
+  }
 
   return (
     <div className="container-user">

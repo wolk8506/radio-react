@@ -148,19 +148,19 @@ export const TilesPressure = () => {
         <svg width="260" height="62" viewBox="0 0 260 62" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="PressureCardGradient" x1="0%" x2="100%">
-              <stop offset="0%" stop-color="#96C6FA"></stop>
-              <stop offset="74%" stop-color="#A375FF"></stop>
+              <stop offset="0%" stopColor="#96C6FA"></stop>
+              <stop offset="74%" stopColor="#A375FF"></stop>
               <stop offset="74%" className="pressure__svg-line"></stop>
             </linearGradient>
           </defs>
           <path
             d={steps}
             stroke="url(#PressureCardGradient)"
-            stroke-width="8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
-          <circle stroke="#fff" stroke-width="3" fill="#A375FF" cx={valueArr[2].x} cy={valueArr[2].y} r="10"></circle>
+          <circle stroke="#fff" strokeWidth="3" fill="#A375FF" cx={valueArr[2].x} cy={valueArr[2].y} r="10"></circle>
         </svg>
         <div className="pressure__content">
           <p className="content__value">{pressure_mb}</p>
