@@ -25,7 +25,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { favoriteRecipe, updateRecipe } from 'store/recipe/operations';
 import { getLoadingUpdateRecipe, getRecipe, getStatusUpdateRecipe } from 'store/recipe/selectors';
 import { setStatusUpdateRecipe } from 'store/recipe/actions';
-import { BASE_URL } from 'store/env';
+import { BASE_URL } from '../../config';
 import { deleteFile, uploadFiles } from 'store/files/operations';
 import { getLoadingUploadFiles } from 'store/files/selectors';
 import { ImageBlock } from './ComponentRecipeImg';

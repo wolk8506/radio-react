@@ -37,3 +37,15 @@
 
 - Переключение темы / автовыбор темной и светлой темы (как в системе)
 - Смена обоев и цвета фона
+
+---
+
+"scripts": { "start:local": "cross-env REACT_APP_API_URL=http://localhost:3000 react-scripts start", "start:staging":
+"cross-env REACT_APP_API_URL=https://staging-api.example.com react-scripts start", "start:production": "cross-env
+REACT_APP_API_URL=https://production-api.example.com react-scripts start", "start": "react-scripts start", "build":
+"react-scripts build", "test": "react-scripts test", "eject": "react-scripts eject", "lint:js": "eslint
+src/\*_/_.{js,jsx}" }
+
+npm install cross-env npm run start:local
+
+const apiUrl = process.env.REACT_APP_API_URL; console.log('Current API URL:', apiUrl);

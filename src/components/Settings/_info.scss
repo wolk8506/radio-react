@@ -1,0 +1,762 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
+.container-settings {
+  list-style: none;
+  width: 1260px;
+  min-height: calc(100% - 10px);
+  margin-bottom: 32px;
+  align-items: center;
+  @include function.card-style;
+  padding: 24px;
+
+  // -----------------------------------------------------------
+  .MuiTabPanel-root {
+    padding: 0;
+  }
+
+  .MuiButtonBase-root.MuiTab-root.Mui-selected {
+    color: colors.$color-02;
+  }
+
+  .MuiTabs-indicator {
+    background-color: colors.$color-02;
+  }
+
+  .MuiSwitch-thumb {
+    background-color: colors.$color-03;
+  }
+
+  .MuiButtonBase-root.MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track {
+    background-color: colors.$color-03;
+  }
+
+  .MuiSlider-root {
+    color: colors.$color-03;
+  }
+
+  .MuiButtonBase-root.MuiButton-root.Mui-disabled {
+    color: function.rgb-a(colors.$color-03, 26%);
+    align-items: center;
+
+  }
+
+  // -----------------------------------------------------------
+  .tab-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 24px;
+
+    .theme-clock-divider {
+      width: 100%;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
+
+    }
+
+    .clock-example-block {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 12px;
+      @include function.card-style;
+      background-color: function.rgb-a(colors.$color-03, 30%);
+      background: no-repeat var(--background-image);
+      background-size: 200% 200%;
+      background-position: left top;
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
+
+
+
+      .clock-example {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        scale: 0.3;
+        width: 340px;
+        height: 200px;
+
+
+      }
+    }
+
+
+    .weather-settings {
+      width: 100%;
+
+      .weather-settings__btn {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        padding-bottom: 12px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
+      }
+
+      .weather-settings__title {
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .weather-img-block {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+
+
+        .weather-img-block__item {
+          width: 90px;
+          height: 90px;
+          padding: 5px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+      }
+    }
+
+    .settings {
+      border: 1px solid function.rgb-a(colors.$color-03, 10%);
+      border-radius: 15px;
+
+      //  ~ Блок с загрузкой изображения
+      .add-background-img {
+        .title {
+          font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+          font-weight: 400;
+          font-size: 1rem;
+          line-height: 1.4375em;
+          letter-spacing: 0.00938em;
+          padding: 0;
+          position: relative;
+          color: function.rgb-a(colors.$color-03, 60%);
+        }
+
+
+        .img-block {
+          width: 100%;
+          margin-top: 12px;
+          margin-bottom: 12px;
+        }
+
+        .size-error {
+          color: function.rgb-a(colors.$color-05, 60%);
+        }
+
+        .size-success {
+          color: function.rgb-a(colors.$color-04, 100%);
+        }
+
+
+      }
+
+    }
+
+    .settings--height {
+      height: 490px;
+    }
+  }
+}
+
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  .about__title {
+    font-family: "Audiowide", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 72px;
+    text-align: center;
+    padding: 16px;
+    letter-spacing: 10px;
+    line-height: 0.5;
+    margin-bottom: 32px;
+    // @include function.card-style;
+  }
+}
+
+.block__settings {
+  display: flex;
+
+  .settings:first-child {
+    margin-right: 16px;
+  }
+
+  .settings:nth-child(2) {
+    margin-right: 16px;
+  }
+
+  .settings:nth-child(3) {
+    margin-right: 16px;
+  }
+}
+
+.settings {
+  width: 380px;
+  display: flex;
+  // justify-content: space-between;
+  flex-direction: column;
+  padding: 16px;
+  margin-bottom: 16px;
+  // @include function.card-style;
+
+  .btn {
+    .MuiButtonBase-root {
+      color: function.rgb-a(colors.$color-03, 60%);
+
+      &.MuiButtonBase-root:hover {
+        background-color: function.rgb-a(colors.$color-02, 4%);
+      }
+
+      &.MuiButtonBase-root.Mui-checked {
+        color: function.rgb-a(colors.$color-03, 100%);
+      }
+    }
+  }
+
+  .item-theme {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: space-between;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
+
+    .theme__color {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: space-between;
+      width: 100px;
+      height: 36px;
+
+      .color__item {
+        border: 1px solid function.rgb-a(colors.$color-02, 50%);
+        width: 16px;
+        height: 16px;
+        margin: 2px;
+        border-radius: 4px;
+      }
+    }
+
+    .theme__color--scheme-dark-eclipse {
+      .color__item:nth-child(1) {
+        background: rgb(255, 255, 255);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(185, 182, 182);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(252, 227, 175);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(145, 225, 70);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(225, 72, 70);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(47, 41, 45);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(39, 33, 33);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(41, 35, 37);
+      }
+
+      .color__item:nth-child(9) {
+        background: #000000;
+      }
+
+      .color__item:nth-child(10) {
+        background: rgb(30, 30, 30);
+      }
+    }
+
+    .theme__color--scheme-obsidian-flame {
+      .color__item:nth-child(1) {
+        background: rgb(255, 255, 255);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(225, 150, 70);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(252, 227, 175);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(0, 128, 0);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(255, 0, 0);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(39, 41, 45);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(25, 27, 29);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(33, 35, 37);
+      }
+
+      .color__item:nth-child(9) {
+        background: rgba(60, 60, 60);
+      }
+
+      .color__item:nth-child(10) {
+        background: rgba(0, 0, 0);
+      }
+    }
+
+    .theme__color--scheme-midnight-bloom {
+      .color__item:nth-child(1) {
+        background: rgb(30, 20, 60);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(50, 40, 90);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(70, 60, 120);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(40, 80, 50);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(150, 40, 50);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(160, 120, 210);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(190, 140, 230);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(200, 160, 230);
+      }
+
+      .color__item:nth-child(9) {
+        background: rgb(210, 190, 235);
+      }
+
+      .color__item:nth-child(10) {
+        background: rgb(220, 200, 235);
+      }
+    }
+
+    .theme__color--scheme-muted-earth {
+      .color__item:nth-child(1) {
+        background: rgb(77, 75, 74);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(121, 90, 29);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(95, 94, 95);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(70, 98, 73);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(195, 107, 114);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(242 242 236);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(236 234 228);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(245 243 238);
+      }
+
+      .color__item:nth-child(9) {
+        background: rgb(215 213 208);
+      }
+
+      .color__item:nth-child(10) {
+        background: rgb(204, 204, 204);
+      }
+    }
+
+    .theme__color--scheme-velvet-ember {
+      .color__item:nth-child(1) {
+        background: rgb(85, 80, 78);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(130, 95, 45);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(100, 98, 99);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(75, 105, 78);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(200, 110, 120);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(230, 210, 190);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(220, 200, 175);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(240, 220, 200);
+      }
+
+      .color__item:nth-child(9) {
+        background: rgb(210, 190, 165);
+      }
+
+      .color__item:nth-child(10) {
+        background: rgb(180, 160, 140);
+      }
+    }
+
+    .theme__color--scheme-shadow-ember {
+      .color__item:nth-child(1) {
+        background: rgb(250, 250, 250);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(200, 130, 60);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(240, 210, 160);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(20, 110, 20);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(210, 50, 50);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(45, 47, 52);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(30, 32, 34);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(35, 33, 36);
+      }
+
+      .color__item:nth-child(9) {
+        background: rgb(50, 50, 50);
+      }
+
+      .color__item:nth-child(10) {
+        background: rgb(20, 20, 20);
+      }
+    }
+
+    .theme__color--scheme-twilight-violet {
+      .color__item:nth-child(1) {
+        background: rgb(255, 255, 255);
+      }
+
+      .color__item:nth-child(2) {
+        background: rgb(185, 182, 182);
+      }
+
+      .color__item:nth-child(3) {
+        background: rgb(252, 227, 175);
+      }
+
+      .color__item:nth-child(4) {
+        background: rgb(145, 225, 70);
+      }
+
+      .color__item:nth-child(5) {
+        background: rgb(225, 72, 70);
+      }
+
+      .color__item:nth-child(6) {
+        background: rgb(65, 30, 75);
+      }
+
+      .color__item:nth-child(7) {
+        background: rgb(45, 20, 60);
+      }
+
+      .color__item:nth-child(8) {
+        background: rgb(40, 15, 55);
+      }
+
+      .color__item:nth-child(9) {
+        background: rgb(20, 10, 40);
+      }
+
+      .color__item:nth-child(10) {
+        background: rgb(30, 20, 50);
+      }
+    }
+  }
+
+  .item-background--width {
+    width: 100%;
+  }
+
+  .item-background {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
+
+    .item-background__load {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 36px;
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
+      border-radius: 10px;
+    }
+
+    .item-background__load-img {
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
+      width: 64px;
+      height: 36px;
+      border-radius: 10px;
+
+      img {
+        display: block;
+        width: 62px;
+        height: 34px;
+        border-radius: 10px;
+      }
+    }
+
+    .item-background-color {
+      width: 64px;
+
+      height: 36px;
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
+      border-radius: 10px;
+    }
+
+    //
+
+    .item-background__img {
+      border: 1px solid function.rgb-a(colors.$color-02, 50%);
+      border-radius: 10px;
+    }
+  }
+
+  .item-background:nth-child(3) .item-background-color {
+    background: rgb(39, 33, 33);
+  }
+
+  .item-background:nth-child(4) .item-background-color {
+    background: rgb(33, 37, 39);
+  }
+
+  .item-background:nth-child(5) .item-background-color {
+    background: rgb(196, 159, 104);
+  }
+
+  .item-background:nth-child(6) .item-background-color {
+    background: rgb(236 234 228);
+  }
+
+  .item-background:nth-child(7) .item-background-color {
+    background: radial-gradient(ellipse farthest-corner at right bottom,
+        rgb(254, 219, 55) 0%,
+        rgb(253, 185, 49) 8%,
+        rgb(159, 121, 40) 30%,
+        rgb(138, 110, 47) 40%,
+        transparent 80%),
+      radial-gradient(ellipse farthest-corner at left top,
+        rgb(255, 255, 255) 0%,
+        rgb(255, 255, 172) 8%,
+        rgb(209, 180, 100) 25%,
+        rgb(93, 74, 31) 62.5%,
+        rgb(93, 74, 31) 100%);
+  }
+
+  .item-background:nth-child(8) .item-background-color {
+    background: linear-gradient(90deg, rgb(62, 77, 74), rgb(126, 72, 161));
+  }
+
+  .item-background:nth-child(9) .item-background-color {
+    background: linear-gradient(90deg, rgb(72, 92, 100), rgb(68, 76, 84), rgb(52, 60, 60), rgb(24, 36, 44));
+  }
+
+  label {
+    color: colors.$color-02;
+  }
+}
+
+// .form-auto-chenge-theme {
+//   margin-top: 32px !important;
+// }
+
+.settings--walpaper {
+  width: 1568px;
+  position: relative;
+
+  .logo {
+    width: 250px;
+    position: absolute;
+    // background-color: #91e146;
+    top: 500px;
+    right: 70px;
+
+    img {
+      width: 250px;
+    }
+  }
+
+  .wallpaper-collection {
+    display: flex;
+
+    .wallpaper-collection__item {
+      width: calc(100% / 3);
+      padding: 16px;
+      margin-right: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .settings--walpaper {
+    width: 380px;
+
+    .wallpaper-collection {
+      display: flex;
+      flex-direction: column;
+
+      .wallpaper-collection__item {
+        // width: calc(100% / 3);
+        width: 100%;
+        padding: 16px;
+      }
+    }
+  }
+
+  .block__settings {
+    display: block;
+
+    .settings:first-child {
+      margin-right: 0px;
+    }
+
+    .settings:nth-child(2) {
+      margin-right: 0px;
+    }
+
+    .settings:nth-child(3) {
+      margin-right: 0px;
+    }
+  }
+}
+
+// -------------------------------
+// .theme__color--scheme-5 {
+//   .color__item:nth-child(1) {
+//     background: rgb(240, 240, 240);
+//     /* Светлый серый */
+//   }
+
+//   .color__item:nth-child(2) {
+//     background: rgb(190, 165, 130);
+//     /* Тёплый бежево-коричневый */
+//   }
+
+//   .color__item:nth-child(3) {
+//     background: rgb(225, 205, 175);
+//     /* Нежный песочный */
+//   }
+
+//   .color__item:nth-child(4) {
+//     background: rgb(80, 140, 90);
+//     /* Спокойный зелёный */
+//   }
+
+//   .color__item:nth-child(5) {
+//     background: rgb(200, 80, 70);
+//     /* Глубокий красный */
+//   }
+
+//   .color__item:nth-child(6) {
+//     background: rgb(60, 55, 50);
+//     /* Тёмный серо-коричневый */
+//   }
+
+//   .color__item:nth-child(7) {
+//     background: rgb(50, 45, 40);
+//     /* Ещё темнее, для контраста */
+//   }
+
+//   .color__item:nth-child(8) {
+//     background: rgb(30, 30, 30);
+//     /* Угольно-чёрный */
+//   }
+
+//   .color__item:nth-child(9) {
+//     background: rgb(20, 20, 20);
+//     /* Почти чёрный, чуть мягче */
+//   }
+
+//   .color__item:nth-child(10) {
+//     background: rgb(10, 10, 10);
+//     /* Самый тёмный оттенок */
+//   }
+// }

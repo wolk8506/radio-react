@@ -41,18 +41,6 @@ export const auth = createReducer(initState, builder => {
       state.isLoggedIn = false;
       localStorage.removeItem('authToken');
     })
-    // .addCase(fetchCurrentUser.pending, state => {
-    //   state.isFetchingCurrentUser = true; // Проверка начата
-    // })
-    // .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-    //   state.user = action.payload;
-    //   state.isLoggedIn = true;
-    //   state.isFetchingCurrentUser = false; // Проверка завершена
-    // })
-    // .addCase(fetchCurrentUser.rejected, state => {
-    //   state.isFetchingCurrentUser = false;
-    //   state.isLoggedIn = false; // Пользователь не авторизован
-    // })
 
     .addCase(fetchCurrentUser.pending, state => {
       state.isFetchingCurrentUser = true;

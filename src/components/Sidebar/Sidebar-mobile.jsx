@@ -11,18 +11,24 @@ import Drawer from '@mui/joy/Drawer';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useSelector } from 'react-redux';
+// import { Link, useLocation } from 'react-router-dom';
+import { authSelectors } from 'store/auth/selectors';
 
 export const SidebarMobile = () => {
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   const location = useLocation();
   const currentPage = '/' + location.pathname.split('/')[1];
   const menuData = [
-    { name: 'Главная', link: '/' },
-    { name: 'Курс валют', link: '/currency-index' },
-    { name: 'Погода', link: '/weather' },
-    { name: 'Рецепты', link: '/recipes' },
-    { name: 'Новости', link: '/news' },
-    { name: 'Настройки', link: '/settings' },
-    { name: 'Профиль', link: '/profile' },
+    { name: 'Главная', link: '/', route: 'public' },
+    { name: 'Курс валют', link: '/currency-index', route: 'public' },
+    { name: 'Погода', link: '/weather', route: 'public' },
+    { name: 'Рецепты', link: '/recipes', route: 'public' },
+    { name: 'Новости', link: '/news', route: 'public' },
+    { name: 'Настройки', link: '/settings', route: 'public' },
+    { name: 'Профиль', link: '/profile', route: 'privat' },
+    { name: 'Страница входа', link: '/login', route: 'restricted' },
+    { name: 'Регистрация', link: '/register', route: 'restricted' },
   ];
   const [btnMenuMobile, setBtnMenuMobile] = useState(true);
   const [state, setState] = React.useState({ right: false });
@@ -55,6 +61,13 @@ export const SidebarMobile = () => {
         <Box role="presentation" onClick={toggleDrawer('right', false)} onKeyDown={toggleDrawer('right', false)}>
           <List>
             {menuData.map((i, index) => {
+              const shouldRender =
+                i.route === 'public' ||
+                (isLoggedIn && i.route === 'privat') ||
+                (!isLoggedIn && i.route === 'restricted');
+
+              if (!shouldRender) return null;
+
               return (
                 <ListItem key={index} value={index} onClick={handleBtnTab} component={Link} to={i.link}>
                   <ListItemButton className={currentPage === i.link ? 'activ' : ''}>{i.name}</ListItemButton>

@@ -21,14 +21,14 @@ import { categoryList } from './ComponentDataCategory';
 
 import sprite from './sprite.svg';
 
-import { BASE_URL } from 'store/env';
+import { BASE_URL } from '../../config';
 import { getFavorites } from 'store/auth/selectors';
 
-const style = {
-  width: '100%',
-  maxWidth: 360,
-  color: '#ffffff',
-};
+// const style = {
+//   // width: '100%',
+//   maxWidth: 360,
+//   color: '#ffffff',
+// };
 
 export const Recipes = () => {
   const dispatch = useDispatch();
@@ -131,7 +131,7 @@ export const Recipes = () => {
               {categoryList.find(c => c.key === category_ID).name}
             </Typography>
           </Breadcrumbs>
-          <div className="header__btn-block">
+          <div className="header__btn-block header__btn-block--none">
             <TextField
               id="search"
               variant="standard"
@@ -142,7 +142,7 @@ export const Recipes = () => {
               placeholder="Поиск по названию"
               sx={{ marginBottom: '24px', marginTop: '24px' }}
             />
-            <Button onClick={() => handleSortToggle('name')}>
+            <Button className="mobile-none" onClick={() => handleSortToggle('name')}>
               {sortField === 'name' && sortOrder !== 'none' ? (
                 sortOrder === 'ascending' ? (
                   <FilterListIcon sx={{ transform: 'rotate(180deg)' }} />
@@ -154,7 +154,7 @@ export const Recipes = () => {
               )}
               по названию
             </Button>
-            <Button onClick={() => handleSortToggle('date')}>
+            <Button className="mobile-none" onClick={() => handleSortToggle('date')}>
               {sortField === 'date' && sortOrder !== 'none' ? (
                 sortOrder === 'ascending' ? (
                   <FilterListIcon sx={{ transform: 'rotate(180deg)' }} />
@@ -166,11 +166,13 @@ export const Recipes = () => {
               )}
               по дате
             </Button>
-            <Button onClick={handleFavoritesToggle}>{onlyFavorites ? <FavoriteIcon /> : <FavoriteBorderIcon />}</Button>
+            <Button className="mobile-none" onClick={handleFavoritesToggle}>
+              {onlyFavorites ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </Button>
           </div>
         </div>
 
-        <List sx={style} component="nav" aria-label="mailbox folders">
+        <List component="nav" aria-label="mailbox folders">
           {menu}
         </List>
       </div>

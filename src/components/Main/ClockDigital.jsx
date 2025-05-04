@@ -64,7 +64,6 @@ export const ClockDigital = () => {
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
-  // const urlImage = 'https://www.visualcrossing.com/img/';
 
   const [image, setImage] = useState(weatherImage('clear-day', themeImageWeather));
   const [temperature, setTemperature] = useState(0);

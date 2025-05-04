@@ -2,23 +2,7 @@
 //
 // ?  - - - - - - - - - - - - - T h e m e   0 1 - - - - - - - - - - - - -
 //
-html[data-theme='dark'] {
-  --color-01: rgb(255, 255, 255);
-  --color-02: rgb(225, 150, 70);
-  --color-03: rgb(252, 227, 175);
-  --color-04: rgb(0, 128, 0);
-  --color-05: rgb(255, 0, 0);
-  --color-06: rgb(39, 41, 45);
-  --color-07: rgb(25, 27, 29);
-  --color-08: rgb(33, 35, 37);
-  --color-09: rgba(60, 60, 60);
-  --color-10: rgba(0, 0, 0);
-}
-//
-// ?  - - - - - - - - - - - - - T h e m e   0 2 - - - - - - - - - - - - -
-//
-
-html[data-theme='dark-2'] {
+html[data-theme='dark-eclipse'] {
   --color-01: rgb(255, 255, 255);
   --color-02: rgb(185, 182, 182);
   --color-03: rgb(252, 227, 175);
@@ -30,25 +14,43 @@ html[data-theme='dark-2'] {
   --color-09: rgb(0, 0, 0);
   --color-10: rgb(30, 30, 30);
 }
+
+//
+// ?  - - - - - - - - - - - - - T h e m e   0 2 - - - - - - - - - - - - -
+//
+html[data-theme='obsidian-flame'] {
+  --color-01: rgb(255, 255, 255);
+  --color-02: rgb(225, 150, 70);
+  --color-03: rgb(252, 227, 175);
+  --color-04: rgb(0, 128, 0);
+  --color-05: rgb(255, 0, 0);
+  --color-06: rgb(39, 41, 45);
+  --color-07: rgb(25, 27, 29);
+  --color-08: rgb(33, 35, 37);
+  --color-09: rgba(60, 60, 60);
+  --color-10: rgba(0, 0, 0);
+}
+
 //
 // ?  - - - - - - - - - - - - - T h e m e   0 3 - - - - - - - - - - - - -
 //
-html[data-theme='light'] {
-  --color-01: rgb(77, 75, 74);
-  --color-02: rgb(66, 63, 56);
-  --color-03: rgb(95, 94, 95);
-  --color-04: rgb(70, 98, 73);
-  --color-05: rgb(195, 107, 114);
-  --color-06: rgb(202, 167, 112);
-  --color-07: rgb(196, 159, 104);
-  --color-08: rgb(205, 168, 114);
-  --color-09: rgb(205, 168, 114);
-  --color-10: rgb(161, 130, 89);
+html[data-theme='midnight-bloom'] {
+  --color-01: rgb(30, 20, 60);
+  --color-02: rgb(50, 40, 90);
+  --color-03: rgb(70, 60, 120);
+  --color-04: rgb(40, 80, 50);
+  --color-05: rgb(150, 40, 50);
+  --color-06: rgb(160, 120, 210);
+  --color-07: rgb(190, 140, 230);
+  --color-08: rgb(200, 160, 230);
+  --color-09: rgb(210, 190, 235);
+  --color-10: rgb(220, 200, 235);
 }
+
 //
 // ?  - - - - - - - - - - - - - T h e m e   0 4 - - - - - - - - - - - - -
 //
-html[data-theme='light-2'] {
+html[data-theme='muted-earth'] {
   --color-01: rgb(77, 75, 74);
   --color-02: rgb(121, 90, 29);
   --color-03: rgb(95, 94, 95);
@@ -60,27 +62,59 @@ html[data-theme='light-2'] {
   --color-09: rgb(215 213 208);
   --color-10: rgb(204, 204, 204);
 }
+
 //
-// ?  - - - - - - - - - - - - - T h e m e   0 0 - - - - - - - - - - - - -
+// ?  - - - - - - - - - - - - - T h e m e   0 5 - - - - - - - - - - - - -
 //
-html[data-theme='light-3'] {
-  --color-01: rgb(95, 94, 95);
-  --color-02: rgb(145 144 145);
-  --color-03: rgb(242 134 128);
-  --color-04: rgb(166 146 56);
-  --color-05: rgb(228 157 0);
-  --color-06: rgb(142 155 43);
-  --color-07: rgb(0 212 0);
-  --color-08: rgb(66 160 168);
-  --color-09: rgb(123 167 248);
-  --color-10: rgb(194 93 205);
-  --color-11: rgb(237 137 133);
-  --color-12: rgb(218 161 0);
-  --color-13: rgb(182 182 0);
-  --color-15: rgb(0 197 183);
-  --color-17: rgb(212 126 244);
-  --color-18: rgb(242 114 206);
+html[data-theme='velvet-ember'] {
+  --color-01: rgb(85, 80, 78);
+  --color-02: rgb(130, 95, 45);
+  --color-03: rgb(100, 98, 99);
+  --color-04: rgb(75, 105, 78);
+  --color-05: rgb(200, 110, 120);
+  --color-06: rgb(230, 210, 190);
+  --color-07: rgb(220, 200, 175);
+  --color-08: rgb(240, 220, 200);
+  --color-09: rgb(210, 190, 165);
+  --color-10: rgb(180, 160, 140);
+
 }
+
+//
+// ?  - - - - - - - - - - - - - T h e m e   0 6 - - - - - - - - - - - - -
+//
+html[data-theme='shadow-ember'] {
+  --color-01: rgb(250, 250, 250);
+  --color-02: rgb(200, 130, 60);
+  --color-03: rgb(240, 210, 160);
+  --color-04: rgb(20, 110, 20);
+  --color-05: rgb(210, 50, 50);
+  --color-06: rgb(45, 47, 52);
+  --color-07: rgb(30, 32, 34);
+  --color-08: rgb(35, 33, 36);
+  --color-09: rgb(50, 50, 50);
+  --color-10: rgb(20, 20, 20);
+
+}
+
+//
+// ?  - - - - - - - - - - - - - T h e m e   0 7 - - - - - - - - - - - - -
+//
+html[data-theme='twilight-violet'] {
+  --color-01: rgb(255, 255, 255);
+  --color-02: rgb(185, 182, 182);
+  --color-03: rgb(252, 227, 175);
+  --color-04: rgb(145, 225, 70);
+  --color-05: rgb(225, 72, 70);
+  --color-06: rgb(65, 30, 75);
+  --color-07: rgb(45, 20, 60);
+  --color-08: rgb(40, 15, 55);
+  --color-09: rgb(20, 10, 40);
+  --color-10: rgb(30, 20, 50);
+}
+
+//
+
 
 // *  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ***
 // *  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ***
@@ -100,14 +134,23 @@ $color-10: var(--color-10);
 $gradient-01: linear-gradient($color-07 0%, $color-08 50%, $color-06 100%);
 
 $box-shadow-01: inset 0 1px rgb(from $color-10 r g b / 10%),
-  /* Top shine     */ 0 6px 5px -5px rgb(from $color-10 r g b / 50%),
-  /* Shadow 1      */ 0 7px 0 -2px rgb(from $color-08 r g b / 100%),
-  /* Flip 1        */ 0 11px 5px -5px rgb(from $color-10 r g b / 50%),
-  /* Shadow 2      */ 0 13px 0 -4px rgb(from $color-08 r g b / 70%),
-  /* Flip 2        */ 0 16px 5px -5px rgb(from $color-10 r g b / 50%),
-  /* Shadow 3      */ 0 20px 0 -8px rgb(from $color-08 r g b / 50%),
-  /* Flip 3        */ 0 15px 0 5px rgb(from $color-10 r g b / 100%),
-  /* Dark border  */ 0 0 0 5px rgb(from $color-10 r g b / 100%); /* Dark border */
+  /* Top shine     */
+  0 6px 5px -5px rgb(from $color-10 r g b / 50%),
+  /* Shadow 1      */
+  0 7px 0 -2px rgb(from $color-08 r g b / 100%),
+  /* Flip 1        */
+  0 11px 5px -5px rgb(from $color-10 r g b / 50%),
+  /* Shadow 2      */
+  0 13px 0 -4px rgb(from $color-08 r g b / 70%),
+  /* Flip 2        */
+  0 16px 5px -5px rgb(from $color-10 r g b / 50%),
+  /* Shadow 3      */
+  0 20px 0 -8px rgb(from $color-08 r g b / 50%),
+  /* Flip 3        */
+  0 15px 0 5px rgb(from $color-10 r g b / 100%),
+  /* Dark border  */
+  0 0 0 5px rgb(from $color-10 r g b / 100%);
+/* Dark border */
 
 $box-shadow-02: inset 0 -1px rgb(from $color-09 r g b / 40%), inset 0 -3px rgb(from $color-08 r g b / 100%),
   inset 0 -4px rgb(from $color-09 r g b / 50%), inset 0 -6px rgb(from $color-08 r g b / 90%),

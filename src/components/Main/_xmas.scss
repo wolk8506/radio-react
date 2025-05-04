@@ -5,60 +5,62 @@
 // ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 
 // body,
-.xmasTree {
+.snow {
   height: 98%;
   width: 99%;
   left: 0;
   position: absolute;
-  //   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  // background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
   overflow: hidden;
   pointer-events: none;
   filter: drop-shadow(0 0 10px white);
   z-index: 10;
-}
 
-@function random_range($min, $max) {
-  $rand: math.random();
-  $random_range: $min + math.floor($rand * (($max - $min) + 1));
-  @return $random_range;
-}
+  @function random_range($min, $max) {
+    $rand: math.random();
+    $random_range: $min + math.floor($rand * (($max - $min) + 1));
+    @return $random_range;
+  }
 
-.snow {
-  $total: 200;
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: 50%;
+  .snow__snowflakes {
+    $total: 200;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
 
-  @for $i from 1 through $total {
-    $random-x: math.random(1000000) * 0.0001vw;
-    $random-offset: random_range(-100000, 100000) * 0.0001vw;
-    $random-x-end: $random-x + $random-offset;
-    $random-x-end-yoyo: $random-x + calc($random-offset / 2);
-    $random-yoyo-time: calc(random_range(30000, 80000) / 100000);
-    $random-yoyo-y: $random-yoyo-time * 100vh;
-    $random-scale: math.random(10000) * 0.0001;
-    $fall-duration: random_range(10, 30) * 1s;
-    $fall-delay: math.random(30) * -1s;
+    @for $i from 1 through $total {
+      $random-x: math.random(1000000) * 0.0001vw;
+      $random-offset: random_range(-100000, 100000) * 0.0001vw;
+      $random-x-end: $random-x + $random-offset;
+      $random-x-end-yoyo: $random-x + calc($random-offset / 2);
+      $random-yoyo-time: calc(random_range(30000, 80000) / 100000);
+      $random-yoyo-y: $random-yoyo-time * 100vh;
+      $random-scale: math.random(10000) * 0.0001;
+      $fall-duration: random_range(10, 30) * 1s;
+      $fall-delay: math.random(30) * -1s;
 
-    &:nth-child(#{$i}) {
-      opacity: math.random(10000) * 0.0001;
-      transform: translate($random-x, -10px) scale($random-scale);
-      animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
-    }
-
-    @keyframes fall-#{$i} {
-      #{math.percentage($random-yoyo-time)} {
-        transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
+      &:nth-child(#{$i}) {
+        opacity: math.random(10000) * 0.0001;
+        transform: translate($random-x, -10px) scale($random-scale);
+        animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
       }
 
-      to {
-        transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
+      @keyframes fall-#{$i} {
+        #{math.percentage($random-yoyo-time)} {
+          transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
+        }
+
+        to {
+          transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
+        }
       }
     }
   }
 }
+
+
 
 // ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 // ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
@@ -89,6 +91,7 @@
     border-bottom: 4px solid #c84257;
     filter: drop-shadow(0 0 10px white);
   }
+
   .xmas-timer {
     display: flex;
 
@@ -96,6 +99,7 @@
       font-family: 'Mountains of Christmas', serif;
       font-size: 72px;
     }
+
     .xmas-timer__item {
       width: 100px;
       filter: drop-shadow(0 0 10px white);
@@ -110,21 +114,25 @@
       left: 10px;
       top: 105px;
     }
+
     .xmas-timer__item-2 {
       position: absolute;
       left: 80px;
       top: 215px;
     }
+
     .xmas-timer__item-3 {
       position: absolute;
       left: 150px;
       top: 105px;
     }
+
     .xmas-timer__item-4 {
       position: absolute;
       left: 260px;
       top: 175px;
     }
+
     .globe-1 {
       width: 120px;
       position: absolute;
@@ -132,6 +140,7 @@
       top: 77px;
       filter: drop-shadow(0 0 10px white);
     }
+
     .globe-2 {
       width: 120px;
       position: absolute;
@@ -139,6 +148,7 @@
       top: 77px;
       filter: drop-shadow(0 0 10px white);
     }
+
     .globe-3 {
       width: 120px;
       position: absolute;
@@ -146,6 +156,7 @@
       top: 77px;
       filter: drop-shadow(0 0 10px white);
     }
+
     .globe-4 {
       width: 120px;
       position: absolute;
@@ -270,5 +281,6 @@
     filter: drop-shadow(0 0 10px white);
   }
 }
+
 // ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 // ? -  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -

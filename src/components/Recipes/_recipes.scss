@@ -11,6 +11,10 @@
   // width: 100%;
   margin-bottom: 32px;
   align-items: center;
+  // display: flex;
+  //   align-items: flex-start;
+  //   flex-direction: column;
+
   @include function.card-style;
 }
 
@@ -120,6 +124,7 @@
   width: 100%;
   margin-bottom: 32px;
   align-items: center;
+  text-transform: uppercase;
 }
 
 .menu-item {
@@ -280,7 +285,6 @@ h2 {
 
   .overflov {
     overflow: auto;
-    // margin-bottom: 24px;
     padding-right: 200px;
     padding-left: 200px;
   }
@@ -311,7 +315,6 @@ h2 {
   }
 
   .ingredient {
-    // border: 1px solid coral;
     width: 690px;
     margin-bottom: 24px;
 
@@ -348,7 +351,6 @@ h2 {
   }
 
   .step {
-    // border: 1px solid blueviolet;
     width: 690px;
     margin-bottom: 12px;
 
@@ -385,38 +387,16 @@ h2 {
 
         .MuiButtonBase-root.MuiButtonBase-root {
           color: function.rgb-a(colors.$color-03, 80%);
-
-
         }
       }
-
-
-
     }
-
   }
 
   .save-block {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    // .save-block__btn {
-    //   display: flex;
-    //   align-items: center;
-    //   color: colors.$color-03;
-    //   text-decoration: none;
-    //   font-weight: 600;
-    //   font-size: 13px;
-    //   line-height: 1.75;
-    //   letter-spacing: 0.02857em;
-    //   text-transform: uppercase;
-    //   text-align: center;
-    // }
   }
-
-
-
 }
 
 // !    Modal
@@ -430,13 +410,34 @@ h2 {
 @media screen and (max-width: 720px) {
   .container-recipes {
     padding: 0;
+    padding-top: 10px;
+    width: 100%;
+    min-height: calc(100vh - 90px);
+
+
+
+
 
     .ingredients__img {
-      width: 100%;
+      width: calc(100% - 20px);
       height: 100%;
+      margin-right: auto;
+      margin-left: auto;
       margin-bottom: 16px;
     }
   }
+
+  // ~  Recipes
+  .header__btn-block--none>*:not(:first-child) {
+    display: none;
+  }
+
+  .MuiList-root {
+    border-top: none;
+    // width: 100%;
+  }
+
+  // ~  -----------------------------------------------
 
   .ingredients {
     flex-direction: column;
@@ -460,8 +461,121 @@ h2 {
     margin-bottom: 20px;
     padding-bottom: 12px;
     border-bottom: 1px solid function.rgb-a(colors.$color-03, 20%);
-    ;
+
+    .MuiTypography-root {
+      margin-right: auto;
+    }
+
+    .header__btn-block {
+      height: 80px;
+    }
   }
+
+  // ~ Add --
+  .container-recipe-add {
+    width: 100%;
+    // min-height: calc(100% - 20px);
+    height: 100%;
+    padding-left: 6px;
+    padding-right: 6px;
+
+
+
+    .main-title {}
+
+    .overflov {
+      padding: 0;
+      overflow: hidden;
+      // height: 100%;
+    }
+
+
+    .main-block {
+      width: 100%;
+
+      .main-block__title {}
+
+      .main-block__description {
+
+        flex-direction: column;
+
+
+        .description__input-block {
+          margin-top: 12px;
+          width: 100%;
+
+          .MuiFormControl-root {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+    }
+
+    .ingredient {
+      width: 100%;
+
+
+      .ingredient__title {}
+
+      .ingredient__item {
+        border: 1px solid function.rgb-a(colors.$color-03, 10%);
+        margin-bottom: 6px;
+        border-radius: 15px;
+
+        .MuiFormControl-root {
+          width: 100%;
+          margin: 0;
+          margin-bottom: 12px;
+        }
+
+
+        .item__title {}
+
+        .ingredient-item {
+          flex-direction: column;
+        }
+      }
+    }
+
+    .step {
+      width: 100%;
+      padding: 0;
+
+
+      .step__title {}
+
+      .step__item {
+        border: 1px solid function.rgb-a(colors.$color-03, 10%);
+        margin-bottom: 6px;
+        border-radius: 15px;
+
+        .item__title {}
+
+        .item__description-bloc {
+          flex-direction: column;
+          width: 100%;
+
+
+          .description-blo__input-element {
+            flex-direction: column;
+            width: 100%;
+
+            .MuiFormControl-root {
+              width: 100%;
+              margin: 0;
+              margin-top: 12px;
+            }
+          }
+
+
+        }
+      }
+    }
+
+    .save-block {}
+  }
+
 }
 
 // ------------------------------

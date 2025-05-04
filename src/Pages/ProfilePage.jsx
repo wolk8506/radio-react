@@ -11,7 +11,7 @@ import {
   getUserID,
 } from '../store/auth/selectors';
 import { logOut, updateName, updateEmail, updateAvatar, changePassword } from '../store/auth/operations';
-import { BASE_URL } from 'store/env';
+import { BASE_URL } from '../config';
 import { toast } from 'react-toastify';
 
 import { Button } from '@mui/material';

@@ -73,3 +73,14 @@
     display: flex;
     flex-direction: column;
 }
+
+@media screen and (max-width: 720px) {
+    .container-register {
+        max-width: 412px;
+        height: calc(100vh - 60px);
+
+        .page-name__name {
+            display: none;
+        }
+    }
+}

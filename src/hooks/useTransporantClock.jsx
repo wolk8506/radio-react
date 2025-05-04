@@ -1,12 +1,10 @@
 import { useLayoutEffect, useState } from 'react';
 
-// const defaultTheme = 'color';
-
 export const useTransporantClock = () => {
-  const [themeTransporantClock, setThemeTransporantClock] = useState('100%');
+  const [themeTransporantClock, setThemeTransporantClock] = useState(100);
 
   useLayoutEffect(() => {
-    document.documentElement.style.setProperty('--transparency', themeTransporantClock);
+    document.documentElement.style.setProperty('--transparency', `${themeTransporantClock}%`);
   }, [themeTransporantClock]);
 
   return { themeTransporantClock, setThemeTransporantClock };

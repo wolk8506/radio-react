@@ -31,7 +31,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import sprite from './sprite.svg';
 import { getFavorites, getIsLoggedIn, getUserID } from 'store/auth/selectors';
 import { setStatusDeleteRecipe, setStatusUpdateRecipe } from 'store/recipe/actions';
-import { BASE_URL } from 'store/env';
+import { BASE_URL } from '../../config';
 import { deleteFile } from 'store/files/operations';
 import { removeRecipeFavoriteById, updateRecipeFavoriteById } from 'store/auth/operations';
 import { categoryList } from './ComponentDataCategory';

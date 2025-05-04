@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { BASE_URL } from 'store/env';
+import { BASE_URL } from '../../config';
 
 axios.defaults.baseURL = BASE_URL;
 // ~ Получение всех рецептов
