@@ -212,7 +212,7 @@ export const CurrencyZVR = () => {
           </Table>
         </TableContainer>
         <TableContainer className="table" component={Paper}>
-          <Table sx={{ minWidth: 500 }} aria-label="customized table">
+          <Table aria-label="customized table">
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>

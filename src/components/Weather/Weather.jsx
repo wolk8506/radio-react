@@ -46,7 +46,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import useDebounce from '../../hooks/use-Debounce';
+import { useDebounce } from '../../hooks';
 
 import weatherImage from 'components/Weather/weatherIcon';
 

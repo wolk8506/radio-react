@@ -3,19 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import { useTheme } from 'hooks/use-theme';
-import { useBackground } from 'hooks/use-background';
-import { useTransporantClock } from 'hooks/use-transporant-clock';
-import {
-  getThemeChengeTheme,
-  getThemeChengeWalpaper,
-  getPlayerPlay,
-  getPlayerStation,
-  getThemeTransporantClock,
-} from 'store/root/selectors';
+import { useTransporantClock, useTheme } from 'hooks';
 import { fetchCurrentUser } from './store/auth/operations';
+import { rootSelectors } from 'store/root/selectors';
+import { authSelectors } from 'store/auth/selectors';
 
 // Компоненты
+import { PrivateRoute, PublicRoute } from 'components/Routes';
+
+import { info } from 'config';
+
 import { Main } from './components/Main/Main';
 import { CurrencyIndex } from './components/Currency/Currency-index';
 import { Weather } from './components/Weather/Weather';
@@ -24,22 +21,18 @@ import { RecipeAdd } from './components/Recipes/RecipeAdd';
 import { News } from './components/News/News';
 import { Recipes } from './components/Recipes/Recipes';
 import { Recipe } from './components/Recipes/Recipe';
-import { info } from './components/info';
 import { radioData } from './components/Main/Radio-data';
-import { Info } from './components/Info/InfoPage';
 import { Sidebar } from 'components/Sidebar/Sidebar';
-import { PrivateRoute } from 'components/Route/PrivateRoute';
-import { PublicRoute } from './components/Route/PublicRoute';
 import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
-import { LoginPage, RegisterPage, ProfilePage, NotFoundPage } from './Pages';
-import { authSelectors } from 'store/auth/selectors';
+import { LoginPage, RegisterPage, ProfilePage, NotFoundPage, SettingsPage } from './Pages';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export const App = () => {
-  const PLAYER_PLAY = useSelector(getPlayerPlay);
-  const PLAYER_STATION = useSelector(getPlayerStation);
+  const dynamicImageUrl = useSelector(rootSelectors.getThemeChengeWalpaper);
+  const PLAYER_PLAY = useSelector(rootSelectors.getPlayerPlay);
+  const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
   const [audio, setAudio] = useState();
 
   const isFetching = useSelector(authSelectors.getIsFetchingCurrent);
@@ -58,7 +51,7 @@ export const App = () => {
     { path: '/recipes/:recipesID/:recipeID/edit', element: <RecipeUpdate />, isPublic: false },
     { path: '/404', element: <NotFoundPage />, isPublic: true },
     { path: '*', element: <Navigate to="/404" replace />, isPublic: true },
-    { path: '/settings', element: <Info />, isPublic: false },
+    { path: '/settings', element: <SettingsPage />, isPublic: false },
     { path: '/profile', element: <ProfilePage />, isPublic: false },
     { path: '/register', element: <RegisterPage />, isPublic: true, restricted: true },
     { path: '/login', element: <LoginPage />, isPublic: true, restricted: true },
@@ -85,15 +78,11 @@ export const App = () => {
 
   // Работа с темами
   const { theme, setTheme } = useTheme();
-  const THEME = useSelector(getThemeChengeTheme);
+  const THEME = useSelector(rootSelectors.getThemeChengeTheme);
   useEffect(() => setTheme(THEME), [THEME, setTheme, theme]);
 
-  const { themeBackground, setThemeBackground } = useBackground('color');
-  const THEME_BACKGROUND = useSelector(getThemeChengeWalpaper);
-  useEffect(() => setThemeBackground(THEME_BACKGROUND), [THEME_BACKGROUND, setThemeBackground, themeBackground]);
-
   const { themeTransporantClock, setThemeTransporantClock } = useTransporantClock('100%');
-  const THEME_T_C = useSelector(getThemeTransporantClock);
+  const THEME_T_C = useSelector(rootSelectors.getThemeTransporantClock);
   useEffect(() => setThemeTransporantClock(THEME_T_C), [THEME_T_C, setThemeTransporantClock, themeTransporantClock]);
 
   if (isFetching) {
@@ -107,7 +96,7 @@ export const App = () => {
 
   // Если загрузка завершена, рендерим приложение
   return (
-    <div className="app">
+    <div className="app" style={{ '--background-image': dynamicImageUrl }}>
       <Sidebar audio={audio} />
       <div className="content">
         <Suspense fallback="Load...">

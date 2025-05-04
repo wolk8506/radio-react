@@ -18,6 +18,7 @@ import {
   deleteCityListItem,
   homeCityListItem,
 } from './actions';
+import { dataActions } from './actions';
 import { fetchLocation } from './operation';
 
 import { initStateCurrencyYesterday } from './init-state-mock';
@@ -43,6 +44,9 @@ const themeAutoChengeTheme = createReducer(true, builder => {
 });
 const themeChengeWalpaper = createReducer('color', builder => {
   builder.addCase(setThemeChengeWalpaper, (state, action) => action.payload);
+});
+const themeWalpaper = createReducer(null, builder => {
+  builder.addCase(dataActions.setThemeWalpaper, (state, action) => action.payload);
 });
 const city = createReducer(null, builder => {
   builder.addCase(setCityName, (state, action) => action.payload);
@@ -104,4 +108,5 @@ export default combineReducers({
   themeNewYear,
   city,
   cityList,
+  themeWalpaper,
 });

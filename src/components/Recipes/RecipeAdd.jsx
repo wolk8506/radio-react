@@ -312,7 +312,7 @@ export const RecipeAdd = () => {
 
         <div className="step">
           <h3 className="step__title">Шаги приготовления</h3>
-          <div className="step__item">
+          <div>
             {stepsList.map((i, index) => {
               return (
                 <div key={i.id} className="step__item">

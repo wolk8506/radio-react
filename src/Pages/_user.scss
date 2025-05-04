@@ -87,3 +87,43 @@
     color: function.rgb-a(colors.$color-02, 60%);
     font-style: italic;
 }
+
+@media screen and (max-width: 720px) {
+    .container-user {
+        max-width: 100%;
+        height: calc(100vh - 70px);
+        padding: 12px;
+
+        .page-name__name {
+            display: none;
+        }
+
+        .container-user__block {
+            .block__user-info {
+                width: 100%;
+
+                .user-info__item {
+
+
+                    .item__name {
+                        display: block;
+
+                        text-align: right;
+                        height: 30px;
+                        padding-right: 12px;
+                        width: 140px;
+
+                    }
+
+                    .item__value {
+                        width: 170px;
+                    }
+
+                    .item__value--img {
+                        height: 125px;
+                    }
+                }
+            }
+        }
+    }
+}

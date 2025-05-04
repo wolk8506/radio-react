@@ -5,7 +5,7 @@
 
 @use 'scss/common-style';
 
-@use 'components/app';
+@use 'scss/app';
 
 @use 'components/Main/xmas';
 @use 'components/Main/main';
@@ -30,7 +30,7 @@
 
 @use 'components/Recipes/recipes';
 
-@use 'components/Info/info';
+@use 'components/Settings/info';
 
 @use 'Pages/user';
 @use 'Pages/login';
@@ -46,13 +46,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: colors.$color-02;
-  transition: background 0.25s;
-  background-color: walpaper.$background-color;
-  background-image: walpaper.$background-image-1;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
+  // transition: background 0.25s;
+  // background-color: walpaper.$background-color;
+  // background-image: walpaper.$background-image-1;
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: cover;
+  // background-attachment: fixed;
 }
 
 * {

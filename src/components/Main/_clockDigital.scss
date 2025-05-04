@@ -3,13 +3,12 @@
 
 .clock-weather {
   max-width: 800px;
-  //   border: 1px solid red;
   display: flex;
   padding: 16px;
   height: 236px;
   @include function.card-style;
   background: function.rgb-a(colors.$color-07, var(--transparency));
-  //   background: var(--color-test);
+
 
   // *---------------------------------------------------------------------------
   .block__clock-analog {
@@ -118,6 +117,7 @@
       width: 100%;
       height: 25%;
     }
+
     .hour-p2 {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
@@ -141,6 +141,7 @@
       width: 100%;
       height: 10%;
     }
+
     .minute-p2 {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
@@ -148,6 +149,7 @@
       width: 100%;
       height: 69%;
     }
+
     .minute-p3 {
       width: 100%;
       height: 21%;

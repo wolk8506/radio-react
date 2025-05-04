@@ -19,7 +19,7 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import TuneIcon from '@mui/icons-material/Tune';
 import PersonIcon from '@mui/icons-material/Person';
-import { BASE_URL } from 'store/env';
+import { BASE_URL } from '../../config';
 
 import { RadioMini } from '../Main/Radio-mini';
 

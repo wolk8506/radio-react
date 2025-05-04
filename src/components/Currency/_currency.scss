@@ -129,6 +129,19 @@
 }
 
 @media screen and (max-width: 720px) {
+  .secton-zvr {
+    width: 100%;
+  }
+
+  .secton-nbu {
+    width: 100%;
+  }
+
+  .secton-mono {
+    margin-top: 0;
+    width: 100%;
+  }
+
   .tables {
     flex-direction: column;
   }

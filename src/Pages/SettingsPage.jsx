@@ -6,19 +6,18 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-import { version } from 'components/info';
-import { ThemeChange } from './ThemeChange';
-import { ThemeChangeAuto } from './ThemeChangeAuto';
-import { ThemeBackgroundImg } from './ThemeBackgroundImg';
+import { version } from '../config';
+import { ThemeChange } from '../components/Settings/ThemeChange';
+import { ThemeChangeAuto } from '../components/Settings/ThemeChangeAuto';
 
-import { ThemeRadius } from './ThemeRadius';
-import { ThemeNewYear } from './ThemeNewYear';
-import { ThemeWeather } from './ThemeWeather';
-import { ThemeChangeBackgroundNewYear } from './ThemeChangeBackgroundNewYear';
-import { ThemeChangeBackgroundHalloween } from './ThemeChangeBackgroundHalloween';
-import { ThemeBackgroundColor } from './ThemeBackgroundColor';
+import { ThemeClock } from '../components/Settings/ThemeClock';
+import { ThemeNewYear } from '../components/Settings/ThemeNewYear';
+import { ThemeWeather } from '../components/Settings/ThemeWeather';
+import { ThemeChangeBackgroundHalloween } from '../components/Settings/ThemeChangeBackgroundHalloween';
+import { BackgroundBlock } from 'components/Settings/BackgroundBlock';
+import { BackgroundBlockNY } from 'components/Settings/BackgroundBlockNY';
 
-export const Info = () => {
+export const SettingsPage = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -44,37 +43,30 @@ export const Info = () => {
           <TabPanel value={0}>
             <div className="tab-panel">
               <div className="settings">
-                <ThemeChange></ThemeChange>
-                <ThemeChangeAuto></ThemeChangeAuto>
+                <ThemeChangeAuto />
+                <ThemeChange />
+              </div>
+              <div className="settings settings--height">
+                <ThemeClock />
               </div>
               <div className="settings">
-                <ThemeRadius></ThemeRadius>
+                <ThemeWeather />
               </div>
-              <div className="settings">
-                <ThemeWeather></ThemeWeather>
-              </div>
-              <div className="settings">
-                <ThemeBackgroundColor></ThemeBackgroundColor>
-              </div>
-              <div className="settings">
-                <ThemeBackgroundImg></ThemeBackgroundImg>
-              </div>
+              <BackgroundBlock />
             </div>
           </TabPanel>
           <TabPanel value={1}>
             <div className="tab-panel">
               <div className="settings">
-                <ThemeNewYear></ThemeNewYear>
+                <ThemeNewYear />
               </div>
-              <div className="settings">
-                <ThemeChangeBackgroundNewYear></ThemeChangeBackgroundNewYear>
-              </div>
+              <BackgroundBlockNY />
             </div>
           </TabPanel>
           <TabPanel value={2}>
             <div className="tab-panel">
               <div className="settings">
-                <ThemeChangeBackgroundHalloween></ThemeChangeBackgroundHalloween>
+                <ThemeChangeBackgroundHalloween />
               </div>
             </div>
           </TabPanel>

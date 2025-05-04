@@ -1,210 +1,267 @@
-html[data-background='color'] {
-  --background-color: rgb(from var(--color-07) r g b / 90%);
-}
-html[data-background='color-02'] {
-  --background-color: rgba(39, 33, 33, 0.9);
-}
-html[data-background='color-03'] {
-  --background-color: rgba(33, 37, 39, 0.9);
-}
-html[data-background='color-04'] {
-  --background-color: rgba(196, 159, 104, 0.9);
-}
-html[data-background='color-05'] {
-  --background-color: rgba(236 234 228, 0.9);
-}
+// html[data-background='color'] {
+//   --background-color: rgb(from var(--color-07) r g b / 90%);
+// }
 
-html[data-background='color-06'] {
-  --background-image: radial-gradient(
-      ellipse farthest-corner at right bottom,
-      #fedb37 0%,
-      #fdb931 8%,
-      #9f7928 30%,
-      #8a6e2f 40%,
-      transparent 80%
-    ),
-    radial-gradient(
-      ellipse farthest-corner at left top,
-      #ffffff 0%,
-      #ffffac 8%,
-      #d1b464 25%,
-      #5d4a1f 62.5%,
-      #5d4a1f 100%
-    );
-}
-html[data-background='color-07'] {
-  --background-image: linear-gradient(90deg, #3e4d4a, #7e48a1);
-}
-html[data-background='color-08'] {
-  --background-image: linear-gradient(90deg, #485c64, #444c54, #343c3c, #18242c);
-}
+// html[data-background='color-02'] {
+//   --background-color: rgba(39, 33, 33, 0.9);
+// }
 
-// -  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// html[data-background='color-03'] {
+//   --background-color: rgba(33, 37, 39, 0.9);
+// }
 
-html[data-background='img-1'] {
-  --background-image: url(../images/wallpaper/different/img_1.jpg);
-}
-html[data-background='img-2'] {
-  --background-image: url(../images/wallpaper/different/img_2.jpg);
-}
-html[data-background='img-3'] {
-  --background-image: url(../images/wallpaper/different/img_3.jpg);
-}
-html[data-background='img-4'] {
-  --background-image: url(../images/wallpaper/different/img_4.jpg);
-}
-html[data-background='img-5'] {
-  --background-image: url(../images/wallpaper/different/img_5.jpg);
-}
-html[data-background='img-6'] {
-  --background-image: url(../images/wallpaper/different/img_6.jpg);
-}
-html[data-background='img-7'] {
-  --background-image: url(../images/wallpaper/different/img_7.jpg);
-}
-html[data-background='img-8'] {
-  --background-image: url(../images/wallpaper/different/img_8.jpg);
-}
-html[data-background='img-9'] {
-  --background-image: url(../images/wallpaper/different/img_9.jpg);
-}
-html[data-background='img-10'] {
-  --background-image: url(../images/wallpaper/different/img_10.jpg);
-}
-html[data-background='img-11'] {
-  --background-image: url(../images/wallpaper/different/img_11.jpg);
-}
-html[data-background='img-12'] {
-  --background-image: url(../images/wallpaper/different/img_12.jpg);
-}
-html[data-background='img-13'] {
-  --background-image: url(../images/wallpaper/different/img_13.jpg);
-}
-html[data-background='img-14'] {
-  --background-image: url(../images/wallpaper/different/img_14.jpg);
-}
-html[data-background='img-15'] {
-  --background-image: url(../images/wallpaper/different/img_15.jpg);
-}
-html[data-background='img-16'] {
-  --background-image: url(../images/wallpaper/different/img_16.jpg);
-}
+// html[data-background='color-04'] {
+//   --background-color: rgba(196, 159, 104, 0.9);
+// }
 
-html[data-background='holiday-1'] {
-  --background-image: url(../images/wallpaper/holiday/img_1.jpg);
-}
-html[data-background='holiday-2'] {
-  --background-image: url(../images/wallpaper/holiday/img_2.jpg);
-}
-html[data-background='holiday-3'] {
-  --background-image: url(../images/wallpaper/holiday/img_3.jpg);
-}
-html[data-background='holiday-4'] {
-  --background-image: url(../images/wallpaper/holiday/img_4.jpg);
-}
-html[data-background='holiday-5'] {
-  --background-image: url(../images/wallpaper/holiday/img_5.jpg);
-}
-html[data-background='holiday-6'] {
-  --background-image: url(../images/wallpaper/holiday/img_6.jpg);
-}
-html[data-background='holiday-7'] {
-  --background-image: url(../images/wallpaper/holiday/img_7.jpg);
-}
-html[data-background='holiday-8'] {
-  --background-image: url(../images/wallpaper/holiday/img_8.jpg);
-}
-html[data-background='holiday-9'] {
-  --background-image: url(../images/wallpaper/holiday/img_9.jpg);
-}
+// html[data-background='color-05'] {
+//   --background-color: rgba(236 234 228, 0.9);
+// }
 
-html[data-background='new-year-01'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-01.jpg);
-}
-html[data-background='new-year-02'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-02.jpg);
-}
-html[data-background='new-year-03'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-03.jpg);
-}
-html[data-background='new-year-04'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-04.jpg);
-}
-html[data-background='new-year-05'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-05.jpg);
-}
-html[data-background='new-year-06'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-06.jpg);
-}
-html[data-background='new-year-07'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-07.jpg);
-}
-html[data-background='new-year-08'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-08.jpg);
-}
-html[data-background='new-year-09'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-09.jpg);
-}
-html[data-background='new-year-10'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-10.jpg);
-}
-html[data-background='new-year-11'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-11.jpg);
-}
-html[data-background='new-year-12'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-12.jpg);
-}
-html[data-background='new-year-13'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-13.jpg);
-}
-html[data-background='new-year-14'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-14.jpg);
-}
-html[data-background='new-year-15'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-15.jpg);
-}
-html[data-background='new-year-16'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-16.jpg);
-}
-html[data-background='new-year-17'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-17.jpg);
-}
-html[data-background='new-year-18'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-18.jpg);
-}
-html[data-background='new-year-19'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-19.jpg);
-}
-html[data-background='new-year-20'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-20.jpg);
-}
-html[data-background='new-year-21'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-21.jpg);
-}
-html[data-background='new-year-22'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-22.jpg);
-}
-html[data-background='new-year-23'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-23.jpg);
-}
-html[data-background='new-year-24'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-24.jpg);
-}
-html[data-background='new-year-25'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-25.jpg);
-}
-html[data-background='new-year-26'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-26.jpg);
-}
-html[data-background='new-year-27'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-27.jpg);
-}
-html[data-background='new-year-28'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-28.jpg);
-}
-html[data-background='new-year-29'] {
-  --background-image: url(../images/wallpaper/holiday/new-year-29.jpg);
-}
+// html[data-background='color-06'] {
+//   --background-image: radial-gradient(ellipse farthest-corner at right bottom,
+//       #fedb37 0%,
+//       #fdb931 8%,
+//       #9f7928 30%,
+//       #8a6e2f 40%,
+//       transparent 80%),
+//     radial-gradient(ellipse farthest-corner at left top,
+//       #ffffff 0%,
+//       #ffffac 8%,
+//       #d1b464 25%,
+//       #5d4a1f 62.5%,
+//       #5d4a1f 100%);
+// }
 
-$background-image-1: var(--background-image);
-$background-color: var(--background-color);
+// html[data-background='color-07'] {
+//   --background-image: linear-gradient(90deg, #3e4d4a, #7e48a1);
+// }
+
+// html[data-background='color-08'] {
+//   --background-image: linear-gradient(90deg, #485c64, #444c54, #343c3c, #18242c);
+// }
+
+// // -  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// html[data-background='img-1'] {
+//   --background-image: url(../images/wallpaper/different/img_1.jpg);
+// }
+
+// html[data-background='img-2'] {
+//   --background-image: url(../images/wallpaper/different/img_2.jpg);
+// }
+
+// html[data-background='img-3'] {
+//   --background-image: url(../images/wallpaper/different/img_3.jpg);
+// }
+
+// html[data-background='img-4'] {
+//   --background-image: url(../images/wallpaper/different/img_4.jpg);
+// }
+
+// html[data-background='img-5'] {
+//   --background-image: url(../images/wallpaper/different/img_5.jpg);
+// }
+
+// html[data-background='img-6'] {
+//   --background-image: url(../images/wallpaper/different/img_6.jpg);
+// }
+
+// html[data-background='img-7'] {
+//   --background-image: url(../images/wallpaper/different/img_7.jpg);
+// }
+
+// html[data-background='img-8'] {
+//   --background-image: url(../images/wallpaper/different/img_8.jpg);
+// }
+
+// html[data-background='img-9'] {
+//   --background-image: url(../images/wallpaper/different/img_9.jpg);
+// }
+
+// html[data-background='img-10'] {
+//   --background-image: url(../images/wallpaper/different/img_10.jpg);
+// }
+
+// html[data-background='img-11'] {
+//   --background-image: url(../images/wallpaper/different/img_11.jpg);
+// }
+
+// html[data-background='img-12'] {
+//   --background-image: url(../images/wallpaper/different/img_12.jpg);
+// }
+
+// html[data-background='img-13'] {
+//   --background-image: url(../images/wallpaper/different/img_13.jpg);
+// }
+
+// html[data-background='img-14'] {
+//   --background-image: url(../images/wallpaper/different/img_14.jpg);
+// }
+
+// html[data-background='img-15'] {
+//   --background-image: url(../images/wallpaper/different/img_15.jpg);
+// }
+
+// html[data-background='img-16'] {
+//   --background-image: url(../images/wallpaper/different/img_16.jpg);
+// }
+
+// html[data-background='holiday-1'] {
+//   --background-image: url(../images/wallpaper/holiday/img_1.jpg);
+// }
+
+// html[data-background='holiday-2'] {
+//   --background-image: url(../images/wallpaper/holiday/img_2.jpg);
+// }
+
+// html[data-background='holiday-3'] {
+//   --background-image: url(../images/wallpaper/holiday/img_3.jpg);
+// }
+
+// html[data-background='holiday-4'] {
+//   --background-image: url(../images/wallpaper/holiday/img_4.jpg);
+// }
+
+// html[data-background='holiday-5'] {
+//   --background-image: url(../images/wallpaper/holiday/img_5.jpg);
+// }
+
+// html[data-background='holiday-6'] {
+//   --background-image: url(../images/wallpaper/holiday/img_6.jpg);
+// }
+
+// html[data-background='holiday-7'] {
+//   --background-image: url(../images/wallpaper/holiday/img_7.jpg);
+// }
+
+// html[data-background='holiday-8'] {
+//   --background-image: url(../images/wallpaper/holiday/img_8.jpg);
+// }
+
+// html[data-background='holiday-9'] {
+//   --background-image: url(../images/wallpaper/holiday/img_9.jpg);
+// }
+
+// html[data-background='new-year-01'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-01.jpg);
+// }
+
+// html[data-background='new-year-02'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-02.jpg);
+// }
+
+// html[data-background='new-year-03'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-03.jpg);
+// }
+
+// html[data-background='new-year-04'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-04.jpg);
+// }
+
+// html[data-background='new-year-05'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-05.jpg);
+// }
+
+// html[data-background='new-year-06'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-06.jpg);
+// }
+
+// html[data-background='new-year-07'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-07.jpg);
+// }
+
+// html[data-background='new-year-08'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-08.jpg);
+// }
+
+// html[data-background='new-year-09'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-09.jpg);
+// }
+
+// html[data-background='new-year-10'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-10.jpg);
+// }
+
+// html[data-background='new-year-11'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-11.jpg);
+// }
+
+// html[data-background='new-year-12'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-12.jpg);
+// }
+
+// html[data-background='new-year-13'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-13.jpg);
+// }
+
+// html[data-background='new-year-14'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-14.jpg);
+// }
+
+// html[data-background='new-year-15'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-15.jpg);
+// }
+
+// html[data-background='new-year-16'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-16.jpg);
+// }
+
+// html[data-background='new-year-17'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-17.jpg);
+// }
+
+// html[data-background='new-year-18'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-18.jpg);
+// }
+
+// html[data-background='new-year-19'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-19.jpg);
+// }
+
+// html[data-background='new-year-20'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-20.jpg);
+// }
+
+// html[data-background='new-year-21'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-21.jpg);
+// }
+
+// html[data-background='new-year-22'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-22.jpg);
+// }
+
+// html[data-background='new-year-23'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-23.jpg);
+// }
+
+// html[data-background='new-year-24'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-24.jpg);
+// }
+
+// html[data-background='new-year-25'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-25.jpg);
+// }
+
+// html[data-background='new-year-26'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-26.jpg);
+// }
+
+// html[data-background='new-year-27'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-27.jpg);
+// }
+
+// html[data-background='new-year-28'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-28.jpg);
+// }
+
+// html[data-background='new-year-29'] {
+//   --background-image: url(../images/wallpaper/holiday/new-year-29.jpg);
+// }
+
+// // html[data-background='new-year-29'] {
+// //   --background-image: url();
+// // }
+
+// $background-image-1: var(--background-image);
+// $background-color: var(--background-color);

@@ -10,6 +10,7 @@ export const getCurrencyYesterday = state => state.root.storeData.currencyYester
 export const getThemeChengeTheme = state => state.root.storeData.themeChengeTheme;
 export const getThemeAutoChengeTheme = state => state.root.storeData.themeAutoChengeTheme;
 export const getThemeChengeWalpaper = state => state.root.storeData.themeChengeWalpaper;
+export const getThemeWalpaper = state => state.root.storeData.themeWalpaper;
 export const getThemeWidgetClock = state => state.root.storeData.themeWidgetClock;
 export const getThemeIconWeather = state => state.root.storeData.themeIconWeather;
 export const getThemeTransporantClock = state => state.root.storeData.themeTransporantClock;
@@ -99,3 +100,22 @@ export const getNews_Loading = state => state.root.storeNews.loading;
 export const getNews_Status = state => state.root.storeNews.status;
 export const getNews_TimeUpdate = state => state.root.storeNews.timeUpdate;
 export const getNews_Data = state => state.root.storeNews.data;
+
+export const rootSelectors = {
+  getWeatherDayCity1_Data,
+  getWeatherDayCity2_Data,
+  getWeatherDayCity3_Data,
+  getPlayerStation,
+  getPlayerPlay,
+  getCurrencyYesterday,
+  getThemeChengeTheme,
+  getThemeAutoChengeTheme,
+  getThemeChengeWalpaper,
+  getThemeWidgetClock,
+  getThemeIconWeather,
+  getThemeTransporantClock,
+  getThemeClock_AnalogDigital,
+  getThemeNewYear,
+  getCityName,
+  getCityList,
+};

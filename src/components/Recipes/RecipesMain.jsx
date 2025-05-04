@@ -40,15 +40,7 @@ export const RecipesIndex = () => {
 
   return (
     <>
-      <div
-        className="container-recipes"
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          flexDirection: 'column',
-          textTransform: 'uppercase',
-        }}
-      >
+      <div className="container-recipes">
         <div className="header">
           <Breadcrumbs aria-label="breadcrumb">
             <Typography sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>

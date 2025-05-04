@@ -4,7 +4,7 @@ import { setThemeChengeTheme } from 'store/root/actions';
 import { getThemeAutoChengeTheme } from 'store/root/selectors';
 
 const isDarkTheme = window?.matchMedia('(prefers-color-scheme: dark)').matches;
-const defaultTheme = isDarkTheme ? 'dark' : 'light-2';
+const defaultTheme = isDarkTheme ? 'shadow-ember' : 'muted-earth';
 
 export const useTheme = () => {
   const dispatch = useDispatch();

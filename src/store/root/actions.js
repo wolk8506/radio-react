@@ -6,7 +6,10 @@ export const setPlayerPlay = createAction('data/playerPlay');
 export const setCurrencyYesterday = createAction('data/cCurrencyYesterday');
 export const setThemeChengeTheme = createAction('data/themeChengeTheme');
 export const setThemeAutoChengeTheme = createAction('data/themeAutoChengeTheme');
+
 export const setThemeChengeWalpaper = createAction('data/themeChengeWalpaper');
+export const setThemeWalpaper = createAction('data/themeWalpaper');
+
 export const setCityName = createAction('data/city');
 export const setThemeWidgetClock = createAction('data/themeWidgetClock');
 export const setThemeIconWeather = createAction('data/themeIconWeather');
@@ -20,3 +23,22 @@ export const addCityListItem = createAction('data/addCityListItem', ({ city, fav
 export const deleteCityListItem = createAction('data/deleteCityListItem');
 export const homeCityListItem = createAction('data/homeCityListItem');
 //
+
+export const dataActions = {
+  setPlayerStation,
+  setPlayerPlay,
+  setCurrencyYesterday,
+  setThemeChengeTheme,
+  setThemeAutoChengeTheme,
+  setThemeChengeWalpaper,
+  setThemeWalpaper,
+  setCityName,
+  setThemeWidgetClock,
+  setThemeIconWeather,
+  setThemeTransporantClock,
+  setThemeClock_AnalogDigital,
+  setThemeNewYear,
+  addCityListItem,
+  deleteCityListItem,
+  homeCityListItem,
+};

@@ -58,3 +58,14 @@
         }
     }
 }
+
+@media screen and (max-width: 720px) {
+    .container-login {
+        max-width: 412px;
+        height: calc(100vh - 60px);
+
+        .page-name__name {
+            display: none;
+        }
+    }
+}
