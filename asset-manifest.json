@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.137165ff.css",
-    "main.js": "/radio-react/static/js/main.97a14f39.js",
+    "main.css": "/radio-react/static/css/main.a1c4be83.css",
+    "main.js": "/radio-react/static/js/main.647bceb7.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -28,25 +28,25 @@
     "static/media/new-year-25.jpg": "/radio-react/static/media/new-year-25.361d3cbf1fa5495da145.jpg",
     "static/media/img_7.jpg": "/radio-react/static/media/img_7.56f20416805f5efbd5b0.jpg",
     "static/media/new-year-08.jpg": "/radio-react/static/media/new-year-08.9098b31a1e578f7a7f1f.jpg",
-    "static/media/img_2.jpg": "/radio-react/static/media/img_2.df4fb7b434344905fd32.jpg",
+    "static/media/img_2.jpg": "/radio-react/static/media/img_2.d4483b821898d934dd8a.jpg",
     "static/media/img_13.jpg": "/radio-react/static/media/img_13.36fe70e02a0fe516a82f.jpg",
     "static/media/img_6.jpg": "/radio-react/static/media/img_6.9da134cd8ed6bf7cdf6e.jpg",
-    "static/media/img_9.jpg": "/radio-react/static/media/img_9.24af22b947d0fe5bebad.jpg",
-    "static/media/img_1.jpg": "/radio-react/static/media/img_1.66d138d13e4cae752164.jpg",
-    "static/media/img_8.jpg": "/radio-react/static/media/img_8.bf1acdb6541194526574.jpg",
+    "static/media/img_1.jpg": "/radio-react/static/media/img_1.fec65bec903ad468e54a.jpg",
     "static/media/new-year-06.jpg": "/radio-react/static/media/new-year-06.ac84d50cbd6f6c5e9681.jpg",
-    "static/media/img_3.jpg": "/radio-react/static/media/img_3.3bf61cab0e62c6f3df24.jpg",
+    "static/media/img_3.jpg": "/radio-react/static/media/img_3.3aee4ab17b2d61cfb610.jpg",
     "static/media/img_12.jpg": "/radio-react/static/media/img_12.5f067d9918a01bbc9245.jpg",
     "static/media/img_10.jpg": "/radio-react/static/media/img_10.3bf49cef98d89468c11c.jpg",
     "static/media/new-year-16.jpg": "/radio-react/static/media/new-year-16.15e115b80aa6e8e0072d.jpg",
     "static/media/new-year-12.jpg": "/radio-react/static/media/new-year-12.7cbad03eb9b3bed2973a.jpg",
-    "static/media/img_5.jpg": "/radio-react/static/media/img_5.4d4e24a2158411b2e386.jpg",
     "static/media/new-year-19.jpg": "/radio-react/static/media/new-year-19.8fe70ee0913b05c310c5.jpg",
     "static/media/img_4.jpg": "/radio-react/static/media/img_4.8dcc5ea254cc612ca15f.jpg",
     "static/media/new-year-01.jpg": "/radio-react/static/media/new-year-01.cb35628d44f0a9aa0b80.jpg",
     "static/media/img_14.jpg": "/radio-react/static/media/img_14.8710dbe698cbba76fc01.jpg",
+    "static/media/img_8.jpg": "/radio-react/static/media/img_8.bf1acdb6541194526574.jpg",
+    "static/media/img_9.jpg": "/radio-react/static/media/img_9.24af22b947d0fe5bebad.jpg",
     "static/media/img_15.jpg": "/radio-react/static/media/img_15.f5cd980af82efbfafaf8.jpg",
     "static/media/img_11.jpg": "/radio-react/static/media/img_11.527d7de01c1d35fe3899.jpg",
+    "static/media/img_5.jpg": "/radio-react/static/media/img_5.4d4e24a2158411b2e386.jpg",
     "static/media/snake.png": "/radio-react/static/media/snake.041b15f1071b79437989.png",
     "static/media/img_16.jpg": "/radio-react/static/media/img_16.cadfa317dd303688544a.jpg",
     "static/media/blue-white-igloo.png": "/radio-react/static/media/blue-white-igloo.e3d25aca559e2c0f1c52.png",
@@ -114,11 +114,11 @@
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
     "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
-    "main.137165ff.css.map": "/radio-react/static/css/main.137165ff.css.map",
-    "main.97a14f39.js.map": "/radio-react/static/js/main.97a14f39.js.map"
+    "main.a1c4be83.css.map": "/radio-react/static/css/main.a1c4be83.css.map",
+    "main.647bceb7.js.map": "/radio-react/static/js/main.647bceb7.js.map"
   },
   "entrypoints": [
-    "static/css/main.137165ff.css",
-    "static/js/main.97a14f39.js"
+    "static/css/main.a1c4be83.css",
+    "static/js/main.647bceb7.js"
   ]
 }
