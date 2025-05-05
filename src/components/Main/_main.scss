@@ -14,3 +14,9 @@
 .main__element {
   display: flex;
 }
+
+@media screen and (max-width: 720px) {
+  .main {
+    width: 100%;
+  }
+}
