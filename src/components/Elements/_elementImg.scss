@@ -1,0 +1,64 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
+// ~ RecipeImg - компонент
+.img-block {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 194px;
+    height: 194px;
+    margin-right: 12px;
+    border-radius: 4px;
+    transition: border 0.25s;
+    border: 1px solid function.rgb-a(colors.$color-03, 23%);
+
+    &:hover {
+        border: 1px solid function.rgb-a(colors.$color-03, 100%);
+    }
+
+    &:hover>.img-block__btn {
+        color: function.rgb-a(colors.$color-02, 100%);
+    }
+
+    .img-block__btn {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: color 0.25s;
+        color: function.rgb-a(colors.$color-03, 50%);
+    }
+
+    .img-block__input {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+    }
+
+    .img-block__label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        transition: color 0.25s;
+        color: function.rgb-a(colors.$color-03, 87%);
+
+        &:hover {
+            color: function.rgb-a(colors.$color-03, 100%);
+        }
+    }
+
+    .label__text {
+        margin-top: 20px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    .img-block__img {
+        border-radius: 4px;
+    }
+}

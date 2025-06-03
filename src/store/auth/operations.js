@@ -14,13 +14,13 @@ const token = {
   },
 };
 
-export const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
-  const persistedToken = localStorage.getItem('authToken'); // Получение токена из localStorage
+//  ~ Текущий пользователь  -----------------------------------------------------------------------
 
+const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
+  const persistedToken = localStorage.getItem('authToken'); // Получение токена из localStorage
   if (!persistedToken) {
     return thunkAPI.rejectWithValue('Токен не найден');
   }
-
   token.set(persistedToken); // Установка токена
   try {
     const { data } = await axios.get('/user/current');
@@ -31,8 +31,9 @@ export const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunk
   }
 });
 
-// Авторизация
-export const logIn = createAsyncThunk('auth/login', async credentials => {
+//  ~ Авторизация ---------------------------------------------------------------------------------
+
+const logIn = createAsyncThunk('auth/login', async credentials => {
   try {
     const { data } = await axios.post('/auth/login', credentials);
     token.set(data.token);
@@ -44,8 +45,9 @@ export const logIn = createAsyncThunk('auth/login', async credentials => {
   }
 });
 
-// Выход
-export const logOut = createAsyncThunk('auth/logout', async () => {
+//  ~ Выход ---------------------------------------------------------------------------------------
+
+const logOut = createAsyncThunk('auth/logout', async () => {
   try {
     await axios.get('/auth/logout');
     token.unset();
@@ -54,10 +56,10 @@ export const logOut = createAsyncThunk('auth/logout', async () => {
     console.error('Ошибка при выходе:', error);
   }
 });
-// ------------------------------------------------------------------------------------
 
-// Регистрация пользователя
-export const register = createAsyncThunk('auth/register', async credentials => {
+//  ~ Регистрация пользователя  -------------------------------------------------------------------
+
+const register = createAsyncThunk('auth/register', async credentials => {
   try {
     const response = await axios.post('/auth/register', credentials);
     token.set(response.token);
@@ -72,8 +74,9 @@ export const register = createAsyncThunk('auth/register', async credentials => {
   }
 });
 
-// Пример операций с данными пользователя
-export const updateEmail = createAsyncThunk('auth/email', async (credentials, thunkAPI) => {
+//  ~ Пример операций с данными пользователя  -----------------------------------------------------
+
+const updateEmail = createAsyncThunk('auth/email', async (credentials, thunkAPI) => {
   try {
     const response = await axios.patch('/user/email', credentials);
     return response.data;
@@ -82,13 +85,16 @@ export const updateEmail = createAsyncThunk('auth/email', async (credentials, th
     if (error.response?.status === 409) {
       toast.error(`${error.response.data.message}`, { position: 'top-center', autoClose: 5000 });
     }
+    if (error.response?.status === 400) {
+      toast.error(`${error.response.data.message}`, { position: 'top-center', autoClose: 5000 });
+    }
     return thunkAPI.rejectWithValue(error.response?.data || 'Unknown error');
   }
 });
 
-// ! update start
+//  ~ Обновление аватар ---------------------------------------------------------------------------
 
-export const updateAvatar = createAsyncThunk('auth/avatars', async credentials => {
+const updateAvatar = createAsyncThunk('auth/avatars', async credentials => {
   try {
     const { data } = await axios.patch('/user/avatars', credentials);
 
@@ -97,26 +103,31 @@ export const updateAvatar = createAsyncThunk('auth/avatars', async credentials =
     return Promise.reject(error);
   }
 });
-export const uploadFiles = createAsyncThunk('files/upload', async credentials => {
+
+// ~ Изменение пароля -----------------------------------------------------------------------------
+
+const changePassword = createAsyncThunk('user/changePassword', async credentials => {
   try {
-    const { data } = await axios.post('/files/upload', credentials);
+    const { data } = await axios.post('/user/change-password', credentials);
 
     return data;
   } catch (error) {
-    return Promise.reject(error);
+    console.log('❌ error', error);
   }
 });
 
-export const updateName = createAsyncThunk('auth/name', async credentials => {
+// ~  Изменение имени -----------------------------------------------------------------------------
+
+const updateName = createAsyncThunk('auth/name', async credentials => {
   try {
     const response = await axios.patch('/user/name', credentials);
     return response.data;
   } catch (error) {}
 });
 
-// ! update end
+// ~  verifyEmail ---------------------------------------------------------------------------------
 
-export const verifyEmail = createAsyncThunk('auth/verify', async credentials => {
+const verifyEmail = createAsyncThunk('auth/verify', async credentials => {
   try {
     const { data } = await axios.post('/user/verify', credentials);
 
@@ -126,23 +137,43 @@ export const verifyEmail = createAsyncThunk('auth/verify', async credentials => 
   }
 });
 
-// ~ Изменение пароля
-export const changePassword = createAsyncThunk('user/changePassword', async credentials => {
-  try {
-    const { data } = await axios.post('/user/change-password', credentials);
+// ------------------------------------------------------------------------------------------------
 
-    return data;
-  } catch (error) {
-    console.log('❌ error', error);
-  }
-});
-// ~ Добавление рецепта в избранное, запись рецептов юзеру
-export const updateRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id => {
+// ~ Добавление рецепта в избранное, запись рецептов юзеру  ---------------------------------------
+const updateRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id => {
   const response = await axios.patch(`/recipe/${_id}/favorite`);
   return response.data.data;
 });
-// ~ Удаление рецептп из избранного
-export const removeRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id => {
+
+// ~  uploadFiles ---------------------------------------------------------------------------------
+
+const uploadFiles = createAsyncThunk('files/upload', async credentials => {
+  try {
+    const { data } = await axios.post('/files/upload', credentials);
+
+    return data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
+// ~ Удаление рецептп из избранного ---------------------------------------------------------------
+const removeRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id => {
   const response = await axios.delete(`/recipe/${_id}/favorite`);
   return response.data.data;
 });
+
+export const authOperations = {
+  fetchCurrentUser,
+  logIn,
+  logOut,
+  register,
+  updateEmail,
+  updateAvatar,
+  uploadFiles,
+  updateName,
+  verifyEmail,
+  changePassword,
+  updateRecipeFavoriteById,
+  removeRecipeFavoriteById,
+};

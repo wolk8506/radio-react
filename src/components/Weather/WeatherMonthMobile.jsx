@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getThemeIconWeather, getWeatherMonth_Data } from 'store/root/selectors';
+import { weatherSelectors, rootSelectors } from 'store';
 
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import Modal from '@mui/joy/Modal';
@@ -15,11 +15,12 @@ import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
+
 moment.locale('ru');
 
 export const WeatherMonthMobile = () => {
-  const themeImageWeather = useSelector(getThemeIconWeather);
-  const data_month = useSelector(getWeatherMonth_Data);
+  const themeImageWeather = useSelector(rootSelectors.getThemeIconWeather);
+  const data_month = useSelector(weatherSelectors.getWeatherMonth_Data);
   // const urlImage = 'https://www.visualcrossing.com/img/';
   const [data, setData] = useState(false);
   const [dataMonth, setDataMonth] = useState(false);

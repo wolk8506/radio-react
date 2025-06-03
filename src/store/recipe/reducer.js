@@ -1,21 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { fetchRecipe, addRecipe, deleteRecipe, updateRecipe, fetchCategories } from './operations';
-import { setStatusAddRecipe, setStatusDeleteRecipe, setStatusUpdateRecipe } from './actions';
-import { updateRecipeFavoriteById } from 'store/auth/operations';
+import { authOperations, recipeOperations, recipeActions } from 'store';
 
 const recipe = createReducer([], builder => {
   builder
-    .addCase(fetchRecipe.fulfilled, (state, action) => action.payload)
-    .addCase(addRecipe.fulfilled, (state, action) => [...state, action.payload])
-    .addCase(updateRecipeFavoriteById.fulfilled, (state, action) =>
+    .addCase(recipeOperations.fetchRecipe.fulfilled, (state, action) => action.payload)
+    .addCase(recipeOperations.addRecipe.fulfilled, (state, action) => [...state, action.payload])
+    .addCase(authOperations.updateRecipeFavoriteById.fulfilled, (state, action) =>
       state.forEach(function (element) {
         if (element._id === action.payload._id) {
           element.favorite = action.payload.favorite;
         }
       })
     )
-    .addCase(updateRecipe.fulfilled, (state, action) => {
+    .addCase(recipeOperations.updateRecipe.fulfilled, (state, action) => {
       return state.map(element => {
         if (element._id === action.payload._id) {
           return { ...element, ...action.payload }; // Создаем новый объект вместо мутации
@@ -23,61 +21,64 @@ const recipe = createReducer([], builder => {
         return element;
       });
     })
-    .addCase(deleteRecipe.fulfilled, (state, action) => state.filter(({ _id }) => _id !== action.meta.arg));
+    .addCase(recipeOperations.deleteRecipe.fulfilled, (state, action) =>
+      state.filter(({ _id }) => _id !== action.meta.arg)
+    );
 });
+
 const recipeCategories = createReducer(false, builder => {
-  builder.addCase(fetchCategories.fulfilled, (state, action) => action.payload);
+  builder.addCase(recipeOperations.fetchCategories.fulfilled, (state, action) => action.payload);
 });
 
 const loadingAddRecipe = createReducer(false, builder => {
   builder
 
-    .addCase(addRecipe.pending, () => true)
-    .addCase(addRecipe.fulfilled, () => false)
-    .addCase(addRecipe.rejected, () => false);
+    .addCase(recipeOperations.addRecipe.pending, () => true)
+    .addCase(recipeOperations.addRecipe.fulfilled, () => false)
+    .addCase(recipeOperations.addRecipe.rejected, () => false);
 });
 
 const statusAddRecipe = createReducer(false, builder => {
   builder
 
-    .addCase(addRecipe.pending, () => false)
-    .addCase(addRecipe.fulfilled, () => true)
-    .addCase(addRecipe.rejected, () => false)
-    .addCase(setStatusAddRecipe, () => false);
+    .addCase(recipeOperations.addRecipe.pending, () => false)
+    .addCase(recipeOperations.addRecipe.fulfilled, () => true)
+    .addCase(recipeOperations.addRecipe.rejected, () => false)
+    .addCase(recipeActions.setStatusAddRecipe, () => false);
 });
 
 const loadingDeleteRecipe = createReducer(false, builder => {
   builder
 
-    .addCase(deleteRecipe.pending, () => true)
-    .addCase(deleteRecipe.fulfilled, () => false)
-    .addCase(deleteRecipe.rejected, () => false);
+    .addCase(recipeOperations.deleteRecipe.pending, () => true)
+    .addCase(recipeOperations.deleteRecipe.fulfilled, () => false)
+    .addCase(recipeOperations.deleteRecipe.rejected, () => false);
 });
 
 const statusDeleteRecipe = createReducer(false, builder => {
   builder
 
-    .addCase(deleteRecipe.pending, () => false)
-    .addCase(deleteRecipe.fulfilled, () => true)
-    .addCase(deleteRecipe.rejected, () => false)
-    .addCase(setStatusDeleteRecipe, () => false);
+    .addCase(recipeOperations.deleteRecipe.pending, () => false)
+    .addCase(recipeOperations.deleteRecipe.fulfilled, () => true)
+    .addCase(recipeOperations.deleteRecipe.rejected, () => false)
+    .addCase(recipeActions.setStatusDeleteRecipe, () => false);
 });
 
 const loadingUpdateRecipe = createReducer(false, builder => {
   builder
 
-    .addCase(updateRecipe.pending, () => true)
-    .addCase(updateRecipe.fulfilled, () => false)
-    .addCase(updateRecipe.rejected, () => false);
+    .addCase(recipeOperations.updateRecipe.pending, () => true)
+    .addCase(recipeOperations.updateRecipe.fulfilled, () => false)
+    .addCase(recipeOperations.updateRecipe.rejected, () => false);
 });
 
 const statusUpdateRecipe = createReducer(false, builder => {
   builder
 
-    .addCase(updateRecipe.pending, () => false)
-    .addCase(updateRecipe.fulfilled, () => true)
-    .addCase(updateRecipe.rejected, () => false)
-    .addCase(setStatusUpdateRecipe, () => false);
+    .addCase(recipeOperations.updateRecipe.pending, () => false)
+    .addCase(recipeOperations.updateRecipe.fulfilled, () => true)
+    .addCase(recipeOperations.updateRecipe.rejected, () => false)
+    .addCase(recipeActions.setStatusUpdateRecipe, () => false);
 });
 
 export default combineReducers({

@@ -7,7 +7,7 @@ import { Currency } from './Currency';
 import { Clock } from './Clock';
 import { Event } from './Event';
 import { ClockDigital } from './ClockDigital';
-import { getThemeWidgetClock, getThemeNewYear } from 'store/root/selectors';
+import { rootSelectors } from 'store';
 
 import snowMan from '../../images/winter/snowman-min.png';
 import christmasTree from '../../images/winter/christmas tree.png';
@@ -22,8 +22,8 @@ import snake from '../../images/winter/snake.png';
 import { NewYearCountdown } from './NewYearCountdown';
 
 export const Main = ({ onAudio }) => {
-  const WIDGET = useSelector(getThemeWidgetClock);
-  const THEME_NEW_YEAR = useSelector(getThemeNewYear);
+  const WIDGET = useSelector(rootSelectors.getThemeWidgetClock);
+  const THEME_NEW_YEAR = useSelector(rootSelectors.getThemeNewYear);
 
   for (let index = 0; index < 200; index++) {}
 

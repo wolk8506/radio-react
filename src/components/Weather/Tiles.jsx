@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_TimeUpdate } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import { TilesTemperatura } from './TilesTemperatura';
 import { TilesCloud } from './TilesCloud';
@@ -17,7 +17,7 @@ import { TilesVisibility } from './TilesVisibility';
 import { TilesUv } from './TilesUv';
 
 export const Tiles = () => {
-  const timeUpdate = useSelector(getWeatherToday_TimeUpdate);
+  const timeUpdate = useSelector(weatherSelectors.getWeatherToday_TimeUpdate);
   return (
     <section className="tiles-block">
       <div className="tiles-block__title">

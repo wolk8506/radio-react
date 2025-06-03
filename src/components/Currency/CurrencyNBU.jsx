@@ -2,17 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  getCurrencyNBUtoday_Data,
-  getCurrencyNBUtoday_Loading,
-  getCurrencyNBUtoday_Status,
-  getCurrencyNBUtoday_TimeUpdate,
-  getCurrencyNBUtomorrow_Data,
-  getCurrencyNBUtomorrow_Loading,
-  getCurrencyNBUtomorrow_Status,
-  getCurrencyNBUtomorrow_TimeUpdate,
-} from '../../store/root/selectors';
-import { fetchCurrencyNBUtoday, fetchCurrencyNBUtomorrow } from '../../store/root/operation';
+import { currencySelectors, currencyOperations } from 'store';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -35,15 +25,15 @@ export const CurrencyNBU = () => {
   const dispatch = useDispatch();
   const numberDay = moment().isoWeekday();
 
-  const timeUpdate_today = useSelector(getCurrencyNBUtoday_TimeUpdate);
-  const loading_today = useSelector(getCurrencyNBUtoday_Loading);
-  const status_today = useSelector(getCurrencyNBUtoday_Status);
-  const storeData_today = useSelector(getCurrencyNBUtoday_Data);
+  const timeUpdate_today = useSelector(currencySelectors.getCurrencyNBUtoday_TimeUpdate);
+  const loading_today = useSelector(currencySelectors.getCurrencyNBUtoday_Loading);
+  const status_today = useSelector(currencySelectors.getCurrencyNBUtoday_Status);
+  const storeData_today = useSelector(currencySelectors.getCurrencyNBUtoday_Data);
 
-  const timeUpdate_tomorrow = useSelector(getCurrencyNBUtomorrow_TimeUpdate);
-  const loading_tomorrow = useSelector(getCurrencyNBUtomorrow_Loading);
-  const status_tomorrow = useSelector(getCurrencyNBUtomorrow_Status);
-  const storeData_tomorrow = useSelector(getCurrencyNBUtomorrow_Data);
+  const timeUpdate_tomorrow = useSelector(currencySelectors.getCurrencyNBUtomorrow_TimeUpdate);
+  const loading_tomorrow = useSelector(currencySelectors.getCurrencyNBUtomorrow_Loading);
+  const status_tomorrow = useSelector(currencySelectors.getCurrencyNBUtomorrow_Status);
+  const storeData_tomorrow = useSelector(currencySelectors.getCurrencyNBUtomorrow_Data);
 
   const dateToday = moment().format('YYYYMMDD');
   const BASE_URL = `https://bank.gov.ua/NBUStatService/v1/statdirectory/`;
@@ -73,15 +63,15 @@ export const CurrencyNBU = () => {
   }, [timeUpdate_today, timeUpdate_tomorrow]);
 
   useEffect(() => {
-    dispatch(fetchCurrencyNBUtoday(`${BASE_URL}exchange?date=${dateToday}&json`));
-    dispatch(fetchCurrencyNBUtomorrow(`${BASE_URL}exchange?date=${dateTomorrow}&json`));
+    dispatch(currencyOperations.fetchCurrencyNBUtoday(`${BASE_URL}exchange?date=${dateToday}&json`));
+    dispatch(currencyOperations.fetchCurrencyNBUtomorrow(`${BASE_URL}exchange?date=${dateTomorrow}&json`));
   }, [BASE_URL, dateToday, dateTomorrow, dispatch]);
 
   // Обновление курса валют
 
   const handleUpdateCurrency = () => {
-    dispatch(fetchCurrencyNBUtoday(`${BASE_URL}exchange?date=${dateToday}&json`));
-    dispatch(fetchCurrencyNBUtomorrow(`${BASE_URL}exchange?date=${dateTomorrow}&json`));
+    dispatch(currencyOperations.fetchCurrencyNBUtoday(`${BASE_URL}exchange?date=${dateToday}&json`));
+    dispatch(currencyOperations.fetchCurrencyNBUtomorrow(`${BASE_URL}exchange?date=${dateTomorrow}&json`));
   };
 
   const [STATUS, setSTATUS] = React.useState(true);

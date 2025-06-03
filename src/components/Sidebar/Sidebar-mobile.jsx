@@ -12,8 +12,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
-// import { Link, useLocation } from 'react-router-dom';
-import { authSelectors } from 'store/auth/selectors';
+
+import { authSelectors } from 'store';
 
 export const SidebarMobile = () => {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);

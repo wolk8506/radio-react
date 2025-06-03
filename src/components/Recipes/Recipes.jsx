@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipe } from 'store/recipe/operations';
-import { getRecipe } from 'store/recipe/selectors';
+import { recipeOperations, recipeSelectors, authSelectors } from 'store';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -22,24 +21,17 @@ import { categoryList } from './ComponentDataCategory';
 import sprite from './sprite.svg';
 
 import { BASE_URL } from '../../config';
-import { getFavorites } from 'store/auth/selectors';
-
-// const style = {
-//   // width: '100%',
-//   maxWidth: 360,
-//   color: '#ffffff',
-// };
 
 export const Recipes = () => {
   const dispatch = useDispatch();
   const baseURL = BASE_URL + '/files';
 
   useEffect(() => {
-    dispatch(fetchRecipe());
+    dispatch(recipeOperations.fetchRecipe());
   }, [dispatch]);
 
-  const dataRecipe = useSelector(getRecipe);
-  const favorites = useSelector(getFavorites);
+  const dataRecipe = useSelector(recipeSelectors.getRecipe);
+  const favorites = useSelector(authSelectors.getFavorites);
   const location = useLocation();
   const category_ID = location.pathname.split('/')[2];
   const [dataNew, setDataNew] = useState([]);

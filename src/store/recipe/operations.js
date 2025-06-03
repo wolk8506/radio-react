@@ -5,17 +5,17 @@ import { BASE_URL } from '../../config';
 
 axios.defaults.baseURL = BASE_URL;
 // ~ Получение всех рецептов
-export const fetchRecipe = createAsyncThunk('recipe/fetchRecipe', async () => {
+const fetchRecipe = createAsyncThunk('recipe/fetchRecipe', async () => {
   const response = await axios.get('/recipe');
   return response.data.data.result;
 });
 // ~ Получение категорий рецептов
-export const fetchCategories = createAsyncThunk('recipe/fetchCategories', async () => {
+const fetchCategories = createAsyncThunk('recipe/fetchCategories', async () => {
   const response = await axios.get('/recipe/categories');
   return response.data.data;
 });
 
-export const addRecipe = createAsyncThunk('recipe/addRecipe', async data => {
+const addRecipe = createAsyncThunk('recipe/addRecipe', async data => {
   try {
     const response = await axios.post('/recipe', data);
     return response.data.data.result;
@@ -54,12 +54,12 @@ export const addRecipe = createAsyncThunk('recipe/addRecipe', async data => {
   }
 });
 
-export const deleteRecipe = createAsyncThunk('recipe/deleteRecipe', async id => {
+const deleteRecipe = createAsyncThunk('recipe/deleteRecipe', async id => {
   const response = await axios.delete(`/recipe/${id}`);
   return response.data.data.result;
 });
 
-export const favoriteRecipe = createAsyncThunk('recipe/favorite', async recipe => {
+const favoriteRecipe = createAsyncThunk('recipe/favorite', async recipe => {
   const { _id, favorite } = recipe;
   const response = await axios.patch(`/recipe/${_id}/favorite`, {
     favorite: !favorite,
@@ -67,7 +67,7 @@ export const favoriteRecipe = createAsyncThunk('recipe/favorite', async recipe =
   return response.data.data.result;
 });
 
-export const updateRecipe = createAsyncThunk('recipe/updateRecipe', async data => {
+const updateRecipe = createAsyncThunk('recipe/updateRecipe', async data => {
   try {
     const { _id, recipe } = data;
     const response = await axios.put(`/recipe/${_id}/`, recipe);
@@ -106,3 +106,12 @@ export const updateRecipe = createAsyncThunk('recipe/updateRecipe', async data =
     return Promise.reject(error);
   }
 });
+
+export const recipeOperations = {
+  fetchRecipe,
+  fetchCategories,
+  addRecipe,
+  deleteRecipe,
+  favoriteRecipe,
+  updateRecipe,
+};

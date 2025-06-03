@@ -1,26 +1,15 @@
-// import error404 from '../images/error404.svg';
-import error404 from '../images/404.jpg';
+import error404 from '../images/NotFoundPage.png';
 
 export const NotFoundPage = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // fontSize: 40,
-        // color: 'red',
-      }}
-    >
-      <img
-        src={error404}
-        alt=""
-        style={{
-          borderRadius: '15px',
-        }}
-      />
-      {/* 404 Страница не найдена */}
-    </div>
+    <section className="container-404">
+      <div className="block-img">
+        <img src={error404} alt="" width={600} />
+        <div className="block-title">
+          <p className="title-404">404</p>
+          <p className="title-text">страница не нейдена</p>
+        </div>
+      </div>
+    </section>
   );
 };

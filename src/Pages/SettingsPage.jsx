@@ -7,15 +7,10 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
 import { version } from '../config';
-import { ThemeChange } from '../components/Settings/ThemeChange';
-import { ThemeChangeAuto } from '../components/Settings/ThemeChangeAuto';
 
-import { ThemeClock } from '../components/Settings/ThemeClock';
-import { ThemeNewYear } from '../components/Settings/ThemeNewYear';
-import { ThemeWeather } from '../components/Settings/ThemeWeather';
-import { ThemeChangeBackgroundHalloween } from '../components/Settings/ThemeChangeBackgroundHalloween';
-import { BackgroundBlock } from 'components/Settings/BackgroundBlock';
-import { BackgroundBlockNY } from 'components/Settings/BackgroundBlockNY';
+import { TabPanel1 } from 'components/Settings/TabPanel1';
+import { TabPanel2 } from 'components/Settings/TabPanel2';
+import { TabPanel3 } from 'components/Settings/TabPanel3';
 
 export const SettingsPage = () => {
   const [value, setValue] = React.useState(0);
@@ -26,9 +21,9 @@ export const SettingsPage = () => {
 
   return (
     <section className="container-settings">
-      <div className="about">
-        <p className="about__title">settings</p>
-        <p className="about1">radio-react {version}</p>
+      <div className="header">
+        <p className="header__title">settings</p>
+        <p className="header__subtitle">radio-react {version}</p>
       </div>
 
       <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -41,34 +36,13 @@ export const SettingsPage = () => {
             </TabList>
           </Box>
           <TabPanel value={0}>
-            <div className="tab-panel">
-              <div className="settings">
-                <ThemeChangeAuto />
-                <ThemeChange />
-              </div>
-              <div className="settings settings--height">
-                <ThemeClock />
-              </div>
-              <div className="settings">
-                <ThemeWeather />
-              </div>
-              <BackgroundBlock />
-            </div>
+            <TabPanel1 />
           </TabPanel>
           <TabPanel value={1}>
-            <div className="tab-panel">
-              <div className="settings">
-                <ThemeNewYear />
-              </div>
-              <BackgroundBlockNY />
-            </div>
+            <TabPanel2 />
           </TabPanel>
           <TabPanel value={2}>
-            <div className="tab-panel">
-              <div className="settings">
-                <ThemeChangeBackgroundHalloween />
-              </div>
-            </div>
+            <TabPanel3 />
           </TabPanel>
         </TabContext>
       </Box>

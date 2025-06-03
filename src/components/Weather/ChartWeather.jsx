@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import { LineChart } from '@mui/x-charts/LineChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
@@ -19,9 +19,9 @@ import FilterDramaIcon from '@mui/icons-material/FilterDrama';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 
 export const ChartWeather = ({ value = '0' }) => {
-  const data_yesterday = useSelector(getWeatherYesterday_Data);
-  const data_today = useSelector(getWeatherToday_Data);
-  const data_tomorrow = useSelector(getWeatherTomorrow_Data);
+  const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
   const [quantity, setQuantity] = useState('°');
   const [labelChart, setLabelChart] = useState('Влажность');
   const [dataChartMin, setDataChartMin] = useState(-30);

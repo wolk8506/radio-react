@@ -2,16 +2,16 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesTemperatura = () => {
-  const data_yesterday = useSelector(getWeatherYesterday_Data);
-  const data_today = useSelector(getWeatherToday_Data);
-  const data_tomorrow = useSelector(getWeatherTomorrow_Data);
+  const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
 
   const [currentTemperature, setCurrentTemperature] = useState('--');
   const [temperatureSubtext, setTemperatureSubext] = useState('--');
@@ -107,7 +107,7 @@ export const TilesTemperatura = () => {
   }, [data_today, data_tomorrow, data_yesterday]);
 
   useEffect(() => {
-    if (!data_today?.days || !data_tomorrow?.days || !data_yesterday?.days) {
+    if (!data_today || !data_tomorrow || !data_yesterday) {
       return; // Прерываем выполнение, если данных нет
     }
 
@@ -142,7 +142,7 @@ export const TilesTemperatura = () => {
     }
 
     setTemperatureSubext(text);
-  }, [data_today.days, data_tomorrow.days, data_yesterday?.days]);
+  }, [data_today, data_tomorrow, data_yesterday]);
 
   let valueArr = [
     {

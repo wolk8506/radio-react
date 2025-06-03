@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { getIsLoggedIn } from '../../store/auth/selectors';
-import { getRecipeCategories } from 'store/recipe/selectors';
-import { setStatusAddRecipe } from 'store/recipe/actions';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { authSelectors, recipeOperations, recipeActions, recipeSelectors } from 'store';
+
 import sprite from './sprite.svg';
 
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -12,19 +10,18 @@ import Typography from '@mui/material/Typography';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Button from '@mui/material/Button';
-import { fetchCategories } from 'store/recipe/operations';
-import { useEffect, useState } from 'react';
+
 import { categoryList } from './ComponentDataCategory';
 
 export const RecipesIndex = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(getIsLoggedIn);
-  const { categories } = useSelector(getRecipeCategories);
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const { categories } = useSelector(recipeSelectors.getRecipeCategories);
   const [menuList, setMenuList] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(recipeOperations.fetchCategories());
   }, [dispatch]);
 
   useEffect(() => {
@@ -34,7 +31,7 @@ export const RecipesIndex = () => {
   }, [categories]);
 
   const handleAddRecipe = () => {
-    dispatch(setStatusAddRecipe());
+    dispatch(recipeActions.setStatusAddRecipe());
     navigate('/recipes/recipes-add');
   };
 

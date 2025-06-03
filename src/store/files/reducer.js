@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { fileOperations } from './operations';
-import { fileActions } from './actions';
+import { fileOperations, fileActions } from 'store';
 
 const loadingUploadFiles = createReducer(false, builder => {
   builder

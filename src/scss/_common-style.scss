@@ -4,20 +4,24 @@
 // *  scrollbar - - - - - - - - - - - - - - - - - - - - -
 
 *::-webkit-scrollbar {
-  width: 10px; /* Ширина всего элемента навигации */
+  width: 10px;
+  /* Ширина всего элемента навигации */
   height: 5px;
 }
 
 *::-webkit-scrollbar-track {
-  background: colors.$color-07; /* Цвет дорожки */
+  background: colors.$color-07;
+  /* Цвет дорожки */
   // border-radius: 20px;
   // margin-top: 4px;
   // margin-bottom: 4px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: colors.$color-02; /* Цвет бегунка */
-  border-radius: 20px; /* Округление бегунка */
+  background-color: colors.$color-02;
+  /* Цвет бегунка */
+  border-radius: 20px;
+  /* Округление бегунка */
   // border: 3px solid #050c26; /* Оформление границ бегунка */
 }
 
@@ -84,20 +88,25 @@
   .MuiPaper-root {
     background-color: colors.$color-07;
     color: function.rgb-a(colors.$color-03, 87%);
+
     .MuiPickersYear-yearButton.Mui-selected {
       background-color: colors.$color-02;
       color: colors.$color-07;
     }
+
     .MuiPickersYear-yearButton:hover {
       background-color: function.rgb-a(colors.$color-03, 4%);
     }
+
     .MuiPickersMonth-monthButton.Mui-selected {
       background-color: colors.$color-02;
       color: colors.$color-07;
     }
+
     .MuiPickersMonth-monthButton:hover {
       background-color: function.rgb-a(colors.$color-03, 4%);
     }
+
     .MuiPickersMonth-monthButton.Mui-disabled {
       color: function.rgb-a(colors.$color-03, 50%);
     }
@@ -139,6 +148,7 @@
         border-bottom: 1px solid function.rgb-a(colors.$color-02, 20%);
       }
     }
+
     .MuiTableRow-root:nth-of-type(odd) {
       background-color: function.rgb-a(colors.$color-09, 50%);
 
@@ -159,7 +169,7 @@
 }
 
 // линия пунктирная на точке
-g > .MuiChartsAxisHighlight-root {
+g>.MuiChartsAxisHighlight-root {
   stroke: function.rgb-a(colors.$color-03, 20%);
 }
 
@@ -193,11 +203,13 @@ g > .MuiChartsAxisHighlight-root {
     }
   }
 }
+
 //
 // * - - menu   - - - - - - - - - - - - - - - - - - - - -
 
 .MuiList-root {
   border-top: 1px solid function.rgb-a(colors.$color-03, 10%);
+
   .MuiButtonBase-root:hover {
     background-color: function.rgb-a(colors.$color-03, 4%);
   }
@@ -217,5 +229,71 @@ g > .MuiChartsAxisHighlight-root {
 }
 
 //
+// * - - divider - - - - - - - - - - - - - - - - - - - -
+.MuiDivider-root.MuiDivider-fullWidth {
+  border-color: function.rgb-a(colors.$color-03, 12%);
+}
+
+// 
+// * - - Tabs  - - - - - - - - - - - - - - - - - - - - -
+
+.MuiBox-root {
+  .MuiButtonBase-root.MuiTab-root.Mui-selected {
+    color: colors.$color-02;
+  }
+
+  .MuiTabs-indicator {
+    background-color: colors.$color-02;
+  }
+
+}
+
+// 
+// * - - Switch  - - - - - - - - - - - - - - - - - - - - -
+
+.MuiBox-root {
+  .MuiSwitch-thumb {
+    background-color: colors.$color-03;
+  }
+}
+
+.MuiButtonBase-root.MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track {
+  background-color: colors.$color-03;
+}
+
+// 
+// * - - Slider  - - - - - - - - - - - - - - - - - - - - -
+
+.MuiBox-root {
+  .MuiSlider-root {
+    color: colors.$color-03;
+  }
+}
+
+// 
+// * - - Button-disabled   - - - - - - - - - - - - - - - -
+
+// button
+.MuiButtonBase-root.MuiButton-root.Mui-disabled {
+  color: function.rgb-a(colors.$color-03, 26%);
+  align-items: center;
+  border: none;
+
+}
+
+// 
+// * - - Radio-Button   - - - - - - - - - - - - - - - -
+
+.MuiButtonBase-root {
+  color: function.rgb-a(colors.$color-03, 60%);
+
+  &.MuiButtonBase-root:hover {
+    background-color: function.rgb-a(colors.$color-02, 4%);
+  }
+
+  &.MuiButtonBase-root.Mui-checked {
+    color: function.rgb-a(colors.$color-03, 100%);
+  }
+}
 
 // ?--------------------------------------

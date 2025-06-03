@@ -1,0 +1,40 @@
+@use "../scss/colors";
+@use "../scss/function";
+
+.container-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1260px;
+    min-height: calc(100% - 15px);
+    align-items: center;
+    @include function.card-style;
+
+    .block-img {
+        width: 600px;
+        height: 600px;
+        position: relative;
+
+        .block-title {
+            position: absolute;
+            left: 372px;
+            top: 40px;
+            transform: rotate(12.4deg);
+
+            .title-404 {
+                font-size: 54px;
+
+                text-align: center;
+                font-weight: 800;
+            }
+
+            .title-text {
+                font-size: 20px;
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+    }
+
+
+}

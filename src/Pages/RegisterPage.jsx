@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { register } from '../store/auth/operations';
+import { authOperations } from 'store';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -36,7 +36,7 @@ export const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [resendEmail, setResendEmail] = useState();
+  // const [resendEmail, setResendEmail] = useState();
   const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -61,8 +61,8 @@ export const RegisterPage = () => {
         return setPassword(value);
       case 'confirmPassword':
         return setConfirmPassword(value);
-      case 'resendEmail':
-        return setResendEmail(value);
+      // case 'resendEmail':
+      //   return setResendEmail(value);
       default:
         return;
     }
@@ -82,7 +82,7 @@ export const RegisterPage = () => {
       setConfirmPassword('');
       return;
     }
-    dispatch(register({ name, email, password }));
+    dispatch(authOperations.register({ name, email, password }));
     setName('');
     setEmail('');
     setPassword('');
@@ -90,7 +90,6 @@ export const RegisterPage = () => {
   };
 
   const OnSumbit = e => {
-    console.log(resendEmail);
     // e.preventDefault();
     // dispatch(authOperations.verifyEmail({ email: resendEmail }));
     // setOpen(false);

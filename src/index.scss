@@ -7,6 +7,9 @@
 
 @use 'scss/app';
 
+@use 'components/Elements/elementImg';
+
+
 @use 'components/Main/xmas';
 @use 'components/Main/main';
 @use 'components/Main/currency';
@@ -30,11 +33,13 @@
 
 @use 'components/Recipes/recipes';
 
-@use 'components/Settings/info';
+// @use 'components/Settings/info';
 
 @use 'Pages/user';
 @use 'Pages/login';
 @use 'Pages/register';
+@use 'Pages/settings';
+@use 'Pages/notFound';
 
 @import-normalize;
 /* bring in normalize.css styles */

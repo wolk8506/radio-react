@@ -1,17 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import {
-  getCurrencyZVRPrevious_Loading,
-  getCurrencyZVRPrevious_Status,
-  getCurrencyZVRPrevious_TimeUpdate,
-  getCurrencyZVRPrevious_Data,
-  getCurrencyZVRCurrent_Loading,
-  getCurrencyZVRCurrent_Status,
-  getCurrencyZVRCurrent_TimeUpdate,
-  getCurrencyZVRCurrent_Data,
-} from '../../store/root/selectors';
-import { fetchCurrencyZVRPrevious, fetchCurrencyZVRCurrent } from '../../store/root/operation';
+import { currencySelectors, currencyOperations } from 'store';
 
 import { styled } from '@mui/material/styles';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -38,15 +28,15 @@ export const CurrencyZVR = () => {
   const BASE_URL = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/res';
   const dispatch = useDispatch();
 
-  const timeUpdate = useSelector(getCurrencyZVRPrevious_TimeUpdate);
-  const loading = useSelector(getCurrencyZVRPrevious_Loading);
-  const status = useSelector(getCurrencyZVRPrevious_Status);
-  const storeData = useSelector(getCurrencyZVRPrevious_Data);
+  const timeUpdate = useSelector(currencySelectors.getCurrencyZVRPrevious_TimeUpdate);
+  const loading = useSelector(currencySelectors.getCurrencyZVRPrevious_Loading);
+  const status = useSelector(currencySelectors.getCurrencyZVRPrevious_Status);
+  const storeData = useSelector(currencySelectors.getCurrencyZVRPrevious_Data);
 
-  const timeUpdate2 = useSelector(getCurrencyZVRCurrent_TimeUpdate);
-  const loading2 = useSelector(getCurrencyZVRCurrent_Loading);
-  const status2 = useSelector(getCurrencyZVRCurrent_Status);
-  const storeData2 = useSelector(getCurrencyZVRCurrent_Data);
+  const timeUpdate2 = useSelector(currencySelectors.getCurrencyZVRCurrent_TimeUpdate);
+  const loading2 = useSelector(currencySelectors.getCurrencyZVRCurrent_Loading);
+  const status2 = useSelector(currencySelectors.getCurrencyZVRCurrent_Status);
+  const storeData2 = useSelector(currencySelectors.getCurrencyZVRCurrent_Data);
 
   const currentDateZVRPrevious = moment().add(-1, 'month').format('YYYY-MM-DD');
   const currentDateZVRCurrent = moment().add(0, 'month').format('YYYY-MM-DD');
@@ -66,27 +56,27 @@ export const CurrencyZVR = () => {
   useEffect(() => {
     const date = valueData(valueZVRPrevious);
     setMonthPreviousNew(date);
-    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${date}&json`));
+    dispatch(currencyOperations.fetchCurrencyZVRPrevious(`${BASE_URL}?date=${date}&json`));
   }, [dispatch, valueData, valueZVRPrevious]);
 
   // ~ DatePicker
   useEffect(() => {
     const date = valueData(valueZVRCurrent);
     setMonthCurrentNew(date);
-    dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${date}&json`));
+    dispatch(currencyOperations.fetchCurrencyZVRCurrent(`${BASE_URL}?date=${date}&json`));
   }, [dispatch, valueData, valueZVRCurrent]);
 
   useEffect(() => {
     const monthPrevious = moment().add(-1, 'month').format('YYYYMM');
     const monthCurrent = moment().add(0, 'month').format('YYYYMM');
 
-    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${monthPrevious}&json`));
-    dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrent}&json`));
+    dispatch(currencyOperations.fetchCurrencyZVRPrevious(`${BASE_URL}?date=${monthPrevious}&json`));
+    dispatch(currencyOperations.fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrent}&json`));
   }, [dispatch]);
 
   const hahdleCurrencyZVR = () => {
-    dispatch(fetchCurrencyZVRPrevious(`${BASE_URL}?date=${monthPreviousNew}&json`));
-    dispatch(fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrentNew}&json`));
+    dispatch(currencyOperations.fetchCurrencyZVRPrevious(`${BASE_URL}?date=${monthPreviousNew}&json`));
+    dispatch(currencyOperations.fetchCurrencyZVRCurrent(`${BASE_URL}?date=${monthCurrentNew}&json`));
   };
 
   // ~  Создание данных для наполнения таблиц

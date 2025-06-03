@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { authSelectors } from 'store/auth/selectors';
+import { authSelectors } from 'store';
 
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
@@ -26,7 +26,6 @@ import { RadioMini } from '../Main/Radio-mini';
 export const SidebarDesctop = ({ audio }) => {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   const avatar = useSelector(authSelectors.getAvatar);
-  // const name = useSelector(authSelectors.getUsername);
   const baseUrlImg = BASE_URL;
   const location = useLocation();
   const currentPage = '/' + location.pathname.split('/')[1];

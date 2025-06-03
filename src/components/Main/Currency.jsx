@@ -2,13 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  getCurrencyMonoCurrent_Status,
-  getCurrencyMonoCurrent_Data,
-  getCurrencyYesterday,
-} from '../../store/root/selectors';
-import { fetchCurrencyMonoCurrent } from '../../store/root/operation';
-import { setCurrencyYesterday } from 'store/root/actions';
+import { currencySelectors, currencyOperations, currencyActions } from 'store';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -22,12 +16,12 @@ import moment from 'moment';
 export const Currency = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+    dispatch(currencyOperations.fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
   }, [dispatch]);
 
-  const storeData = useSelector(getCurrencyMonoCurrent_Data);
-  const status = useSelector(getCurrencyMonoCurrent_Status);
-  const dataCurrency = useSelector(getCurrencyYesterday);
+  const storeData = useSelector(currencySelectors.getCurrencyMonoCurrent_Data);
+  const status = useSelector(currencySelectors.getCurrencyMonoCurrent_Status);
+  const dataCurrency = useSelector(currencySelectors.getCurrencyYesterday);
 
   const iconSVG = sprite;
   const [eurTOusaSell, setEurTOusaSell] = useState(0);
@@ -42,6 +36,7 @@ export const Currency = () => {
   const [EUR_rateSell, setEUR_rateSell] = useState(0);
 
   useEffect(() => {
+    if (storeData === undefined) return;
     function threeDecimalPlaces(text) {
       const arr = text.split('.');
       let a = arr[0];
@@ -151,14 +146,14 @@ export const Currency = () => {
     const interval = setInterval(() => {
       setIteration(iteration + 1);
       if (iteration > 3) setIntervalUpdate(60000);
-      dispatch(setCurrencyYesterday([arr_yesterday, arr_today]));
+      dispatch(currencyActions.setCurrencyYesterday([arr_yesterday, arr_today]));
     }, intervalUpdate);
     return () => clearInterval(interval);
   }, [arr_today, arr_yesterday, dispatch, intervalUpdate, iteration]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+      dispatch(currencyOperations.fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
     }, 900000);
     return () => clearInterval(interval);
   }, [dispatch]);

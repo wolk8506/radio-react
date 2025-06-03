@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 
@@ -71,7 +71,7 @@ function Tick({ index, value }) {
 }
 
 function DemoF() {
-  const data_today = useSelector(getWeatherToday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
   const [value, setCloud] = useState(0);
   useEffect(() => {
     const hour = moment().format('H');
