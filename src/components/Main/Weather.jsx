@@ -7,10 +7,7 @@ import { Humidity } from './Humidity';
 import { Clouds } from './Clouds';
 import { WindGust } from './WindGust';
 
-import { getThemeIconWeather, getWeatherToday_Data } from 'store/root/selectors';
-import { fetchWeatherToday } from 'store/root/operation';
-import { fetchLocation } from 'store/root/operation';
-import { getCityName } from 'store/root/selectors';
+import { weatherSelectors, weatherOperations, rootSelectors } from 'store';
 
 import weatherImage from 'components/Weather/weatherIcon';
 
@@ -19,14 +16,13 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const Weather = () => {
-  const themeImageWeather = useSelector(getThemeIconWeather);
+  const themeImageWeather = useSelector(rootSelectors.getThemeIconWeather);
 
-  const CITY = useSelector(getCityName);
-  const data = useSelector(getWeatherToday_Data);
+  const CITY = useSelector(weatherSelectors.getCityName);
+  const data = useSelector(weatherSelectors.getWeatherToday_Data);
   const dispatch = useDispatch();
 
   const URL_WEATHER = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours%2Cdays&key=GP4GVCRSPM49PLYL6GG3XCCND&contentType=json&lang=ru&unitGroup=metric`;
-  // const urlImage = 'https://www.visualcrossing.com/img/';
 
   const [image, setImage] = useState(weatherImage('clear-day', themeImageWeather));
   const [imageAlt, setImageAlt] = useState(weatherImage('clear-day', themeImageWeather));
@@ -39,8 +35,8 @@ export const Weather = () => {
   // Запрос погоды, если первый раз, то погоду определяет по IP, делеее берет локацию из store
   useEffect(() => {
     if (CITY === null) {
-      dispatch(fetchLocation()); //Определение локации
-    } else dispatch(fetchWeatherToday(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
+      dispatch(weatherOperations.fetchLocation()); //Определение локации
+    } else dispatch(weatherOperations.fetchWeatherToday(URL_WEATHER)); //Запрос на погоду после определения локации и все последующие запросы
   }, [CITY, URL_WEATHER, dispatch]);
 
   useEffect(() => {
@@ -50,7 +46,6 @@ export const Weather = () => {
     // setImage(`${urlImage}${data.days[0].hours[hour].icon}.svg`); //Иконка погодных условий
     setImage(weatherImage(data.days[0].hours[hour].icon, themeImageWeather)); //Иконка погодных условий
     setImageAlt(data.days[0].hours[hour].icon);
-    // console.log(data.days[0].hours[hour].icon);
   }, [data, themeImageWeather]);
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -58,11 +53,10 @@ export const Weather = () => {
   useEffect(() => {
     // Обновление погоды каждые 15 минут
     const interval = setInterval(() => {
-      // console.log('Таймер на 15 минут');
       setChangeImage(false);
       setChangeTemperature(false);
       //Запрос на погоду после определения локации и все последующие запросы
-      dispatch(fetchWeatherToday(URL_WEATHER));
+      dispatch(weatherOperations.fetchWeatherToday(URL_WEATHER));
     }, 1800000);
 
     return () => clearInterval(interval);

@@ -5,22 +5,19 @@ import { useSelector } from 'react-redux';
 import sprite from '../../images/sprite.svg';
 import weatherImage from 'components/Weather/weatherIcon';
 
-import { getThemeIconWeather, getWeatherMonth_Data, getWeatherMonth_TimeUpdate } from 'store/root/selectors';
+import { weatherSelectors, rootSelectors } from 'store';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
 export const WeatherMonth = () => {
-  const themeImageWeather = useSelector(getThemeIconWeather);
-  // const [imageAlt, setImageAlt] = useState(clearDay);
-  const data_month = useSelector(getWeatherMonth_Data);
-  const timeUpdate = useSelector(getWeatherMonth_TimeUpdate);
-  // const urlImage = 'https://www.visualcrossing.com/img/';
+  const themeImageWeather = useSelector(rootSelectors.getThemeIconWeather);
+  const data_month = useSelector(weatherSelectors.getWeatherMonth_Data);
+  const timeUpdate = useSelector(weatherSelectors.getWeatherMonth_TimeUpdate);
   const iconSVG = sprite;
   const [dataDays, setDataDays] = useState([]);
   const [datetime, setDatetime] = useState('--:--');
-  // console.log(data_month);
 
   useEffect(() => {
     const data = [];

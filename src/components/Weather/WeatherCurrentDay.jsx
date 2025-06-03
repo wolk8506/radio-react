@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getThemeIconWeather, getWeatherToday_Data, getWeatherToday_TimeUpdate } from 'store/root/selectors';
+import { weatherSelectors, rootSelectors } from 'store';
 
 import sprite from '../../images/sprite.svg';
 
@@ -10,15 +10,15 @@ import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
+
 moment.locale('ru');
 
 export const WeatherCurrentDay = () => {
-  const themeImageWeather = useSelector(getThemeIconWeather);
-  // console.log('themeImageWeather:', themeImageWeather);
-  const data_today = useSelector(getWeatherToday_Data);
-  const timeUpdate = useSelector(getWeatherToday_TimeUpdate);
+  const themeImageWeather = useSelector(rootSelectors.getThemeIconWeather);
 
-  // const urlImage = 'https://www.visualcrossing.com/img/';
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  const timeUpdate = useSelector(weatherSelectors.getWeatherToday_TimeUpdate);
+
   const iconSVG = sprite;
 
   const [temperature, setTemperature] = useState('--');

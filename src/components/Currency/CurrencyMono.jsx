@@ -3,13 +3,7 @@ import * as React from 'react';
 import { NumericFormat } from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  getCurrencyMonoCurrent_Loading,
-  getCurrencyMonoCurrent_Status,
-  getCurrencyMonoCurrent_TimeUpdate,
-  getCurrencyMonoCurrent_Data,
-} from '../../store/root/selectors';
-import { fetchCurrencyMonoCurrent } from '../../store/root/operation';
+import { currencySelectors, currencyOperations } from 'store';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -39,15 +33,15 @@ moment.locale('ru');
 export const CurrencyMono = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+    dispatch(currencyOperations.fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
   }, [dispatch]);
-  const timeUpdate = useSelector(getCurrencyMonoCurrent_TimeUpdate);
-  const loading = useSelector(getCurrencyMonoCurrent_Loading);
-  const status = useSelector(getCurrencyMonoCurrent_Status);
-  const storeData = useSelector(getCurrencyMonoCurrent_Data);
+  const timeUpdate = useSelector(currencySelectors.getCurrencyMonoCurrent_TimeUpdate);
+  const loading = useSelector(currencySelectors.getCurrencyMonoCurrent_Loading);
+  const status = useSelector(currencySelectors.getCurrencyMonoCurrent_Status);
+  const storeData = useSelector(currencySelectors.getCurrencyMonoCurrent_Data);
 
   const handleUpdateCurrency = () => {
-    dispatch(fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
+    dispatch(currencyOperations.fetchCurrencyMonoCurrent(`https://api.monobank.ua/bank/currency`));
   };
 
   // Найденные значения в ответе курса
@@ -62,6 +56,7 @@ export const CurrencyMono = () => {
   const [usdTOeurBuy, setUsdTOeurBuy] = useState('-,----');
 
   useEffect(() => {
+    if (storeData === undefined) return;
     if (storeData.length !== 0) {
       setUSD(storeData.find(el => el.currencyCodeA === 840));
       setPLN(storeData.find(el => el.currencyCodeA === 985));

@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherElements_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 
 export const TilesMoon = () => {
-  const dataElements = useSelector(getWeatherElements_Data);
+  const dataElements = useSelector(weatherSelectors.getWeatherElements_Data);
 
   const [moonrise, setMoonrise] = useState('--:--');
   const [moonriseTomorrow, setMoonriseTomorrow] = useState('--:--');

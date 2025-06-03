@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getPlayerPlay, getPlayerStation } from 'store/root/selectors';
+import { rootSelectors } from 'store';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -16,8 +16,8 @@ import equalizer_off from '../../images/equalizer-off.png';
 import { radioData } from './Radio-data';
 
 export const RadioMini = ({ onAudio, open }) => {
-  const PLAYER_STATION = useSelector(getPlayerStation);
-  const PLAYER_PLAY = useSelector(getPlayerPlay);
+  const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
+  const PLAYER_PLAY = useSelector(rootSelectors.getPlayerPlay);
 
   const [station, setStation] = useState(PLAYER_STATION);
   const [playPause, setPlayPause] = useState(PLAYER_PLAY);

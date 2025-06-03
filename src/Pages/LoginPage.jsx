@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { logIn } from '../store/auth/operations';
+import { authOperations } from 'store';
 
 import { Button, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -40,7 +40,7 @@ export const LoginPage = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(logIn({ email, password }));
+    dispatch(authOperations.logIn({ email, password }));
     setEmail('');
     setPassword('');
   };

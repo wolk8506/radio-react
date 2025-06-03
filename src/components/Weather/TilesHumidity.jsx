@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 
 export const TilesHumidity = () => {
-  const data_today = useSelector(getWeatherToday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
 
   const [humidityTitle, setHumidityTitle] = useState('Нормальный воздух');
   const [humidityPercentage, setHumidityPercentage] = useState(0);

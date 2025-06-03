@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 
 export const TilesCloud = () => {
-  const data_today = useSelector(getWeatherToday_Data);
-  const dataLast_tomorrow = useSelector(getWeatherTomorrow_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  const dataLast_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
   const [svgCloud, setSvgCloud] = useState(0);
   const [cloudText, setCloudText] = useState('--');
   const [description, setDescription] = useState('--');
@@ -106,7 +106,7 @@ export const TilesCloud = () => {
     } else if (a > b) {
       setDescription('Уменьшается ' + nextHourCloud[a] + (hour + 1) + ':00. ' + c);
     }
-  }, [dataLast_tomorrow.days, data_today.days]);
+  }, [dataLast_tomorrow, data_today]);
 
   return (
     <div className="card__item" id="animatedCloud">

@@ -2,14 +2,14 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherYesterday_Data, getWeatherToday_Data, getWeatherTomorrow_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 
 export const TilesPressure = () => {
-  const data_yesterday = useSelector(getWeatherYesterday_Data);
-  const data_today = useSelector(getWeatherToday_Data);
-  const data_tomorrow = useSelector(getWeatherTomorrow_Data);
+  const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
 
   const [pressure_mb, setPressure_mb] = useState('--');
   const [dataChart, setDataChart] = useState([0, 0, 0, 1]);
@@ -99,7 +99,7 @@ export const TilesPressure = () => {
     if (t3 > t4) {
       setStatusDescriptionText(reduction[n - 1]);
     }
-  }, [data_today.days, data_tomorrow.days, data_yesterday.days]);
+  }, [data_today, data_tomorrow, data_yesterday]);
 
   let valueArr = [
     {

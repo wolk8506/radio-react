@@ -1,10 +1,6 @@
-// https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=Последние&country=by,ru,ua&language=ru
-
-import { useState } from 'react';
-import { getNews_Data } from 'store/root/selectors';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchNews } from 'store/root/operation';
-import { useEffect } from 'react';
+import { newsOperations, newsSelectors } from 'store';
 
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
@@ -19,10 +15,8 @@ import moment from 'moment';
 
 export const News = () => {
   const dispatch = useDispatch();
-  const news = useSelector(getNews_Data);
+  const news = useSelector(newsSelectors.getNews_Data);
   const toalPages = news.totalResults;
-  // console.log(toalPages);
-  // console.log(news);
 
   const [country, setCountry] = useState(() => ['by', 'ru', 'us', 'ua']);
 
@@ -58,7 +52,7 @@ export const News = () => {
     setCategory(newCategory);
 
     dispatch(
-      fetchNews(
+      newsOperations.fetchNews(
         `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&category=${newCategory}&country=${country.join(
           ','
         )}&language=ru`
@@ -70,7 +64,7 @@ export const News = () => {
 
   useEffect(() => {
     dispatch(
-      fetchNews(
+      newsOperations.fetchNews(
         `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&country=${country.join(
           ','
         )}&language=ru`
@@ -90,7 +84,7 @@ export const News = () => {
   const handleSearch = () => {
     const categoryParams = category.length === 0 ? '' : `&category=${category.join(',')}`;
     dispatch(
-      fetchNews(
+      newsOperations.fetchNews(
         `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=${value}&country=${country.join(
           ','
         )}${categoryParams}&language=ru`
@@ -104,12 +98,10 @@ export const News = () => {
   const [rowsPerPage] = useState(10);
 
   const [perPage, setPerPage] = useState([]);
-  console.log(perPage);
 
   const handleChangePage = (event, newPage) => {
     const nextPage = news.nextPage;
-    // console.log(category.length);
-    console.log(category);
+
     const categoryParams = category ? '' : `&category=${category}`;
     let nextPageParams = '';
 
@@ -127,7 +119,7 @@ export const News = () => {
     }
 
     dispatch(
-      fetchNews(
+      newsOperations.fetchNews(
         `https://newsdata.io/api/1/news?apikey=pub_7872192e719b0dd34ea7170690fc216c060c4&q=${
           value.length === 0 ? 'Последние' : value
         }&country=${country.join(',')}${categoryParams}&language=ru${nextPageParams}`
@@ -210,7 +202,6 @@ export const News = () => {
 
       <ul className="news-list">
         {news.results.map((i, index) => {
-          //   console.log(i);
           return (
             <li key={i.link}>
               <div className="article">

@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getLoadingDeleteRecipe, getRecipe, getStatusDeleteRecipe } from 'store/recipe/selectors';
-import { deleteRecipe } from 'store/recipe/operations';
+import { recipeOperations, recipeSelectors, authSelectors, fileOperations, authOperations, recipeActions } from 'store';
 
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
@@ -29,11 +28,9 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import sprite from './sprite.svg';
-import { getFavorites, getIsLoggedIn, getUserID } from 'store/auth/selectors';
-import { setStatusDeleteRecipe, setStatusUpdateRecipe } from 'store/recipe/actions';
+
 import { BASE_URL } from '../../config';
-import { deleteFile } from 'store/files/operations';
-import { removeRecipeFavoriteById, updateRecipeFavoriteById } from 'store/auth/operations';
+
 import { categoryList } from './ComponentDataCategory';
 
 const style = {
@@ -61,12 +58,12 @@ export const Recipe = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const dataRecipe = useSelector(getRecipe);
-  const userID = useSelector(getUserID);
-  const favorites = useSelector(getFavorites);
-  const isLoggedIn = useSelector(getIsLoggedIn);
-  const LoadingDeleteRecipe = useSelector(getLoadingDeleteRecipe);
-  const StatusDeleteRecipe = useSelector(getStatusDeleteRecipe);
+  const dataRecipe = useSelector(recipeSelectors.getRecipe);
+  const userID = useSelector(authSelectors.getUserID);
+  const favorites = useSelector(authSelectors.getFavorites);
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const LoadingDeleteRecipe = useSelector(recipeSelectors.getLoadingDeleteRecipe);
+  const StatusDeleteRecipe = useSelector(recipeSelectors.getStatusDeleteRecipe);
   const baseURL = BASE_URL + '/files';
   const category_ID = location.pathname.split('/')[2];
   const _ID = location.pathname.split('/')[3];
@@ -108,13 +105,13 @@ export const Recipe = () => {
       if (i.img) deleteImg.push(i.img);
     });
 
-    deleteImg.length > 0 && dispatch(deleteFile(deleteImg)); // Удаление файлов с сервера
-    dispatch(deleteRecipe(_ID));
+    deleteImg.length > 0 && dispatch(fileOperations.deleteFile(deleteImg)); // Удаление файлов с сервера
+    dispatch(recipeOperations.deleteRecipe(_ID));
   };
 
   useEffect(() => {
     if (StatusDeleteRecipe) navigate(`/recipes/${category_ID}`);
-    dispatch(setStatusDeleteRecipe());
+    dispatch(recipeActions.setStatusDeleteRecipe());
   }, [StatusDeleteRecipe, dispatch, category_ID, navigate, recipe]);
 
   // -------------------------------------------------
@@ -122,16 +119,16 @@ export const Recipe = () => {
   const helpText = 'Добавить в избранное, редактировать и удалять, можно только свои рецепты.';
 
   const handleEdit = () => {
-    dispatch(setStatusUpdateRecipe());
+    dispatch(recipeActions.setStatusUpdateRecipe());
     navigate(`/recipes/${category_ID}/${_ID}/edit`);
   };
 
   const handleAddToFavorites = () => {
-    dispatch(updateRecipeFavoriteById(_ID));
+    dispatch(authOperations.updateRecipeFavoriteById(_ID));
   };
 
   const handleRemoveFromFavorites = () => {
-    dispatch(removeRecipeFavoriteById(_ID));
+    dispatch(authOperations.removeRecipeFavoriteById(_ID));
   };
 
   return (

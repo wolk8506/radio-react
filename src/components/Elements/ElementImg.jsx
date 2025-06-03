@@ -2,11 +2,19 @@ import React from 'react';
 import { Button } from '@mui/material';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CircularProgress from '@mui/material/CircularProgress';
 
-export const ElementImg = ({ step = 'main', img, onDeleteImage, onFileChange }) => {
+export const ElementImg = ({
+  step = 'main',
+  img,
+  onDeleteImage,
+  onFileChange,
+  isFetching = false,
+  isVisibleBtnDelete = true,
+}) => {
   return (
     <div className="img-block">
-      {img && (
+      {img && isVisibleBtnDelete && (
         <Button className="img-block__btn" onClick={() => onDeleteImage(step)}>
           <DeleteIcon sx={{ fontSize: 72 }} />
         </Button>
@@ -21,16 +29,19 @@ export const ElementImg = ({ step = 'main', img, onDeleteImage, onFileChange }) 
             accept="image/png, image/jpeg, image/webp"
             onChange={onFileChange}
           />
-          <label className="img-block__label" for={`uploadFile-${step}`}>
+          <label className="img-block__label" htmlFor={`uploadFile-${step}`}>
             <FileDownloadOutlinedIcon sx={{ fontSize: 72 }} />
             <span className="label__text">ЗАГРУЗИТЬ ИЗОБРАЖЕНИЕ</span>
           </label>
         </>
       )}
 
-      {img && (
-        <img className="img-block__img" src={img} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-      )}
+      {img &&
+        (isFetching ? (
+          <CircularProgress />
+        ) : (
+          <img className="img-block__img" src={img} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+        ))}
     </div>
   );
 };

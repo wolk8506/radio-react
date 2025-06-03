@@ -10,13 +10,12 @@ import PauseIcon from '@mui/icons-material/Pause';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 
-import { setPlayerStation } from 'store/root/actions';
-import { getPlayerStation } from 'store/root/selectors';
-import { setPlayerPlay } from 'store/root/actions';
+import { dataActions, rootSelectors } from 'store';
+
 import { radioData } from './Radio-data';
 
 export const Radio = ({ onAudio }) => {
-  const PLAYER_STATION = useSelector(getPlayerStation);
+  const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
   const dispatch = useDispatch();
   const [station, setStation] = useState(PLAYER_STATION);
   const [playPause, setPlayPause] = useState(true);
@@ -33,13 +32,13 @@ export const Radio = ({ onAudio }) => {
   }
 
   useEffect(() => {
-    dispatch(setPlayerPlay(playPause));
+    dispatch(dataActions.setPlayerPlay(playPause));
   });
 
   const handleStahion = e => {
     changeStation(e.target.value);
     setStation(e.target.value);
-    dispatch(setPlayerStation(e.target.value));
+    dispatch(dataActions.setPlayerStation(e.target.value));
   };
 
   function changeStation(value) {

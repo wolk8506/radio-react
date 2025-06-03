@@ -4,9 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { useTransporantClock, useTheme } from 'hooks';
-import { fetchCurrentUser } from './store/auth/operations';
-import { rootSelectors } from 'store/root/selectors';
-import { authSelectors } from 'store/auth/selectors';
+import { authOperations, rootSelectors, authSelectors } from 'store';
 
 // Компоненты
 import { PrivateRoute, PublicRoute } from 'components/Routes';
@@ -14,7 +12,6 @@ import { PrivateRoute, PublicRoute } from 'components/Routes';
 import { info } from 'config';
 
 import { Main } from './components/Main/Main';
-import { CurrencyIndex } from './components/Currency/Currency-index';
 import { Weather } from './components/Weather/Weather';
 import { RecipesIndex } from './components/Recipes/RecipesMain';
 import { RecipeAdd } from './components/Recipes/RecipeAdd';
@@ -24,7 +21,7 @@ import { Recipe } from './components/Recipes/Recipe';
 import { radioData } from './components/Main/Radio-data';
 import { Sidebar } from 'components/Sidebar/Sidebar';
 import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
-import { LoginPage, RegisterPage, ProfilePage, NotFoundPage, SettingsPage } from './Pages';
+import { LoginPage, RegisterPage, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage } from './Pages';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -41,7 +38,7 @@ export const App = () => {
   // Конфигурация маршрутов
   const routes = [
     { path: '/', element: <Main onAudio={audio} />, isPublic: true },
-    { path: '/currency-index', element: <CurrencyIndex />, isPublic: true },
+    { path: '/currency-index', element: <CurrencyPage />, isPublic: true },
     { path: '/weather', element: <Weather />, isPublic: true },
     { path: '/recipes', element: <RecipesIndex />, isPublic: true },
     { path: '/news', element: <News />, isPublic: true },
@@ -67,7 +64,7 @@ export const App = () => {
   useEffect(() => {
     const token = localStorage.getItem('authToken'); // Проверка токена в localStorage
     if (token) {
-      dispatch(fetchCurrentUser()); // Загружаем данные пользователя при наличии токена
+      dispatch(authOperations.fetchCurrentUser()); // Загружаем данные пользователя при наличии токена
     }
   }, [dispatch]);
 
@@ -81,7 +78,7 @@ export const App = () => {
   const THEME = useSelector(rootSelectors.getThemeChengeTheme);
   useEffect(() => setTheme(THEME), [THEME, setTheme, theme]);
 
-  const { themeTransporantClock, setThemeTransporantClock } = useTransporantClock('100%');
+  const { themeTransporantClock, setThemeTransporantClock } = useTransporantClock(100);
   const THEME_T_C = useSelector(rootSelectors.getThemeTransporantClock);
   useEffect(() => setThemeTransporantClock(THEME_T_C), [THEME_T_C, setThemeTransporantClock, themeTransporantClock]);
 

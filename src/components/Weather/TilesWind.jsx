@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import moment from 'moment';
 
 export const TilesWind = () => {
-  const data_today = useSelector(getWeatherToday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
 
   const [wind_ms, setWind_ms] = useState(0);
   const [wind_degree, setWind_degree] = useState(0);

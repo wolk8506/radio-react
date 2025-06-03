@@ -2,14 +2,14 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getWeatherToday_Data } from 'store/root/selectors';
+import { weatherSelectors } from 'store';
 
 import sprite from '../../images/sprite.svg';
 
 import moment from 'moment';
 
 export const WindGust = () => {
-  const data_today = useSelector(getWeatherToday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
   const iconSVG = sprite;
 
   const [maxwind_ms, setMaxwind_ms] = useState(19.9);

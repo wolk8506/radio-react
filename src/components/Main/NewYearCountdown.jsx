@@ -10,7 +10,6 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const NewYearCountdown = () => {
-  //   const clock_AnalogDigital = useSelector(getThemeClock_AnalogDigital);
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [mins, setMins] = useState(0);

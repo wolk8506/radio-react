@@ -22,26 +22,23 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Tooltip from '@mui/material/Tooltip';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { favoriteRecipe, updateRecipe } from 'store/recipe/operations';
-import { getLoadingUpdateRecipe, getRecipe, getStatusUpdateRecipe } from 'store/recipe/selectors';
-import { setStatusUpdateRecipe } from 'store/recipe/actions';
+import { recipeActions, recipeOperations, recipeSelectors, fileSelector, fileOperations, authSelectors } from 'store';
 import { BASE_URL } from '../../config';
-import { deleteFile, uploadFiles } from 'store/files/operations';
-import { getLoadingUploadFiles } from 'store/files/selectors';
+
 import { ImageBlock } from './ComponentRecipeImg';
 import sprite from './sprite.svg';
-import { getUserID } from 'store/auth/selectors';
+
 import { categoryList } from './ComponentDataCategory';
 
 export const RecipeUpdate = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const userID = useSelector(getUserID);
-  const dataRecipe = useSelector(getRecipe);
-  const loadingUpdateRecipe = useSelector(getLoadingUpdateRecipe);
-  const loadingUploadFiles = useSelector(getLoadingUploadFiles);
-  const statusUpdateRecipe = useSelector(getStatusUpdateRecipe);
+  const userID = useSelector(authSelectors.getUserID);
+  const dataRecipe = useSelector(recipeSelectors.getRecipe);
+  const loadingUpdateRecipe = useSelector(recipeSelectors.getLoadingUpdateRecipe);
+  const loadingUploadFiles = useSelector(fileSelector.getLoadingUploadFiles);
+  const statusUpdateRecipe = useSelector(recipeSelectors.getStatusUpdateRecipe);
 
   const pathSegments = location.pathname.split('/');
   const category_ID = pathSegments[2];
@@ -271,7 +268,7 @@ export const RecipeUpdate = () => {
         .filter(item => item !== null),
     };
 
-    dispatch(updateRecipe({ _id: _ID, recipe }));
+    dispatch(recipeOperations.updateRecipe({ _id: _ID, recipe }));
 
     //  # Отправка файлов на сервер
     const formData = new FormData();
@@ -280,11 +277,11 @@ export const RecipeUpdate = () => {
       file.imgChange && file.file && formData.append('files', file.file); // Один файл
     });
 
-    deleteImg.length && dispatch(deleteFile(deleteImg)); // Удаление файлов с сервера
+    deleteImg.length && dispatch(fileOperations.deleteFile(deleteImg)); // Удаление файлов с сервера
 
     formData.getAll('files').length > 0 &&
       dispatch(
-        uploadFiles(formData, {
+        fileOperations.uploadFiles(formData, {
           headers: {
             'Content-type': 'multipart/form-data',
           },
@@ -312,7 +309,7 @@ export const RecipeUpdate = () => {
   useEffect(() => {
     if (loading) navigate(`/recipes/${category_ID}/${_ID}`);
 
-    if (loading) dispatch(setStatusUpdateRecipe());
+    if (loading) dispatch(recipeActions.setStatusUpdateRecipe());
   }, [_ID, dispatch, category_ID, loading, navigate]);
 
   //  ~ Редирект после отмены сохранения
@@ -321,7 +318,7 @@ export const RecipeUpdate = () => {
   const helpText =
     'Можно добавить только 20 изображений в одном этапе редактирования. Ограничений по шагам и ингридиентам нет.';
   const handleFavorite = () => {
-    dispatch(favoriteRecipe({ _id: recipe._id, favorite: recipe.favorite }));
+    dispatch(recipeOperations.favoriteRecipe({ _id: recipe._id, favorite: recipe.favorite }));
   };
 
   return (

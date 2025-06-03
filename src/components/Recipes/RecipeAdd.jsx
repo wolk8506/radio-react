@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -16,17 +14,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-
 import SaveIcon from '@mui/icons-material/Save';
 import DoDisturbAltIcon from '@mui/icons-material/DoDisturbAlt';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
-import { addRecipe } from 'store/recipe/operations';
-import { getLoadingAddRecipe, getStatusAddRecipe } from 'store/recipe/selectors';
-import { uploadFiles } from 'store/auth/operations';
-import { getLoadingUploadFiles } from 'store/files/selectors';
+import { fileSelector, authOperations, recipeOperations } from 'store';
+
 import { ImageBlock } from './ComponentRecipeImg';
 import { categoryList } from './ComponentDataCategory';
 
@@ -34,9 +29,9 @@ export const RecipeAdd = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loadingAddRecipe = useSelector(getLoadingAddRecipe);
-  const statusAddRecipe = useSelector(getStatusAddRecipe);
-  const loadingUploadFiles = useSelector(getLoadingUploadFiles);
+  const loadingAddRecipe = useSelector(fileSelector.getLoadingAddRecipe);
+  const statusAddRecipe = useSelector(fileSelector.getStatusAddRecipe);
+  const loadingUploadFiles = useSelector(fileSelector.getLoadingUploadFiles);
   const helpText =
     'Можно добавить только 20 изображений в одном этапе редактирования. Ограничений по шагам и ингридиентам нет.';
 
@@ -196,14 +191,14 @@ export const RecipeAdd = () => {
 
     formData.getAll('files').length > 0 &&
       dispatch(
-        uploadFiles(formData, {
+        authOperations.uploadFiles(formData, {
           headers: {
             'Content-type': 'multipart/form-data',
           },
         })
       );
 
-    dispatch(addRecipe(recipe));
+    dispatch(recipeOperations.addRecipe(recipe));
   };
 
   // Редирект после отмены сохранения

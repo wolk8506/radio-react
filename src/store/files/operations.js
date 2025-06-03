@@ -4,7 +4,7 @@ import { BASE_URL } from '../../config';
 
 axios.defaults.baseURL = BASE_URL;
 
-export const uploadFiles = createAsyncThunk('files/upload', async credentials => {
+const uploadFiles = createAsyncThunk('files/upload', async credentials => {
   try {
     const { data } = await axios.post('/files/upload', credentials);
 
@@ -14,7 +14,7 @@ export const uploadFiles = createAsyncThunk('files/upload', async credentials =>
   }
 });
 
-export const uploadWalpaper = createAsyncThunk('files/uploadWalpaper', async credentials => {
+const uploadWalpaper = createAsyncThunk('files/uploadWalpaper', async credentials => {
   try {
     const { data } = await axios.post('/files/walpaper', credentials);
 
@@ -24,7 +24,7 @@ export const uploadWalpaper = createAsyncThunk('files/uploadWalpaper', async cre
   }
 });
 
-export const deleteFile = createAsyncThunk('files/deleteFile', async data => {
+const deleteFile = createAsyncThunk('files/deleteFile', async data => {
   const response = await axios.delete('files/delete', {
     data: { filePaths: data },
   });

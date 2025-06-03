@@ -1,46 +1,14 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import weatherDayReducer from './root/reducer-WeatherDay';
-import currencyZVRPreviousReducer from './root/reducer-CurrencyZVRPrevious';
-import currencyZVRCurrentReducer from './root/reducer-CurrencyZVRCurrent';
-import currencyNBUReducer from './root/reducer-CurrencyNBU';
-// import currencyBanksTodayReducer from './root/reducer-CurrencyBanksToday';
-import currencyMonoCurrentReducer from './root/reducer-CurrencyMonoCurrent';
-import dataReducer from './root/reducer-Data';
-import weatherMonthReducer from './root/reducer-WeatherMonth';
-import weatherAirQualityReducer from './root/reducer-WeatherAirQuality';
-import weatherElementsReducer from './root/reducer-WeatherElements';
-import weatherDayCityReducer from './root/reducer-WeatherDayCity';
-import newsReducer from './root/reducer-News';
+import { authReducer } from 'store';
 import recipeReducer from './recipe/reducer';
-import { auth as authReducer } from './auth/reducer';
+import weatherReducer from './weather/reducer';
+import currencyReducer from './currency/reducer';
+import newsReducer from './news/reducer';
 import filesReducer from './files/reducer';
-// import authReducer2 from './auth/reducer';
-
-export const rootReducer = combineReducers({
-  storeWeatherElements: weatherElementsReducer,
-  storeWeatherMonth: weatherMonthReducer,
-  storeWeatherAirQuality: weatherAirQualityReducer,
-  storeWeatherDayCity: weatherDayCityReducer,
-  //
-  storeData: dataReducer,
-  //
-  storeWeatherDay: weatherDayReducer,
-  storeCurrencyMonoCurrent: currencyMonoCurrentReducer,
-  storeCurrencyZVRPrevious: currencyZVRPreviousReducer,
-  storeCurrencyZVRCurrent: currencyZVRCurrentReducer,
-  storeCurrencyNBU: currencyNBUReducer,
-  // storeCurrencyBanksToday: currencyBanksTodayReducer,
-  //
-  storeNews: newsReducer,
-  // storeAuth: authReducer2,
-});
-
-// export const authReducer = combineReducers({
-//   storeAuth: auth,
-// });
+import rootReducer from './root/reducer';
 
 const persistConfig = {
   key: 'root',
@@ -54,28 +22,42 @@ const persistConfigFiles = {
   key: 'files',
   storage,
 };
+const persistConfigWeather = {
+  key: 'weather',
+  storage,
+};
+const persistConfigCurrency = {
+  key: 'currency',
+  storage,
+};
+const persistConfigNews = {
+  key: 'news',
+  storage,
+};
 const persistConfigAuth = {
   key: 'auth',
   storage,
   whitelist: ['token'],
 };
 
-// Создаем persistedReducer для root
+// Создаем persistedReducer
 const persistedRootReducer = persistReducer(persistConfig, rootReducer);
-
-// Создаем persistedReducer для auth
 const persistedAuthReducer = persistReducer(persistConfigAuth, authReducer);
-// Создаем persistedReducer для recipe
 const persistedRecipeReducer = persistReducer(persistConfigRecipe, recipeReducer);
-// Создаем persistedReducer для recipe
 const persistedRecipeFiles = persistReducer(persistConfigFiles, filesReducer);
+const persistedWeather = persistReducer(persistConfigWeather, weatherReducer);
+const persistedCurrency = persistReducer(persistConfigCurrency, currencyReducer);
+const persistedNews = persistReducer(persistConfigNews, newsReducer);
 
 const store = configureStore({
   reducer: {
-    root: persistedRootReducer, // Главный редюсер
+    root: persistedRootReducer,
     recipe: persistedRecipeReducer,
     files: persistedRecipeFiles,
-    auth: persistedAuthReducer, // Редюсер для авторизации
+    auth: persistedAuthReducer,
+    weather: persistedWeather,
+    currency: persistedCurrency,
+    news: persistedNews,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
