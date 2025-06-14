@@ -22,7 +22,7 @@ export const ImageBlock = ({ step = 'main', img, onDeleteImage, onFileChange }) 
             accept="image/png, image/jpeg, image/webp"
             onChange={onFileChange}
           />
-          <label className="img-block__label" for={`uploadFile-${step}`}>
+          <label className="img-block__label" htmlFor={`uploadFile-${step}`}>
             <FileDownloadOutlinedIcon sx={{ fontSize: 72 }} />
             <span className="label__text">ЗАГРУЗИТЬ ИЗОБРАЖЕНИЕ</span>
           </label>

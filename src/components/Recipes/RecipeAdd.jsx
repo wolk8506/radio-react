@@ -20,7 +20,7 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
-import { fileSelector, authOperations, recipeOperations } from 'store';
+import { fileSelector, recipeSelectors, authOperations, recipeOperations } from 'store';
 
 import { ImageBlock } from './ComponentRecipeImg';
 import { categoryList } from './ComponentDataCategory';
@@ -29,8 +29,8 @@ export const RecipeAdd = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loadingAddRecipe = useSelector(fileSelector.getLoadingAddRecipe);
-  const statusAddRecipe = useSelector(fileSelector.getStatusAddRecipe);
+  const loadingAddRecipe = useSelector(recipeSelectors.getLoadingAddRecipe);
+  const statusAddRecipe = useSelector(recipeSelectors.getStatusAddRecipe);
   const loadingUploadFiles = useSelector(fileSelector.getLoadingUploadFiles);
   const helpText =
     'Можно добавить только 20 изображений в одном этапе редактирования. Ограничений по шагам и ингридиентам нет.';
