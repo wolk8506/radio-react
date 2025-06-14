@@ -31,7 +31,7 @@ export const App = () => {
   const PLAYER_PLAY = useSelector(rootSelectors.getPlayerPlay);
   const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
   const [audio, setAudio] = useState();
-
+  const THEME_NEW_YEAR = useSelector(rootSelectors.getThemeNewYear);
   const isFetching = useSelector(authSelectors.getIsFetchingCurrent);
   const dispatch = useDispatch();
 
@@ -94,6 +94,13 @@ export const App = () => {
   // Если загрузка завершена, рендерим приложение
   return (
     <div className="app" style={{ '--background-image': dynamicImageUrl }}>
+      {THEME_NEW_YEAR.snow && (
+        <div className="snow">
+          {[...Array(200)].map((_, index) => (
+            <div key={index} className="snow__snowflakes"></div>
+          ))}
+        </div>
+      )}
       <Sidebar audio={audio} />
       <div className="content">
         <Suspense fallback="Load...">
