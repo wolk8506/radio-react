@@ -168,10 +168,8 @@ export const ChartWeather = ({ value = '0' }) => {
               'linear-gradient(rgba(255,255,255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255, 0.1) 1px, transparent 1px)',
           }),
         })}
-        // xAxis={[{ data: xData, scaleType: 'point' }]}
         xAxis={[{ data: dataChart.map(i => i.time), scaleType: 'point' }]}
         dataset={dataChart}
-        slotProps={{ legend: { hidden: true } }}
         series={[
           {
             label: labelChart,
@@ -197,17 +195,18 @@ export const ChartWeather = ({ value = '0' }) => {
         grid={{ horizontal: true }}
         height={250}
         margin={{ top: 10, bottom: 20 }}
-      >
-        <ContinuousColorLegend
-          axisDirection="y"
-          position={{ vertical: 'middle', horizontal: 'right' }} //middle//right
-          direction="column" //column//row
-          length="50%"
-          thickness={5}
-          align="middle"
-          labelStyle={{ fontSize: 16 }}
-        />
-      </LineChart>
+        slots={{ legend: ContinuousColorLegend }}
+        slotProps={{
+          legend: {
+            axisDirection: 'y',
+            direction: 'vertical',
+            thickness: 16,
+            labelPosition: 'extremes',
+            reverse: false,
+            sx: { height: '150px', color: 'var(--color-03)' },
+          },
+        }}
+      ></LineChart>
     </Stack>
   );
 };
