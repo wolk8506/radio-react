@@ -31,6 +31,7 @@ import weatherImage from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
+import WeatherMap from './WeatherMap';
 
 moment.locale('ru');
 
@@ -324,6 +325,25 @@ export const Weather = () => {
         return [];
       });
   }
+
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    // console.log('data_today', data_today);
+    const today = data_today;
+    const hour = moment().format('H');
+    setWeather({
+      latitude: today.latitude,
+      longitude: today.longitude,
+      address: today.address,
+      temp: today.days[0].hours[hour].temp,
+      condition: today.days[0].hours[hour].conditions,
+      icon: today.days[0].hours[hour].icon,
+      winddir: today.days[0].hours[hour].winddir,
+      windspeed: today.days[0].hours[hour].windspeed,
+    });
+    // });
+  }, [data_today]);
 
   return (
     <div className="weather">
@@ -625,7 +645,22 @@ export const Weather = () => {
 
       <div className="weathet__block-day">
         <WeatherCurrentDay></WeatherCurrentDay>
-        <AirQuality></AirQuality>
+
+        <div>
+          {/* {console.log(weather)} */}
+          {weather && (
+            <WeatherMap
+              latitude={weather.latitude}
+              longitude={weather.longitude}
+              temp={weather.temp}
+              condition={weather.condition}
+              icon={weather.icon}
+              address={weather.address}
+              winddir={weather.winddir}
+              windspeed={weather.windspeed}
+            />
+          )}
+        </div>
       </div>
 
       <Media
@@ -647,6 +682,7 @@ export const Weather = () => {
             {matches.medium && (
               <>
                 <ChartWeather></ChartWeather>
+                <AirQuality></AirQuality>
                 <WeatherMonth></WeatherMonth>
                 <Tiles></Tiles>
               </>

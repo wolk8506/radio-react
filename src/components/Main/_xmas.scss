@@ -255,15 +255,15 @@
   }
 }
 
-.year-2025 {
+.year {
   position: absolute;
-  bottom: 75px;
-  left: 630px;
+  bottom: 86px;
+  left: 660px;
   z-index: 1;
-  transform: rotate(10deg);
+  transform: rotate(6deg);
 
   img {
-    width: 200px;
+    width: 215px;
     display: block;
     filter: drop-shadow(0 0 10px white);
   }
@@ -272,11 +272,11 @@
 .snake {
   position: absolute;
   bottom: 15px;
-  left: 90px;
+  left: 40px;
   z-index: 1;
 
   img {
-    width: 170px;
+    width: 250px;
     display: block;
     filter: drop-shadow(0 0 10px white);
   }

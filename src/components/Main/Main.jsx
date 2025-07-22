@@ -16,8 +16,8 @@ import sugrob from '../../images/winter/sugrob.png';
 import blueWhiteIgloo from '../../images/winter/blue-white-igloo.png';
 import santaSleigh from '../../images/winter/santa-claus.png';
 
-import year_2025 from '../../images/winter/year_2025.png';
-import snake from '../../images/winter/snake.png';
+import year from '../../images/winter/year.png';
+import snake from '../../images/winter/horse.png';
 
 import { NewYearCountdown } from './NewYearCountdown';
 
@@ -29,13 +29,6 @@ export const Main = ({ onAudio }) => {
 
   return (
     <>
-      {THEME_NEW_YEAR.snow && (
-        <div className="snow">
-          {[...Array(200)].map((_, index) => (
-            <div key={index} className="snow__snowflakes"></div>
-          ))}
-        </div>
-      )}
       <div className="main">
         {WIDGET === '1' && <ClockDigital></ClockDigital>}
         {WIDGET === '0' && (
@@ -96,14 +89,16 @@ export const Main = ({ onAudio }) => {
           <img src={santaSleigh} alt="christmasTree" />
         </div>
       )}
+
+      {THEME_NEW_YEAR.year && (
+        <div className="year">
+          <img src={year} alt="year" />
+        </div>
+      )}
       {/* <div className="santa-sleigh">
         <img src={santaSleigh} alt="christmasTree" />
       </div> */}
-      {THEME_NEW_YEAR.year && (
-        <div className="year-2025">
-          <img src={year_2025} alt="christmasTree" />
-        </div>
-      )}
+
       {THEME_NEW_YEAR.snake && (
         <div className="snake">
           <img src={snake} alt="christmasTree" />
