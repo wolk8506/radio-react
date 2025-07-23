@@ -10,11 +10,13 @@
   background: function.rgb-a(colors.$color-07, var(--transparency));
 
 
+
   // *---------------------------------------------------------------------------
   .block__clock-analog {
     position: relative;
     border-right: 1px solid function.rgb-a(colors.$color-02, 50%);
     margin-right: 16px;
+
   }
 
   .clock-analog {

@@ -6,8 +6,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
-  margin-top: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   @include function.card-style;
 
   .currency-main__title {
@@ -29,6 +29,7 @@
       font-family: 'Montserrat Alternates', sans-serif;
     }
   }
+
   .currency-main__item {
     display: flex;
     align-items: center;
@@ -90,6 +91,7 @@
   [data-tooltip] {
     position: relative; //* Относительное позиционирование */
   }
+
   [data-tooltip]::after {
     font-size: 14px;
     content: attr(data-tooltip); //* Выводим текст */
@@ -107,6 +109,7 @@
     border-radius: 15px;
     z-index: 1;
   }
+
   [data-tooltip]:hover::after {
     opacity: 1; //* Показываем подсказку */
     top: 2em; //* Положение подсказки */

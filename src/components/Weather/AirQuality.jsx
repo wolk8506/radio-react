@@ -9,20 +9,22 @@ import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
 import moment from 'moment';
 
-export const AirQuality = () => {
+export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
   const data = useSelector(weatherSelectors.getWeatherAirQuality_Data);
   const CITY = useSelector(weatherSelectors.getCityName);
   const dispatch = useDispatch();
-
+  const START_DATE = moment().subtract(1, 'days').format('YYYY-MM-DD');
+  const END_DATE = moment().add(5, 'days').format('YYYY-MM-DD');
+  const WEATHER_API_KEY = 'GP4GVCRSPM49PLYL6GG3XCCND';
   useEffect(() => {
-    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}?unitGroup=metric&key=ALDXRSSMA67DYTJF696P4X2T8&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
+    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/${START_DATE}/${END_DATE}?unitGroup=metric&key=${WEATHER_API_KEY}&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
 
     dispatch(weatherOperations.fetchWeatherAirQuality(URL));
-  }, [CITY, dispatch]);
+  }, [CITY, END_DATE, START_DATE, dispatch]);
 
   const [chart, setChart] = useState([{ code: 0, value: 1 }]);
   const [chartType, setChartType] = useState('aqius');
-  const [choiceOfDay, setChoiceOfDay] = useState('0');
+  const [choiceOfDay, setChoiceOfDay] = useState(choiceOfDayGlobal);
   const [weeklyData, setWeeklyData] = useState([]);
   const [barColors, setbarColors] = useState([]);
 
@@ -97,7 +99,7 @@ export const AirQuality = () => {
     for (let i = 0; i < 5; i++) {
       arr.push({
         dateTime: moment(data.days[i].datetime).format('DD MMMM'),
-        dateDay: moment(data.days[i].datetime).format('dd'),
+        dateDay: i === 0 ? 'Вчера' : i === 1 ? 'Сегодня' : moment(data.days[i].datetime).format('dd'),
         aqius: data.days[i].aqius,
         ...dataBar(data.days[i].aqius),
       });
@@ -131,6 +133,7 @@ export const AirQuality = () => {
   // ------------------------------
   const handleChoiceOfDay = e => {
     setChoiceOfDay(e.currentTarget.value);
+    onChange(e.currentTarget.value);
   };
 
   const handleAirQualityChoice = e => {
@@ -198,172 +201,177 @@ export const AirQuality = () => {
   }
 
   return (
-    <div className="weather__air-quality">
-      <div className="tabs-carousel-items">
-        <div className="tabs-carousel-items" style={{ transform: 'translateX(0px)', columnGap: '10px' }}>
-          {weeklyData.map((el, index) => (
-            <div key={index} className="tab-daily-item">
-              <div className="tab-daily-item__bg ">
-                <div className={choiceOfDay === `${index}` ? 'bg__content bg__content--active' : 'bg__content'}></div>
-              </div>
-              <button className="tab-daily-item__button" onClick={handleChoiceOfDay} value={index}>
-                <div className="button__content">
-                  <div className="content__date-section">
-                    <div className="date-section__date-label">{el?.dateTime}</div>
-                    <div className="date-section__week-label">{el?.dateDay}</div>
-                  </div>
-                  <div className="content__content-section" style={{ width: '100%' }}>
-                    <div className="content-section__day-bar">
-                      <div
-                        className="day-bar__bar-val-section"
-                        style={{ flexDirection: 'column', alignItems: 'flex-start' }}
-                      >
-                        <div className="bar-val-section__bar-num-big">{el?.aqius}</div>
-                        <div className="bar-val-section__bar-level-big">
-                          <div className="bar-level-big__bar-level" title={el?.levelQulityTitle}>
-                            {el?.levelQulityTitle}
+    <>
+      <div className="weather__air-quality">
+        <div className="tabs-carousel-items">
+          <div className="tabs-carousel-items" style={{ transform: 'translateX(0px)', columnGap: '10px' }}>
+            {weeklyData.map((el, index) => (
+              <div
+                key={index}
+                className={choiceOfDay === `${index}` ? 'tab-daily-item tab-daily-item--active' : 'tab-daily-item'}
+              >
+                <div className="tab-daily-item__bg ">
+                  <div className={choiceOfDay === `${index}` ? 'bg__content bg__content--active' : 'bg__content'}></div>
+                </div>
+                <button className="tab-daily-item__button" onClick={handleChoiceOfDay} value={index}>
+                  <div className="button__content">
+                    <div className="content__date-section">
+                      <div className="date-section__date-label">{el?.dateTime}</div>
+                      <div className="date-section__week-label">{el?.dateDay}</div>
+                    </div>
+                    <div className="content__content-section" style={{ width: '100%' }}>
+                      <div className="content-section__day-bar">
+                        <div
+                          className="day-bar__bar-val-section"
+                          style={{ flexDirection: 'column', alignItems: 'flex-start' }}
+                        >
+                          <div className="bar-val-section__bar-num-big">{el?.aqius}</div>
+                          <div className="bar-val-section__bar-level-big">
+                            <div className="bar-level-big__bar-level" title={el?.levelQulityTitle}>
+                              {el?.levelQulityTitle}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="day-bar__range-bar-section">
-                        <div
-                          className="range-bar-section__value-bar"
-                          style={{ background: el?.color, height: el?.levelQulityHight }}
-                        ></div>
+                        <div className="day-bar__range-bar-section">
+                          <div
+                            className="range-bar-section__value-bar"
+                            style={{ background: el?.color, height: el?.levelQulityHight }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          className="air-quality"
+          style={
+            choiceOfDay === '0' ? { borderTopLeftRadius: 0 } : choiceOfDay === '4' ? { borderTopRightRadius: 0 } : {}
+          }
+        >
+          <div className="air-quality__button-group">
+            {buttonGroup.map(el => (
+              <button
+                key={el.value}
+                className={
+                  chartType !== el.value
+                    ? `button-group__button-air`
+                    : 'button-group__button-air button-group__button-air--activ'
+                }
+                onClick={handleAirQualityChoice}
+                value={el.value}
+                title={el.title}
+                aria-label={el.title}
+              >
+                <span>{el.title}</span>
               </button>
+            ))}
+          </div>
+
+          <div className="air-quality__chart-content">
+            <Box sx={{ width: '100%' }}>
+              <BarChart
+                sx={theme => ({
+                  [`.${axisClasses.root}`]: {
+                    [`.${axisClasses.tick}, .${axisClasses.line}`]: {
+                      stroke: 'var(--color-03)', //stroke: '#fce3af',
+                      strokeWidth: 1,
+                    },
+                    [`.${axisClasses.tickLabel}`]: {
+                      fill: 'var(--color-02)',
+                    },
+                  },
+                })}
+                xAxis={[
+                  {
+                    categoryGapRatio: 0.45,
+                    scaleType: 'band',
+                    dataKey: 'code',
+                    position: 'top',
+                    colorMap: {
+                      type: 'ordinal',
+                      colors: barColors,
+                    },
+
+                    tickLabelInterval: (value, index) => index % 2 === 0, // Отображаем каждую вторую подпись
+                  },
+                ]}
+                height={295}
+                dataset={chart}
+                series={[{ dataKey: 'value', label: chartType }]}
+                slots={{
+                  legend: () => null,
+                }}
+                yAxis={[
+                  {
+                    valueFormatter: value => value,
+                  },
+                ]}
+                borderRadius={15} // Добавляем закругление к столбцам
+                grid={{ vertical: true, horizontal: true }}
+              />
+            </Box>
+          </div>
+
+          <div className="air-quality__legend-container">
+            <div className="legend-container__item">
+              <span className="item__filled" style={{ background: 'rgb(0, 174, 86)' }}></span>
+              <span className="item__label" title="Хорошее">
+                <span> Хорошее</span>
+              </span>
             </div>
-          ))}
-        </div>
-      </div>
-      <div
-        className="air-quality"
-        style={
-          choiceOfDay === '0' ? { borderTopLeftRadius: 0 } : choiceOfDay === '4' ? { borderTopRightRadius: 0 } : {}
-        }
-      >
-        <div className="air-quality__button-group">
-          {buttonGroup.map(el => (
-            <button
-              key={el.value}
-              className={
-                chartType !== el.value
-                  ? `button-group__button-air`
-                  : 'button-group__button-air button-group__button-air--activ'
-              }
-              onClick={handleAirQualityChoice}
-              value={el.value}
-              title={el.title}
-              aria-label={el.title}
-            >
-              <span>{el.title}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="air-quality__chart-content">
-          <Box sx={{ width: '100%' }}>
-            <BarChart
-              sx={theme => ({
-                [`.${axisClasses.root}`]: {
-                  [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                    stroke: 'var(--color-03)', //stroke: '#fce3af',
-                    strokeWidth: 1,
-                  },
-                  [`.${axisClasses.tickLabel}`]: {
-                    fill: 'var(--color-02)',
-                  },
-                },
-              })}
-              xAxis={[
-                {
-                  categoryGapRatio: 0.45,
-                  scaleType: 'band',
-                  dataKey: 'code',
-                  position: 'top',
-                  colorMap: {
-                    type: 'ordinal',
-                    colors: barColors,
-                  },
-
-                  tickLabelInterval: (value, index) => index % 2 === 0, // Отображаем каждую вторую подпись
-                },
-              ]}
-              height={295}
-              dataset={chart}
-              series={[{ dataKey: 'value', label: chartType }]}
-              slots={{
-                legend: () => null,
-              }}
-              yAxis={[
-                {
-                  valueFormatter: value => value,
-                },
-              ]}
-              borderRadius={15} // Добавляем закругление к столбцам
-              grid={{ vertical: true, horizontal: true }}
-            />
-          </Box>
-        </div>
-
-        <div className="air-quality__legend-container">
-          <div className="legend-container__item">
-            <span className="item__filled" style={{ background: 'rgb(0, 174, 86)' }}></span>
-            <span className="item__label" title="Хорошее">
-              <span> Хорошее</span>
-            </span>
-          </div>
-          <div className="legend-container__item">
-            <span className="item__filled" style={{ background: 'rgb(255, 185, 0)' }}></span>
-            <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Среднее">
-              <span> Среднее</span>
-            </span>
-          </div>
-          <div className="legend-container__item">
-            <span className="item__filled" style={{ background: 'rgb(242, 97, 12)' }}></span>
-            <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Плохое">
-              <span> Плохое</span>
-            </span>
-          </div>
-          <div className="legend-container__item">
-            <span className="item__filled" style={{ background: 'rgb(209, 52, 56)' }}></span>
-            <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Вредно для здоровья">
-              <span> Вредно для здоровья</span>
-            </span>
-          </div>
-          <div className="legend-container__item">
-            <span className="item__filled" style={{ background: 'rgb(136, 23, 152)' }}></span>
-            <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Очень вредно для здоровья">
-              <span> Очень вредно для здоровья</span>
-            </span>
-          </div>
-          <div className="legend-container__item">
-            <span className="item__filled" style={{ background: 'rgb(110, 34, 15)' }}></span>
-            <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Опасное загрязнение">
-              <span> Опасное загрязнение</span>
-            </span>
-          </div>
-        </div>
-
-        <div className="air-quality__summary-section">
-          <div className="summary-section__text-block">
-            <h5 className="text-block__title">Источники:</h5>
-            <p className="text-block__text">{description[chartType][0]}</p>
-          </div>
-          <div className="summary-section__text-block">
-            <h5 className="text-block__title">Связанные эффекты:</h5>
-            <p className="text-block__text">{description[chartType][1]}</p>
+            <div className="legend-container__item">
+              <span className="item__filled" style={{ background: 'rgb(255, 185, 0)' }}></span>
+              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Среднее">
+                <span> Среднее</span>
+              </span>
+            </div>
+            <div className="legend-container__item">
+              <span className="item__filled" style={{ background: 'rgb(242, 97, 12)' }}></span>
+              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Плохое">
+                <span> Плохое</span>
+              </span>
+            </div>
+            <div className="legend-container__item">
+              <span className="item__filled" style={{ background: 'rgb(209, 52, 56)' }}></span>
+              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Вредно для здоровья">
+                <span> Вредно для здоровья</span>
+              </span>
+            </div>
+            <div className="legend-container__item">
+              <span className="item__filled" style={{ background: 'rgb(136, 23, 152)' }}></span>
+              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Очень вредно для здоровья">
+                <span> Очень вредно для здоровья</span>
+              </span>
+            </div>
+            <div className="legend-container__item">
+              <span className="item__filled" style={{ background: 'rgb(110, 34, 15)' }}></span>
+              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Опасное загрязнение">
+                <span> Опасное загрязнение</span>
+              </span>
+            </div>
           </div>
 
-          <div className="summary-section__text-block">
-            <h5 className="text-block__title">Безопасные пределы воздействия:</h5>
-            <p className="text-block__text">{description[chartType][2]}</p>
+          <div className="air-quality__summary-section">
+            <div className="summary-section__text-block">
+              <h5 className="text-block__title">Источники:</h5>
+              <p className="text-block__text">{description[chartType][0]}</p>
+            </div>
+            <div className="summary-section__text-block">
+              <h5 className="text-block__title">Связанные эффекты:</h5>
+              <p className="text-block__text">{description[chartType][1]}</p>
+            </div>
+
+            <div className="summary-section__text-block">
+              <h5 className="text-block__title">Безопасные пределы воздействия:</h5>
+              <p className="text-block__text">{description[chartType][2]}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -1,0 +1,13 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
+
+
+.weather-map {
+  // color: function.rgb-a(colors.$color-03, 50%);
+
+  height: 270px;
+  width: 620px;
+  // border-radius: '20px'
+  @include function.card-style;
+}

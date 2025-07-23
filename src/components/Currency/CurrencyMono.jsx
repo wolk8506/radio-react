@@ -28,6 +28,7 @@ import Button from '@mui/material/Button';
 
 import moment from 'moment';
 import 'moment/locale/ru';
+import { Currency } from './Currency';
 moment.locale('ru');
 
 export const CurrencyMono = () => {
@@ -275,77 +276,81 @@ export const CurrencyMono = () => {
         <h2 className="name-section__title">Конвертер валют.</h2>
       </div>
 
-      <div className="converter-block">
-        <Box className="text-field-block" component="form" noValidate autoComplete="off">
-          <NumericFormat
-            prefix={currencySign[valueSelect1]}
-            thousandSeparator=" "
-            value={valueText1}
-            onValueChange={(values, sourceInfo) => {
-              if (setTextField_On_1) setValueText1(values.value);
-            }}
-            onFocus={handleConvert1}
-            customInput={TextField}
-            {...materialUITextFieldProps}
-          />
+      <div style={{ display: 'flex' }}>
+        <div className="converter-block">
+          <Box className="text-field-block" component="form" noValidate autoComplete="off">
+            <NumericFormat
+              prefix={currencySign[valueSelect1]}
+              thousandSeparator=" "
+              value={valueText1}
+              onValueChange={(values, sourceInfo) => {
+                if (setTextField_On_1) setValueText1(values.value);
+              }}
+              onFocus={handleConvert1}
+              customInput={TextField}
+              {...materialUITextFieldProps}
+            />
 
-          <NumericFormat
-            prefix={currencySign[valueSelect2]}
-            thousandSeparator=" "
-            value={valueText2}
-            onValueChange={(values, sourceInfo) => {
-              if (setTextField_On_2) setValueText2(values.value);
-            }}
-            onFocus={handleConvert2}
-            customInput={TextField}
-            {...materialUITextFieldProps}
-          />
-        </Box>
+            <NumericFormat
+              prefix={currencySign[valueSelect2]}
+              thousandSeparator=" "
+              value={valueText2}
+              onValueChange={(values, sourceInfo) => {
+                if (setTextField_On_2) setValueText2(values.value);
+              }}
+              onFocus={handleConvert2}
+              customInput={TextField}
+              {...materialUITextFieldProps}
+            />
+          </Box>
 
-        <div className="currencyBTN">
-          <FormControl className="currency-select" variant="filled">
-            <InputLabel id="demo-simple-select-standard-label">Валюта</InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={valueSelect1}
-              onChange={handleChange1}
-              label="Converter"
+          <div className="currencyBTN">
+            <FormControl className="currency-select" variant="filled">
+              <InputLabel id="demo-simple-select-standard-label">Валюта</InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={valueSelect1}
+                onChange={handleChange1}
+                label="Converter"
+              >
+                {d1.map(i => (
+                  <MenuItem key={i} value={i}>
+                    {i}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <IconButton
+              className="currency-btn-revert"
+              color="primary"
+              aria-label="add to shopping cart"
+              onClick={handleExpanr}
             >
-              {d1.map(i => (
-                <MenuItem key={i} value={i}>
-                  {i}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <AutorenewIcon />
+            </IconButton>
 
-          <IconButton
-            className="currency-btn-revert"
-            color="primary"
-            aria-label="add to shopping cart"
-            onClick={handleExpanr}
-          >
-            <AutorenewIcon />
-          </IconButton>
-
-          <FormControl className="currency-select" variant="filled">
-            <InputLabel id="demo-simple-select-filled-label">Валюта</InputLabel>
-            <Select
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={valueSelect2}
-              onChange={handleChange2}
-              label="Converter"
-            >
-              {d2.map(i => (
-                <MenuItem key={i} value={i}>
-                  {i}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            <FormControl className="currency-select" variant="filled">
+              <InputLabel id="demo-simple-select-filled-label">Валюта</InputLabel>
+              <Select
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                value={valueSelect2}
+                onChange={handleChange2}
+                label="Converter"
+              >
+                {d2.map(i => (
+                  <MenuItem key={i} value={i}>
+                    {i}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
         </div>
+
+        <Currency />
       </div>
 
       <div className="name-section">

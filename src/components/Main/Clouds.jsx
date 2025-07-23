@@ -84,10 +84,10 @@ function DemoF() {
     { title: 'Облачность' },
     React.createElement(
       'div',
-      { style: { padding: '0px 12px' } },
+      { style: { padding: '0px 0px' } },
       React.createElement(
         'div',
-        { className: 'relative', style: { width: '300px' } },
+        { className: 'relative', style: { width: '100%' } },
         React.createElement(
           'svg',
           {

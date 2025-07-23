@@ -21,12 +21,7 @@ export default function WeatherMap({ latitude, longitude, temp, condition, icon,
     className: 'combined-weather-icon',
   });
   return (
-    <MapContainer
-      center={[latitude, longitude]}
-      zoom={10}
-      scrollWheelZoom={false}
-      style={{ height: '270px', width: '620px', borderRadius: '20px' }}
-    >
+    <MapContainer className="weather-map" center={[latitude, longitude]} zoom={10} scrollWheelZoom={false}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"

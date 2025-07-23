@@ -8,6 +8,7 @@
   display: flex;
   justify-content: space-evenly;
   @include function.card-style;
+  margin-top: 36px;
 
   .gear {
     width: 5px;
@@ -39,9 +40,11 @@
     line-height: 255px;
     text-align: center;
   }
+
   .text_bottom {
     line-height: 0px;
   }
+
   .text_top_new {
     backface-visibility: hidden;
   }
@@ -52,6 +55,7 @@
   .bottom_new {
     transition: all 1s ease-in-out;
   }
+
   .top,
   .top_new {
     position: relative;
@@ -64,6 +68,7 @@
     border-radius: 5px;
     box-shadow: inset 0 1px function.rgb-a(colors.$color-01, 10%);
   }
+
   .bottom,
   .bottom_new {
     position: relative;
@@ -126,6 +131,7 @@
     animation: rotatebottom var(--rotationtime) 1 ease-in-out forwards;
   }
 }
+
 @media screen and (max-width: 720px) {
   .block__element {
     display: none;
