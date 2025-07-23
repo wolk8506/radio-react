@@ -1,0 +1,60 @@
+@use "../../scss/colors";
+@use "../../scss/function";
+
+.title-section {
+    height: 40px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title-start-section {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .title-label {
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: 600;
+            // color: var(--label_color);
+            margin-right: 20px;
+        }
+
+        .parameter-buttons {
+            display: block;
+            unicode-bidi: isolate;
+
+            .forecast-type-buttons {
+
+                .forecast-type-group {
+                    display: flex;
+                    align-items: center;
+                    width: fit-content;
+                    gap: 8px;
+
+                    .forecast-button {
+                        padding: 10.5px 12px;
+                        border-radius: 25px;
+                        border: none;
+                        height: 40px;
+                        max-width: 140px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        font-size: 14px;
+                        color: colors.$color-07;
+
+                        background: function.rgb-a(colors.$color-03, 100%);
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

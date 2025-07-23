@@ -9,7 +9,7 @@ form {
 .converter-block {
   padding: 30px;
   width: 500px;
-  margin: 20px;
+  margin: 20px 20px 20px 0px;
   @include function.card-style;
 
   .text-field-block {
@@ -40,9 +40,11 @@ form {
     margin: 0px;
     margin-bottom: 10px;
   }
+
   #cur1 {
     margin-right: 0px;
   }
+
   .text-field-block {
     display: flex;
     justify-content: space-around;

@@ -86,10 +86,10 @@ function DemoF() {
     { title: 'Влажность' } /*#__PURE__*/,
     React.createElement(
       'div',
-      { style: { padding: '0px 12px' } } /*#__PURE__*/,
+      { style: { padding: '0px 0px' } } /*#__PURE__*/,
       React.createElement(
         'div',
-        { className: 'relative', style: { width: '300px' } } /*#__PURE__*/,
+        { className: 'relative', style: { width: '100%' } } /*#__PURE__*/,
         React.createElement(
           'svg',
           {

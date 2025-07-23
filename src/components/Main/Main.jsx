@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Weather } from './Weather';
 import { Radio } from './Radio';
-import { Currency } from './Currency';
+// import { Currency } from '../Currency/Currency';
 import { Clock } from './Clock';
 import { Event } from './Event';
 import { ClockDigital } from './ClockDigital';
@@ -43,7 +43,7 @@ export const Main = ({ onAudio }) => {
         )}
         <div className="main__block">
           <Radio onAudio={onAudio}></Radio>
-          <Currency></Currency>
+          {/* <Currency></Currency> */}
           <Event></Event>
         </div>
       </div>

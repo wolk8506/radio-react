@@ -9,7 +9,7 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 
 import { ChartWeather } from './ChartWeather';
 import { Tiles } from './Tiles';
-import { AirQuality } from './AirQuality';
+// import { AirQuality } from './AirQuality';
 import { WeatherMonth } from './WeatherMonth';
 import { WeatherCurrentDay } from './WeatherCurrentDay';
 import { WeatherMonthMobile } from './WeatherMonthMobile';
@@ -32,6 +32,7 @@ import weatherImage from 'components/Weather/weatherIcon';
 import moment from 'moment';
 import 'moment/locale/ru';
 import WeatherMap from './WeatherMap';
+import { TitleSection } from './TitleSection';
 
 moment.locale('ru');
 
@@ -682,7 +683,8 @@ export const Weather = () => {
             {matches.medium && (
               <>
                 <ChartWeather></ChartWeather>
-                <AirQuality></AirQuality>
+                {/* <AirQuality></AirQuality> */}
+                <TitleSection />
                 <WeatherMonth></WeatherMonth>
                 <Tiles></Tiles>
               </>
