@@ -7,7 +7,9 @@ import { weatherSelectors } from 'store';
 import moment from 'moment';
 
 export const TilesHumidity = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [humidityTitle, setHumidityTitle] = useState('Нормальный воздух');
   const [humidityPercentage, setHumidityPercentage] = useState(0);
@@ -15,8 +17,8 @@ export const TilesHumidity = () => {
 
   useEffect(() => {
     const hour = moment().format('H');
-    setHumidityPercentage(Number(data_today.days[0].hours[hour].humidity.toFixed(0))); // Влажность
-    setDew(data_today.days[0].hours[hour].dew);
+    setHumidityPercentage(Number(data_today.days[1].hours[hour].humidity.toFixed(0))); // Влажность
+    setDew(data_today.days[1].hours[hour].dew);
   }, [data_today]);
 
   const humidityValue = {

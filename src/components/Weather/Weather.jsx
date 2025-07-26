@@ -7,7 +7,7 @@ import { weatherSelectors, weatherOperations, weatherActions, rootSelectors } fr
 
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 
-import { ChartWeather } from './ChartWeather';
+// import { ChartWeather } from './ChartWeather';
 import { Tiles } from './Tiles';
 // import { AirQuality } from './AirQuality';
 import { WeatherMonth } from './WeatherMonth';
@@ -49,9 +49,9 @@ export const Weather = () => {
 
   const BASE_URL = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 
-  const REACT_APP_WEATHER_API_KEY_1 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
+  // const REACT_APP_WEATHER_API_KEY_1 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
   const REACT_APP_WEATHER_API_KEY_2 = 'ALDXRSSMA67DYTJF696P4X2T8';
-  const REACT_APP_WEATHER_API_KEY_3 = 'GP4GVCRSPM49PLYL6GG3XCCND';
+  // const REACT_APP_WEATHER_API_KEY_3 = 'GP4GVCRSPM49PLYL6GG3XCCND';
   const REACT_APP_WEATHER_API_KEY_4 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
 
   const [ferstFetch, setFerstFetch] = useState(true);
@@ -148,14 +148,14 @@ export const Weather = () => {
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else if (CITY.city !== undefined && CITY !== null) {
-      const BASE_URL_YESTERDAY = `${BASE_URL}${CITY.city}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_1}&contentType=json&lang=ru&unitGroup=metric`;
-      const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
-      const BASE_URL_TOMORROW = `${BASE_URL}${CITY.city}/tomorrow?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
+      // const BASE_URL_YESTERDAY = `${BASE_URL}${CITY.city}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_1}&contentType=json&lang=ru&unitGroup=metric`;
+      // const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
+      // const BASE_URL_TOMORROW = `${BASE_URL}${CITY.city}/tomorrow?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
       const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY.city}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
-      dispatch(weatherOperations.fetchWeatherYesterday(BASE_URL_YESTERDAY));
-      dispatch(weatherOperations.fetchWeatherToday(BASE_URL_TODAY));
-      dispatch(weatherOperations.fetchWeatherTomorrow(BASE_URL_TOMORROW));
+      // dispatch(weatherOperations.fetchWeatherYesterday(BASE_URL_YESTERDAY));
+      // dispatch(weatherOperations.fetchWeatherToday(BASE_URL_TODAY));
+      // dispatch(weatherOperations.fetchWeatherTomorrow(BASE_URL_TOMORROW));
       dispatch(weatherOperations.fetchWeatherElements(URL_WEATHER_ELEMENTS));
     }
   }, [CITY, dispatch]);
@@ -166,8 +166,8 @@ export const Weather = () => {
     const REACT_APP_WEATHER_API_KEY_1 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
     const REACT_APP_WEATHER_API_KEY_2 = 'ALDXRSSMA67DYTJF696P4X2T8';
     const REACT_APP_WEATHER_API_KEY_3 = 'GP4GVCRSPM49PLYL6GG3XCCND';
-    const REACT_APP_WEATHER_API_KEY_4 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
-    const REACT_APP_WEATHER_API_KEY_5 = 'VYYWDJ2KMZJECA8DACHPRUVU3';
+    const REACT_APP_WEATHER_API_KEY_4 = 'VYYWDJ2KMZJECA8DACHPRUVU3';
+    const REACT_APP_WEATHER_API_KEY_5 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
     const hour = moment().format('H');
 
     if (hour > 20) API_KEY_WEATHER_30 = REACT_APP_WEATHER_API_KEY_5;
@@ -184,13 +184,20 @@ export const Weather = () => {
       .add(28 - numberDay, 'days')
       .format('YYYY-MM-DD');
     const DATE = `${dateStart}/${dateEnd}`;
+    const START_DATE_WEEK = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    const END_DATE_WEEK = moment().add(5, 'days').format('YYYY-MM-DD');
 
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else {
       const URL_WEATHER = `${BASE_URL}${CITY.city}/${DATE}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=days&elements=tempmax,tempmin,pressure,icon,humidity,uvindex,datetime`;
+      const URL_WEATHER_WEEK = `${BASE_URL}${CITY.city}/${START_DATE_WEEK}/${END_DATE_WEEK}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=hours`;
+
+      // const URL_WEATHER_WEEK = `${BASE_URL}${CITY.city}/${START_DATE_WEEK}/${END_DATE_WEEK}?&key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&include=days`
+
       if (CITY.city !== undefined) {
         dispatch(weatherOperations.fetchWeatherMonth(URL_WEATHER));
+        dispatch(weatherOperations.fetchWeatherWeek(URL_WEATHER_WEEK));
       }
     }
   }, [CITY, dispatch]);
@@ -682,7 +689,7 @@ export const Weather = () => {
             )}
             {matches.medium && (
               <>
-                <ChartWeather></ChartWeather>
+                {/* <ChartWeather></ChartWeather> */}
                 {/* <AirQuality></AirQuality> */}
                 <TitleSection />
                 <WeatherMonth></WeatherMonth>

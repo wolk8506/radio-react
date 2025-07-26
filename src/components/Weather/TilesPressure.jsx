@@ -7,9 +7,13 @@ import { weatherSelectors } from 'store';
 import moment from 'moment';
 
 export const TilesPressure = () => {
-  const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
-  const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+  // const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+
+  const data_yesterday = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const data_tomorrow = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [pressure_mb, setPressure_mb] = useState('--');
   const [dataChart, setDataChart] = useState([0, 0, 0, 1]);
@@ -20,7 +24,7 @@ export const TilesPressure = () => {
 
   useEffect(() => {
     const hour = Number(moment().format('H'));
-    setPressure_mb((data_today.days[0].hours[hour].pressure * 0.75).toFixed(0)); //Давление мм рт сб
+    setPressure_mb((data_today.days[1].hours[hour].pressure * 0.75).toFixed(0)); //Давление мм рт сб
   }, [data_today]);
 
   useEffect(() => {
@@ -36,10 +40,10 @@ export const TilesPressure = () => {
     arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 2].pressure);
 
     // arr_2  day+0
-    arr_1.push(...data_today.days[0].hours.map(i => i.pressure));
+    arr_1.push(...data_today.days[1].hours.map(i => i.pressure));
 
     // arr_3  day+1
-    arr_1.push(...data_tomorrow.days[0].hours.map(i => i.pressure));
+    arr_1.push(...data_tomorrow.days[2].hours.map(i => i.pressure));
 
     // выборка 4 часа
     const t1 = arr_1[hour + 0];

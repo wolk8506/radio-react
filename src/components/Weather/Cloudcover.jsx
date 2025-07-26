@@ -9,11 +9,11 @@ import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
 import moment from 'moment';
 
-export const UV = ({ choiceOfDayGlobal, onChange }) => {
+export const Cloudcover = ({ choiceOfDayGlobal, onChange }) => {
   const data = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [chart, setChart] = useState([{ code: 0, value: 1 }]);
-  const chartType = 'uvindex';
+  const chartType = 'cloudcover';
   const [choiceOfDay, setChoiceOfDay] = useState(choiceOfDayGlobal);
   const [weeklyData, setWeeklyData] = useState([]);
   const [barColors, setbarColors] = useState([]);
@@ -21,15 +21,15 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
   useEffect(() => {
     function colorChartBar(data) {
       const typeMap = {
-        uvindex: [10, 7, 5, 2, 0],
+        cloudcover: [100, 70, 50, 20, 0],
       };
 
       const colorMap = [
-        [101, 62, 146],
-        [187, 39, 43],
-        [224, 84, 6],
-        [212, 143, 2],
-        [93, 144, 27],
+        [178, 209, 255],
+        [128, 178, 255],
+        [51, 133, 255],
+        [0, 85, 212],
+        [0, 54, 135],
       ];
 
       const thresholds = typeMap[chartType];
@@ -80,8 +80,8 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
       arr.push({
         dateTime: moment(data.days[i].datetime).format('DD MMMM'),
         dateDay: i === 0 ? 'Вчера' : i === 1 ? 'Сегодня' : moment(data.days[i].datetime).format('dd'),
-        uvindex: data.days[i].uvindex,
-        ...dataBar(data.days[i].uvindex),
+        cloudcover: data.days[i].cloudcover,
+        ...dataBar(data.days[i].cloudcover),
       });
     }
 
@@ -92,20 +92,20 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
 
   const dataBar = data => {
     const type = {
-      uvindex: [10, 7, 5, 2, 0],
+      cloudcover: [100, 70, 50, 20, 0],
     };
-    const chartType = 'uvindex';
+    const chartType = 'cloudcover';
 
     if (data > type[chartType][0])
-      return { color: 'rgb(101 62 146)', levelQulityTitle: 'Экстремально высокий', levelQulityHight: '66.51px' };
+      return { color: 'rgb(178, 209, 255)', levelQulityTitle: 'Облачно', levelQulityHight: '66.51px' };
     else if (data > type[chartType][1])
-      return { color: 'rgb(187 39 43)', levelQulityTitle: 'Очень высокий', levelQulityHight: '55.8px' };
+      return { color: 'rgb(128, 178, 255)', levelQulityTitle: 'Преимущественно облачно', levelQulityHight: '55.8px' };
     else if (data > type[chartType][2])
-      return { color: 'rgb(224 84 6)', levelQulityTitle: 'Высокий', levelQulityHight: '45.6px' };
+      return { color: 'rgb(51, 133, 255)', levelQulityTitle: 'Переменная облачность', levelQulityHight: '45.6px' };
     else if (data > type[chartType][3])
-      return { color: 'rgb(212 143 2)', levelQulityTitle: 'Умеренный', levelQulityHight: '35.4px' };
+      return { color: 'rgb(0, 85, 212)', levelQulityTitle: 'В основном ясно"', levelQulityHight: '35.4px' };
     else if (data >= type[chartType][4])
-      return { color: 'rgb(93 144 27)', levelQulityTitle: 'Низкий', levelQulityHight: '25.2px' };
+      return { color: 'rgb(0, 54, 135)', levelQulityTitle: 'Ясно', levelQulityHight: '25.2px' };
   };
 
   // ------------------------------
@@ -143,7 +143,7 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                           className="day-bar__bar-val-section"
                           style={{ flexDirection: 'column', alignItems: 'flex-start' }}
                         >
-                          <div className="bar-val-section__bar-num-big">{el?.uvindex}</div>
+                          <div className="bar-val-section__bar-num-big">{el?.cloudcover}%</div>
                           <div className="bar-val-section__bar-level-big">
                             <div className="bar-level-big__bar-level" title={el?.levelQulityTitle}>
                               {el?.levelQulityTitle}
@@ -170,25 +170,6 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
             choiceOfDay === '0' ? { borderTopLeftRadius: 0 } : choiceOfDay === '4' ? { borderTopRightRadius: 0 } : {}
           }
         >
-          {/* <div className="air-quality__button-group">
-            {buttonGroup.map(el => (
-              <button
-                key={el.value}
-                className={
-                  chartType !== el.value
-                    ? `button-group__button-air`
-                    : 'button-group__button-air button-group__button-air--activ'
-                }
-                onClick={handleAirQualityChoice}
-                value={el.value}
-                title={el.title}
-                aria-label={el.title}
-              >
-                <span>{el.title}</span>
-              </button>
-            ))}
-          </div> */}
-
           <div className="air-quality__chart-content">
             <Box sx={{ width: '100%' }}>
               <BarChart
@@ -222,14 +203,14 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                 ]}
                 height={295}
                 dataset={chart}
-                series={[{ dataKey: 'value', label: 'Ультрафиолет' }]}
+                series={[{ dataKey: 'value', label: 'Облачность', valueFormatter: value => `${value?.toFixed(2)} %` }]}
                 slots={{
                   legend: () => null,
                 }}
                 yAxis={[
                   {
-                    valueFormatter: value => value,
-                    label: 'Индекс ультрафиолета',
+                    valueFormatter: value => value + '%',
+                    label: 'Покрытие облаками, %',
                   },
                 ]}
                 borderRadius={15} // Добавляем закругление к столбцам
@@ -243,47 +224,35 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
               <span
                 className="item__filled"
                 style={{
-                  background: 'linear-gradient(rgb(124, 82, 171) 0%, rgba(148, 112, 189, 0.8) 100%)',
+                  background: 'rgb(0, 54, 135)',
                 }}
               ></span>
-              <span className="item__label" title="Экстремально высокий<">
-                <span>Экстремально высокий</span>
+              <span className="item__label" title="Ясно<">
+                <span>Ясно</span>
               </span>
             </div>
             <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(209, 52, 56) 0%, rgba(220, 94, 98, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Очень высокий<">
-                <span>Очень высокий</span>
+              <span className="item__filled" style={{ background: 'rgb(0, 85, 212)' }}></span>
+              <span className="item__label" title="В основном ясно">
+                <span>В основном ясно</span>
               </span>
             </div>
             <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(247, 99, 12) 0%, rgba(249, 136, 69, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Высокий">
-                <span>Высокий</span>
+              <span className="item__filled" style={{ background: 'rgb(51, 133, 255)' }}></span>
+              <span className="item__label" title="Переменная облачность">
+                <span>Переменная облачность</span>
               </span>
             </div>
             <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(234, 163, 0) 0%, rgba(239, 184, 57, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Умеренный">
-                <span>Умеренный</span>
+              <span className="item__filled" style={{ background: 'rgb(128, 178, 255)' }}></span>
+              <span className="item__label" title="Преимущественно облачно">
+                <span>Преимущественно облачно</span>
               </span>
             </div>
             <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(107, 160, 43) 0%, rgba(144, 190, 76, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Низкий">
-                <span>Низкий</span>
+              <span className="item__filled" style={{ background: 'rgb(178, 209, 255)' }}></span>
+              <span className="item__label" title="Облачно">
+                <span>Облачно</span>
               </span>
             </div>
           </div>

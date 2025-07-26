@@ -4,24 +4,23 @@ import { useSelector } from 'react-redux';
 import { weatherSelectors } from 'store';
 
 import Box from '@mui/material/Box';
-import { BarChart } from '@mui/x-charts/BarChart';
+
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
+import { areaElementClasses, LineChart } from '@mui/x-charts/LineChart';
 
 import moment from 'moment';
 
-export const UV = ({ choiceOfDayGlobal, onChange }) => {
+export const TempFeelslike = ({ choiceOfDayGlobal, onChange }) => {
   const data = useSelector(weatherSelectors.getWeatherWeek_Data);
-
   const [chart, setChart] = useState([{ code: 0, value: 1 }]);
-  const chartType = 'uvindex';
+  const chartType = 'temp';
   const [choiceOfDay, setChoiceOfDay] = useState(choiceOfDayGlobal);
   const [weeklyData, setWeeklyData] = useState([]);
-  const [barColors, setbarColors] = useState([]);
-
+  console.log('data', data);
   useEffect(() => {
     function colorChartBar(data) {
       const typeMap = {
-        uvindex: [10, 7, 5, 2, 0],
+        temp: [10, 7, 5, 2, 0],
       };
 
       const colorMap = [
@@ -67,10 +66,10 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
       return {
         code: n_text + ':00',
         value: i[chartType],
+        value2: i.feelslike,
       };
     });
     setChart(arr);
-    setbarColors(barColors);
   }, [chartType, choiceOfDay, data.days]);
 
   useEffect(() => {
@@ -80,8 +79,10 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
       arr.push({
         dateTime: moment(data.days[i].datetime).format('DD MMMM'),
         dateDay: i === 0 ? 'Вчера' : i === 1 ? 'Сегодня' : moment(data.days[i].datetime).format('dd'),
-        uvindex: data.days[i].uvindex,
-        ...dataBar(data.days[i].uvindex),
+        feelslike: data.days[i].feelslike,
+        tempmax: data.days[i].tempmax,
+        tempmin: data.days[i].tempmin,
+        ...dataBar(data.days[i].tempmin, data.days[i].tempmax),
       });
     }
 
@@ -90,22 +91,11 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
 
   // ------------------------------
 
-  const dataBar = data => {
-    const type = {
-      uvindex: [10, 7, 5, 2, 0],
+  const dataBar = (tempmin, tempmax) => {
+    return {
+      color: 'linear-gradient(360deg, rgb(243, 253, 134) 0%, rgb(255, 118, 84) 100%)',
+      levelQulityHight: `${(tempmax - tempmin) * (66.51 / 21)}px`,
     };
-    const chartType = 'uvindex';
-
-    if (data > type[chartType][0])
-      return { color: 'rgb(101 62 146)', levelQulityTitle: 'Экстремально высокий', levelQulityHight: '66.51px' };
-    else if (data > type[chartType][1])
-      return { color: 'rgb(187 39 43)', levelQulityTitle: 'Очень высокий', levelQulityHight: '55.8px' };
-    else if (data > type[chartType][2])
-      return { color: 'rgb(224 84 6)', levelQulityTitle: 'Высокий', levelQulityHight: '45.6px' };
-    else if (data > type[chartType][3])
-      return { color: 'rgb(212 143 2)', levelQulityTitle: 'Умеренный', levelQulityHight: '35.4px' };
-    else if (data >= type[chartType][4])
-      return { color: 'rgb(93 144 27)', levelQulityTitle: 'Низкий', levelQulityHight: '25.2px' };
   };
 
   // ------------------------------
@@ -113,6 +103,56 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
     setChoiceOfDay(e.currentTarget.value);
     onChange(e.currentTarget.value);
   };
+
+  const tempValues = chart.map(item => item.value).filter(val => typeof val === 'number');
+
+  const minTemp = Math.min(...tempValues);
+  const maxTemp = Math.max(...tempValues);
+
+  const temperatureColors = {
+    '-40': '#2F4F4F',
+    '-35': '#3D5A6C',
+    '-30': '#4169E1',
+    '-25': '#4682B4',
+    '-20': '#5F9EA0',
+    '-15': '#87CEFA',
+    '-10': '#ADD8E6',
+    '-5': '#B0E0E6',
+    0: '#FFD700',
+    5: '#FFA500',
+    10: '#FF8C00',
+    15: '#FF7F50',
+    20: '#FF6347',
+    25: '#FF4500',
+    30: '#DC143C',
+    35: '#B22222',
+    40: '#8B0000',
+    45: '#800000',
+    50: '#660000',
+  };
+
+  const generateGradientStops = (minTemp, maxTemp) => {
+    const gradientStops = [];
+    const step = 5;
+
+    for (let temp = minTemp; temp <= maxTemp; temp += step) {
+      const rounded = Math.round(temp / step) * step;
+      const color = temperatureColors[String(rounded)];
+
+      if (!color) continue;
+
+      const offset = ((temp - minTemp) / (maxTemp - minTemp)) * 100;
+      const alpha = offset < 50 ? '80' : '60'; // ← плавная прозрачность
+      gradientStops.push({
+        offset: `${offset.toFixed(1)}%`,
+        color: `${color}${alpha}`, // HEX + прозрачность
+      });
+    }
+
+    return gradientStops;
+  };
+
+  const gradientStops = generateGradientStops(minTemp - 5, maxTemp + 5);
 
   if (!data?.days) {
     return <div>Загрузка данных о качестве воздуха...</div>;
@@ -143,14 +183,14 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                           className="day-bar__bar-val-section"
                           style={{ flexDirection: 'column', alignItems: 'flex-start' }}
                         >
-                          <div className="bar-val-section__bar-num-big">{el?.uvindex}</div>
-                          <div className="bar-val-section__bar-level-big">
-                            <div className="bar-level-big__bar-level" title={el?.levelQulityTitle}>
-                              {el?.levelQulityTitle}
-                            </div>
+                          <div className="bar-val-section__bar-num-big" title="Максимальная температура">
+                            {el?.tempmax}°
+                          </div>
+                          <div className="bar-val-section__bar-num-big-second" title="Минимальная температура">
+                            {el?.tempmin}°
                           </div>
                         </div>
-                        <div className="day-bar__range-bar-section">
+                        <div className="day-bar__range-bar-section" title="Дельта температур">
                           <div
                             className="range-bar-section__value-bar"
                             style={{ background: el?.color, height: el?.levelQulityHight }}
@@ -170,28 +210,9 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
             choiceOfDay === '0' ? { borderTopLeftRadius: 0 } : choiceOfDay === '4' ? { borderTopRightRadius: 0 } : {}
           }
         >
-          {/* <div className="air-quality__button-group">
-            {buttonGroup.map(el => (
-              <button
-                key={el.value}
-                className={
-                  chartType !== el.value
-                    ? `button-group__button-air`
-                    : 'button-group__button-air button-group__button-air--activ'
-                }
-                onClick={handleAirQualityChoice}
-                value={el.value}
-                title={el.title}
-                aria-label={el.title}
-              >
-                <span>{el.title}</span>
-              </button>
-            ))}
-          </div> */}
-
           <div className="air-quality__chart-content">
             <Box sx={{ width: '100%' }}>
-              <BarChart
+              <LineChart
                 sx={theme => ({
                   [`.${axisClasses.root}`]: {
                     [`.${axisClasses.tick}, .${axisClasses.line}`]: {
@@ -201,6 +222,10 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                     [`.${axisClasses.tickLabel}`]: {
                       fill: 'var(--color-02)',
                     },
+                    [`.${areaElementClasses.root}[data-series="value"]`]: {
+                      fill: 'url(#dynamicTemperatureGradient)', // ключ — явно задать стиль
+                      filter: 'none',
+                    },
                     [`& .MuiChartsAxis-label`]: {
                       fill: 'var(--color-03)',
                     },
@@ -208,82 +233,81 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                 })}
                 xAxis={[
                   {
-                    categoryGapRatio: 0.45,
-                    scaleType: 'band',
+                    scaleType: 'point',
                     dataKey: 'code',
                     position: 'top',
-                    colorMap: {
-                      type: 'ordinal',
-                      colors: barColors,
-                    },
-
                     tickLabelInterval: (value, index) => index % 2 === 0, // Отображаем каждую вторую подпись
                   },
                 ]}
                 height={295}
                 dataset={chart}
-                series={[{ dataKey: 'value', label: 'Ультрафиолет' }]}
+                series={[
+                  {
+                    dataKey: 'value2',
+                    label: 'Ощущается как',
+                    color: 'url(#dynamicTemperatureGradient)', // динамическая заливка
+                    showMark: false,
+                    baseline: 'min',
+                    area: true, // Чтобы было с заливкой
+                    valueFormatter: value => `${value?.toFixed(2)} °C`,
+                  },
+                  {
+                    dataKey: 'value',
+                    label: 'Температура',
+                    color: 'rgb(0, 0, 255)',
+                    showMark: false,
+                    // yAxisId: 'rightAxisId',
+                    valueFormatter: value => `${value?.toFixed(2)} °C`,
+                  },
+                ]}
                 slots={{
                   legend: () => null,
                 }}
                 yAxis={[
                   {
-                    valueFormatter: value => value,
-                    label: 'Индекс ультрафиолета',
+                    valueFormatter: value => `${value}°C`,
+                    min: minTemp - 5, // например, 745
+                    max: maxTemp + 5, // например, 750
+                    label: 'Температура °C',
                   },
+
+                  // {
+                  //   id: 'rightAxisId',
+                  //   valueFormatter: value2 => `${value2}°C`,
+                  //   position: 'right',
+                  // },
                 ]}
                 borderRadius={15} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
-              />
+              >
+                <defs>
+                  <linearGradient id="dynamicTemperatureGradient" x1="0" y1="1" x2="0" y2="0">
+                    {gradientStops.map((stop, i) => (
+                      <stop key={i} offset={stop.offset} stopColor={stop.color} />
+                    ))}
+                  </linearGradient>
+                </defs>
+              </LineChart>
             </Box>
           </div>
 
-          <div className="air-quality__legend-container">
+          <div className="air-quality__legend-container" style={{ width: 280 }}>
             <div className="legend-container__item">
               <span
                 className="item__filled"
                 style={{
-                  background: 'linear-gradient(rgb(124, 82, 171) 0%, rgba(148, 112, 189, 0.8) 100%)',
+                  background:
+                    ' linear-gradient(270deg, #7cbeff 0%, #74d6ff 21%, #bbebb8 42.17%, #fcff77 70.14%, #ff7455 100%)',
                 }}
               ></span>
-              <span className="item__label" title="Экстремально высокий<">
-                <span>Экстремально высокий</span>
+              <span className="item__label" title="Ощущается как">
+                <span>Ощущается как</span>
               </span>
             </div>
             <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(209, 52, 56) 0%, rgba(220, 94, 98, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Очень высокий<">
-                <span>Очень высокий</span>
-              </span>
-            </div>
-            <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(247, 99, 12) 0%, rgba(249, 136, 69, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Высокий">
-                <span>Высокий</span>
-              </span>
-            </div>
-            <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(234, 163, 0) 0%, rgba(239, 184, 57, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Умеренный">
-                <span>Умеренный</span>
-              </span>
-            </div>
-            <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(107, 160, 43) 0%, rgba(144, 190, 76, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Низкий">
-                <span>Низкий</span>
+              <span className="item__filled-line" style={{ background: 'rgb(0, 0, 255)' }}></span>
+              <span className="item__label" title="Температура<">
+                <span>Температура</span>
               </span>
             </div>
           </div>

@@ -7,9 +7,13 @@ import { weatherSelectors } from 'store';
 import moment from 'moment';
 
 export const TilesFeelTemp = () => {
-  const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
-  const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+  // const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+
+  const data_yesterday = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const data_tomorrow = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [dataChart, setDataChart] = useState([0, 0, 0, 1]);
   const [feelslike, setFeelslike] = useState(0);
@@ -21,9 +25,9 @@ export const TilesFeelTemp = () => {
 
   useEffect(() => {
     const hour = Number(moment().format('H'));
-    setTemperature(Number(data_today.days[0].hours[hour].temp.toFixed(0))); //Текущая температура в градусах цельсия
-    setFeelslike(Number(data_today.days[0].hours[hour].feelslike.toFixed(0)));
-    setWind_ms(Number((data_today.days[0].hours[hour].windspeed / 3.6).toFixed(0))); //Скорость ветра в м/с
+    setTemperature(Number(data_today.days[1].hours[hour].temp.toFixed(0))); //Текущая температура в градусах цельсия
+    setFeelslike(Number(data_today.days[1].hours[hour].feelslike.toFixed(0)));
+    setWind_ms(Number((data_today.days[1].hours[hour].windspeed / 3.6).toFixed(0))); //Скорость ветра в м/с
   }, [data_today]);
 
   useEffect(() => {
@@ -69,10 +73,10 @@ export const TilesFeelTemp = () => {
     arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 2].pressure);
 
     // arr_2  day+0
-    arr_1.push(...data_today.days[0].hours.map(i => i.feelslike));
+    arr_1.push(...data_today.days[1].hours.map(i => i.feelslike));
 
     // arr_3  day+1
-    arr_1.push(...data_tomorrow.days[0].hours.map(i => i.feelslike));
+    arr_1.push(...data_tomorrow.days[2].hours.map(i => i.feelslike));
 
     // выборка 4 часа
     const t1 = arr_1[hour + 0];

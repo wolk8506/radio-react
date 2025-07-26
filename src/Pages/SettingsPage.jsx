@@ -6,11 +6,11 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-import { version } from '../config';
-
 import { TabPanel1 } from 'components/Settings/TabPanel1';
 import { TabPanel2 } from 'components/Settings/TabPanel2';
 import { TabPanel3 } from 'components/Settings/TabPanel3';
+import packageJson from '../../package.json';
+const version = packageJson.version;
 
 export const SettingsPage = () => {
   const [value, setValue] = React.useState(0);
@@ -23,7 +23,7 @@ export const SettingsPage = () => {
     <section className="container-settings">
       <div className="header">
         <p className="header__title">settings</p>
-        <p className="header__subtitle">radio-react {version}</p>
+        <p className="header__subtitle">radio-react version: {version}</p>
       </div>
 
       <Box sx={{ width: '100%', typography: 'body1' }}>

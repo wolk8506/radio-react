@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 
 import { AirQuality } from './AirQuality';
+import { UV } from './UV';
+import { HumidityDew } from './HumidityDew';
+import { Pressure } from './Pressure';
+import { Visibility } from './Visibility';
+import { Wind } from './Wind';
+import { Cloudcover } from './Cloudcover';
+import { Precip } from './Precip';
+import { TempFeelslike } from './TempFeelslike';
 
 export const TitleSection = () => {
   const [selectParams, setSelectParams] = useState('0');
@@ -14,6 +22,18 @@ export const TitleSection = () => {
     setSelectParams(e.currentTarget.value);
   };
 
+  const buttonData = [
+    { value: '0', title: 'Ощущается как' },
+    { value: '1', title: 'Осадки' },
+    { value: '2', title: 'Ветер' },
+    { value: '3', title: 'Облачность' },
+    { value: '4', title: 'UV' },
+    { value: '5', title: 'Влажность' },
+    { value: '6', title: 'Давление' },
+    { value: '7', title: 'Видимость' },
+    { value: '8', title: 'Качество воздуха' },
+  ];
+
   return (
     <>
       <div class="title-section">
@@ -22,72 +42,18 @@ export const TitleSection = () => {
           <div class="parameter-buttons">
             <div class="forecast-type-buttons">
               <div class="forecast-type-group">
-                {/* <button
-                  class="forecastButton-DS-EntryPoint1-1 forecastButtonOuter-DS-EntryPoint1-1 forecastButtonActive-DS-EntryPoint1-1"
-                  title="Обзор"
-                  aria-label="Обзор"
-                  data-t='{"n":"forecastButtonoverview","b":76,"c.i":"forecastButtonoverview","c.t":1,"c.v":"weather","c.c":"weather"}'
-                  data-forecasttype="forecastButton_overview"
-                >
-                  <span>Обзор</span>
-                </button>
-                <button
-                  class="forecastButton-DS-EntryPoint1-1 forecastButtonOuter-DS-EntryPoint1-1"
-                  title="Осадки"
-                  aria-label="Осадки"
-                  data-t='{"n":"forecastButtonprecipitation","b":76,"c.i":"forecastButtonprecipitation","c.t":1,"c.v":"weather","c.c":"weather"}'
-                  data-forecasttype="forecastButton_precipitation"
-                >
-                  <span>Осадки</span>
-                </button>
-                <button
-                  class="forecastButton-DS-EntryPoint1-1 forecastButtonOuter-DS-EntryPoint1-1"
-                  title="Ветер"
-                  aria-label="Ветер"
-                  data-t='{"n":"forecastButtonwind","b":76,"c.i":"forecastButtonwind","c.t":1,"c.v":"weather","c.c":"weather"}'
-                  data-forecasttype="forecastButton_wind"
-                >
-                  <span>Ветер</span>
-                </button> */}
-                <button
-                  class="forecast-button forecastButtonOuter-DS-EntryPoint1-1"
-                  onClick={handleSelectParams}
-                  value={'0'}
-                  title="Качество воздуха"
-                  aria-label="Качество воздуха"
-                >
-                  <span>Качество воздуха</span>
-                </button>
-                {/* <button
-                  class="forecastButton-DS-EntryPoint1-1 forecastButtonOuter-DS-EntryPoint1-1"
-                  title="Влажность"
-                  aria-label="Влажность"
-                  data-t='{"n":"forecastButtonhumidity","b":76,"c.i":"forecastButtonhumidity","c.t":1,"c.v":"weather","c.c":"weather"}'
-                  data-forecasttype="forecastButton_humidity"
-                >
-                  <span>Влажность</span>
-                </button>
-                <button
-                  class="forecastButton-DS-EntryPoint1-1 forecastButtonOuter-DS-EntryPoint1-1"
-                  title="Облачность"
-                  aria-label="Облачность"
-                  data-t='{"n":"forecastButtoncloudcover","b":76,"c.i":"forecastButtoncloudcover","c.t":1,"c.v":"weather","c.c":"weather"}'
-                  data-forecasttype="forecastButton_cloudcover"
-                >
-                  <span>Облачность</span>
-                </button>
-                <div class="select-DS-EntryPoint1-1 HP col2">
+                {buttonData.map((el, index) => (
                   <button
-                    id="ForecastTypeSelect"
-                    class="select_selectedOption-DS-EntryPoint1-1"
-                    aria-expanded="false"
-                    data-t='{"n":"forecastSelectorForecastType","b":76,"c.i":"forecastSelectorForecastType","c.t":1,"c.v":"weather","c.c":"weather"}'
-                    aria-label="Показать больше"
+                    key={index}
+                    class={selectParams === el.value ? 'forecast-button forecast-button--active' : 'forecast-button'}
+                    onClick={handleSelectParams}
+                    value={el.value}
+                    title={el.title}
+                    aria-label={el.title}
                   >
-                    <span class="select_selectedOptionText-DS-EntryPoint1-1">...</span>
+                    <span>{el.title}</span>
                   </button>
-                  <select required="" class="select_noDisplay-DS-EntryPoint1-1"></select>
-                </div> */}
+                ))}
               </div>
             </div>
           </div>
@@ -143,7 +109,19 @@ export const TitleSection = () => {
           </button>
         </div> */}
       </div>
-      {selectParams === '0' && <AirQuality choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+
+      {selectParams === '0' && (
+        <TempFeelslike choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />
+      )}
+      {selectParams === '1' && <Precip choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+
+      {selectParams === '2' && <Wind choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+      {selectParams === '3' && <Cloudcover choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+      {selectParams === '4' && <UV choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+      {selectParams === '5' && <HumidityDew choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+      {selectParams === '6' && <Pressure choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+      {selectParams === '7' && <Visibility choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
+      {selectParams === '8' && <AirQuality choiceOfDayGlobal={choiceOfDayGlobal} onChange={handleChoiceOfDayGlobal} />}
     </>
   );
 };

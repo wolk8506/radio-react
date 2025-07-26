@@ -4,24 +4,24 @@ import { useSelector } from 'react-redux';
 import { weatherSelectors } from 'store';
 
 import Box from '@mui/material/Box';
-import { BarChart } from '@mui/x-charts/BarChart';
+
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
+import { areaElementClasses, LineChart } from '@mui/x-charts/LineChart';
 
 import moment from 'moment';
 
-export const UV = ({ choiceOfDayGlobal, onChange }) => {
+export const HumidityDew = ({ choiceOfDayGlobal, onChange }) => {
   const data = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [chart, setChart] = useState([{ code: 0, value: 1 }]);
-  const chartType = 'uvindex';
+  const chartType = 'humidity';
   const [choiceOfDay, setChoiceOfDay] = useState(choiceOfDayGlobal);
   const [weeklyData, setWeeklyData] = useState([]);
-  const [barColors, setbarColors] = useState([]);
 
   useEffect(() => {
     function colorChartBar(data) {
       const typeMap = {
-        uvindex: [10, 7, 5, 2, 0],
+        humidity: [10, 7, 5, 2, 0],
       };
 
       const colorMap = [
@@ -67,10 +67,10 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
       return {
         code: n_text + ':00',
         value: i[chartType],
+        value2: i.dew,
       };
     });
     setChart(arr);
-    setbarColors(barColors);
   }, [chartType, choiceOfDay, data.days]);
 
   useEffect(() => {
@@ -80,8 +80,9 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
       arr.push({
         dateTime: moment(data.days[i].datetime).format('DD MMMM'),
         dateDay: i === 0 ? 'Вчера' : i === 1 ? 'Сегодня' : moment(data.days[i].datetime).format('dd'),
-        uvindex: data.days[i].uvindex,
-        ...dataBar(data.days[i].uvindex),
+        dew: data.days[i].dew,
+        humidity: data.days[i].humidity,
+        ...dataBar(data.days[i].humidity),
       });
     }
 
@@ -92,20 +93,22 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
 
   const dataBar = data => {
     const type = {
-      uvindex: [10, 7, 5, 2, 0],
+      humidity: [100, 80, 60, 40, 20, 0],
     };
-    const chartType = 'uvindex';
+    const chartType = 'humidity';
 
     if (data > type[chartType][0])
-      return { color: 'rgb(101 62 146)', levelQulityTitle: 'Экстремально высокий', levelQulityHight: '66.51px' };
+      return { color: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)', levelQulityHight: '66.51px' };
     else if (data > type[chartType][1])
-      return { color: 'rgb(187 39 43)', levelQulityTitle: 'Очень высокий', levelQulityHight: '55.8px' };
+      return { color: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)', levelQulityHight: '57.84px' };
     else if (data > type[chartType][2])
-      return { color: 'rgb(224 84 6)', levelQulityTitle: 'Высокий', levelQulityHight: '45.6px' };
+      return { color: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)', levelQulityHight: '49.17px' };
     else if (data > type[chartType][3])
-      return { color: 'rgb(212 143 2)', levelQulityTitle: 'Умеренный', levelQulityHight: '35.4px' };
-    else if (data >= type[chartType][4])
-      return { color: 'rgb(93 144 27)', levelQulityTitle: 'Низкий', levelQulityHight: '25.2px' };
+      return { color: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)', levelQulityHight: '40.5px' };
+    else if (data > type[chartType][4])
+      return { color: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)', levelQulityHight: '31.83px' };
+    else if (data >= type[chartType][5])
+      return { color: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)', levelQulityHight: '23.16px' };
   };
 
   // ------------------------------
@@ -143,12 +146,8 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                           className="day-bar__bar-val-section"
                           style={{ flexDirection: 'column', alignItems: 'flex-start' }}
                         >
-                          <div className="bar-val-section__bar-num-big">{el?.uvindex}</div>
-                          <div className="bar-val-section__bar-level-big">
-                            <div className="bar-level-big__bar-level" title={el?.levelQulityTitle}>
-                              {el?.levelQulityTitle}
-                            </div>
-                          </div>
+                          <div className="bar-val-section__bar-num-big">{el?.humidity} %</div>
+                          <div className="bar-val-section__bar-num-big-second">{el?.dew} °</div>
                         </div>
                         <div className="day-bar__range-bar-section">
                           <div
@@ -170,28 +169,9 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
             choiceOfDay === '0' ? { borderTopLeftRadius: 0 } : choiceOfDay === '4' ? { borderTopRightRadius: 0 } : {}
           }
         >
-          {/* <div className="air-quality__button-group">
-            {buttonGroup.map(el => (
-              <button
-                key={el.value}
-                className={
-                  chartType !== el.value
-                    ? `button-group__button-air`
-                    : 'button-group__button-air button-group__button-air--activ'
-                }
-                onClick={handleAirQualityChoice}
-                value={el.value}
-                title={el.title}
-                aria-label={el.title}
-              >
-                <span>{el.title}</span>
-              </button>
-            ))}
-          </div> */}
-
           <div className="air-quality__chart-content">
             <Box sx={{ width: '100%' }}>
-              <BarChart
+              <LineChart
                 sx={theme => ({
                   [`.${axisClasses.root}`]: {
                     [`.${axisClasses.tick}, .${axisClasses.line}`]: {
@@ -201,6 +181,10 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                     [`.${axisClasses.tickLabel}`]: {
                       fill: 'var(--color-02)',
                     },
+                    [`& .${areaElementClasses.root}[data-series=${chartType}]`]: {
+                      fill: "url('#myGradient')",
+                      filter: 'none', // Remove the default filtering
+                    },
                     [`& .MuiChartsAxis-label`]: {
                       fill: 'var(--color-03)',
                     },
@@ -208,82 +192,77 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                 })}
                 xAxis={[
                   {
-                    categoryGapRatio: 0.45,
-                    scaleType: 'band',
+                    scaleType: 'point',
+
                     dataKey: 'code',
                     position: 'top',
-                    colorMap: {
-                      type: 'ordinal',
-                      colors: barColors,
-                    },
-
                     tickLabelInterval: (value, index) => index % 2 === 0, // Отображаем каждую вторую подпись
                   },
                 ]}
                 height={295}
                 dataset={chart}
-                series={[{ dataKey: 'value', label: 'Ультрафиолет' }]}
+                series={[
+                  {
+                    dataKey: 'value',
+                    label: 'Влажность',
+                    color: 'url(#myGradient)',
+                    showMark: false,
+                    area: true,
+                    valueFormatter: value => `${value?.toFixed(2)} %`,
+                  },
+                  {
+                    dataKey: 'value2',
+                    label: 'Точка росы',
+                    color: 'rgb(24, 201, 201)',
+                    showMark: false,
+                    yAxisId: 'rightAxisId',
+                    valueFormatter: value => `${value?.toFixed(2)} °C`,
+                  },
+                ]}
                 slots={{
                   legend: () => null,
                 }}
                 yAxis={[
                   {
-                    valueFormatter: value => value,
-                    label: 'Индекс ультрафиолета',
+                    valueFormatter: value => `${value}%`,
+                    label: 'Влажность, %',
+                  },
+                  {
+                    id: 'rightAxisId',
+                    valueFormatter: value2 => `${value2}°C`,
+                    position: 'right',
+                    label: 'Температура, °C',
                   },
                 ]}
                 borderRadius={15} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
-              />
+              >
+                <defs>
+                  <linearGradient id="myGradient" gradientTransform="rotate(90)">
+                    <stop offset="5%" stopColor="rgb(142 213 255 / 80%)" />
+                    <stop offset="95%" stopColor="rgb(142 213 255 / 5%)" />
+                  </linearGradient>
+                </defs>
+              </LineChart>
             </Box>
           </div>
 
-          <div className="air-quality__legend-container">
+          <div className="air-quality__legend-container" style={{ width: 250 }}>
             <div className="legend-container__item">
               <span
                 className="item__filled"
                 style={{
-                  background: 'linear-gradient(rgb(124, 82, 171) 0%, rgba(148, 112, 189, 0.8) 100%)',
+                  background: 'linear-gradient(rgb(24, 169, 201) 0%, rgb(24, 201, 201) 100%)',
                 }}
               ></span>
-              <span className="item__label" title="Экстремально высокий<">
-                <span>Экстремально высокий</span>
+              <span className="item__label" title="Влажность<">
+                <span>Влажность</span>
               </span>
             </div>
             <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(209, 52, 56) 0%, rgba(220, 94, 98, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Очень высокий<">
-                <span>Очень высокий</span>
-              </span>
-            </div>
-            <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(247, 99, 12) 0%, rgba(249, 136, 69, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Высокий">
-                <span>Высокий</span>
-              </span>
-            </div>
-            <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(234, 163, 0) 0%, rgba(239, 184, 57, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Умеренный">
-                <span>Умеренный</span>
-              </span>
-            </div>
-            <div className="legend-container__item">
-              <span
-                className="item__filled"
-                style={{ background: 'linear-gradient(rgb(107, 160, 43) 0%, rgba(144, 190, 76, 0.8) 100%)' }}
-              ></span>
-              <span className="item__label" title="Низкий">
-                <span>Низкий</span>
+              <span className="item__filled-line" style={{ background: 'rgb(24, 201, 201)' }}></span>
+              <span className="item__label" title="Точка росы<">
+                <span>Точка росы</span>
               </span>
             </div>
           </div>

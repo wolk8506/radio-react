@@ -7,7 +7,9 @@ import { weatherSelectors } from 'store';
 import moment from 'moment';
 
 export const TilesWind = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [wind_ms, setWind_ms] = useState(0);
   const [wind_degree, setWind_degree] = useState(0);
@@ -29,9 +31,9 @@ export const TilesWind = () => {
 
   useEffect(() => {
     const hour = Number(moment().format('H'));
-    setWind_ms((data_today.days[0].hours[hour].windspeed / 3.6).toFixed(0)); //Скорость ветра в м/с
-    setMmaxwind_ms((data_today.days[0].hours[hour].windgust / 3.6).toFixed(0)); // Порывы ветра м/с
-    setWind_degree(data_today.days[0].hours[hour].winddir);
+    setWind_ms((data_today.days[1].hours[hour].windspeed / 3.6).toFixed(0)); //Скорость ветра в м/с
+    setMmaxwind_ms((data_today.days[1].hours[hour].windgust / 3.6).toFixed(0)); // Порывы ветра м/с
+    setWind_degree(data_today.days[1].hours[hour].winddir);
   }, [data_today.days]);
 
   useEffect(() => {

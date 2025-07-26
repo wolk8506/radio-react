@@ -38,6 +38,12 @@ const initState_WeatherMonth = {
   status: true,
   timeUpdate: '--:--',
 };
+const initState_WeatherWeek = {
+  data: initStateWeatherDay,
+  loading: false,
+  status: true,
+  timeUpdate: '--:--',
+};
 
 const weatherAirQuality = createReducer(initState_WeatherAirQuality, builder => {
   builder
@@ -57,26 +63,26 @@ const weatherAirQuality = createReducer(initState_WeatherAirQuality, builder => 
     });
 });
 
-const weatherYesterday = createReducer(initState_WeatherDay, builder => {
-  builder
-    .addCase(weatherOperations.fetchWeatherToday.fulfilled, (state, action) => {
-      if (action.payload !== undefined) state.data = action.payload;
-      state.loading = false;
-      state.status = true;
-      state.error = false;
-      state.timeUpdate = moment().format('HH:mm');
-    })
-    .addCase(weatherOperations.fetchWeatherYesterday.pending, (state, action) => {
-      state.loading = true;
-      state.status = false;
-      state.error = false;
-    })
-    .addCase(weatherOperations.fetchWeatherYesterday.rejected, (state, action) => {
-      state.loading = false;
-      state.status = false;
-      state.error = true;
-    });
-});
+// const weatherYesterday = createReducer(initState_WeatherDay, builder => {
+//   builder
+//     .addCase(weatherOperations.fetchWeatherToday.fulfilled, (state, action) => {
+//       if (action.payload !== undefined) state.data = action.payload;
+//       state.loading = false;
+//       state.status = true;
+//       state.error = false;
+//       state.timeUpdate = moment().format('HH:mm');
+//     })
+//     .addCase(weatherOperations.fetchWeatherYesterday.pending, (state, action) => {
+//       state.loading = true;
+//       state.status = false;
+//       state.error = false;
+//     })
+//     .addCase(weatherOperations.fetchWeatherYesterday.rejected, (state, action) => {
+//       state.loading = false;
+//       state.status = false;
+//       state.error = true;
+//     });
+// });
 
 const weatherToday = createReducer(initState_WeatherDay, builder => {
   builder
@@ -99,26 +105,26 @@ const weatherToday = createReducer(initState_WeatherDay, builder => {
     });
 });
 
-const weatherTomorrow = createReducer(initState_WeatherDay, builder => {
-  builder
-    .addCase(weatherOperations.fetchWeatherTomorrow.fulfilled, (state, action) => {
-      if (action.payload !== undefined) state.data = action.payload;
-      state.loading = false;
-      state.status = true;
-      state.error = false;
-      state.timeUpdate = moment().format('HH:mm');
-    })
-    .addCase(weatherOperations.fetchWeatherTomorrow.pending, (state, action) => {
-      state.loading = true;
-      state.status = false;
-      state.error = false;
-    })
-    .addCase(weatherOperations.fetchWeatherTomorrow.rejected, (state, action) => {
-      state.loading = false;
-      state.status = false;
-      state.error = true;
-    });
-});
+// const weatherTomorrow = createReducer(initState_WeatherDay, builder => {
+//   builder
+//     .addCase(weatherOperations.fetchWeatherTomorrow.fulfilled, (state, action) => {
+//       if (action.payload !== undefined) state.data = action.payload;
+//       state.loading = false;
+//       state.status = true;
+//       state.error = false;
+//       state.timeUpdate = moment().format('HH:mm');
+//     })
+//     .addCase(weatherOperations.fetchWeatherTomorrow.pending, (state, action) => {
+//       state.loading = true;
+//       state.status = false;
+//       state.error = false;
+//     })
+//     .addCase(weatherOperations.fetchWeatherTomorrow.rejected, (state, action) => {
+//       state.loading = false;
+//       state.status = false;
+//       state.error = true;
+//     });
+// });
 
 const weatherCity1 = createReducer(initState_WeatherDay, builder => {
   builder
@@ -225,6 +231,27 @@ const weatherMonth = createReducer(initState_WeatherMonth, builder => {
     });
 });
 
+const weatherWeek = createReducer(initState_WeatherWeek, builder => {
+  builder
+    .addCase(weatherOperations.fetchWeatherWeek.fulfilled, (state, action) => {
+      if (action.payload !== undefined) state.data = action.payload;
+      state.loading = false;
+      state.status = true;
+      state.error = false;
+      state.timeUpdate = moment().format('HH:mm');
+    })
+    .addCase(weatherOperations.fetchWeatherWeek.pending, (state, action) => {
+      state.loading = true;
+      state.status = false;
+      state.error = false;
+    })
+    .addCase(weatherOperations.fetchWeatherWeek.rejected, (state, action) => {
+      state.loading = false;
+      state.status = false;
+      state.error = true;
+    });
+});
+
 const city = createReducer(null, builder => {
   builder.addCase(weatherActions.setCityName, (state, action) => action.payload);
   builder.addCase(
@@ -250,14 +277,15 @@ const cityList = createReducer([], builder => {
 
 export default combineReducers({
   weatherAirQuality,
-  weatherYesterday,
+  // weatherYesterday,
   weatherToday,
-  weatherTomorrow,
+  // weatherTomorrow,
   weatherCity1,
   weatherCity2,
   weatherCity3,
   weatherElements,
   weatherMonth,
+  weatherWeek,
   city,
   cityList,
 });

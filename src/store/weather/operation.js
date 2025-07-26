@@ -28,14 +28,14 @@ const fetchLocation = createAsyncThunk('weather/Location', async () => {
 //
 // *    Погода на вчера
 //
-const fetchWeatherYesterday = createAsyncThunk('weather/Yesterday', async url => {
-  try {
-    const response = await fetchData(url);
-    return response;
-  } catch (error) {
-    console.log('❌ error');
-  }
-});
+// const fetchWeatherYesterday = createAsyncThunk('weather/Yesterday', async url => {
+//   try {
+//     const response = await fetchData(url);
+//     return response;
+//   } catch (error) {
+//     console.log('❌ error');
+//   }
+// });
 //
 // *    Погода на сегодня
 //
@@ -50,7 +50,18 @@ const fetchWeatherToday = createAsyncThunk('weather/Today', async url => {
 //
 // *    Погода на завтра
 //
-const fetchWeatherTomorrow = createAsyncThunk('weather/Tomorrow', async url => {
+// const fetchWeatherTomorrow = createAsyncThunk('weather/Tomorrow', async url => {
+//   try {
+//     const response = await fetchData(url);
+//     return response;
+//   } catch (error) {
+//     console.log('❌ error');
+//   }
+// });
+//
+// *    Погода на месяц
+//
+const fetchWeatherMonth = createAsyncThunk('weather/Month', async url => {
   try {
     const response = await fetchData(url);
     return response;
@@ -59,9 +70,9 @@ const fetchWeatherTomorrow = createAsyncThunk('weather/Tomorrow', async url => {
   }
 });
 //
-// *    Погода на месяц
+// *    Погода на Неделю
 //
-const fetchWeatherMonth = createAsyncThunk('weather/Month', async url => {
+const fetchWeatherWeek = createAsyncThunk('weather/Week', async url => {
   try {
     const response = await fetchData(url);
     return response;
@@ -128,10 +139,11 @@ const fetchWeatherTodayCity3 = createAsyncThunk('weather/TodayCity3', async url 
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 export const weatherOperations = {
   fetchLocation,
-  fetchWeatherYesterday,
+  // fetchWeatherYesterday,
   fetchWeatherToday,
-  fetchWeatherTomorrow,
+  // fetchWeatherTomorrow,
   fetchWeatherMonth,
+  fetchWeatherWeek,
   fetchWeatherElements,
   fetchWeatherAirQuality,
   fetchWeatherTodayCity1,
