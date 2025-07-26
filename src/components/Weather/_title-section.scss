@@ -48,11 +48,20 @@
                         -webkit-line-clamp: 1;
                         -webkit-box-orient: vertical;
                         font-size: 14px;
-                        color: colors.$color-07;
+                        color: colors.$color-03;
 
-                        background: function.rgb-a(colors.$color-03, 100%);
+                        background: function.rgb-a(colors.$color-01, 10%);
                         cursor: pointer;
+
+
                     }
+
+                    .forecast-button--active {
+                        background: colors.$color-03;
+                        font-weight: 600;
+                        color: colors.$color-07;
+                    }
+
                 }
             }
         }

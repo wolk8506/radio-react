@@ -9,13 +9,15 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesVisibility = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [visibility, setVisibility] = useState('--');
   useEffect(() => {
     const hour = moment().format('H');
 
-    setVisibility(data_today.days[0].hours[hour].visibility); // Видимость километров
+    setVisibility(data_today.days[1].hours[hour].visibility); // Видимость километров
   }, [data_today]);
 
   const [visibilityPoint, setVisibilityPoint] = useState('0');
@@ -73,7 +75,7 @@ export const TilesVisibility = () => {
     } else if (visibility < 50) {
       setVisibilityPoint('8 баллов');
       setVisibilityСonditions('Очень хорошая видимость. Горизонт виден резко.');
-    } else if (visibility >= 8) {
+    } else if (visibility >= 80) {
       setVisibilityPoint('9 баллов');
       setVisibilityСonditions('Свыше 50 км. Исключительная видимость. Горизонт виден четко, воздух прозрачный.');
     }

@@ -15,7 +15,7 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
   const dispatch = useDispatch();
   const START_DATE = moment().subtract(1, 'days').format('YYYY-MM-DD');
   const END_DATE = moment().add(5, 'days').format('YYYY-MM-DD');
-  const WEATHER_API_KEY = 'GP4GVCRSPM49PLYL6GG3XCCND';
+  const WEATHER_API_KEY = 'D6MDZY6JMNHMG6CBQANG3GNHD';
   useEffect(() => {
     const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/${START_DATE}/${END_DATE}?unitGroup=metric&key=${WEATHER_API_KEY}&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
 
@@ -98,10 +98,10 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
     const arr = [];
     for (let i = 0; i < 5; i++) {
       arr.push({
-        dateTime: moment(data.days[i].datetime).format('DD MMMM'),
-        dateDay: i === 0 ? 'Вчера' : i === 1 ? 'Сегодня' : moment(data.days[i].datetime).format('dd'),
-        aqius: data.days[i].aqius,
-        ...dataBar(data.days[i].aqius),
+        dateTime: moment(data.days[i]?.datetime).format('DD MMMM'),
+        dateDay: i === 0 ? 'Вчера' : i === 1 ? 'Сегодня' : moment(data.days[i]?.datetime).format('dd'),
+        aqius: data.days[i]?.aqius,
+        ...dataBar(data.days[i]?.aqius),
       });
     }
 
@@ -196,6 +196,17 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
     { value: 'pm1', title: 'PM 1' },
   ];
 
+  const chartAxisTitle = {
+    aqius: ['Индекс качества воздуха AQIUS', 'aqius', 'AQIUS'],
+    o3: ['Приземный озон O₃, мкг/м³', 'мкг/м³', 'O₃'],
+    pm2p5: ['Твердые частицы диаметром < 2,5, мкм', 'мкм', 'PM 2,5'],
+    pm10: ['Твердые частицы диаметром < 10, мкм', 'мкм', 'PM 10'],
+    no2: ['Диоксид азота NO₂, мкг/м³', 'мкг/м³', 'NO₂'],
+    co: ['Оксид углерода CO, мг/м³', 'мг/м³', 'CO'],
+    so2: ['Диоксид серы SO₂, мкг/м³', 'мкг/м³', 'SO₂'],
+    pm1: ['Твёрдые частицы диаметром < 1, мкм', 'мкм', 'PM 1'],
+  };
+
   if (!data?.days) {
     return <div>Загрузка данных о качестве воздуха...</div>;
   }
@@ -283,6 +294,9 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
                     [`.${axisClasses.tickLabel}`]: {
                       fill: 'var(--color-02)',
                     },
+                    [`& .MuiChartsAxis-label`]: {
+                      fill: 'var(--color-03)',
+                    },
                   },
                 })}
                 xAxis={[
@@ -301,13 +315,20 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
                 ]}
                 height={295}
                 dataset={chart}
-                series={[{ dataKey: 'value', label: chartType }]}
+                series={[
+                  {
+                    dataKey: 'value',
+                    label: chartAxisTitle[chartType][2],
+                    valueFormatter: value => value + ' ' + chartAxisTitle[chartType][1],
+                  },
+                ]}
                 slots={{
                   legend: () => null,
                 }}
                 yAxis={[
                   {
                     valueFormatter: value => value,
+                    label: chartAxisTitle[chartType][0],
                   },
                 ]}
                 borderRadius={15} // Добавляем закругление к столбцам

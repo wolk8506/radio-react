@@ -7,9 +7,9 @@
 
   .tiles-block__title {
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
-    line-height: 18px;
+    line-height: 24px;
     margin-bottom: 16px;
     position: relative;
     background-color: colors.$color-07;
@@ -19,7 +19,7 @@
     .title__time-update {
       font-size: 14px;
       line-height: 16px;
-      padding: 0 10px;
+      padding: 0 32px;
     }
   }
 
@@ -115,6 +115,7 @@
           }
         }
       }
+
       // ? end -- humidity
       // ? start -- UV
 
@@ -152,26 +153,32 @@
           align-items: center;
           justify-content: center;
           gap: 10px;
+
           .image__line {
             height: 10px;
             border-radius: 8px;
           }
+
           .image__line:nth-child(5) {
             width: 92px;
             background-color: rgb(31, 149, 74);
           }
+
           .image__line:nth-child(4) {
             width: 112px;
             background-color: rgb(55, 166, 96);
           }
+
           .image__line:nth-child(3) {
             width: 132px;
             background-color: rgb(85, 177, 126);
           }
+
           .image__line:nth-child(2) {
             width: 152px;
             background-color: rgb(96, 189, 130);
           }
+
           .image__line:nth-child(1) {
             width: 192px;
             background-color: rgb(160, 216, 185);
@@ -183,11 +190,13 @@
           align-items: center;
           justify-content: center;
           gap: 8px;
+
           .block-value__value {
             font-size: 36px;
             line-height: 48px;
             font-weight: 600;
           }
+
           .block-value__caption {
             font-size: 14px;
             line-height: 18px;
@@ -251,6 +260,7 @@
               background: rgb(255, 216, 122);
               left: 0;
             }
+
             .phase__disc3 {
               position: absolute;
               width: 50%;
@@ -385,6 +395,7 @@
           margin-top: 10px;
         }
       }
+
       // ? end  --  Moon-phase
       // ?  start -- Осадки
       .precip-image {
@@ -395,6 +406,7 @@
 
         .precip-image__item {
           position: relative;
+
           // display: block;
           .precip-image__svg {
             border: 1px solid function.rgb-a(colors.$color-01, 10%);
@@ -403,6 +415,7 @@
             &.is-hidden {
               display: none;
             }
+
             .is-hidden {
               display: none;
             }
@@ -415,10 +428,12 @@
             &.rain-snow:nth-child(1) {
               transform-origin: left;
             }
+
             &.rain-snow:nth-child(2) {
               transform-origin: right;
             }
           }
+
           .item__title {
             font-size: 29px;
             line-height: 39px;
@@ -431,6 +446,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+
             span {
               font-size: 16px;
               line-height: 22px;
@@ -440,6 +456,7 @@
           }
         }
       }
+
       // ? end  -- Осадки
       // ? start  --  Солнце
       .sun {
@@ -451,9 +468,11 @@
         .sun-img {
           stroke: function.rgb-a(colors.$color-01, 90%);
         }
+
         .sun-img-point {
           fill: #acacac;
         }
+
         .sun__title {
           position: absolute;
           text-align: center;
@@ -490,6 +509,7 @@
             // color: var(--title-color);
             font-weight: 600;
           }
+
           .subblock-text__title {
             min-width: 40px;
             max-width: 52px;
@@ -502,6 +522,7 @@
           }
         }
       }
+
       // ?  end   --  Солнце
       // ? start  --  Луна
       .moon {
@@ -513,9 +534,11 @@
         .moon-img {
           stroke: function.rgb-a(colors.$color-01, 90%);
         }
+
         .moon-img-point {
           fill: #acacac;
         }
+
         .moon__title {
           position: absolute;
           text-align: center;
@@ -552,6 +575,7 @@
             // color: var(--title-color);
             font-weight: 600;
           }
+
           .subblock-text__title {
             min-width: 40px;
             max-width: 52px;
@@ -564,6 +588,7 @@
           }
         }
       }
+
       // ?  end   --  Луна
       // ?  start --  Температура
       .temperature {
@@ -580,6 +605,7 @@
           box-shadow: colors.$color-01 0px 2px 0px inset;
           opacity: 0.09;
         }
+
         .temperatureCardContainer-DS-EntryPoint1-1 {
           width: 300px;
           height: 250px;
@@ -617,6 +643,7 @@
           justify-content: center;
           position: absolute;
           width: 130px;
+
           .cloud__title {
             font-size: 16px;
             font-weight: 700;
@@ -627,18 +654,22 @@
             white-space: nowrap;
           }
         }
+
         .cloud__svg {
           background: rgb(207 228 250 / 10%);
           border: 1px solid function.rgb-a(colors.$color-01, 10%);
           border-radius: 50%;
         }
+
         .cloud__svg--color-1 {
           fill: rgb(104 114 154);
         }
+
         .cloud__svg--color-2 {
           fill: rgb(207 217 255 / 60%);
         }
       }
+
       .cloud__item {
         position: relative;
         z-index: 2;
@@ -658,9 +689,11 @@
 
       .feel-temp {
         padding-top: 8px;
+
         .feel-temp__svg-line {
           stop-color: function.rgb-a(colors.$color-01, 10%);
         }
+
         .feel-temp__block-temp {
           .block-temp__title {
             font-size: 12px;
@@ -674,11 +707,13 @@
             text-overflow: ellipsis;
             white-space: nowrap;
           }
+
           .block-temp__value-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 2px;
+
             // width: 236px;
             // .block-temp__value-content > div {
             //   white-space: nowrap;
@@ -698,6 +733,7 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
               }
+
               .value-content__value {
                 font-weight: 600;
                 font-size: 36px;
@@ -715,6 +751,7 @@
       .wind {
         padding-top: 10px;
         padding-bottom: 26px;
+
         .wind__block-wind {
           display: flex;
           align-items: center;
@@ -744,29 +781,35 @@
               width: 20px;
               text-align: center;
             }
+
             .image__char--north {
               top: 0px;
               left: 50%;
               transform: translate(-50%, 0);
             }
+
             .image__char--south {
               bottom: 0px;
               left: 50%;
               transform: translate(-50%, 0);
             }
+
             .image__char--west {
               left: 7px;
               top: 50%;
               transform: translate(-50%, -50%);
             }
+
             .image__char--ast {
               right: 7px;
               top: 50%;
               transform: translate(10px, -50%);
             }
           }
+
           .block-wind__value-content {
             width: 110px;
+
             .value-content__title {
               font-size: 12px;
               font-weight: 400;
@@ -777,10 +820,12 @@
               text-overflow: ellipsis;
               overflow: hidden;
             }
+
             .value-content__number-group {
               display: flex;
               align-items: center;
               gap: 8px;
+
               .number-group__number {
                 text-align: left;
                 font-size: 32px;
@@ -790,16 +835,19 @@
                 max-width: 50px;
                 text-overflow: ellipsis;
               }
+
               .number-group__unit-group {
                 display: flex;
                 justify-content: space-between;
                 flex-direction: column;
+
                 .unit-group__unit {
                   font-size: 12px;
                   font-weight: 400;
                   line-height: 16px;
                   letter-spacing: 0px;
                 }
+
                 .unit-group__unit-name {
                   font-size: 12px;
                   font-weight: 400;
@@ -832,11 +880,13 @@
           align-items: center;
           justify-content: flex-start;
           gap: 8px;
+
           .content__value {
             font-size: 32px;
             line-height: 42px;
             font-weight: 600;
           }
+
           .content__unit-group {
             display: flex;
             flex-direction: column;
@@ -845,8 +895,9 @@
             justify-content: center;
             font-size: 12px;
             height: 42px;
-            .unit-group__name {
-            }
+
+            .unit-group__name {}
+
             .unit-group__time {
               line-height: 16px;
 
@@ -866,6 +917,7 @@
         font-weight: 600;
         line-height: 18px;
       }
+
       .item__sub-text {
         height: 32px;
         font-size: 12px;
@@ -879,6 +931,7 @@
       }
     }
   }
+
   @media screen and (max-width: 720px) {
     .tiles-block__card {
       height: auto;
@@ -887,7 +940,8 @@
       .card__item {
         width: 100%;
       }
-      .card__item + .card__item {
+
+      .card__item+.card__item {
         margin-top: 10px;
       }
     }

@@ -12,11 +12,11 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
-import AirIcon from '@mui/icons-material/Air';
+// import AirIcon from '@mui/icons-material/Air';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
+// import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import FilterDramaIcon from '@mui/icons-material/FilterDrama';
-import AvTimerIcon from '@mui/icons-material/AvTimer';
+// import AvTimerIcon from '@mui/icons-material/AvTimer';
 
 export const ChartWeather = ({ value = '0' }) => {
   const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
@@ -126,21 +126,21 @@ export const ChartWeather = ({ value = '0' }) => {
           <Button value="0" onClick={btnRadio}>
             <DeviceThermostatIcon className={`header__btn ${btnActiv === '0' && 'header__btn--activ'}`} />
           </Button>
-          <Button value="1" onClick={btnRadio}>
+          {/* <Button value="1" onClick={btnRadio}>
             <WaterDropIcon className={`header__btn ${btnActiv === '1' && 'header__btn--activ'}`} />
-          </Button>
-          <Button value="2" onClick={btnRadio}>
+          </Button> */}
+          {/* <Button value="2" onClick={btnRadio}>
             <AirIcon className={`header__btn ${btnActiv === '2' && 'header__btn--activ'}`} />
-          </Button>
+          </Button> */}
           <Button value="3" onClick={btnRadio}>
             <ThunderstormIcon className={`header__btn ${btnActiv === '3' && 'header__btn--activ'}`} />
           </Button>
           <Button value="4" onClick={btnRadio}>
             <FilterDramaIcon className={`header__btn ${btnActiv === '4' && 'header__btn--activ'}`} />
           </Button>
-          <Button value="5" onClick={btnRadio}>
+          {/* <Button value="5" onClick={btnRadio}>
             <AvTimerIcon className={`header__btn ${btnActiv === '5' && 'header__btn--activ'}`} />
-          </Button>
+          </Button> */}
         </ButtonGroup>
         <h4 className="chart-title" variant="body1">
           {labelChart}, {quantity}
@@ -183,7 +183,7 @@ export const ChartWeather = ({ value = '0' }) => {
             disableLine: true,
             disableTicks: true,
             valueFormatter: value => `${value}${quantity}`,
-
+            area: true,
             colorMap: {
               type: 'continuous',
               min: dataChartMin,

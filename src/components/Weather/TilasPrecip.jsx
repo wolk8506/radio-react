@@ -9,8 +9,8 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesPrecip = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
-
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
   const [precip_mm, setPrecip_mm] = useState('--');
   const [precipProb, setPrecipProb] = useState(0);
   const [snow, setSnow] = useState(0);
@@ -28,11 +28,11 @@ export const TilesPrecip = () => {
   useEffect(() => {
     const hour = moment().format('H');
 
-    setPrecip_mm(data_today.days[0].hours[hour].precip); // Осадки мм
-    setPrecipProb(data_today.days[0].hours[hour].precipprob); // Вероятность осадкав %
-    setSnow(data_today.days[0].hours[hour].snow); // Снег мм
-    setSnowdepth(data_today.days[0].hours[hour].snowdepth); // Глубина снежного покрова мм
-    setConditionText(data_today.days[0].hours[hour].conditions); //Погодные условия, описание
+    setPrecip_mm(data_today.days[1].hours[hour].precip); // Осадки мм
+    setPrecipProb(data_today.days[1].hours[hour].precipprob); // Вероятность осадкав %
+    setSnow(data_today.days[1].hours[hour].snow); // Снег мм
+    setSnowdepth(data_today.days[1].hours[hour].snowdepth); // Глубина снежного покрова мм
+    setConditionText(data_today.days[1].hours[hour].conditions); //Погодные условия, описание
     setDescription(data_today.description);
   }, [data_today.days, data_today.description]);
 

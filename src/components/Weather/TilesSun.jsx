@@ -7,14 +7,16 @@ import { weatherSelectors } from 'store';
 import moment from 'moment';
 
 export const TilesSun = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [sunrise, setSunrise] = useState('--:--');
   const [sunset, setSunset] = useState('--:--');
 
   useEffect(() => {
-    setSunrise(data_today.days[0].sunrise); //Время рассвета
-    setSunset(data_today.days[0].sunset); //Время заката
+    setSunrise(data_today.days[1].sunrise); //Время рассвета
+    setSunset(data_today.days[1].sunset); //Время заката
   }, [data_today.days]);
 
   const dateA = moment.utc(sunset, 'HH:mm:ss');

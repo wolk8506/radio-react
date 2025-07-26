@@ -9,13 +9,15 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesUv = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [uv, setUv] = useState('--');
   useEffect(() => {
     const hour = moment().format('H');
 
-    setUv(data_today.days[0].hours[hour].uvindex); // Ультрофиолет
+    setUv(data_today.days[1].hours[hour].uvindex); // Ультрофиолет
   }, [data_today]);
 
   const [axisX, setAxisX] = useState('52');

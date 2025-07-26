@@ -9,9 +9,13 @@ import 'moment/locale/ru';
 moment.locale('ru');
 
 export const TilesTemperatura = () => {
-  const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
-  const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+  // const data_yesterday = useSelector(weatherSelectors.getWeatherYesterday_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const data_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+
+  const data_yesterday = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const data_tomorrow = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const [currentTemperature, setCurrentTemperature] = useState('--');
   const [temperatureSubtext, setTemperatureSubext] = useState('--');
@@ -35,10 +39,10 @@ export const TilesTemperatura = () => {
       arr_1.push(data_yesterday.days[0].hours[numberOfHoursInAday - 2].temp);
 
       // arr_2  day+0
-      arr_1.push(...data_today.days[0].hours.map(i => i.temp));
+      arr_1.push(...data_today.days[1].hours.map(i => i.temp));
 
       // arr_3  day+1
-      arr_1.push(...data_tomorrow.days[0].hours.map(i => i.temp));
+      arr_1.push(...data_tomorrow.days[2].hours.map(i => i.temp));
 
       // выборка 4 часа
       const t1 = arr_1[hour + 0];
@@ -102,7 +106,7 @@ export const TilesTemperatura = () => {
         setStatusDescriptionText(reduction[n - 1]);
       }
 
-      setCurrentTemperature(data_today.days[0].hours[hour].temp.toFixed(0));
+      setCurrentTemperature(data_today.days[1].hours[hour].temp.toFixed(0));
     }
   }, [data_today, data_tomorrow, data_yesterday]);
 
@@ -112,8 +116,8 @@ export const TilesTemperatura = () => {
     }
 
     const hour = Number(moment().format('H'));
-    const arr = [...data_today.days[0].hours.map(i => i.temp)]; // Данные за сегодня
-    const arr2 = [...data_tomorrow.days[0].hours.map(i => i.temp)]; // Данные за завтра
+    const arr = [...data_today.days[1].hours.map(i => i.temp)]; // Данные за сегодня
+    const arr2 = [...data_tomorrow.days[2].hours.map(i => i.temp)]; // Данные за завтра
 
     const t_max_today = Math.max(...arr.map(i => i)); // максимальная температура сегодня
     const t_max_today_hour = arr.indexOf(t_max_today); // индекс максимальной температуры, равен часу в котором максимальная температура

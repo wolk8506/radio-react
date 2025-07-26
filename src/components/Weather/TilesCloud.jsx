@@ -7,8 +7,10 @@ import { weatherSelectors } from 'store';
 import moment from 'moment';
 
 export const TilesCloud = () => {
-  const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
-  const dataLast_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+  // const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
+  // const dataLast_tomorrow = useSelector(weatherSelectors.getWeatherTomorrow_Data);
+  const data_today = useSelector(weatherSelectors.getWeatherWeek_Data);
+  const dataLast_tomorrow = useSelector(weatherSelectors.getWeatherWeek_Data);
   const [svgCloud, setSvgCloud] = useState(0);
   const [cloudText, setCloudText] = useState('--');
   const [description, setDescription] = useState('--');
@@ -44,15 +46,15 @@ export const TilesCloud = () => {
     ];
 
     const hour = Number(moment().format('H'));
-    const cloud = data_today.days[0].hours[hour].cloudcover;
-    const cloudTomorrowHour0 = data_today.days[0].hours[0].cloudcover;
-    const cloudTomorrow = dataLast_tomorrow.days[0].cloudcover;
+    const cloud = data_today.days[1].hours[hour].cloudcover;
+    const cloudTomorrowHour0 = data_today.days[1].hours[0].cloudcover;
+    const cloudTomorrow = dataLast_tomorrow.days[2].cloudcover;
     const arr = [];
     const arr2 = [];
 
-    data_today.days[0].hours.map(i => arr.push(i.cloudcover));
+    data_today.days[1].hours.map(i => arr.push(i.cloudcover));
 
-    dataLast_tomorrow.days[0].hours.map(i => arr2.push(i.cloudcover));
+    dataLast_tomorrow.days[2].hours.map(i => arr2.push(i.cloudcover));
     const arr3 = [...arr, cloudTomorrowHour0];
 
     const cloudEvening = arr.slice(-6).reduce((acc, num) => acc + num, 0) / 6;
