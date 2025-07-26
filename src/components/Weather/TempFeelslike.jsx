@@ -18,6 +18,7 @@ export const TempFeelslike = ({ choiceOfDayGlobal, onChange }) => {
   const [weeklyData, setWeeklyData] = useState([]);
   console.log('data', data);
   useEffect(() => {
+    if (!data?.days || data.days.length < 5) return;
     function colorChartBar(data) {
       const typeMap = {
         temp: [10, 7, 5, 2, 0],
@@ -56,7 +57,7 @@ export const TempFeelslike = ({ choiceOfDayGlobal, onChange }) => {
     let n = -1;
     let arr;
     const barColors = [];
-    arr = data.days[choiceOfDay].hours.map(i => {
+    arr = data.days[choiceOfDay]?.hours.map(i => {
       n++;
       let n_text = n;
       if (n < 10) {
@@ -73,6 +74,7 @@ export const TempFeelslike = ({ choiceOfDayGlobal, onChange }) => {
   }, [chartType, choiceOfDay, data.days]);
 
   useEffect(() => {
+    if (!data?.days || data.days.length < 5) return;
     if (data.length <= 0) return;
     const arr = [];
     for (let i = 0; i < 5; i++) {

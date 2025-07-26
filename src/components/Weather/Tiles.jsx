@@ -18,26 +18,32 @@ import { TilesUv } from './TilesUv';
 
 export const Tiles = () => {
   const timeUpdate = useSelector(weatherSelectors.getWeatherToday_TimeUpdate);
+  const data = useSelector(weatherSelectors.getWeatherWeek_Data);
+  // console.log(data);
   return (
     <section className="tiles-block">
       <div className="tiles-block__title">
         <span>Сведения о погоде</span>
         <span className="title__time-update">{timeUpdate}</span>
       </div>
-      <div className="tiles-block__card">
-        <TilesHumidity></TilesHumidity>
-        <TilesUv></TilesUv>
-        <TilesVisibility></TilesVisibility>
-        <TilesPrecip></TilesPrecip>
-        <TilesMoonPhase></TilesMoonPhase>
-        <TilesSun></TilesSun>
-        <TilesMoon></TilesMoon>
-        <TilesTemperatura></TilesTemperatura>
-        <TilesPressure></TilesPressure>
-        <TilesFeelTemp></TilesFeelTemp>
-        <TilesCloud></TilesCloud>
-        <TilesWind></TilesWind>
-      </div>
+      {!data?.days || data.days.length < 5 ? (
+        <div></div>
+      ) : (
+        <div className="tiles-block__card">
+          <TilesHumidity></TilesHumidity>
+          <TilesUv></TilesUv>
+          <TilesVisibility></TilesVisibility>
+          <TilesPrecip></TilesPrecip>
+          <TilesMoonPhase></TilesMoonPhase>
+          <TilesSun></TilesSun>
+          <TilesMoon></TilesMoon>
+          <TilesTemperatura></TilesTemperatura>
+          <TilesPressure></TilesPressure>
+          <TilesFeelTemp></TilesFeelTemp>
+          <TilesCloud></TilesCloud>
+          <TilesWind></TilesWind>
+        </div>
+      )}
     </section>
   );
 };
