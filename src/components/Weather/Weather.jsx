@@ -42,7 +42,6 @@ export const Weather = () => {
   const data_today = useSelector(weatherSelectors.getWeatherToday_Data);
   const city_data = useSelector(weatherSelectors.getCityName);
   const cityList = useSelector(weatherSelectors.getCityList);
-  const data_today2 = useSelector(weatherSelectors.getWeatherWeek_Data);
 
   const data_today_city1 = useSelector(weatherSelectors.getWeatherDayCity1_Data);
   const data_today_city2 = useSelector(weatherSelectors.getWeatherDayCity2_Data);
@@ -692,7 +691,7 @@ export const Weather = () => {
               <>
                 {/* <ChartWeather></ChartWeather> */}
                 {/* <AirQuality></AirQuality> */}
-                {data_today2.days.lenght > 2 ? <div></div> : <TitleSection />}
+                <TitleSection />
 
                 <WeatherMonth></WeatherMonth>
                 <Tiles></Tiles>

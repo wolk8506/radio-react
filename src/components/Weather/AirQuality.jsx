@@ -340,37 +340,55 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
           <div className="air-quality__legend-container">
             <div className="legend-container__item">
               <span className="item__filled" style={{ background: 'rgb(0, 174, 86)' }}></span>
-              <span className="item__label" title="Хорошее">
+              <span
+                className="item__label"
+                title="Качество воздуха идеальное для большинства людей; можно проводить время на улице без ограничений."
+              >
                 <span> Хорошее</span>
               </span>
             </div>
             <div className="legend-container__item">
               <span className="item__filled" style={{ background: 'rgb(255, 185, 0)' }}></span>
-              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Среднее">
+              <span
+                className="item__label"
+                title="Качество воздуха в целом является приемлемым для большинства людей. Однако у людей с повышенной чувствительностью после длительного нахождения на улице могут появляться симптомы малой и средней тяжести."
+              >
                 <span> Среднее</span>
               </span>
             </div>
             <div className="legend-container__item">
               <span className="item__filled" style={{ background: 'rgb(242, 97, 12)' }}></span>
-              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Плохое">
+              <span
+                className="item__label"
+                title="Загрязнение воздуха достигло высокого уровня, он является небезопасным для людей с повышенной чувствительностью. Если вы почувствуете затрудненное дыхание или раздражение горла, сократите время пребывания на улице."
+              >
                 <span> Плохое</span>
               </span>
             </div>
             <div className="legend-container__item">
               <span className="item__filled" style={{ background: 'rgb(209, 52, 56)' }}></span>
-              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Вредно для здоровья">
+              <span
+                className="item__label"
+                title="Люди с повышенной чувствительностью могут мгновенно почувствовать себя плохо. При продолжительном нахождении на улице здоровые люди могут почувствовать затрудненное дыхание или раздражение горла. Ограничьте пребывание на улице."
+              >
                 <span> Вредно для здоровья</span>
               </span>
             </div>
             <div className="legend-container__item">
               <span className="item__filled" style={{ background: 'rgb(136, 23, 152)' }}></span>
-              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Очень вредно для здоровья">
+              <span
+                className="item__label"
+                title="Люди с повышенной чувствительностью могут мгновенно почувствовать себя плохо, им следует избегать пребывания на улице. У здоровых людей могут возникать симптомы затрудненного дыхания или раздражения горла; рекомендуется оставаться в помещении и перенести мероприятия на улице."
+              >
                 <span> Очень вредно для здоровья</span>
               </span>
             </div>
             <div className="legend-container__item">
               <span className="item__filled" style={{ background: 'rgb(110, 34, 15)' }}></span>
-              <span className="forecastLegendLabel-DS-EntryPoint1-1" title="Опасное загрязнение">
+              <span
+                className="item__label"
+                title="Любое пребывание на улице, даже в течение нескольких минут, может привести к серьезным осложнениям у всех. Старайтесь не выходить на улицу."
+              >
                 <span> Опасное загрязнение</span>
               </span>
             </div>

@@ -1,81 +1,3 @@
-// import * as React from 'react';
-// import { useEffect, useState } from 'react';
-
-// import eventsJSON from './data/events.json';
-// import anecdoteJSON from './data/anecdote.json';
-// import 'dayjs/locale/ru';
-
-// export const Event = () => {
-//   let moment = require('moment');
-//   let currentDayEvent = moment().format('MM-DD');
-//   const events = eventsJSON;
-//   const [event, setEvent] = useState(['Сегодня событий нет']);
-//   const [fact, setFact] = useState([]);
-//   const [joke, setJoke] = useState([]);
-
-//   useEffect(() => {
-//     if (anecdoteJSON[0].joke[0]) {
-//       setJoke(anecdoteJSON[moment().dayOfYear()].joke);
-//     } else {
-//       setJoke(false);
-//     }
-//   }, [currentDayEvent, events, moment]);
-
-//   useEffect(() => {
-//     if (events[currentDayEvent].fact) {
-//       setFact(events[currentDayEvent].fact);
-//     } else {
-//       setFact(false);
-//     }
-//   }, [currentDayEvent, events]);
-
-//   useEffect(() => {
-//     if (events[currentDayEvent].event) {
-//       setEvent(events[currentDayEvent].event);
-//     } else {
-//       setEvent(['Сегодня событий нет']);
-//     }
-//   }, [currentDayEvent, events]);
-
-//   return (
-//     <section className="graph">
-//       <h1>Шутка / Факт / События</h1>
-//       <div>
-//         <ul className="days">
-//           {joke &&
-//             joke.map(i => (
-//               <li className="event-item" key={i}>
-//                 Шутка дня:
-//                 <br /> <span>{i}</span>
-//               </li>
-//             ))}
-//           {fact &&
-//             fact.map(i => (
-//               <li className="event-item" key={i}>
-//                 Факт дня:
-//                 <br /> <span>{i}</span>
-//               </li>
-//             ))}
-//           <li className="event-item" key="sdfasdf">
-//             События дня:
-//             <ul>
-//               {event.map(({ title, description, emoji }) => (
-//                 <li className="event-item event-item--event" key={title}>
-//                   <strong>
-//                     {emoji} {title}
-//                   </strong>
-//                   {description && <p className="event-description">{description}</p>}
-//                 </li>
-//               ))}
-//             </ul>
-//           </li>
-//         </ul>
-//       </div>
-//     </section>
-//   );
-// };
-
-//------------------------
 import React, { useState, useEffect, useMemo } from 'react';
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -102,20 +24,25 @@ export const Event = () => {
   const todaysEvents = eventsJSON[today.format('MM-DD')]?.event || [];
   const events = todaysEvents.length ? todaysEvents : [{ title: 'Событий нет', description: '', emoji: '' }];
 
+  const todaysFacts = eventsJSON[today.format('MM-DD')]?.fact || [];
+  const fact = todaysFacts.length ? todaysFacts : [{ title: 'Фактов нет', description: '', emoji: '' }];
+
   // события
 
   // факт
-  const key = today.format('MM-DD');
-  const [fact, setFact] = useState('Факт недоступен');
-  useEffect(() => {
-    const f = eventsJSON[key]?.fact;
-    setFact(f && f.length ? f[0] : 'Фактов на сегодня нет');
-  }, [key]);
+  // const key = today.format('MM-DD');
+  // const [fact, setFact] = useState('Факт недоступен');
+  // useEffect(() => {
+  //   const f = eventsJSON[key]?.fact;
+  //   setFact(f && f.length ? f[0] : 'Фактов на сегодня нет');
+  // }, [key]);
 
   const [jIdx, setJIdx] = useState(0);
   const [eIdx, setEIdx] = useState(0);
+  const [fIdx, setFIdx] = useState(0);
   const [jPaused, setJPaused] = useState(false);
   const [ePaused, setEPaused] = useState(false);
+  const [fPaused, setFPaused] = useState(false);
 
   // автопрокрутка шуток
   useEffect(() => {
@@ -134,6 +61,14 @@ export const Event = () => {
     }, 3000);
     return () => clearInterval(tid);
   }, [ePaused, events.length]);
+
+  useEffect(() => {
+    if (fPaused) return;
+    const tid = setInterval(() => {
+      setFIdx(i => (i + 1) % fact.length);
+    }, 3000);
+    return () => clearInterval(tid);
+  }, [fPaused, fact.length]);
 
   const prev = (idx, setter, len) => setter((idx + len - 1) % len);
   const next = (idx, setter, len) => setter((idx + 1) % len);
@@ -179,9 +114,9 @@ export const Event = () => {
           ) : (
             <>
               <Typography variant="h6">
-                {content.emoji} {content.title}
+                {content?.emoji} {content?.title}
               </Typography>
-              {content.description && (
+              {content?.description && (
                 <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
                   {content.description}
                 </Typography>
@@ -195,7 +130,12 @@ export const Event = () => {
         <>
           <IconButton
             size="small"
-            onClick={() => prev(idx, idx === jIdx ? setJIdx : setEIdx, len)}
+            // onClick={() => prev(idx, idx === jIdx ? setJIdx : setEIdx, len)}
+            onClick={() => {
+              if (idx === jIdx) prev(idx, setJIdx, len);
+              else if (idx === eIdx) prev(idx, setEIdx, len);
+              else if (idx === fIdx) prev(idx, setFIdx, len);
+            }}
             sx={{
               position: 'absolute',
               top: '50%',
@@ -208,7 +148,12 @@ export const Event = () => {
           </IconButton>
           <IconButton
             size="small"
-            onClick={() => next(idx, idx === jIdx ? setJIdx : setEIdx, len)}
+            // onClick={() => next(idx, idx === jIdx ? setJIdx : setEIdx, len)}
+            onClick={() => {
+              if (idx === jIdx) next(idx, setJIdx, len);
+              else if (idx === eIdx) next(idx, setEIdx, len);
+              else if (idx === fIdx) next(idx, setFIdx, len);
+            }}
             sx={{
               position: 'absolute',
               top: '50%',
@@ -287,7 +232,10 @@ export const Event = () => {
       <Grid item>
         {renderCard(`Событие дня`, events[eIdx], 'event-card', eIdx, events.length, ePaused, setEPaused, setEIdx)}
       </Grid>
-      <Box>
+      <Grid item>
+        {renderCard(`Факты дня`, fact[fIdx], 'fact-card', fIdx, fact.length, fPaused, setFPaused, setFIdx)}
+      </Grid>
+      {/* <Box>
         <Card
           variant="outlined"
           sx={{
@@ -305,189 +253,7 @@ export const Event = () => {
             <Typography variant="body2">{fact}</Typography>
           </CardContent>
         </Card>
-      </Box>
+      </Box> */}
     </Grid>
   );
 };
-
-// --------------------------------------------------------------------
-
-// import React, { useState, useEffect, useMemo } from 'react';
-// import moment from 'moment';
-// import 'moment/locale/ru';
-// import { Box, Card, CardContent, Grid, IconButton, Typography } from '@mui/material';
-// import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
-
-// import anecdoteData from './data/anecdote.json';
-// import eventsJSON from './data/events.json';
-
-// export const Event = () => {
-//   moment.locale('ru');
-//   const today = moment();
-//   const dayOfYear = today.dayOfYear(); // 1…365/366
-//   const idx1 = dayOfYear - 1; // шутка дня
-//   const idx2 = (idx1 + 366) % anecdoteData.length; // шутка +366
-//   const randomIdx = useMemo(() => Math.floor(Math.random() * anecdoteData.length), []);
-
-//   // шутки
-//   const jokes = [
-//     anecdoteData[idx1]?.joke[0] ?? 'Шутка недоступна',
-//     anecdoteData[idx2]?.joke[0] ?? 'Шутка недоступна',
-//     anecdoteData[randomIdx]?.joke[0] ?? 'Шутка недоступна',
-//   ];
-
-//   // события
-//   const key = today.format('MM-DD');
-//   const todayEvents = eventsJSON[key]?.event || [];
-//   const events = todayEvents.length ? todayEvents : [{ title: 'Событий нет', description: '', emoji: '' }];
-
-//   // факт
-//   const [fact, setFact] = useState('Факт недоступен');
-//   useEffect(() => {
-//     const f = eventsJSON[key]?.fact;
-//     setFact(f && f.length ? f[0] : 'Фактов на сегодня нет');
-//   }, [key]);
-
-//   // слайдер
-//   const slides = ['jokes', 'events'];
-//   const [slideIdx, setSlideIdx] = useState(0);
-//   const [paused, setPaused] = useState(false);
-
-//   useEffect(() => {
-//     if (paused) return;
-//     const timer = setInterval(() => {
-//       setSlideIdx(i => (i + 1) % slides.length);
-//     }, 3000);
-//     return () => clearInterval(timer);
-//   }, [paused]);
-
-//   const prev = () => setSlideIdx(i => (i + slides.length - 1) % slides.length);
-//   const next = () => setSlideIdx(i => (i + 1) % slides.length);
-
-//   return (
-//     <Grid container justifyContent="center" sx={{ p: 2 }}>
-//       <Box
-//         onMouseEnter={() => setPaused(true)}
-//         onMouseLeave={() => setPaused(false)}
-//         sx={{
-//           position: 'relative',
-//           width: 500,
-//           height: 300,
-//         }}
-//       >
-//         {/* СЛАЙД С ШУТКАМИ */}
-//         {slideIdx === 0 && (
-//           <Card
-//             variant="outlined"
-//             sx={{
-//               width: '100%',
-//               height: '100%',
-//               display: 'flex',
-//               flexDirection: 'column',
-//               justifyContent: 'space-between',
-//             }}
-//           >
-//             <CardContent>
-//               <Typography variant="h6" gutterBottom>
-//                 {`Шутка дня #${dayOfYear}`}
-//               </Typography>
-//               <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-//                 {jokes[0]}
-//               </Typography>
-//             </CardContent>
-//             <Box sx={{ p: 1, bgcolor: 'background.paper' }}>
-//               <Typography variant="caption" color="text.secondary">
-//                 {today.format('DD MMMM YYYY')} • День {dayOfYear} • Неделя {today.week()}
-//               </Typography>
-//             </Box>
-//           </Card>
-//         )}
-
-//         {/* СЛАЙД СО СЛУЧАЙНОЙ ШУТКОЙ +366 */}
-//         {slideIdx === 1 && (
-//           <Card
-//             variant="outlined"
-//             sx={{
-//               width: '100%',
-//               height: '100%',
-//               display: 'flex',
-//               flexDirection: 'column',
-//               justifyContent: 'space-between',
-//             }}
-//           >
-//             <CardContent>
-//               <Typography variant="h6" gutterBottom>
-//                 {`Шутка дня #${dayOfYear + 366}`}
-//               </Typography>
-//               <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-//                 {jokes[1]}
-//               </Typography>
-//             </CardContent>
-//             <Box sx={{ p: 1, bgcolor: 'background.paper' }}>
-//               <Typography variant="caption" color="text.secondary">
-//                 {today.format('DD MMMM YYYY')} • День {dayOfYear} • Неделя {today.week()}
-//               </Typography>
-//             </Box>
-//           </Card>
-//         )}
-
-//         {/* Навигация и индикатор */}
-//         {paused && (
-//           <>
-//             <IconButton
-//               size="small"
-//               onClick={prev}
-//               sx={{
-//                 position: 'absolute',
-//                 top: '50%',
-//                 left: 8,
-//                 transform: 'translateY(-50%)',
-//               }}
-//             >
-//               <ArrowBackIos fontSize="small" />
-//             </IconButton>
-//             <IconButton
-//               size="small"
-//               onClick={next}
-//               sx={{
-//                 position: 'absolute',
-//                 top: '50%',
-//                 right: 8,
-//                 transform: 'translateY(-50%)',
-//               }}
-//             >
-//               <ArrowForwardIos fontSize="small" />
-//             </IconButton>
-//             <Box
-//               sx={{
-//                 position: 'absolute',
-//                 bottom: 8,
-//                 left: '50%',
-//                 transform: 'translateX(-50%)',
-//                 bgcolor: 'rgba(0,0,0,0.6)',
-//                 px: 1,
-//                 borderRadius: 1,
-//               }}
-//             >
-//               <Typography variant="caption" color="common.white">
-//                 {slideIdx + 1}/{slides.length}
-//               </Typography>
-//             </Box>
-//           </>
-//         )}
-//       </Box>
-
-//       {/* ФАКТ */}
-//       <Box sx={{ mt: 2, width: 500 }}>
-//         <Card variant="outlined">
-//           <CardContent>
-//             <Typography variant="h6" gutterBottom>
-//               Факт дня
-//             </Typography>
-//             <Typography variant="body2">{fact}</Typography>
-//           </CardContent>
-//         </Card>
-//       </Box>
-//     </Grid>
-//   );
-// };
