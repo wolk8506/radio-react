@@ -4,7 +4,6 @@ import 'moment/locale/ru';
 
 // MUI Components
 import { Box, Typography, IconButton } from '@mui/material';
-import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
@@ -52,7 +51,6 @@ export const DynamicContent = ({ type, title, icon }) => {
 
   const prev = () => setIndex(i => (i + content.length - 1) % content.length);
   const next = () => setIndex(i => (i + 1) % content.length);
-  const shuffle = () => setIndex(Math.floor(Math.random() * content.length));
 
   const current = content[index];
   const isString = typeof current === 'string';
