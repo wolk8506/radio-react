@@ -54,8 +54,6 @@ export const Weather = () => {
   // const REACT_APP_WEATHER_API_KEY_3 = 'GP4GVCRSPM49PLYL6GG3XCCND';
   const REACT_APP_WEATHER_API_KEY_4 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
 
-  const [ferstFetch, setFerstFetch] = useState(true);
-
   const [CITY, setCITY] = useState(city_data);
   const [searchCity, setSearchCity] = useState('');
 
@@ -121,41 +119,34 @@ export const Weather = () => {
   }, [cityList]);
 
   useEffect(() => {
-    if (ferstFetch) {
-      const city_1 = cityList[0]?.city;
-      const city_2 = cityList[1]?.city;
-      const city_3 = cityList[2]?.city;
+    const city_1 = cityList[0]?.city;
+    const city_2 = cityList[1]?.city;
+    const city_3 = cityList[2]?.city;
 
-      if (city_1 !== undefined) {
-        const BASE_URL_TODAY = `${BASE_URL}${city_1}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
-        dispatch(weatherOperations.fetchWeatherTodayCity1(BASE_URL_TODAY));
-      }
-
-      if (city_2 !== undefined) {
-        const BASE_URL_TODAY = `${BASE_URL}${city_2}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
-        dispatch(weatherOperations.fetchWeatherTodayCity2(BASE_URL_TODAY));
-      }
-
-      if (city_3 !== undefined) {
-        const BASE_URL_TODAY = `${BASE_URL}${city_3}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
-        dispatch(weatherOperations.fetchWeatherTodayCity3(BASE_URL_TODAY));
-      }
+    if (city_1 !== undefined) {
+      const BASE_URL_TODAY = `${BASE_URL}${city_1}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
+      dispatch(weatherOperations.fetchWeatherTodayCity1(BASE_URL_TODAY));
     }
-    setFerstFetch(false);
-  }, [CITY, cityList, dispatch, ferstFetch]);
+
+    if (city_2 !== undefined) {
+      const BASE_URL_TODAY = `${BASE_URL}${city_2}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
+      dispatch(weatherOperations.fetchWeatherTodayCity2(BASE_URL_TODAY));
+    }
+
+    if (city_3 !== undefined) {
+      const BASE_URL_TODAY = `${BASE_URL}${city_3}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
+      dispatch(weatherOperations.fetchWeatherTodayCity3(BASE_URL_TODAY));
+    }
+  }, [cityList]);
 
   useEffect(() => {
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else if (CITY.city !== undefined && CITY !== null) {
-      // const BASE_URL_YESTERDAY = `${BASE_URL}${CITY.city}/yesterday?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_1}&contentType=json&lang=ru&unitGroup=metric`;
-      // const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
-      // const BASE_URL_TOMORROW = `${BASE_URL}${CITY.city}/tomorrow?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_3}&contentType=json&lang=ru&unitGroup=metric`;
+      const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_2}&contentType=json&lang=ru&unitGroup=metric`;
       const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY.city}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
-      // dispatch(weatherOperations.fetchWeatherYesterday(BASE_URL_YESTERDAY));
-      // dispatch(weatherOperations.fetchWeatherToday(BASE_URL_TODAY));
-      // dispatch(weatherOperations.fetchWeatherTomorrow(BASE_URL_TOMORROW));
+      dispatch(weatherOperations.fetchWeatherToday(BASE_URL_TODAY));
       dispatch(weatherOperations.fetchWeatherElements(URL_WEATHER_ELEMENTS));
     }
   }, [CITY, dispatch]);
@@ -308,18 +299,21 @@ export const Weather = () => {
   const [anchorEl_1, setAnchorEl_1] = React.useState(null);
   const open_1 = Boolean(anchorEl_1);
   const handleClick_1 = event => {
+    event.stopPropagation();
     setAnchorEl_1(event.currentTarget);
   };
   // ----------
   const [anchorEl_2, setAnchorEl_2] = React.useState(null);
   const open_2 = Boolean(anchorEl_2);
   const handleClick_2 = event => {
+    event.stopPropagation();
     setAnchorEl_2(event.currentTarget);
   };
   // -----------
   const [anchorEl_3, setAnchorEl_3] = React.useState(null);
   const open_3 = Boolean(anchorEl_3);
   const handleClick_3 = event => {
+    event.stopPropagation();
     setAnchorEl_3(event.currentTarget);
   };
 

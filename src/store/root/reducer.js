@@ -33,6 +33,9 @@ const themeTransporantClock = createReducer('100%', builder => {
 const themeClock_AnalogDigital = createReducer(true, builder => {
   builder.addCase(dataActions.setThemeClock_AnalogDigital, (state, action) => action.payload);
 });
+const themeMainClock = createReducer('timeHero', builder => {
+  builder.addCase(dataActions.setThemeMainClock, (state, action) => action.payload);
+});
 const themeNewYear = createReducer(
   {
     snow: false,
@@ -63,4 +66,5 @@ export default combineReducers({
   themeClock_AnalogDigital,
   themeNewYear,
   themeWalpaper,
+  themeMainClock,
 });

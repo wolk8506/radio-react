@@ -17,6 +17,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import TuneIcon from '@mui/icons-material/Tune';
 import PersonIcon from '@mui/icons-material/Person';
 import { BASE_URL } from '../../config';
@@ -35,6 +36,7 @@ export const SidebarDesctop = ({ audio }) => {
     { name: 'Погода', link: '/weather', icon: ThunderstormIcon },
     { name: 'Рецепты', link: '/recipes', icon: FastfoodIcon },
     { name: 'Новости', link: '/news', icon: NewspaperIcon },
+    { name: 'Медиатека', link: '/filmLibrary', icon: MovieFilterIcon },
     { name: 'Настройки', link: '/settings', icon: TuneIcon },
   ];
   const [classBtn_menu, setClassBtn_menu] = useState('');

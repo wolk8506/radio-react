@@ -21,5 +21,9 @@ export { currencyActions } from './currency';
 export { newsSelectors } from './news';
 export { newsOperations } from './news';
 
+export { timerSelectors } from './timer';
+export { timerOperations } from './timer';
+export { timerActions } from './timer';
+
 export { dataActions } from './root';
 export { rootSelectors } from './root';

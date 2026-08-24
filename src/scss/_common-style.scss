@@ -29,14 +29,17 @@
 .MuiFormControl-root {
   .MuiFormLabel-root {
     color: function.rgb-a(colors.$color-03, 60%);
+    
 
     &.MuiFormLabel-root.Mui-focused {
       color: function.rgb-a(colors.$color-02, 100%);
+      
     }
   }
 
   .MuiInputBase-root {
     color: function.rgb-a(colors.$color-03, 87%);
+    
 
     &.MuiInputBase-root::before {
       border-bottom: 1px solid function.rgb-a(colors.$color-03, 42%);
@@ -69,10 +72,22 @@
 }
 
 .MuiPaper-root.MuiPopover-paper.MuiMenu-paper {
-  background-color: colors.$color-07;
+  // background-color: colors.$color-07;
   color: colors.$color-03;
+  // background: #c40505;
+  @include function.card-style;
+
+  &::-webkit-scrollbar-track {
+        background: transparent;
+        /* Цвет дорожки */
+        // border-radius: 20px;
+       
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
 
   .MuiList-root {
+    
     .MuiButtonBase-root.MuiMenuItem-root.Mui-selected {
       background-color: function.rgb-a(colors.$color-03, 10%);
     }
@@ -85,17 +100,21 @@
 
 //* calendar   - - - - - - - - - - - - - - - - - - - - -
 .base-Popper-root.MuiPickersPopper-root {
+  
   .MuiPaper-root {
     background-color: colors.$color-07;
     color: function.rgb-a(colors.$color-03, 87%);
+    
 
     .MuiPickersYear-yearButton.Mui-selected {
       background-color: colors.$color-02;
       color: colors.$color-07;
+      
     }
 
     .MuiPickersYear-yearButton:hover {
       background-color: function.rgb-a(colors.$color-03, 4%);
+  
     }
 
     .MuiPickersMonth-monthButton.Mui-selected {
@@ -113,6 +132,7 @@
 
     .MuiButtonBase-root {
       color: colors.$color-03;
+      
 
       &.MuiButtonBase-root:hover {
         background-color: function.rgb-a(colors.$color-03, 4%);
@@ -120,6 +140,16 @@
     }
   }
 }
+//* calendar 2   - - - - - - - - - - - - - - - - - - - - -
+
+.MuiPopper-root.MuiPickersPopper-root {
+  .MuiPaper-root.MuiPickersPopper-paper {
+    @include function.card-style;
+    color: colors.$color-03;
+  }
+ 
+}
+
 
 // * - - table   - - - - - - - - - - - - - - - - - - - - -
 .MuiPaper-root.MuiTableContainer-root {
@@ -134,8 +164,17 @@
         border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
         color: colors.$color-02;
         background-color: colors.$color-07;
-        border-radius: 30px 30px 0 0;
+        // border-radius: 22px 22px 0 0;
+        background: rgb-a(colors.$color-07, 45%);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          backdrop-filter: blur(40px) saturate(210%);
+          -webkit-backdrop-filter: blur(40px) saturate(210%);
+
+        // &:nth-last-child{
+        //   border-top-left-radius: 22px;
+        // }  
       }
+          
     }
   }
 
@@ -284,16 +323,41 @@ g>.MuiChartsAxisHighlight-root {
 // 
 // * - - Radio-Button   - - - - - - - - - - - - - - - -
 
-.MuiButtonBase-root {
+.MuiButtonBase-root, .MuiButtonBase-root.MuiToggleButtonGroup-grouped {
   color: function.rgb-a(colors.$color-03, 60%);
 
   &.MuiButtonBase-root:hover {
     background-color: function.rgb-a(colors.$color-02, 4%);
   }
 
+  &.Mui-selected,
   &.MuiButtonBase-root.Mui-checked {
     color: function.rgb-a(colors.$color-03, 100%);
   }
+}
+
+// .MuiButtonBase-root.MuiToggleButtonGroup-grouped{
+//     color: colors.$color-03;
+//   }
+
+// 
+// * - - Typography   - - - - - - - - - - - - - - - -
+
+
+.MuiTypography-root{
+  color: colors.$color-03;
+}
+
+.MuiTypography-root.MuiTypography-body2{
+  color: colors.$color-03;
+}
+.MuiTypography-root.MuiTypography-caption{
+  color: colors.$color-03;
+}
+
+
+.MuiCardContent-root{
+  background-color: function.rgb-a(colors.$color-02, 4%);
 }
 
 // ?--------------------------------------

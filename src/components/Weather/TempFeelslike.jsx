@@ -16,7 +16,7 @@ export const TempFeelslike = ({ choiceOfDayGlobal, onChange }) => {
   const chartType = 'temp';
   const [choiceOfDay, setChoiceOfDay] = useState(choiceOfDayGlobal);
   const [weeklyData, setWeeklyData] = useState([]);
-  console.log('data', data);
+  // console.log('data', data);
   useEffect(() => {
     if (!data?.days || data.days.length < 5) return;
     function colorChartBar(data) {

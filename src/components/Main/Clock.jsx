@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export const Clock = () => {
   const [hh, setHh] = useState('00');
@@ -69,65 +71,107 @@ export const Clock = () => {
   }, [hh]);
 
   return (
-    <div className="wrapper">
-      <div className="clock">
-        <div className="flipper">
-          <div className="gear"></div>
-          <div className="gear"></div>
-          <div className="top">
-            <div className="text">{hh}</div>
-          </div>
-          {changeHour && (
-            <div className="top_new">
-              <div className="text_top_new">{hh2}</div>
-              <div className="bottom_new">
-                <div className="text_bottom">{hh}</div>
-              </div>
-            </div>
-          )}
-          <div className="bottom">
-            <div className="text_bottom">{hh2}</div>
-          </div>
-        </div>
+    <Box
+      className="card-main-page"
+      sx={{
+        width: '100%',
+        height: '236px',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        p: 0,
+        '@media (max-width: 768px)': { height: 'auto', minHeight: 'auto' },
+      }}
+    >
+      {/* Шапка карточки (как в TimeHero) */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', px: 2, pt: 2 }}>
+        <AccessTimeIcon sx={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)' }} />
+        <Typography
+          sx={{
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            color: 'rgba(255, 255, 255, 0.65)',
+          }}
+        >
+          Система времени
+        </Typography>
+      </Box>
 
-        <div className="flipper">
-          <div className="gear"></div>
-          <div className="gear"></div>
-          <div className="top">
-            <div className="text">{mm}</div>
-          </div>
-          {changeMinute && (
-            <div className="top_new">
-              <div className="text_top_new">{mm2}</div>
-              <div className="bottom_new">
-                <div className="text_bottom">{mm}</div>
+      {/* Flip-часы, вписанные в размер карточки */}
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 0,
+        }}
+      >
+        <div className="wrapper">
+          <div className="clock-hero-scaler">
+            <div className="clock clock--hero">
+              <div className="flipper">
+              <div className="gear"></div>
+              <div className="gear"></div>
+              <div className="top">
+                <div className="text">{hh}</div>
+              </div>
+              {changeHour && (
+                <div className="top_new">
+                  <div className="text_top_new">{hh2}</div>
+                  <div className="bottom_new">
+                    <div className="text_bottom">{hh}</div>
+                  </div>
+                </div>
+              )}
+              <div className="bottom">
+                <div className="text_bottom">{hh2}</div>
               </div>
             </div>
-          )}
-          <div className="bottom">
-            <div className="text_bottom">{mm2}</div>
-          </div>
-        </div>
 
-        <div className="flipper">
-          <div className="gear"></div>
-          <div className="gear"></div>
-          <div className="top">
-            <div className="text">{ss}</div>
-          </div>
-          {changeSecond && (
-            <div className="top_new">
-              <div className="text_top_new">{ss2}</div>
-              <div className="bottom_new">
-                <div className="text_bottom">{ss}</div>
+            <div className="flipper">
+              <div className="gear"></div>
+              <div className="gear"></div>
+              <div className="top">
+                <div className="text">{mm}</div>
+              </div>
+              {changeMinute && (
+                <div className="top_new">
+                  <div className="text_top_new">{mm2}</div>
+                  <div className="bottom_new">
+                    <div className="text_bottom">{mm}</div>
+                  </div>
+                </div>
+              )}
+              <div className="bottom">
+                <div className="text_bottom">{mm2}</div>
               </div>
             </div>
-          )}
-          <div className="bottom">
-            <div className="text_bottom">{ss2}</div>
+
+            <div className="flipper">
+              <div className="gear"></div>
+              <div className="gear"></div>
+              <div className="top">
+                <div className="text">{ss}</div>
+              </div>
+              {changeSecond && (
+                <div className="top_new">
+                  <div className="text_top_new">{ss2}</div>
+                  <div className="bottom_new">
+                    <div className="text_bottom">{ss}</div>
+                  </div>
+                </div>
+              )}
+              <div className="bottom">
+                <div className="text_bottom">{ss2}</div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };

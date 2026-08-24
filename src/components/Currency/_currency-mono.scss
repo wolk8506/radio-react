@@ -33,7 +33,7 @@ form {
 
 @media screen and (max-width: 720px) {
   .converter-block {
-    background: colors.$color-07;
+    // @include function.card-style;
     padding: 15px;
     width: 100%;
     border-radius: 15px;

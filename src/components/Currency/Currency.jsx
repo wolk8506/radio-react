@@ -264,7 +264,7 @@ export const Currency = () => {
   }, [dataCurrency]);
 
   return (
-    <div className="currency-main">
+    <div className="currency-main currency-main-mobile">
       <div className="currency-main__title">
         {status ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
         <h2>валюта</h2>

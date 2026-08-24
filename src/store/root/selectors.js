@@ -9,6 +9,8 @@ const getThemeIconWeather = state => state.root.themeIconWeather;
 const getThemeTransporantClock = state => state.root.themeTransporantClock;
 const getThemeClock_AnalogDigital = state => state.root.themeClock_AnalogDigital;
 const getThemeNewYear = state => state.root.themeNewYear;
+const getThemeMainClock = state => state.root.themeMainClock;
+const getTimers = state => state.timer.timers;
 
 export const rootSelectors = {
   getPlayerStation,
@@ -22,4 +24,6 @@ export const rootSelectors = {
   getThemeTransporantClock,
   getThemeClock_AnalogDigital,
   getThemeNewYear,
+  getThemeMainClock,
+  getTimers,
 };

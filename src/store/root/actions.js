@@ -12,6 +12,7 @@ const setThemeIconWeather = createAction('data/themeIconWeather');
 const setThemeTransporantClock = createAction('data/themeTransporantClock');
 const setThemeClock_AnalogDigital = createAction('data/themeClock_AnalogDigital');
 const setThemeNewYear = createAction('data/themeNewYear');
+const setThemeMainClock = createAction('data/themeMainClock');
 
 export const dataActions = {
   setPlayerStation,
@@ -25,4 +26,5 @@ export const dataActions = {
   setThemeTransporantClock,
   setThemeClock_AnalogDigital,
   setThemeNewYear,
+  setThemeMainClock,
 };

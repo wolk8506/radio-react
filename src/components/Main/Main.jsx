@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Weather } from './Weather';
-import { Radio } from './Radio';
-// import { Currency } from '../Currency/Currency';
+import { TimeHero } from './TimeHero';
 import { Clock } from './Clock';
-import { Event } from './Event';
-import { ClockDigital } from './ClockDigital';
+import { WeatherCard } from './WeatherCard';
+import { RadioCard } from './RadioCard';
+import { CurrencyCard } from './CurrencyCard';
+import { DynamicContent } from './DynamicContent';
+import { Timers } from './Timers';
+import { MyEvents } from './MyEvents';
+import { NewYearCountdown } from './NewYearCountdown';
+
 import { rootSelectors } from 'store';
 
 import snowMan from '../../images/winter/snowman-min.png';
@@ -19,89 +23,97 @@ import santaSleigh from '../../images/winter/santa-claus.png';
 import year from '../../images/winter/year.png';
 import snake from '../../images/winter/horse.png';
 
-import { NewYearCountdown } from './NewYearCountdown';
-
 export const Main = ({ onAudio }) => {
-  const WIDGET = useSelector(rootSelectors.getThemeWidgetClock);
   const THEME_NEW_YEAR = useSelector(rootSelectors.getThemeNewYear);
-
-  for (let index = 0; index < 200; index++) {}
+  const THEME_MAIN_CLOCK = useSelector(rootSelectors.getThemeMainClock);
 
   return (
     <>
       <div className="main">
-        {WIDGET === '1' && <ClockDigital></ClockDigital>}
-        {WIDGET === '0' && (
-          <div className="main__block">
-            <div className="block__element">
-              <Weather></Weather>
-            </div>
-            <div className="block__element">
-              <Clock></Clock>
-            </div>
+        <div className="dashboard-grid">
+          {/* Row 1: TimeHero (7 cols) + Weather (5 cols) */}
+          <div className="grid-item time-hero-wrapper">
+            {THEME_MAIN_CLOCK === 'clock' ? <Clock /> : <TimeHero />}
+          </div>
+          <div className="grid-item weather-wrapper">
+            <WeatherCard />
+          </div>
+
+          {/* Row 2: Radio (6 cols) + Currency (6 cols) */}
+          <div className="grid-item radio-wrapper">
+            <RadioCard onAudio={onAudio} />
+          </div>
+          <div className="grid-item currency-wrapper">
+            <CurrencyCard />
+          </div>
+
+          {/* Row 3: Event + Fact + Joke (each 4 cols) */}
+          <div className="grid-item event-wrapper">
+            <DynamicContent type="event" title="Событие" icon="calendar-day" />
+          </div>
+          <div className="grid-item fact-wrapper">
+            <DynamicContent type="fact" title="Факт" icon="lightbulb" />
+          </div>
+          <div className="grid-item joke-wrapper">
+            <DynamicContent type="joke" title="Шутка" icon="face-laugh" />
+          </div>
+
+          {/* Row 4: Timers (6 cols) + MyEvents (6 cols) */}
+          <div className="grid-item timers-wrapper">
+            <Timers />
+          </div>
+          <div className="grid-item events-wrapper">
+            <MyEvents />
+          </div>
+        </div>
+
+        {THEME_NEW_YEAR.timer && (
+          <div className="merry">
+            <h1>До Нового года</h1>
+            <NewYearCountdown />
           </div>
         )}
-        <div className="main__block">
-          <Radio onAudio={onAudio}></Radio>
-          {/* <Currency></Currency> */}
-          <Event></Event>
-        </div>
       </div>
-      {THEME_NEW_YEAR.timer && WIDGET !== '0' && (
-        <div className="merry">
-          <h1>Until New Year</h1>
-          <NewYearCountdown></NewYearCountdown>
-        </div>
-      )}
+
+      {/* New Year decorations */}
       {THEME_NEW_YEAR.sugrob && (
         <div className="sugrob">
-          <img src={sugrob} alt="christmasTree" />
+          <img src={sugrob} alt="sugrob" />
         </div>
       )}
       {THEME_NEW_YEAR.blueWhiteIgloo && (
         <div className="blue-white-igloo">
-          <img src={blueWhiteIgloo} alt="christmasTree" />
+          <img src={blueWhiteIgloo} alt="igloo" />
         </div>
       )}
       {THEME_NEW_YEAR.snowMan && (
         <div className="snow-man">
-          <img src={snowMan} alt="" />
+          <img src={snowMan} alt="snowman" />
         </div>
       )}
-      {THEME_NEW_YEAR.christmasTree && WIDGET !== '0' && (
+      {THEME_NEW_YEAR.christmasTree && (
         <div className="christmas-tree">
-          <img src={christmasTree} alt="christmasTree" />
-        </div>
-      )}
-
-      {THEME_NEW_YEAR.christmasTree && WIDGET === '0' && (
-        <div className="christmas-tree-2">
-          <img src={christmasTree} alt="christmasTree" />
+          <img src={christmasTree} alt="tree" />
         </div>
       )}
       {THEME_NEW_YEAR.pole && (
         <div className="pole">
-          <img src={pole} alt="christmasTree" />
+          <img src={pole} alt="pole" />
         </div>
       )}
       {THEME_NEW_YEAR.santaSleigh && (
         <div className="santa-sleigh">
-          <img src={santaSleigh} alt="christmasTree" />
+          <img src={santaSleigh} alt="sleigh" />
         </div>
       )}
-
       {THEME_NEW_YEAR.year && (
         <div className="year">
           <img src={year} alt="year" />
         </div>
       )}
-      {/* <div className="santa-sleigh">
-        <img src={santaSleigh} alt="christmasTree" />
-      </div> */}
-
       {THEME_NEW_YEAR.snake && (
         <div className="snake">
-          <img src={snake} alt="christmasTree" />
+          <img src={snake} alt="snake" />
         </div>
       )}
     </>
