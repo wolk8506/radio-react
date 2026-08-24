@@ -13,7 +13,7 @@ import moment from 'moment';
 export const Wind = ({ choiceOfDayGlobal, onChange }) => {
   const data = useSelector(weatherSelectors.getWeatherWeek_Data);
 
-  console.log('WEEK', data);
+  // console.log('WEEK', data);
 
   const [chart, setChart] = useState([{ code: 0, value: 1 }]);
   const chartType = 'windspeed';
@@ -98,7 +98,7 @@ export const Wind = ({ choiceOfDayGlobal, onChange }) => {
       windspeed: [64, 56, 48, 41, 34, 28, 22, 17, 11, 7, 4, 1, 0],
     };
     const chartType = 'windspeed';
-    console.log(data);
+    // console.log(data);
 
     if (data > type[chartType][0])
       return {

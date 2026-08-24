@@ -137,3 +137,19 @@
     display: none;
   }
 }
+
+// Flip-часы внутри карточки главной страницы (слот TimeHero)
+.clock-hero-scaler {
+  width: 425px; // 850 * 0.5
+  height: 148px; // 295 * 0.5
+  overflow: hidden;
+  position: relative;
+}
+
+.clock--hero {
+  width: 850px;
+  height: 295px;
+  margin: 0;
+  transform: scale(0.5);
+  transform-origin: top left;
+}

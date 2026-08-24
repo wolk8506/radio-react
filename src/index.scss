@@ -34,6 +34,8 @@
 
 @use 'components/Recipes/recipes';
 
+
+
 // @use 'components/Settings/info';
 
 @use 'Pages/user';
@@ -41,6 +43,7 @@
 @use 'Pages/register';
 @use 'Pages/settings';
 @use 'Pages/notFound';
+@use 'Pages/FilmLibrary/filmLibrary';
 
 @import-normalize;
 /* bring in normalize.css styles */
@@ -51,14 +54,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: colors.$color-02;
-  // transition: background 0.25s;
-  // background-color: walpaper.$background-color;
-  // background-image: walpaper.$background-image-1;
-  // background-repeat: no-repeat;
-  // background-position: center;
-  // background-size: cover;
-  // background-attachment: fixed;
+
 }
 
 * {
@@ -67,3 +63,5 @@ body {
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   box-sizing: border-box;
 }
+
+

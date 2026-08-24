@@ -262,6 +262,10 @@ const city = createReducer(null, builder => {
 
 const cityList = createReducer([], builder => {
   builder.addCase(weatherActions.addCityListItem, (state, action) => [...state, action.payload]);
+  builder.addCase(weatherActions.prependCityListItem, (state, action) => {
+    const newState = [action.payload, ...state.filter(c => c.city !== action.payload.city)];
+    return newState.slice(0, 3);
+  });
   builder.addCase(weatherActions.deleteCityListItem, (state, action) =>
     state.filter(({ id }) => id !== action.payload)
   );

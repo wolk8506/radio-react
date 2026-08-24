@@ -19,7 +19,7 @@ export const WeatherMonth = () => {
   const [dataDays, setDataDays] = useState([]);
   const [datetime, setDatetime] = useState('--:--');
 
-  console.log('data_month', data_month);
+  // console.log('data_month', data_month);
 
   useEffect(() => {
     const data = [];

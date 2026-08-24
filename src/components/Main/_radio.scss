@@ -2,19 +2,19 @@
 @use "../../scss/function";
 
 .maim-player {
-  padding: 10px;
-  width: 100%;
-  height: 170px;
-  color: colors.$color-02;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  @include function.card-style;
+  // padding: 10px;
+  // width: 100%;
+  // height: 170px;
+  // color: colors.$color-02;
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-around;
+  // @include function.card-style;
 
   .logoRadio {
     border-radius: 15px;
-    width: 128px;
-    height: 128px;
+    // width: 128px;
+    // height: 128px;
     border: 2px solid function.rgb-a(colors.$color-02, 50%);
   }
 
@@ -31,7 +31,9 @@
     display: none;
   }
   .selectRadioStation {
-    width: 200px;
+    width: 250px;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .maim-player__clock-block {
@@ -41,7 +43,6 @@
 
     .clock-block__clock {
       font-family: 'Orbitron', sans-serif;
-      width: 60px;
       text-align: center;
       font-size: 26px;
       text-shadow: 0 0 10px function.rgb-a(colors.$color-02, 50%);

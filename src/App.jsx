@@ -21,7 +21,7 @@ import { Recipe } from './components/Recipes/Recipe';
 import { radioData } from './components/Main/Radio-data';
 import { Sidebar } from 'components/Sidebar/Sidebar';
 import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
-import { LoginPage, RegisterPage, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage } from './Pages';
+import { LoginPage, RegisterPage, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage, FilmLibraryPage, CollectionPage } from './Pages';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -50,6 +50,8 @@ export const App = () => {
     { path: '*', element: <Navigate to="/404" replace />, isPublic: true },
     { path: '/settings', element: <SettingsPage />, isPublic: false },
     { path: '/profile', element: <ProfilePage />, isPublic: false },
+    { path: '/filmLibrary', element: <FilmLibraryPage />, isPublic: false },
+    { path: '/filmLibrary/:collectionId', element: <CollectionPage />, isPublic: false },
     { path: '/register', element: <RegisterPage />, isPublic: true, restricted: true },
     { path: '/login', element: <LoginPage />, isPublic: true, restricted: true },
   ];
@@ -69,6 +71,11 @@ export const App = () => {
   }, [dispatch]);
 
   useEffect(() => setAudio(new Audio()), []);
+
+  // Пробрасываем переменную обоев на корень (html), чтобы фон работал и на body, и в зоне overscroll (CSS-переменные наследуются только вниз)
+  useEffect(() => {
+    document.documentElement.style.setProperty('--background-image', dynamicImageUrl || '');
+  }, [dynamicImageUrl]);
   useEffect(() => {
     PLAYER_PLAY ? (document.title = `Radio`) : (document.title = `${radioData[PLAYER_STATION]?.name}`);
   }, [PLAYER_PLAY, PLAYER_STATION]);
@@ -93,7 +100,7 @@ export const App = () => {
 
   // Если загрузка завершена, рендерим приложение
   return (
-    <div className="app" style={{ '--background-image': dynamicImageUrl }}>
+    <div className="app">
       {THEME_NEW_YEAR.snow && (
         <div className="snow">
           {[...Array(200)].map((_, index) => (

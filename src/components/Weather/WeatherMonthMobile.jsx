@@ -56,6 +56,7 @@ export const WeatherMonthMobile = () => {
         day: moment(i.datetime).format('dd'),
         icon: weatherImage(i.icon, themeImageWeather),
         activ: date === i.datetime ? 'activ' : 'no-activ',
+        past: moment(i.datetime).isBefore(moment(), 'day') ? 'is-past' : '',
       })
     );
     arr.shift();
@@ -338,10 +339,10 @@ export const WeatherMonthMobile = () => {
                 <div className="month-calendar__table-container">
                   <div className="table-container__table-content">
                     <ul className="table-content__content-items">
-                      {dataMonth &&
-                        dataMonth.map(i => (
-                          <li className="content-item" key={i.datetime}>
-                            <div className={i.activ}>
+                        {dataMonth &&
+                          dataMonth.map(i => (
+                            <li className={`content-item ${i.past}`} key={i.datetime}>
+                              <div className={i.activ}>
                               <div className="calendar-table-day">
                                 <span>{i.datetime}</span>
                                 <span>{i.day}</span>

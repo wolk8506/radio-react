@@ -444,8 +444,9 @@
 
   .weather10days {
     padding: 0px 6px 0;
+    @include function.card-style;
 
-    background: colors.$color-07;
+    // background: colors.$color-07;
     border-radius: 15px;
 
     .weather10days__title {
@@ -632,7 +633,7 @@
 
   .sun-and-moon {
     margin: 16px 0px 16px;
-    background: colors.$color-07;
+    // background: colors.$color-07;
     border-radius: 4px;
     @include function.card-style;
 
@@ -659,6 +660,7 @@
           padding: 16px;
           box-sizing: border-box;
           display: block;
+          
 
           .detail-items {
             display: block;
@@ -884,8 +886,9 @@
 
 .MuiModal-root {
   .MuiModalDialog-root {
-    background-color: colors.$color-07;
+    // background-color: colors.$color-07;
     color: function.rgb-a(colors.$color-02, 70%);
+    @include function.card-style;
 
     .MuiModalClose-root {
       .MuiSvgIcon-root {
@@ -903,15 +906,18 @@
 
 .modal {
   pointer-events: none;
-  background: colors.$color-07;
+  // background: colors.$color-07;
   z-index: -5;
   top: 0;
   @include function.card-style;
+  background: transparent;
+  box-shadow: none;
 
   .modal__header {
     display: flex;
     justify-content: flex-end;
     margin: 16px;
+    
 
     .btn-close {
       @include function.button;
@@ -923,25 +929,29 @@
     display: block;
     width: 100%;
     border-radius: 15px;
-    background: trasparent;
-    backdrop-filter: blur(25px);
+    // background: trasparent;
+    // backdrop-filter: blur(25px);
     // -webkit-backdrop-filter: blur(25px);
     // padding: 0 12px;
-    box-sizing: border-box;
+    // box-sizing: border-box;
+    
 
     .month-calendar__table-container {
       position: relative;
       width: 100%;
       padding: 16px 12px;
       box-sizing: border-box;
-      background: function.rgb-a(colors.$color-02, 3%);
-      backdrop-filter: blur(25px);
+      // background: function.rgb-a(colors.$color-02, 3%);
+      // backdrop-filter: blur(25px);
       border-radius: 8px;
+      
+      
 
       .table-container__table-content {
         position: relative;
         width: 100%;
         box-sizing: border-box;
+        
 
         .table-content__content-items {
           position: relative;
@@ -963,6 +973,10 @@
             display: flex;
             justify-content: center;
             border-bottom: 1px solid function.rgb-a(colors.$color-03, 15%);
+
+            &.is-past {
+              opacity: 0.3;
+            }
 
             & div {
               border-radius: 12px;

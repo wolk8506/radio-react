@@ -25,6 +25,7 @@ export const SidebarMobile = () => {
     { name: 'Погода', link: '/weather', route: 'public' },
     { name: 'Рецепты', link: '/recipes', route: 'public' },
     { name: 'Новости', link: '/news', route: 'public' },
+    { name: 'Медиатека', link: '/filmLibrary', route: 'privat' },
     { name: 'Настройки', link: '/settings', route: 'public' },
     { name: 'Профиль', link: '/profile', route: 'privat' },
     { name: 'Страница входа', link: '/login', route: 'restricted' },
@@ -46,20 +47,50 @@ export const SidebarMobile = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
+        <AppBar
+          position="fixed"
+          // color="primary"
+          sx={{
+            top: 0,
+            bottom: 'auto',
+            paddingTop: 'env(safe-area-inset-top, 0px)',
+            background: 'rgba(18, 22, 30, 0.95)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+          }}
+        >
           <Toolbar variant="dense">
-            <IconButton edge="start" aria-label="menu" sx={{ mr: 2 }} onClick={toggleDrawer('right', true)}>
+            <IconButton edge="start" aria-label="menu" sx={{ mr: 2, color: '#fff' }} onClick={toggleDrawer('right', true)}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" component="div">
+            <Typography variant="h6" color="inherit" component="div" sx={{ color: '#fff' }}>
               {menuData[menuData.findIndex(item => item.link === currentPage)].name}
             </Typography>
           </Toolbar>
         </AppBar>
       </Box>
-      <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
-        <Box role="presentation" onClick={toggleDrawer('right', false)} onKeyDown={toggleDrawer('right', false)}>
-          <List>
+      <Drawer
+        anchor={'right'}
+        open={state['right']}
+        onClose={toggleDrawer('right', false)}
+        sx={{
+          '& .MuiDrawer-content': {
+            width: 260,
+            background: 'rgba(20, 24, 32, 0.65)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
+          },
+        }}
+      >
+        <Box
+          role="presentation"
+          onClick={toggleDrawer('right', false)}
+          onKeyDown={toggleDrawer('right', false)}
+          sx={{ width: '100%', paddingTop: '12px', paddingBottom: '12px' }}
+        >
+          <List sx={{ padding: 0 }}>
             {menuData.map((i, index) => {
               const shouldRender =
                 i.route === 'public' ||
@@ -69,8 +100,31 @@ export const SidebarMobile = () => {
               if (!shouldRender) return null;
 
               return (
-                <ListItem key={index} value={index} onClick={handleBtnTab} component={Link} to={i.link}>
-                  <ListItemButton className={currentPage === i.link ? 'activ' : ''}>{i.name}</ListItemButton>
+                <ListItem key={index} value={index} onClick={handleBtnTab} component={Link} to={i.link} sx={{ padding: 0 }}>
+                  <ListItemButton
+                    className={currentPage === i.link ? 'activ' : ''}
+                    sx={{
+                      margin: '8px 12px',
+                      borderRadius: '18px',
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      padding: '14px 16px',
+                      color: 'rgba(255, 255, 255, 0.88)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                      '&.activ': {
+                        background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.25))',
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        color: '#fff',
+                      },
+                      '&:hover': {
+                        background: 'rgba(255, 255, 255, 0.12)',
+                      },
+                    }}
+                  >
+                    {i.name}
+                  </ListItemButton>
                 </ListItem>
               );
             })}

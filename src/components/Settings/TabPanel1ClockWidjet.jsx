@@ -68,6 +68,16 @@ export const TabPanel1ClockWidjet = () => {
     dispatch(dataActions.setThemeClock_AnalogDigital(isChecked));
   };
 
+  // Состояние для выбора часов на главной странице (слот TimeHero)
+  const mainClock = useSelector(rootSelectors.getThemeMainClock);
+  const [mainClockValue, setMainClockValue] = useState(mainClock);
+
+  const handleMainClockChange = e => {
+    const newValue = e.target.value;
+    dispatch(dataActions.setThemeMainClock(newValue));
+    setMainClockValue(newValue);
+  };
+
   return (
     <FormControl className="form-auto-change-theme">
       <div className="clock-mobile">
@@ -80,6 +90,21 @@ export const TabPanel1ClockWidjet = () => {
         >
           <FormControlLabel className="btn" value={0} control={<Radio />} label="Вариант 1" />
           <FormControlLabel className="btn" value={1} control={<Radio />} label="Вариант 2" />
+        </RadioGroup>
+      </div>
+
+      <div className="theme-clock-divider"></div>
+
+      <div className="clock-mobile">
+        <FormLabel id="controlled-radio-mainclock">Часы на главной странице</FormLabel>
+        <RadioGroup
+          aria-labelledby="controlled-radio-mainclock"
+          name="radio-main-clock"
+          value={mainClockValue}
+          onChange={handleMainClockChange}
+        >
+          <FormControlLabel className="btn" value="timeHero" control={<Radio />} label="TimeHero (текущие)" />
+          <FormControlLabel className="btn" value="clock" control={<Radio />} label="Flip-часы (Clock)" />
         </RadioGroup>
       </div>
 
