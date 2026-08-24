@@ -137,7 +137,7 @@ export const Weather = () => {
       const BASE_URL_TODAY = `${BASE_URL}${city_3}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
       dispatch(weatherOperations.fetchWeatherTodayCity3(BASE_URL_TODAY));
     }
-  }, [cityList]);
+  }, [cityList, dispatch]);
 
   useEffect(() => {
     if (CITY === null) {

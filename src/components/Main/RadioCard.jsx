@@ -21,7 +21,7 @@ export const RadioCard = ({ onAudio }) => {
     if (PLAYER_STATION !== undefined && PLAYER_STATION !== station) {
       setStation(PLAYER_STATION);
     }
-  }, [PLAYER_STATION]);
+  }, [PLAYER_STATION, station]);
 
   useEffect(() => {
     dispatch(dataActions.setPlayerPlay(isPlaying));
