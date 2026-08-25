@@ -10,6 +10,8 @@ import {
   DialogContent,
   DialogActions,
   Tooltip,
+  Select,
+  MenuItem,
 } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -25,79 +27,123 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import moment from 'moment';
 import 'moment/locale/ru';
 
+import { eventsService } from './eventsService';
+
 moment.locale('ru');
 
-const STORAGE_KEY = 'my_events';
+const EMOJI_PRESETS = ['🎉', '🎂', '💼', '🏖️', '❤️', '📅', '⚽', '🎓', '🎄', '💡', '🎵', '🚀'];
 
-const getStoredEvents = () => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
-};
+const PERIODICITY = [
+  { value: 'none', label: 'Не повторяется' },
+  { value: 'daily', label: 'Ежедневно' },
+  { value: 'weekly', label: 'Еженедельно' },
+  { value: 'monthly', label: 'Ежемесячно' },
+  { value: 'yearly', label: 'Ежегодно' },
+];
 
-const saveEvents = events => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-};
+const PRIVACY = [
+  { value: 'private', label: 'Приватное' },
+  { value: 'public', label: 'Публичное' },
+];
+
+const EVENT_TYPES = [
+  { value: 'personal', label: 'Личное' },
+  { value: 'work', label: 'Работа' },
+  { value: 'holiday', label: 'Праздник' },
+  { value: 'birthday', label: 'День рождения' },
+  { value: 'meeting', label: 'Встреча' },
+  { value: 'other', label: 'Другое' },
+];
+
+const labelOf = (list, val) => (list.find(o => o.value === val) || {}).label || val;
+
+const emptyForm = () => ({
+  title: '',
+  description: '',
+  icon: '',
+  startDate: moment().format('YYYY-MM-DD'),
+  endDate: '',
+  periodicity: 'none',
+  privacy: 'private',
+  eventType: 'personal',
+});
 
 export const MyEvents = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(1);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
-  const [formData, setFormData] = useState({ title: '', date: '', description: '' });
+  const [formData, setFormData] = useState(emptyForm());
   const [calendarMonth, setCalendarMonth] = useState(moment());
 
   useEffect(() => {
-    setEvents(getStoredEvents());
+    let mounted = true;
+    eventsService
+      .getEvents()
+      .then(data => {
+        if (mounted) setEvents(data || []);
+      })
+      .catch(() => {})
+      .finally(() => mounted && setLoading(false));
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  const handleSaveEvent = () => {
-    if (!formData.title.trim() || !formData.date) return;
+  const handleSaveEvent = async () => {
+    if (!formData.title.trim()) return;
 
-    if (editingEvent) {
-      const updated = events.map(e => (e.id === editingEvent.id ? { ...e, ...formData } : e));
-      setEvents(updated);
-      saveEvents(updated);
-    } else {
-      const newEvent = {
-        id: Date.now().toString(),
-        ...formData,
-        createdAt: moment().toISOString(),
-      };
-      const updated = [...events, newEvent];
-      setEvents(updated);
-      saveEvents(updated);
+    try {
+      if (editingEvent) {
+        const updated = await eventsService.updateEvent(editingEvent.id, formData);
+        setEvents(prev => prev.map(e => (e.id === updated.id ? updated : e)));
+      } else {
+        const created = await eventsService.createEvent(formData);
+        setEvents(prev => [...prev, created]);
+      }
+    } catch {
+      // игнорируем ошибку сохранения
     }
     resetForm();
   };
 
-  const handleDeleteEvent = id => {
+  const handleDeleteEvent = async id => {
     if (!window.confirm('Удалить это событие?')) return;
-    const updated = events.filter(e => e.id !== id);
-    setEvents(updated);
-    saveEvents(updated);
-    if (selectedEvent?.id === id) setSelectedEvent(null);
+    try {
+      await eventsService.deleteEvent(id);
+      setEvents(prev => prev.filter(e => e.id !== id));
+      if (selectedEvent?.id === id) setSelectedEvent(null);
+    } catch {
+      // игнорируем ошибку удаления
+    }
   };
 
   const openCreateDialog = () => {
     setEditingEvent(null);
-    setFormData({ title: '', date: moment().format('YYYY-MM-DD'), description: '' });
+    setFormData(emptyForm());
     setDialogOpen(true);
   };
 
   const openEditDialog = event => {
     setEditingEvent(event);
-    setFormData({ title: event.title, date: event.date, description: event.description || '' });
+    setFormData({
+      title: event.title || '',
+      description: event.description || '',
+      icon: event.icon || '',
+      startDate: event.startDate || moment().format('YYYY-MM-DD'),
+      endDate: event.endDate || '',
+      periodicity: event.periodicity || 'none',
+      privacy: event.privacy || 'private',
+      eventType: event.eventType || 'personal',
+    });
     setDialogOpen(true);
   };
 
   const resetForm = () => {
     setEditingEvent(null);
-    setFormData({ title: '', date: '', description: '' });
+    setFormData(emptyForm());
     setDialogOpen(false);
   };
 
@@ -122,43 +168,37 @@ export const MyEvents = () => {
   for (let d = 1; d <= daysInMonth; d++) {
     calendarDays.push({ day: d, currentMonth: true });
   }
-  const remainingCells = 35 - calendarDays.length; // Использование 5 строк для компактности
+  const remainingCells = 35 - calendarDays.length;
   const extraCells = remainingCells >= 0 ? remainingCells : 42 - calendarDays.length;
   for (let d = 1; d <= extraCells; d++) {
     calendarDays.push({ day: d, currentMonth: false });
   }
 
-  const hasEventOnDay = day => {
-    if (!day.currentMonth) return false;
-    const dateStr = calendarMonth.clone().date(day.day).format('YYYY-MM-DD');
-    return events.some(e => e.date === dateStr);
-  };
-
-  const getEventForDay = day => {
+  const eventOnDay = day => {
     if (!day.currentMonth) return null;
     const dateStr = calendarMonth.clone().date(day.day).format('YYYY-MM-DD');
-    return events.find(e => e.date === dateStr);
+    return (
+      events.find(e => {
+        const end = e.endDate || e.startDate;
+        return dateStr >= e.startDate && dateStr <= end;
+      }) || null
+    );
+  };
+
+  const hasEventOnDay = day => !!eventOnDay(day);
+
+  const fieldSx = {
+    '& .MuiInputBase-root': { color: '#fff' },
+    '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
+    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+    '& .MuiSvgIcon-root': { color: 'rgba(255, 255, 255, 0.7)' },
   };
 
   return (
     <Box
       className="col-6 row-span-5 card-main-page"
       sx={{
-        // width: '100%',
-        height: '236px',
-        // borderRadius: '22px',
-        // padding: '16px 20px',
-        // display: 'flex',
-        // flexDirection: 'column',
-        // justifyContent: 'space-between',
-        // boxSizing: 'border-box',
-        // position: 'relative',
-        // background: 'rgba(30, 35, 45, 0.45)',
-        // backdropFilter: 'blur(40px) saturate(210%)',
-        // WebkitBackdropFilter: 'blur(40px) saturate(210%)',
-        // border: '1px solid rgba(255, 255, 255, 0.18)',
-        // boxShadow:
-        //   '0 20px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25)',
+        height: { xs: 'auto', md: 236 },
       }}
     >
       {/* Шапка */}
@@ -180,7 +220,6 @@ export const MyEvents = () => {
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* Переключатель вкладок */}
           <Box
             sx={{
               display: 'flex',
@@ -250,7 +289,11 @@ export const MyEvents = () => {
               '&::-webkit-scrollbar-thumb': { background: 'rgba(255,255,255,0.2)', borderRadius: '4px' },
             }}
           >
-            {events.length === 0 ? (
+            {loading ? (
+              <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.8rem' }}>
+                Загрузка…
+              </Box>
+            ) : events.length === 0 ? (
               <Box
                 sx={{
                   height: '100%',
@@ -282,22 +325,30 @@ export const MyEvents = () => {
                       '&:hover': { background: 'rgba(255, 255, 255, 0.08)' },
                     }}
                   >
-                    <Box sx={{ overflow: 'hidden', mr: 1 }}>
-                      <Typography
-                        sx={{
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          color: '#fff',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {event.title}
-                      </Typography>
-                      <Typography sx={{ fontSize: '0.65rem', color: 'rgba(255, 255, 255, 0.5)' }}>
-                        {moment(event.date).format('DD MMMM YYYY')}
-                      </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', overflow: 'hidden', mr: 1 }}>
+                      {event.icon && (
+                        <Typography sx={{ fontSize: '1rem', mr: 1, flexShrink: 0 }}>{event.icon}</Typography>
+                      )}
+                      <Box sx={{ overflow: 'hidden' }}>
+                        <Typography
+                          sx={{
+                            fontSize: '0.8rem',
+                            fontWeight: 600,
+                            color: '#fff',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {event.title}
+                        </Typography>
+                        <Typography sx={{ fontSize: '0.65rem', color: 'rgba(255, 255, 255, 0.5)' }}>
+                          {moment(event.startDate).format('DD MMMM YYYY')}
+                          {event.endDate && event.endDate !== event.startDate
+                            ? ` — ${moment(event.endDate).format('DD MMMM YYYY')}`
+                            : ''}
+                        </Typography>
+                      </Box>
                     </Box>
 
                     <Box sx={{ display: 'flex', gap: '2px', flexShrink: 0 }}>
@@ -336,9 +387,10 @@ export const MyEvents = () => {
               <>
                 <Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 0.5 }}>
-                    <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>
-                      {selectedEvent.title}
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, overflow: 'hidden' }}>
+                      {selectedEvent.icon && <Typography sx={{ fontSize: '1.3rem' }}>{selectedEvent.icon}</Typography>}
+                      <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>{selectedEvent.title}</Typography>
+                    </Box>
                     <Typography
                       sx={{
                         fontSize: '0.65rem',
@@ -348,11 +400,24 @@ export const MyEvents = () => {
                         borderRadius: '6px',
                         border: '1px solid rgba(168, 85, 247, 0.3)',
                         whiteSpace: 'nowrap',
+                        flexShrink: 0,
                       }}
                     >
-                      {moment(selectedEvent.date).format('DD MMM YYYY')}
+                      {labelOf(EVENT_TYPES, selectedEvent.eventType)}
                     </Typography>
                   </Box>
+
+                  <Typography sx={{ fontSize: '0.7rem', color: 'rgba(255, 255, 255, 0.6)', mb: 0.5 }}>
+                    {moment(selectedEvent.startDate).format('DD MMM YYYY')}
+                    {selectedEvent.endDate && selectedEvent.endDate !== selectedEvent.startDate
+                      ? ` — ${moment(selectedEvent.endDate).format('DD MMM YYYY')}`
+                      : ''}
+                    {' · '}
+                    {labelOf(PERIODICITY, selectedEvent.periodicity)}
+                    {' · '}
+                    {labelOf(PRIVACY, selectedEvent.privacy)}
+                  </Typography>
+
                   <Typography
                     sx={{
                       fontSize: '0.75rem',
@@ -438,7 +503,7 @@ export const MyEvents = () => {
               ))}
 
               {calendarDays.map((cd, i) => {
-                const event = getEventForDay(cd);
+                const event = eventOnDay(cd);
                 const isToday =
                   cd.currentMonth &&
                   calendarMonth.month() === moment().month() &&
@@ -447,7 +512,7 @@ export const MyEvents = () => {
                 const hasEvent = hasEventOnDay(cd);
 
                 return (
-                  <Tooltip key={i} title={event ? event.title : ''} arrow placement="top">
+                  <Tooltip key={i} title={event ? `${event.icon ? event.icon + ' ' : ''}${event.title}` : ''} arrow placement="top">
                     <Box
                       onClick={() => cd.currentMonth && event && selectEvent(event)}
                       sx={{
@@ -480,22 +545,7 @@ export const MyEvents = () => {
       </Box>
 
       {/* Диалог создания / редактирования */}
-      <Dialog
-        open={dialogOpen}
-        onClose={resetForm}
-        maxWidth="xs"
-        fullWidth
-        className="card-main-page"
-        PaperProps={{
-          // sx: {
-          //   background: 'rgba(30, 35, 45, 0.85)',
-          //   backdropFilter: 'blur(30px)',
-          //   borderRadius: '20px',
-          //   border: '1px solid rgba(255, 255, 255, 0.18)',
-          //   color: '#fff',
-          // },
-        }}
-      >
+      <Dialog open={dialogOpen} onClose={resetForm} maxWidth="xs" fullWidth className="card-main-page">
         <DialogTitle sx={{ fontSize: '1rem', fontWeight: 600 }}>
           {editingEvent ? 'Редактировать событие' : 'Новое событие'}
         </DialogTitle>
@@ -507,26 +557,109 @@ export const MyEvents = () => {
             fullWidth
             size="small"
             variant="outlined"
-            sx={{
-              '& .MuiInputBase-root': { color: '#fff' },
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-              '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-            }}
+            sx={fieldSx}
           />
-          <TextField
-            type="date"
-            label="Дата"
-            value={formData.date}
-            onChange={e => setFormData({ ...formData, date: e.target.value })}
-            fullWidth
+
+          <Box>
+            <Typography sx={{ fontSize: '0.7rem', color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>Иконка (эмодзи)</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
+              {EMOJI_PRESETS.map(em => (
+                <IconButton
+                  key={em}
+                  onClick={() => setFormData({ ...formData, icon: em })}
+                  sx={{
+                    fontSize: '1.1rem',
+                    width: 32,
+                    height: 32,
+                    background: formData.icon === em ? 'rgba(168, 85, 247, 0.4)' : 'rgba(0, 0, 0, 0.25)',
+                    border: formData.icon === em ? '1px solid rgba(168, 85, 247, 0.7)' : '1px solid transparent',
+                    borderRadius: '8px',
+                  }}
+                >
+                  {em}
+                </IconButton>
+              ))}
+            </Box>
+            <TextField
+              label="Свой эмодзи"
+              value={formData.icon}
+              onChange={e => setFormData({ ...formData, icon: e.target.value })}
+              fullWidth
+              size="small"
+              variant="outlined"
+              sx={fieldSx}
+            />
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <TextField
+              type="date"
+              label="Дата начала"
+              value={formData.startDate}
+              onChange={e => setFormData({ ...formData, startDate: e.target.value })}
+              fullWidth
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              sx={fieldSx}
+            />
+            <TextField
+              type="date"
+              label="Дата окончания"
+              value={formData.endDate}
+              onChange={e => setFormData({ ...formData, endDate: e.target.value })}
+              fullWidth
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              sx={fieldSx}
+            />
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Select
+              value={formData.eventType}
+              onChange={e => setFormData({ ...formData, eventType: e.target.value })}
+              size="small"
+              fullWidth
+              displayEmpty
+              sx={{ ...fieldSx, color: '#fff' }}
+            >
+              {EVENT_TYPES.map(o => (
+                <MenuItem key={o.value} value={o.value}>
+                  {o.label}
+                </MenuItem>
+              ))}
+            </Select>
+            <Select
+              value={formData.periodicity}
+              onChange={e => setFormData({ ...formData, periodicity: e.target.value })}
+              size="small"
+              fullWidth
+              displayEmpty
+              sx={{ ...fieldSx, color: '#fff' }}
+            >
+              {PERIODICITY.map(o => (
+                <MenuItem key={o.value} value={o.value}>
+                  {o.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+
+          <Select
+            value={formData.privacy}
+            onChange={e => setFormData({ ...formData, privacy: e.target.value })}
             size="small"
-            InputLabelProps={{ shrink: true }}
-            sx={{
-              '& .MuiInputBase-root': { color: '#fff' },
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-              '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-            }}
-          />
+            fullWidth
+            displayEmpty
+            sx={{ ...fieldSx, color: '#fff' }}
+          >
+            {PRIVACY.map(o => (
+              <MenuItem key={o.value} value={o.value}>
+                {o.label}
+              </MenuItem>
+            ))}
+          </Select>
+
           <TextField
             label="Описание"
             value={formData.description}
@@ -535,11 +668,7 @@ export const MyEvents = () => {
             size="small"
             multiline
             rows={2}
-            sx={{
-              '& .MuiInputBase-root': { color: '#fff' },
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.5)' },
-              '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-            }}
+            sx={fieldSx}
           />
         </DialogContent>
         <DialogActions sx={{ padding: '16px 24px' }}>

@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import { dataActions, rootSelectors } from 'store';
 
 import { radioData } from './Radio-data';
+import { playStream } from './playStream';
 
 export const Radio = ({ onAudio }) => {
   const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
@@ -44,14 +45,12 @@ export const Radio = ({ onAudio }) => {
   function changeStation(value) {
     setPlayPause(true);
     onAudio.pause();
-    onAudio.src = radioData[value].url;
-    onAudio.play();
+    playStream(onAudio, radioData[value].url);
     setPlayPause(false);
   }
 
   function play() {
-    onAudio.src = radioData[station].url;
-    onAudio.play();
+    playStream(onAudio, radioData[station].url);
   }
 
   useEffect(() => {

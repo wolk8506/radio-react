@@ -15,6 +15,7 @@
     background-color: colors.$color-07;
     padding: 8px 8px 8px 16px;
     @include function.card-style;
+    color: colors.$color-02;
 
     .title__time-update {
       font-size: 14px;
@@ -30,6 +31,7 @@
     gap: 20px;
     justify-content: flex-start;
     margin-bottom: 20px;
+    color: colors.$color-03;
 
     .card__item {
       background: colors.$color-07;

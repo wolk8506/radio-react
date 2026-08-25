@@ -2,8 +2,12 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 import { TimeHero } from './TimeHero';
+import { TimeHeroHalloween } from './TimeHeroHalloween';
+import { TimeHeroNewYear } from './TimeHeroNewYear';
 import { Clock } from './Clock';
+import { Weather } from './Weather';
 import { WeatherCard } from './WeatherCard';
+import { WeatherCardHalloween } from './WeatherCardHalloween';
 import { RadioCard } from './RadioCard';
 import { CurrencyCard } from './CurrencyCard';
 import { DynamicContent } from './DynamicContent';
@@ -26,6 +30,7 @@ import snake from '../../images/winter/horse.png';
 export const Main = ({ onAudio }) => {
   const THEME_NEW_YEAR = useSelector(rootSelectors.getThemeNewYear);
   const THEME_MAIN_CLOCK = useSelector(rootSelectors.getThemeMainClock);
+  const THEME_MAIN_WEATHER = useSelector(rootSelectors.getThemeMainWeather);
 
   return (
     <>
@@ -33,10 +38,24 @@ export const Main = ({ onAudio }) => {
         <div className="dashboard-grid">
           {/* Row 1: TimeHero (7 cols) + Weather (5 cols) */}
           <div className="grid-item time-hero-wrapper">
-            {THEME_MAIN_CLOCK === 'clock' ? <Clock /> : <TimeHero />}
+            {THEME_MAIN_CLOCK === 'clock' ? (
+              <Clock />
+            ) : THEME_MAIN_CLOCK === 'timeHeroHalloween' ? (
+              <TimeHeroHalloween />
+            ) : THEME_MAIN_CLOCK === 'timeHeroNewYear' ? (
+              <TimeHeroNewYear />
+            ) : (
+              <TimeHero />
+            )}
           </div>
           <div className="grid-item weather-wrapper">
-            <WeatherCard />
+            {THEME_MAIN_WEATHER === 'weather' ? (
+              <Weather />
+            ) : THEME_MAIN_WEATHER === 'weatherCardHalloween' ? (
+              <WeatherCardHalloween />
+            ) : (
+              <WeatherCard />
+            )}
           </div>
 
           {/* Row 2: Radio (6 cols) + Currency (6 cols) */}

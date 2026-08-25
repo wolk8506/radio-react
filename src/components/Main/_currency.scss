@@ -12,7 +12,8 @@
 
   .currency-main__title {
     display: flex;
-    align-items: center;
+    align-items: start;
+    color: colors.$color-02;
 
     .icon-success {
       color: colors.$color-04;
@@ -33,6 +34,7 @@
   .currency-main__item {
     display: flex;
     align-items: center;
+    color: colors.$color-03;
 
     p {
       width: calc((100% - 40px) / 3);

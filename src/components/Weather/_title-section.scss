@@ -22,6 +22,7 @@
             font-weight: 600;
             // color: var(--label_color);
             margin-right: 20px;
+            color: colors.$color-02;
         }
 
         .parameter-buttons {
@@ -52,7 +53,7 @@
 
                         background: function.rgb-a(colors.$color-01, 10%);
                         cursor: pointer;
-
+@include function.card-style;
 
                     }
 

@@ -15,11 +15,25 @@
 .MuiAutocomplete-option {
   color: function.rgb-a(colors.$color-03, 50%);
 }
+.MuiAutocomplete-paper {
+  background-color: transparent !important;
+  /* Или задайте целевой цвет подложки */
+  /* background-color: #2b2b2b !important; */
+}
+
+/* Если слой все еще остался, проверьте выпадающий Popper */
+.MuiAutocomplete-popper {
+  background-color: transparent;
+}
 
 // TODO:  ⇩ ⇩ ⇩ погода от MSN
+.MuiAutocomplete-listbox {
+  @include function.card-style;
+}
 
 .weather {
-  width: 1260px;
+  width: 100%;
+  max-width: 1260px;
   margin-right: auto;
   margin-left: auto;
 
@@ -32,7 +46,7 @@
     @include function.card-style;
 
     .weather__search {
-      padding-top: 6px;
+      padding-top: 12px;
       overflow: auto; // for mobile
       scrollbar-width: none;
       border-radius: 15px;
@@ -42,11 +56,15 @@
 
       .MuiOutlinedInput-notchedOutline {
         border-radius: 12px;
+        
       }
 
       .MuiAutocomplete-root .MuiOutlinedInput-root {
         padding: 2px;
+        
       }
+
+
 
       .search-group {
         display: flex;
@@ -71,6 +89,8 @@
     padding: 8px 8px 8px 16px;
 
     @include function.card-style;
+
+    color: colors.$color-02;
 
     h1 {
       position: relative;
@@ -191,6 +211,7 @@
     height: 270px;
     padding: 16px 0px 0px;
     @include function.card-style;
+    color: colors.$color-03;
 
     .current-day__label {
       padding: 0px 16px;
@@ -304,6 +325,7 @@
     background-color: colors.$color-07;
     padding: 8px 8px 8px 16px;
     @include function.card-style;
+    color: colors.$color-02;
 
     .title__time-update {
       font-size: 14px;
@@ -313,23 +335,24 @@
   }
 
   .weather__month {
-    width: 1260px;
+    width: 100%;
     padding: 12px 16px 1px;
     display: flex;
     flex-direction: column;
     margin-bottom: 32px;
     @include function.card-style;
+    color: colors.$color-03;
 
     .month__day-name {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       padding: 0;
       margin: 0;
       width: 100%;
 
       .day-name__item {
         list-style: none;
-        width: calc((1260px - 32px) / 7);
+        width: auto;
         padding: 0;
         margin-bottom: 15px;
       }
@@ -338,12 +361,12 @@
     .month__block-day {
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
 
       .block-day__card {
         list-style: none;
-        width: calc((1260px - 32px) / 7);
+        width: auto;
         height: 115px;
         padding-right: 5px;
         position: relative;

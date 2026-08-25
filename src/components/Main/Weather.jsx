@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Compas } from './Compas';
@@ -81,72 +82,93 @@ export const Weather = () => {
   }, [image]);
 
   return (
-    <>
-      <div className="wrapper">
-        <div className="weather-dashboard">
-          <div className="flipper">
-            <div className="gear"></div>
-            <div className="gear"></div>
-            <div className="top">
-              <div className="text">
-                <img className="img" src={image} alt={imageAlt} width={172} />
-              </div>
-            </div>
-            {changeImage && (
-              <div className="top_new">
-                <div className="text_top_new">
-                  <img className="img" src={image2} alt={imageAlt} width={172} />
+    <Box
+      className="card-main-page"
+      sx={{
+        width: '100%',
+        height: '236px',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        p: 0,
+        '@media (max-width: 768px)': { height: 'auto', minHeight: 'auto' },
+      }}
+    >
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 0,
+        }}
+      >
+        <div className="weather-hero-scaler">
+          <div className="weather-dashboard weather--hero">
+            <div className="flipper">
+              <div className="gear"></div>
+              <div className="gear"></div>
+              <div className="top">
+                <div className="text">
+                  <img className="img" src={image} alt={imageAlt} width={172} />
                 </div>
-                <div className="bottom_new">
-                  <div className="text_bottom">
-                    <img className="img_bottom" src={image} alt={imageAlt} width={172} />
+              </div>
+              {changeImage && (
+                <div className="top_new">
+                  <div className="text_top_new">
+                    <img className="img" src={image2} alt={imageAlt} width={172} />
+                  </div>
+                  <div className="bottom_new">
+                    <div className="text_bottom">
+                      <img className="img_bottom" src={image} alt={imageAlt} width={172} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-            <div className="bottom">
-              <div className="text_bottom">
-                <img className="img_bottom" src={image2} alt={imageAlt} width={172} />
-              </div>
-            </div>
-          </div>
-
-          <div className="flipper">
-            <div className="gear"></div>
-            <div className="gear"></div>
-            <div className="top">
-              <div className="text">{temperature}</div>
-            </div>
-            {changeTemperature && (
-              <div className="top_new">
-                <div className="text_top_new">{temperature2}</div>
-                <div className="bottom_new">
-                  <div className="text_bottom">{temperature}</div>
+              )}
+              <div className="bottom">
+                <div className="text_bottom">
+                  <img className="img_bottom" src={image2} alt={imageAlt} width={172} />
                 </div>
               </div>
-            )}
-            <div className="bottom">
-              <div className="text_bottom">{temperature2}</div>
             </div>
-          </div>
-          <div className="flipper">
-            <div className="pribors">
-              <div className="pribor1">
-                <Compas></Compas>
+
+            <div className="flipper">
+              <div className="gear"></div>
+              <div className="gear"></div>
+              <div className="top">
+                <div className="text">{temperature}</div>
               </div>
-              <div className="pribor">
-                <Humidity></Humidity>
+              {changeTemperature && (
+                <div className="top_new">
+                  <div className="text_top_new">{temperature2}</div>
+                  <div className="bottom_new">
+                    <div className="text_bottom">{temperature}</div>
+                  </div>
+                </div>
+              )}
+              <div className="bottom">
+                <div className="text_bottom">{temperature2}</div>
               </div>
-              <div className="pribor">
-                <WindGust></WindGust>
-              </div>
-              <div className="pribor">
-                <Clouds></Clouds>
+            </div>
+            <div className="flipper">
+              <div className="pribors">
+                <div className="pribor1">
+                  <Compas></Compas>
+                </div>
+                <div className="pribor">
+                  <Humidity></Humidity>
+                </div>
+                <div className="pribor">
+                  <WindGust></WindGust>
+                </div>
+                <div className="pribor">
+                  <Clouds></Clouds>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </Box>
+    </Box>
   );
 };

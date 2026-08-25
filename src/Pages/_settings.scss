@@ -12,6 +12,9 @@
     align-items: center;
     @include function.card-style;
     padding: 24px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
 
     .header {
         display: flex;

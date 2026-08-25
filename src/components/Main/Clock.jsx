@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { Box } from '@mui/material';
+// import { Box, Typography } from '@mui/material';
+// import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export const Clock = () => {
   const [hh, setHh] = useState('00');
@@ -84,7 +85,7 @@ export const Clock = () => {
       }}
     >
       {/* Шапка карточки (как в TimeHero) */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', px: 2, pt: 2 }}>
+      {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', px: 2, pt: 2 }}>
         <AccessTimeIcon sx={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)' }} />
         <Typography
           sx={{
@@ -97,7 +98,7 @@ export const Clock = () => {
         >
           Система времени
         </Typography>
-      </Box>
+      </Box> */}
 
       {/* Flip-часы, вписанные в размер карточки */}
       <Box

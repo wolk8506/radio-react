@@ -36,6 +36,9 @@ const themeClock_AnalogDigital = createReducer(true, builder => {
 const themeMainClock = createReducer('timeHero', builder => {
   builder.addCase(dataActions.setThemeMainClock, (state, action) => action.payload);
 });
+const themeMainWeather = createReducer('weatherCard', builder => {
+  builder.addCase(dataActions.setThemeMainWeather, (state, action) => action.payload);
+});
 const themeNewYear = createReducer(
   {
     snow: false,
@@ -67,4 +70,5 @@ export default combineReducers({
   themeNewYear,
   themeWalpaper,
   themeMainClock,
+  themeMainWeather,
 });

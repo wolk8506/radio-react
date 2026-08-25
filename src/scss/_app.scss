@@ -37,6 +37,12 @@ body {
   @include function.card-style;
   padding: 16px;
 }
+.container-curency{
+  width: 100%;
+    max-width: 1260px;
+    margin-right: auto;
+    margin-left: auto;
+}
 
 .color-text{
   color: var(colors.$color-03);
@@ -202,27 +208,27 @@ body {
 
 .radio-wrapper {
   grid-column:  span 6;
-  grid-row: span 4;
+  grid-row: span 3;
 }
 
 .currency-wrapper {
   grid-column:  span 6;
-  grid-row: span 4;
+  grid-row: span 3;
 }
 
 .event-wrapper {
   grid-column:  span 4;
-  grid-row: span 7;
+  grid-row: span 2;
 }
 
 .fact-wrapper {
   grid-column:  span 4;
-  grid-row: span 7;
+  grid-row: span 2;
 }
 
 .joke-wrapper {
   grid-column:  span 4;
-  grid-row: span 7;
+  grid-row: span 2;
 }
 
 .timers-wrapper {
@@ -1069,6 +1075,43 @@ body {
   }
 }
 
+/* ===== Планшет (до 1024px): компактнее отступы и шрифты ===== */
+@media screen and (max-width: 1024px) {
+  .dashboard-grid {
+    gap: 12px;
+  }
+
+  .hero-title {
+    font-size: 1.1rem;
+  }
+
+  .digital-clock-large {
+    font-size: 4rem;
+  }
+
+  .seconds-badge-large {
+    font-size: 2.2rem;
+  }
+}
+
+/* ===== Планшет в портретной ориентации (до 900px): крупные карточки в одну колонку ===== */
+@media screen and (max-width: 900px) {
+  .time-hero-wrapper,
+  .weather-wrapper,
+  .radio-wrapper,
+  .currency-wrapper,
+  .timers-wrapper,
+  .events-wrapper {
+    grid-column: 1 / -1;
+  }
+
+  .event-wrapper,
+  .fact-wrapper,
+  .joke-wrapper {
+    grid-column: span 4;
+  }
+}
+
 /* ===== Мобильная версия главной страницы (телефоны) ===== */
 @media screen and (max-width: 768px) {
   .main {
@@ -1088,16 +1131,16 @@ body {
     grid-row: auto;
   }
 
-  /* На мобиле показываем первые 7 карточек, скрываем только Таймеры и Мои события */
+  /* На мобиле все карточки в одну колонку, включая ранее скрытые Таймеры и Мои события */
   .timers-wrapper,
-  .events-wrapper {
-    display: none;
-  }
-
+  .events-wrapper,
   .time-hero-wrapper,
   .weather-wrapper,
   .radio-wrapper,
-  .currency-wrapper {
+  .currency-wrapper,
+  .event-wrapper,
+  .fact-wrapper,
+  .joke-wrapper {
     grid-column: 1 / -1;
     grid-row: auto;
   }
