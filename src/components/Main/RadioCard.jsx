@@ -8,6 +8,8 @@ import PauseIcon from '@mui/icons-material/Pause';
 
 import { dataActions, rootSelectors } from 'store';
 import { radioData } from './Radio-data';
+import { useRadioNowPlaying } from './useRadioNowPlaying';
+import { playStream, resumeStream, isCurrentStream } from './playStream';
 
 export const RadioCard = ({ onAudio }) => {
   const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
@@ -16,6 +18,9 @@ export const RadioCard = ({ onAudio }) => {
   const [station, setStation] = useState(PLAYER_STATION ?? 0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playTime, setPlayTime] = useState('00:00');
+
+  // Что сейчас играет на станциях (обновляется с бэкенда)
+  const nowPlayingMap = useRadioNowPlaying();
 
   useEffect(() => {
     if (PLAYER_STATION !== undefined && PLAYER_STATION !== station) {
@@ -33,15 +38,8 @@ export const RadioCard = ({ onAudio }) => {
 
       const currentStation = radioData[stationIndex];
       if (currentStation) {
-        onAudio.pause();
-        onAudio.src = currentStation.url;
-        onAudio
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch(err => {
-            console.error('Audio playback error:', err);
-            setIsPlaying(false);
-          });
+        playStream(onAudio, currentStation.url);
+        setIsPlaying(true);
       }
     },
     [onAudio]
@@ -54,13 +52,11 @@ export const RadioCard = ({ onAudio }) => {
       onAudio.pause();
       setIsPlaying(false);
     } else {
-      if (!onAudio.src || onAudio.src !== radioData[station]?.url) {
+      if (!isCurrentStream(radioData[station]?.url)) {
         playStation(station);
       } else {
-        onAudio
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch(err => console.error('Audio play error:', err));
+        resumeStream(onAudio, radioData[station]?.url);
+        setIsPlaying(true);
       }
     }
   };
@@ -89,13 +85,14 @@ export const RadioCard = ({ onAudio }) => {
   }, [onAudio]);
 
   const currentStationData = radioData[station] || radioData[0];
+  const np = nowPlayingMap[currentStationData?.id];
 
   return (
     <Box
       className="col-6 row-span-5 maim-player card-main-page"
       sx={{
         height: '236px',
-        
+
         flexDirection: 'row !important',
         // borderRadius: '22px',
         // padding: '20px 24px',
@@ -134,7 +131,7 @@ export const RadioCard = ({ onAudio }) => {
         <Box
           component="img"
           className="logoRadio"
-          src={currentStationData?.logo}
+          src={np?.cover || currentStationData?.logo}
           alt={currentStationData?.name || 'Radio logo'}
           sx={{
             width: 160,
@@ -148,6 +145,25 @@ export const RadioCard = ({ onAudio }) => {
             display: 'block',
           }}
         />
+        {np?.cover ? (
+          <Box
+            component="img"
+            src={currentStationData?.logo}
+            alt=""
+            sx={{
+              position: 'absolute',
+              width: 40,
+              height: 40,
+              right: 6,
+              bottom: 6,
+              borderRadius: '10px',
+              objectFit: 'cover',
+              border: '1px solid rgba(255,255,255,0.5)',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.6)',
+              zIndex: 2,
+            }}
+          />
+        ) : null}
       </Box>
 
       {/* 2. Выравнивание таймера и селекта радио по центру */}
@@ -243,6 +259,44 @@ export const RadioCard = ({ onAudio }) => {
             ))}
           </Select>
         </FormControl>
+
+        {/* Что сейчас играет (берётся с бэкенда) */}
+        <Box
+          sx={{
+            background: 'rgba(0, 0, 0, 0.35)',
+            padding: '6px 16px',
+            borderRadius: '10px',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            mr: 3,
+            ml:3,
+          }}
+        >
+        {(() => {
+          if (np?.track || np?.title) {
+              return (
+                <Typography
+                  noWrap
+                  title={`${np.artist ? np.artist + ' — ' : ''}${np.track || np.title}`}
+                  sx={{
+                    fontSize: '0.8rem',
+                    color: 'rgba(255,255,255,0.72)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {np.artist ? `${np.artist} — ` : ''}
+                  {np.track || np.title}
+                </Typography>
+              );
+            }
+            return (
+              <Typography sx={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>нет данных о треке</Typography>
+            );
+          })()}
+        </Box>
       </Box>
 
       {/* 3. Увеличенная кнопка воспроизведения */}

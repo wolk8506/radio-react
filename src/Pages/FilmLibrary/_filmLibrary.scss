@@ -1,11 +1,9 @@
-.MuiPaper-root .MuiPaper-elevation .MuiPaper-rounded .MuiPaper-elevation1 .MuiCard-root{
+@use "./../../scss/colors";
+@use "./../../scss/function";
 
-}
-.conteiner{
-    .MuiPaper-root.MuiPaper-elevation,
-    .MuiBox-root{
-        background-color: transparent;
-        border-radius: 12px;
-    }
 
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1{
+
+    @include function.card-style;
+    border-radius: 16px;
 }

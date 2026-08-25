@@ -107,8 +107,12 @@ export const FilmLibraryPage = () => {
       ) : (
         <Box
           sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(auto-fill, minmax(180px, 1fr))',
+            },
             gap: 2,
           }}
         >

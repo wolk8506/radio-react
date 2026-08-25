@@ -8,6 +8,8 @@
   padding-top: 20px;
   padding-bottom: 20px;
   @include function.card-style;
+  margin-right: auto;
+  margin-left: auto;
 
   .news-list {
     overflow: auto;

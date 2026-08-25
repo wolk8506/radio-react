@@ -14,6 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import equalizer from '../../images/equalizer.webp';
 import equalizer_off from '../../images/equalizer-off.png';
 import { radioData } from './Radio-data';
+import { playStream } from './playStream';
 
 export const RadioMini = ({ onAudio, open }) => {
   const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
@@ -54,8 +55,7 @@ export const RadioMini = ({ onAudio, open }) => {
   }
 
   function play() {
-    onAudio.src = radioData[station].url;
-    onAudio.play();
+    playStream(onAudio, radioData[station].url);
   }
 
   return (

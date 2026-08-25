@@ -55,7 +55,7 @@ export const Timers = () => {
     <Box
       className="col-6 row-span-5 card-main-page"
       sx={{
-        height: '236px',
+        height: { xs: 'auto', md: 236 },
         // borderRadius: '22px',
         // padding: '18px 20px',
         // display: 'flex',
@@ -124,11 +124,11 @@ export const Timers = () => {
 
       {/* Список таймеров или форма создания */}
       {mode === 'list' ? (
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '10px',
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' },
+              gap: '10px',
             alignContent: 'start',
             overflowY: 'auto',
             my: 'auto',

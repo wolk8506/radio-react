@@ -42,10 +42,6 @@ export const NewYearCountdown = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // --------------------------------------------------------------------------
-
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
   return (
     <div>
       <div className="xmas-timer">

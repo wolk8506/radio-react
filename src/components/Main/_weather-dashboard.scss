@@ -179,3 +179,19 @@
     }
   }
 }
+
+// Flip-погода внутри карточки главной страницы (аналогично clock-hero-scaler)
+.weather-hero-scaler {
+  width: 562px; // 850 * 0.66
+  height: 196px; // 295 * 0.66
+  overflow: hidden;
+  position: relative;
+}
+
+.weather--hero {
+  width: 850px;
+  height: 295px;
+  margin: 0;
+  transform: scale(0.66);
+  transform-origin: top left;
+}
