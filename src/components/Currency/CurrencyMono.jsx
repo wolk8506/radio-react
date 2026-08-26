@@ -355,7 +355,7 @@ export const CurrencyMono = () => {
 
       <div className="name-section">
         <Button
-          className="load-btn"
+          className="load-btn button"
           onClick={handleUpdateCurrency}
           loading={loading}
           loadingPosition="start" //loadingPosition="end"

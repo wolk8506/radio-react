@@ -233,7 +233,7 @@ export const Precip = ({ choiceOfDayGlobal, onChange }) => {
                 <ChartsTooltip />
                 <LinePlot />
                 <BarPlot
-                  borderRadius={15}
+                  style={{ borderRadius: 15 }}
                   slots={{
                     bar: props => <CustomBar {...props} dataset={chart} />,
                   }}

@@ -16,7 +16,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Chip from '@mui/material/Chip';
 
-import { currencyHistoryService } from '../Main/currencyHistoryService';
+import { currencyHistoryService } from '../../Pages/Main/currencyHistoryService';
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');

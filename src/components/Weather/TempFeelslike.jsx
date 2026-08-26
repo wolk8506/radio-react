@@ -279,7 +279,7 @@ export const TempFeelslike = ({ choiceOfDayGlobal, onChange }) => {
                   //   position: 'right',
                   // },
                 ]}
-                borderRadius={15} // Добавляем закругление к столбцам
+                style={{ borderRadius: 15 }} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
               >
                 <defs>

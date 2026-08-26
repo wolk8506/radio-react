@@ -7,15 +7,12 @@ import { Box, Typography, IconButton } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-import anecdoteData from './data/anecdote.json';
-import eventsJSON from './data/events.json';
+import { fetchEvents, fetchFacts, fetchJokes } from 'services/libraryService';
 
 moment.locale('ru');
 
 export const DynamicContent = ({ type, title, icon }) => {
   const today = useMemo(() => moment(), []);
-  const dayOfYear = today.dayOfYear();
-  const randomIdx = useMemo(() => Math.floor(Math.random() * anecdoteData.length), []);
   const dateKey = today.format('MM-DD');
 
   const [content, setContent] = useState([]);
@@ -23,23 +20,43 @@ export const DynamicContent = ({ type, title, icon }) => {
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    let items = [];
-    if (type === 'event') {
-      items = eventsJSON[dateKey]?.event || [{ title: 'Событий нет', description: '', emoji: '' }];
-    } else if (type === 'fact') {
-      items = eventsJSON[dateKey]?.fact || [{ title: 'Фактов нет', description: '', emoji: '' }];
-    } else if (type === 'joke') {
-      const idx1 = dayOfYear - 1;
-      const idx2 = (idx1 + 366) % anecdoteData.length;
-      items = [
-        anecdoteData[idx1]?.joke[0] ?? 'Шутка недоступна',
-        anecdoteData[idx2]?.joke[0] ?? 'Шутка недоступна',
-        anecdoteData[randomIdx]?.joke[0] ?? 'Шутка недоступна',
-      ];
-    }
-    setContent(items);
-    setIndex(0);
-  }, [type, dateKey, dayOfYear, randomIdx]);
+    let cancelled = false;
+    const empty = {
+      event: [{ title: 'Событий нет', description: '', emoji: '' }],
+      fact: [{ description: 'Фактов нет' }],
+      joke: ['Шутка недоступна'],
+    };
+
+    const load = async () => {
+      try {
+        let items = [];
+        if (type === 'event') {
+          const evs = await fetchEvents(dateKey);
+          items = evs.length ? evs : empty.event;
+        } else if (type === 'fact') {
+          const fs = await fetchFacts(dateKey);
+          items = fs.length ? fs.map(f => ({ description: f.text })) : empty.fact;
+        } else if (type === 'joke') {
+          const js = await fetchJokes(3);
+          items = js.length ? js : empty.joke;
+        }
+        if (!cancelled) {
+          setContent(items);
+          setIndex(0);
+        }
+      } catch {
+        if (!cancelled) {
+          setContent(empty[type] || []);
+          setIndex(0);
+        }
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [type, dateKey]);
 
   useEffect(() => {
     if (paused || content.length <= 1) return;

@@ -6,7 +6,6 @@ import { authReducer } from 'store';
 import recipeReducer from './recipe/reducer';
 import weatherReducer from './weather/reducer';
 import currencyReducer from './currency/reducer';
-import newsReducer from './news/reducer';
 import filesReducer from './files/reducer';
 import rootReducer from './root/reducer';
 import timerReducer from './timer/reducer';
@@ -31,10 +30,6 @@ const persistConfigCurrency = {
   key: 'currency',
   storage,
 };
-const persistConfigNews = {
-  key: 'news',
-  storage,
-};
 const persistConfigTimer = {
   key: 'timer',
   storage,
@@ -51,7 +46,6 @@ const persistedRecipeReducer = persistReducer(persistConfigRecipe, recipeReducer
 const persistedRecipeFiles = persistReducer(persistConfigFiles, filesReducer);
 const persistedWeather = persistReducer(persistConfigWeather, weatherReducer);
 const persistedCurrency = persistReducer(persistConfigCurrency, currencyReducer);
-const persistedNews = persistReducer(persistConfigNews, newsReducer);
 const persistedTimer = persistReducer(persistConfigTimer, timerReducer);
 
 const store = configureStore({
@@ -62,7 +56,6 @@ const store = configureStore({
     auth: persistedAuthReducer,
     weather: persistedWeather,
     currency: persistedCurrency,
-    news: persistedNews,
     timer: persistedTimer,
   },
   middleware: getDefaultMiddleware =>

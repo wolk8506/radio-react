@@ -8,7 +8,7 @@
   margin-right: auto;
   margin-left: auto;
   padding: 16px 16px 16px 32px;
-  // width: 100%;
+  color: colors.$color-02;
   margin-bottom: 32px;
   align-items: center;
   // display: flex;
@@ -276,6 +276,7 @@ h2 {
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: colors.$color-02;
 
   @include function.card-style;
 
@@ -401,11 +402,14 @@ h2 {
 
 // !    Modal
 
-// .MuiModal-root {
-//   .MuiBox-root {
-//     background-color: colors.$color-07;
-//   }
-// }
+.MuiModal-root {
+  .MuiTypography-root.MuiTypography-h6 {
+    color: colors.$color-02;
+  }
+  .MuiTypography-root {
+    color: colors.$color-03;
+  }
+}
 
 @media screen and (max-width: 720px) {
   .container-recipes {

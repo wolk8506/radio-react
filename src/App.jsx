@@ -11,17 +11,17 @@ import { PrivateRoute, PublicRoute } from 'components/Routes';
 
 import { info } from 'config';
 
-import { Main } from './components/Main/Main';
+import { Main } from './Pages/Main/Main';
 import { Weather } from './components/Weather/Weather';
 import { RecipesIndex } from './components/Recipes/RecipesMain';
 import { RecipeAdd } from './components/Recipes/RecipeAdd';
 import { News } from './components/News/News';
 import { Recipes } from './components/Recipes/Recipes';
 import { Recipe } from './components/Recipes/Recipe';
-import { radioData } from './components/Main/Radio-data';
+import { radioData } from './Pages/Main/CardRadio/Radio-data';
 import { Sidebar } from 'components/Sidebar/Sidebar';
 import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
-import { LoginPage, RegisterPage, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage, FilmLibraryPage, CollectionPage } from './Pages';
+import { LoginPage, RegisterPage, GoogleCallback, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage, FilmLibraryPage, CollectionPage, AdminUsersPage, LibraryPage } from './Pages';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -50,10 +50,13 @@ export const App = () => {
     { path: '*', element: <Navigate to="/404" replace />, isPublic: true },
     { path: '/settings', element: <SettingsPage />, isPublic: false },
     { path: '/profile', element: <ProfilePage />, isPublic: false },
+    { path: '/profile/admin', element: <AdminUsersPage />, isPublic: false },
+    { path: '/profile/library/:type', element: <LibraryPage />, isPublic: false },
     { path: '/filmLibrary', element: <FilmLibraryPage />, isPublic: false },
     { path: '/filmLibrary/:collectionId', element: <CollectionPage />, isPublic: false },
     { path: '/register', element: <RegisterPage />, isPublic: true, restricted: true },
     { path: '/login', element: <LoginPage />, isPublic: true, restricted: true },
+    { path: '/auth/google/callback', element: <GoogleCallback />, isPublic: true },
   ];
 
   // Универсальная функция рендера маршрутов

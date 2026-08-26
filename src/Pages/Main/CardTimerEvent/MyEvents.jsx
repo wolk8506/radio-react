@@ -27,7 +27,8 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import { eventsService } from './eventsService';
+import { eventsService } from '../eventsService';
+import { toast } from 'react-toastify';
 
 moment.locale('ru');
 
@@ -99,12 +100,14 @@ export const MyEvents = () => {
       if (editingEvent) {
         const updated = await eventsService.updateEvent(editingEvent.id, formData);
         setEvents(prev => prev.map(e => (e.id === updated.id ? updated : e)));
+        setSelectedEvent(prev => (prev && prev.id === updated.id ? updated : prev));
       } else {
         const created = await eventsService.createEvent(formData);
         setEvents(prev => [...prev, created]);
+        setSelectedEvent(created);
       }
     } catch {
-      // игнорируем ошибку сохранения
+      toast.error('Не удалось сохранить событие');
     }
     resetForm();
   };
@@ -545,7 +548,7 @@ export const MyEvents = () => {
       </Box>
 
       {/* Диалог создания / редактирования */}
-      <Dialog open={dialogOpen} onClose={resetForm} maxWidth="xs" fullWidth className="card-main-page">
+      <Dialog open={dialogOpen} onClose={resetForm} maxWidth="xs" fullWidth className="card-main-page" disableScrollLock>
         <DialogTitle sx={{ fontSize: '1rem', fontWeight: 600 }}>
           {editingEvent ? 'Редактировать событие' : 'Новое событие'}
         </DialogTitle>

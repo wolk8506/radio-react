@@ -301,7 +301,7 @@ export const Visibility = ({ choiceOfDayGlobal, onChange }) => {
                     label: 'Видимость, км',
                   },
                 ]}
-                borderRadius={15} // Добавляем закругление к столбцам
+                style={{ borderRadius: 15 }} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
               >
                 <GradientDefs min={dataChartMin} max={dataChartMax} />

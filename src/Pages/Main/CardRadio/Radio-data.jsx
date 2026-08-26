@@ -1,12 +1,12 @@
-import img_181_fm from '../../images/station/img-181.fm.jpg';
+import img_181_fm from './station/img-181.fm.jpg';
 // import img_kiss_fm from '../../images/station/kissfm.webp';
-import img_nrg_radio from '../../images/station/img-nrg-radio.jpg';
-import img_soundpark_deep from '../../images/station/img-soundpark-deep.jpg';
-import img_europa_plus from '../../images/station/europaplus.webp';
-import img_radio_7 from '../../images/station/radio7.webp';
-import img_recordrock from '../../images/station/recordrock.webp';
-import img_maximum from '../../images/station/maximum.webp';
-import img_dfm from '../../images/station/dfm.webp';
+import img_nrg_radio from './station/img-nrg-radio.jpg';
+import img_soundpark_deep from './station/img-soundpark-deep.jpg';
+import img_europa_plus from './station/europaplus.webp';
+import img_radio_7 from './station/radio7.webp';
+import img_recordrock from './station/recordrock.webp';
+import img_maximum from './station/maximum.webp';
+import img_dfm from './station/dfm.webp';
 
 export const radioData = [
   { id: 'rock181', name: 'Rock 181', url: 'https://listen.181fm.com/181-rock_128k.mp3', logo: img_181_fm },

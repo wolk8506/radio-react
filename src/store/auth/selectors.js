@@ -9,6 +9,8 @@ const getEmail = state => state.auth.user.email;
 const getUserID = state => state.auth.user._id;
 const getFavorites = state => state.auth.user.favorites;
 const getSubscription = state => state.auth.user.subscription; // Добавлено поле для согласованности
+const getGoogleId = state => state.auth.user?.googleId;
+const getIsAdmin = state => Boolean(state.auth.user?.isAdmin);
 const getIsFetchingUpdateName = state => state.auth.isFetchingUpdateName; // Добавлено поле для согласованности
 const getIsFetchingUpdateEmail = state => state.auth.isFetchingUpdateEmail; // Добавлено поле для согласованности
 const getIsFetchingUpdatePassword = state => state.auth.isFetchingUpdatePassword; // Добавлено поле для согласованности
@@ -24,6 +26,8 @@ export const authSelectors = {
   getUserID,
   getFavorites,
   getSubscription,
+  getGoogleId,
+  getIsAdmin,
   getIsFetchingUpdateName,
   getIsFetchingUploadAvatar,
   getIsFetchingUpdateEmail,

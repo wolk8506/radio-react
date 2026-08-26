@@ -13,3 +13,11 @@ const config = {
 };
 
 export const BASE_URL = config[process.env.REACT_APP_API_URL || 'production'];
+
+// Аватарки Google приходят как абсолютные https-URL и не требуют префикса API.
+// Локальные аватарки хранятся как относительные пути (/files/avatars/...).
+export const avatarUrl = url => {
+  if (!url) return '';
+  if (/^https?:\/\//i.test(url)) return url;
+  return BASE_URL + url;
+};

@@ -35,7 +35,7 @@ export const TabPanel2Settings = () => {
       <FormLabel id="controlled-radio-widget">Падающий снег</FormLabel>
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
         <Typography>выкл</Typography>
-        <Switch defaultChecked checked={state.snow} onChange={handleChange} name="snow" />
+        <Switch checked={state.snow} onChange={handleChange} name="snow" />
         <Typography>вкл</Typography>
       </Stack>
     </FormControl>

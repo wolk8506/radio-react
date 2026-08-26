@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { weatherSelectors } from 'store';
 
-import sprite from '../../images/sprite.svg';
+import sprite from '../../../../images/sprite.svg';
 
 import moment from 'moment';
 

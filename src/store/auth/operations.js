@@ -31,6 +31,21 @@ const fetchCurrentUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) =>
   }
 });
 
+//  ~ Завершение входа через Google (токен пришёл в URL колбэка)  --------------------------------
+
+const completeGoogleLogin = createAsyncThunk('auth/googleComplete', async (jwtToken, thunkAPI) => {
+  token.set(jwtToken);
+  localStorage.setItem('authToken', jwtToken);
+  try {
+    const { data } = await axios.get('/user/current');
+    return { user: data.data.user, token: jwtToken };
+  } catch (error) {
+    token.unset();
+    localStorage.removeItem('authToken');
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
 //  ~ Авторизация ---------------------------------------------------------------------------------
 
 const logIn = createAsyncThunk('auth/login', async credentials => {
@@ -163,8 +178,35 @@ const removeRecipeFavoriteById = createAsyncThunk('recipe/favorite', async _id =
   return response.data.data;
 });
 
+//  ~ Админ: управление пользователями  -----------------------------------------------------------
+
+const fetchAdminUsers = createAsyncThunk('admin/users', async (_, thunkAPI) => {
+  try {
+    const { data } = await axios.get('/user/admin/users');
+    return data.data.users;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+const toggleUserAdmin = createAsyncThunk('admin/toggleRole', async id => {
+  const { data } = await axios.patch(`/user/admin/${id}/role`);
+  return { id, isAdmin: data.data.user.isAdmin };
+});
+
+const deleteUserById = createAsyncThunk('admin/deleteUser', async id => {
+  await axios.delete(`/user/admin/${id}`);
+  return id;
+});
+
+const toggleUserVerify = createAsyncThunk('admin/toggleVerify', async id => {
+  const { data } = await axios.patch(`/user/admin/${id}/verify`);
+  return { id, verify: data.data.user.verify };
+});
+
 export const authOperations = {
   fetchCurrentUser,
+  completeGoogleLogin,
   logIn,
   logOut,
   register,
@@ -176,4 +218,8 @@ export const authOperations = {
   changePassword,
   updateRecipeFavoriteById,
   removeRecipeFavoriteById,
+  fetchAdminUsers,
+  toggleUserAdmin,
+  deleteUserById,
+  toggleUserVerify,
 };

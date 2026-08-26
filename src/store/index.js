@@ -18,9 +18,6 @@ export { currencySelectors } from './currency';
 export { currencyOperations } from './currency';
 export { currencyActions } from './currency';
 
-export { newsSelectors } from './news';
-export { newsOperations } from './news';
-
 export { timerSelectors } from './timer';
 export { timerOperations } from './timer';
 export { timerActions } from './timer';

@@ -222,7 +222,7 @@ export const MovieCard = ({ movie, genreMap, onOpen, onRemove, dragHandle, watch
 
 // ---------- Модалка с видео (отдельная) ----------
 export const VideoModal = ({ open, video, onClose }) => (
-  <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+  <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth disableScrollLock>
     <IconButton
       onClick={onClose}
       sx={{ position: 'absolute', top: 8, right: 8, zIndex: 2, color: '#fff' }}
@@ -293,7 +293,7 @@ export const MovieDetailsModal = ({ open, movie, onClose, onAdd, alreadyAdded })
   if (!movie) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth disableScrollLock>
       <DialogContent sx={{ p: 0 }}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ p: 2 }}>
           <Box
@@ -437,7 +437,7 @@ export const AddMovieDialog = ({ open, onClose, collectionId, userId, onAdded, e
   const handleSearchNow = () => runSearch(query, mediaType, 1);
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" disableScrollLock>
       <DialogContent>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ mb: 2 }} alignItems="center">
           <TextField
