@@ -45,7 +45,7 @@ export const RadioCard = ({ onAudio }) => {
     [onAudio]
   );
 
-  const handlePlayPause = () => {
+  const handlePlayPause = useCallback(() => {
     if (!onAudio) return;
 
     if (isPlaying) {
@@ -59,7 +59,7 @@ export const RadioCard = ({ onAudio }) => {
         setIsPlaying(true);
       }
     }
-  };
+  }, [onAudio, isPlaying, station, playStation]);
 
   const handleStationChange = e => {
     const newStationIndex = e.target.value;
@@ -86,6 +86,59 @@ export const RadioCard = ({ onAudio }) => {
 
   const currentStationData = radioData[station] || radioData[0];
   const np = nowPlayingMap[currentStationData?.id];
+
+  // Media Session API: показываем обложку/трек на экране блокировки
+  useEffect(() => {
+    if (
+      typeof navigator === 'undefined' ||
+      !('mediaSession' in navigator) ||
+      typeof window === 'undefined' ||
+      !window.MediaMetadata
+    ) {
+      return;
+    }
+
+    const stationName = currentStationData?.name || 'Радио';
+    const title = np?.track || np?.title || stationName;
+    const artist = np?.artist || stationName;
+    const cover = np?.cover || currentStationData?.logo;
+
+    navigator.mediaSession.metadata = new window.MediaMetadata({
+      title,
+      artist,
+      album: stationName,
+      artwork: cover ? [{ src: cover, sizes: '512x512', type: 'image/jpeg' }] : [],
+    });
+
+    navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+  }, [np, currentStationData, isPlaying]);
+
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return undefined;
+
+    const onPlay = () => {
+      if (onAudio && onAudio.paused) handlePlayPause();
+    };
+    const onPause = () => {
+      if (onAudio && !onAudio.paused) handlePlayPause();
+    };
+
+    try {
+      navigator.mediaSession.setActionHandler('play', onPlay);
+      navigator.mediaSession.setActionHandler('pause', onPause);
+    } catch (e) {
+      /* action handlers могут быть недоступны в некоторых браузерах */
+    }
+
+    return () => {
+      try {
+        navigator.mediaSession.setActionHandler('play', null);
+        navigator.mediaSession.setActionHandler('pause', null);
+      } catch (e) {
+        /* noop */
+      }
+    };
+  }, [onAudio, handlePlayPause]);
 
   return (
     <Box

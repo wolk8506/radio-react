@@ -1,23 +1,11 @@
-import React, { Fragment } from 'react';
-import Media from 'react-media';
+import React from 'react';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 import { SidebarDesctop } from './Sidebar-desctop';
 import { SidebarMobile } from './Sidebar-mobile';
 
 export const Sidebar = ({ audio }) => {
-  return (
-    <Media
-      queries={{
-        small: '(max-width: 599px)',
-        large: '(min-width: 600px)',
-      }}
-    >
-      {matches => (
-        <Fragment>
-          {matches.small && <SidebarMobile />}
-          {matches.large && <SidebarDesctop audio={audio} />}
-        </Fragment>
-      )}
-    </Media>
-  );
+  const isMobile = useMediaQuery('(max-width: 599px)');
+
+  return isMobile ? <SidebarMobile /> : <SidebarDesctop audio={audio} />;
 };
