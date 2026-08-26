@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 import { weatherSelectors, rootSelectors } from 'store';
 
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 import weatherImage from 'components/Weather/weatherIcon';
 
@@ -329,42 +329,63 @@ export const WeatherMonthMobile = () => {
           </div>
         </div>
       )}
-      <Modal open={!!layout} onClose={() => setLayout(undefined)} disableScrollLock>
-        <ModalDialog layout={layout}>
-          <ModalClose />
-          <DialogTitle>Погода на месяц</DialogTitle>
-          <DialogContent>
-            <div className="modal">
-              <div className="month-calendar">
-                <div className="month-calendar__table-container">
-                  <div className="table-container__table-content">
-                    <ul className="table-content__content-items">
-                        {dataMonth &&
-                          dataMonth.map(i => (
-                            <li className={`content-item ${i.past}`} key={i.datetime}>
-                              <div className={i.activ}>
-                              <div className="calendar-table-day">
-                                <span>{i.datetime}</span>
-                                <span>{i.day}</span>
-                              </div>
-                              <div className="calendar-table-day-forecast">
-                                <img src={i.icon} alt="" width={32} />
-                                <div className="calendar-table-day-forecast__temp">
-                                  <span>{i.tempmax}°</span>
-                                  <span>{i.tempmin}°</span>
-                                </div>
+      <Dialog
+        open={!!layout}
+        onClose={() => setLayout(undefined)}
+        disableScrollLock
+        fullWidth
+        maxWidth="sm"
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(20, 24, 32, 0.97)',
+            color: '#fff',
+            borderRadius: '16px',
+            border: '1px solid rgba(255,255,255,0.1)',
+            backgroundImage: 'none',
+          },
+        }}
+      >
+        <DialogTitle sx={{ position: 'relative', pr: 6 }}>
+          Погода на месяц
+          <IconButton
+            aria-label="close"
+            onClick={() => setLayout(undefined)}
+            sx={{ position: 'absolute', right: 8, top: 8, color: 'rgba(255,255,255,0.7)' }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <div className="modal">
+            <div className="month-calendar">
+              <div className="month-calendar__table-container">
+                <div className="table-container__table-content">
+                  <ul className="table-content__content-items">
+                      {dataMonth &&
+                        dataMonth.map(i => (
+                          <li className={`content-item ${i.past}`} key={i.datetime}>
+                            <div className={i.activ}>
+                            <div className="calendar-table-day">
+                              <span>{i.datetime}</span>
+                              <span>{i.day}</span>
+                            </div>
+                            <div className="calendar-table-day-forecast">
+                              <img src={i.icon} alt="" width={32} />
+                              <div className="calendar-table-day-forecast__temp">
+                                <span>{i.tempmax}°</span>
+                                <span>{i.tempmin}°</span>
                               </div>
                             </div>
-                          </li>
+                          </div>
+                        </li>
                         ))}
-                    </ul>
-                  </div>
+                  </ul>
                 </div>
               </div>
             </div>
-          </DialogContent>
-        </ModalDialog>
-      </Modal>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

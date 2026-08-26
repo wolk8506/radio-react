@@ -6,8 +6,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import List from '@mui/material/List';
-import Box from '@mui/joy/Box';
-import Drawer from '@mui/joy/Drawer';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -73,6 +73,7 @@ export const SidebarMobile = () => {
         anchor={'right'}
         open={state['right']}
         onClose={toggleDrawer('right', false)}
+        disableScrollLock
         sx={{
           '& .MuiDrawer-content': {
             width: 260,

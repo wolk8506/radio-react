@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Media from 'react-media';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState } from 'react';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { weatherSelectors, weatherOperations, weatherActions, rootSelectors } from 'store';
@@ -56,6 +56,9 @@ export const Weather = () => {
 
   const [CITY, setCITY] = useState(city_data);
   const [searchCity, setSearchCity] = useState('');
+
+  const isMobile = useMediaQuery('(max-width: 599px)');
+  const isTablet = useMediaQuery('(min-width: 600px)');
 
   useEffect(() => {
     const cityFilter = cityList.filter(({ home }) => home === true);
@@ -665,36 +668,22 @@ export const Weather = () => {
         </div>
       </div>
 
-      <Media
-        queries={{
-          small: '(max-width: 599px)',
-          medium: '(min-width: 600px)',
-          // medium: '(min-width: 600px) and (max-width: 1199px)',
-          // large: '(min-width: 1200px)',
-        }}
-      >
-        {matches => (
-          <Fragment>
-            {matches.small && (
-              <>
-                <WeatherMonthMobile></WeatherMonthMobile>
-                <WeatherSunMoonMobile></WeatherSunMoonMobile>
-              </>
-            )}
-            {matches.medium && (
-              <>
-                {/* <ChartWeather></ChartWeather> */}
-                {/* <AirQuality></AirQuality> */}
-                <TitleSection />
+      {isMobile && (
+        <>
+          <WeatherMonthMobile></WeatherMonthMobile>
+          <WeatherSunMoonMobile></WeatherSunMoonMobile>
+        </>
+      )}
+      {isTablet && (
+        <>
+          {/* <ChartWeather></ChartWeather> */}
+          {/* <AirQuality></AirQuality> */}
+          <TitleSection />
 
-                <WeatherMonth></WeatherMonth>
-                <Tiles></Tiles>
-              </>
-            )}
-            {/* {matches.large && <div></div>} */}
-          </Fragment>
-        )}
-      </Media>
+          <WeatherMonth></WeatherMonth>
+          <Tiles></Tiles>
+        </>
+      )}
     </div>
   );
 };
