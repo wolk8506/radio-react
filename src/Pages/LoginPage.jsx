@@ -109,7 +109,8 @@ export const LoginPage = () => {
           variant="contained"
           startIcon={<GoogleIcon />}
           onClick={() => {
-            window.location.href = `${BASE_URL}/auth/google`;
+            const redirect = `${window.location.origin}/radio-react/auth/google/callback`;
+            window.location.href = `${BASE_URL}/auth/google?redirect=${encodeURIComponent(redirect)}`;
           }}
           sx={{ mt: 1, textTransform: 'none' }}
         >

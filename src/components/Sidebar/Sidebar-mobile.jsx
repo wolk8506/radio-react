@@ -31,6 +31,7 @@ export const SidebarMobile = () => {
     { name: 'Страница входа', link: '/login', route: 'restricted' },
     { name: 'Регистрация', link: '/register', route: 'restricted' },
   ];
+  const activeItem = menuData.find(item => item.link === currentPage) || menuData[0];
   const [btnMenuMobile, setBtnMenuMobile] = useState(true);
   const [state, setState] = React.useState({ right: false });
 
@@ -64,7 +65,7 @@ export const SidebarMobile = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" component="div" sx={{ color: '#fff' }}>
-              {menuData[menuData.findIndex(item => item.link === currentPage)].name}
+              {activeItem.name}
             </Typography>
           </Toolbar>
         </AppBar>
