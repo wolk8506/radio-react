@@ -160,7 +160,10 @@ export const ProfilePersonData = () => {
 
   const handleConnectGoogle = async () => {
     try {
-      const { data } = await axios.post('/auth/google/connect/init');
+      const redirect = `${window.location.origin}/radio-react/auth/google/callback`;
+      const { data } = await axios.post(
+        `/auth/google/connect/init?redirect=${encodeURIComponent(redirect)}`
+      );
       if (data?.url) {
         window.location.href = data.url;
       } else {
