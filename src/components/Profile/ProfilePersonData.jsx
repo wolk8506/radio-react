@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 import { authSelectors, authOperations } from 'store';
 
@@ -17,6 +18,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import GoogleIcon from '@mui/icons-material/Google';
 
 import { toast } from 'react-toastify';
 
@@ -34,6 +36,7 @@ export const ProfilePersonData = () => {
   const isFetchingUpdatePassword = useSelector(authSelectors.getIsFetchingUpdatePassword);
 
   const userId = useSelector(authSelectors.getUserID);
+  const googleId = useSelector(authSelectors.getGoogleId);
   const [editModeName, setEditModeName] = useState(false);
   const [editModeEmail, setEditModeEmail] = useState(false);
   const [editModePassword, setEditModePassword] = useState(false);
@@ -153,6 +156,19 @@ export const ProfilePersonData = () => {
       setConfirmPassword('');
     }
     setEditModePassword(!editModePassword);
+  };
+
+  const handleConnectGoogle = async () => {
+    try {
+      const { data } = await axios.post('/auth/google/connect/init');
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error('Не удалось начать привязку Google');
+      }
+    } catch {
+      toast.error('Не удалось начать привязку Google');
+    }
   };
 
   const passwordForm = [
@@ -279,6 +295,27 @@ export const ProfilePersonData = () => {
         </div>
       )}
       <div className="user-data__block-btn">
+        {googleId ? (
+          <Button
+            type="button"
+            variant="outlined"
+            startIcon={<GoogleIcon />}
+            disabled
+            sx={{ textTransform: 'none' }}
+          >
+            Google аккаунт подключён
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outlined"
+            startIcon={<GoogleIcon />}
+            onClick={handleConnectGoogle}
+            sx={{ textTransform: 'none' }}
+          >
+            Подключить Google
+          </Button>
+        )}
         {editModePassword ? (
           <Box sx={{ position: 'relative' }}>
             <IconButton onClick={OnSumbitUserData} value="2">

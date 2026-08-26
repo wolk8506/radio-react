@@ -13,8 +13,8 @@ import ListItem from '@mui/material/ListItem';
 
 import equalizer from '../../images/equalizer.webp';
 import equalizer_off from '../../images/equalizer-off.png';
-import { radioData } from './Radio-data';
-import { playStream } from './playStream';
+import { radioData } from './CardRadio/Radio-data';
+import { playStream } from './CardRadio/playStream';
 
 export const RadioMini = ({ onAudio, open }) => {
   const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);

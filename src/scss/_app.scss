@@ -8,6 +8,7 @@ html {
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
+  
 }
 
 .app {
@@ -25,11 +26,12 @@ body {
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
+  
 }
 
 // !  ⇩ start - - Десктопное меню - - - - - - -  ⇩
 
-.conteiner {
+.conteiner,.container {
   margin-top: 10px;
   @include function.card-style;
 }

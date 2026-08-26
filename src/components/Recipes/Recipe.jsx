@@ -222,7 +222,13 @@ export const Recipe = () => {
             </div>
           )}
           <div>
-            <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+              disableScrollLock
+            >
               <Box sx={style} onClick={handleClose}>
                 <img src={imgModal} alt="" style={{ width: '100%' }} onClick={handleClose} />
               </Box>
@@ -232,6 +238,7 @@ export const Recipe = () => {
               open={openDialog}
               onClose={handleClose}
               PaperComponent={PaperComponent}
+              disableScrollLock
               aria-labelledby="draggable-dialog-title"
             >
               <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
@@ -241,10 +248,39 @@ export const Recipe = () => {
                 <DialogContentText>{`Вы уверены что хотите удалить рецепт - "${recipe.name}"`}</DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button autoFocus onClick={handleCloseDialog}>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  sx={{
+                    height: 24,
+                    borderRadius: '8px',
+                    px: 3,
+                    py: 1,
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    boxShadow: 'none',
+                  }}
+                  autoFocus
+                  onClick={handleCloseDialog}
+                >
                   Отмена
                 </Button>
-                <Button onClick={handleCloseDialogAndDelete}>Удалить</Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{
+                    height: 24,
+                    borderRadius: '8px',
+                    px: 3,
+                    py: 1,
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    boxShadow: 'none',
+                  }}
+                  onClick={handleCloseDialogAndDelete}
+                >
+                  Удалить
+                </Button>
               </DialogActions>
             </Dialog>
           </div>

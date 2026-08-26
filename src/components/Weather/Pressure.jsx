@@ -262,7 +262,7 @@ export const Pressure = ({ choiceOfDayGlobal, onChange }) => {
                     label: 'Давление, мм',
                   },
                 ]}
-                borderRadius={15} // Добавляем закругление к столбцам
+                style={{ borderRadius: 15 }} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
               >
                 <GradientDefs min={dataChartMin} max={dataChartMax} />

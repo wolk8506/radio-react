@@ -361,7 +361,7 @@ export const CollectionPage = () => {
 
       <MovieDetailsModal open={detailsOpen} movie={detailsMovie} onClose={() => setDetailsOpen(false)} />
 
-      <Dialog open={renameOpen} onClose={() => setRenameOpen(false)} fullWidth maxWidth="xs">
+      <Dialog open={renameOpen} onClose={() => setRenameOpen(false)} fullWidth maxWidth="xs" disableScrollLock>
         <DialogTitle>Переименовать подборку</DialogTitle>
         <DialogContent>
           <TextField
@@ -382,7 +382,7 @@ export const CollectionPage = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)} maxWidth="xs">
+      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)} maxWidth="xs" disableScrollLock>
         <DialogTitle>Удалить фильм?</DialogTitle>
         <DialogContent>
           <Typography>
@@ -397,7 +397,7 @@ export const CollectionPage = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={deleteCollOpen} onClose={() => setDeleteCollOpen(false)} maxWidth="xs">
+      <Dialog open={deleteCollOpen} onClose={() => setDeleteCollOpen(false)} maxWidth="xs" disableScrollLock>
         <DialogTitle>Удалить подборку?</DialogTitle>
         <DialogContent>
           <Typography>Подборка «{collection?.name}» будет удалена безвозвратно вместе со всеми фильмами.</Typography>

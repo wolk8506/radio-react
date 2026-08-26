@@ -329,7 +329,7 @@ export const WeatherMonthMobile = () => {
           </div>
         </div>
       )}
-      <Modal open={!!layout} onClose={() => setLayout(undefined)}>
+      <Modal open={!!layout} onClose={() => setLayout(undefined)} disableScrollLock>
         <ModalDialog layout={layout}>
           <ModalClose />
           <DialogTitle>Погода на месяц</DialogTitle>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cropper from 'react-easy-crop';
 
 import { authSelectors, authOperations, fileOperations } from 'store';
-import { BASE_URL } from '../../config';
+import { avatarUrl } from '../../config';
 
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -108,7 +108,7 @@ export const ProfileAvatar = () => {
     setCorrectImage(!correctImage);
     setAvatarImg(prevState => ({
       ...prevState,
-      img: avatar ? `${BASE_URL}${avatar}` : null,
+      img: avatar ? avatarUrl(avatar) : null,
       file: null, //file
       imgOldURL: avatar, //imgOldURL
       imgNewURL: null,
@@ -141,7 +141,8 @@ export const ProfileAvatar = () => {
 
   //  ~ Удаление текущего файла
   const handleDeleteMainImage = () => {
-    !avatarImg.imgChange && setDeleteImg(prev => [...prev, avatarImg.imgOldURL.replace(/^\/files/, '')]);
+    const oldIsLocal = avatarImg.imgOldURL && avatarImg.imgOldURL.startsWith('/files');
+    !avatarImg.imgChange && oldIsLocal && setDeleteImg(prev => [...prev, avatarImg.imgOldURL.replace(/^\/files/, '')]);
     setAvatarImg(prevState => ({
       ...prevState,
       img: null,
@@ -158,7 +159,7 @@ export const ProfileAvatar = () => {
   useEffect(() => {
     setAvatarImg(prevState => ({
       ...prevState,
-      img: avatar ? `${BASE_URL}${avatar}` : null,
+      img: avatar ? avatarUrl(avatar) : null,
       file: null, //file
       imgOldURL: avatar, //imgOldURL
       imgChange: false, //imgChange

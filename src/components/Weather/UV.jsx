@@ -232,7 +232,7 @@ export const UV = ({ choiceOfDayGlobal, onChange }) => {
                     label: 'Индекс ультрафиолета',
                   },
                 ]}
-                borderRadius={15} // Добавляем закругление к столбцам
+                style={{ borderRadius: 15 }} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
               />
             </Box>

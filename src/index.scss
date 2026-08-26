@@ -10,16 +10,16 @@
 @use 'components/Elements/elementImg';
 
 
-@use 'components/Main/xmas';
-@use 'components/Main/main';
-@use 'components/Main/currency';
-@use 'components/Main/event';
-@use 'components/Main/radio';
-@use 'components/Main/clock';
-@use 'components/Main/clockDigital';
-@use 'components/Main/compas';
-@use 'components/Main/weather-dashboard';
-@use 'components/Main/wind-gust';
+@use 'Pages/Main/xmas';
+@use 'Pages/Main/main';
+@use 'Pages/Main/currency';
+@use 'Pages/Main/event';
+@use 'Pages/Main/CardRadio/radio';
+@use 'Pages/Main/clock';
+@use 'Pages/Main/clockDigital';
+@use 'Pages/Main/compas';
+@use 'Pages/Main/weather-dashboard';
+@use 'Pages/Main/wind-gust';
 
 @use 'components/Currency/currency' as currency2;
 @use 'components/Currency/currency-mono';

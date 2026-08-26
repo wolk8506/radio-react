@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Compas } from './Compas';
-import { Humidity } from './Humidity';
-import { Clouds } from './Clouds';
-import { WindGust } from './WindGust';
+import { Compas } from './WeatherFlip-components/WeatherFlip_Compas';
+import { Humidity } from './WeatherFlip-components/WeatherFlip_Humidity';
+import { Clouds } from './WeatherFlip-components/WeatherFlip_Clouds';
+import { WindGust } from './WeatherFlip-components/WeatherFlip_WindGust';
 
 import { weatherSelectors, weatherOperations, rootSelectors } from 'store';
 
@@ -16,7 +16,7 @@ import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');
 
-export const Weather = () => {
+export const WeatherFlip = () => {
   const themeImageWeather = useSelector(rootSelectors.getThemeIconWeather);
 
   const CITY = useSelector(weatherSelectors.getCityName);

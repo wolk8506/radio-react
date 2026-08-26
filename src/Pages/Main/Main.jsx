@@ -1,34 +1,34 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 
-import { TimeHero } from './TimeHero';
-import { TimeHeroHalloween } from './TimeHeroHalloween';
-import { TimeHeroNewYear } from './TimeHeroNewYear';
+import { TimeHero } from './CardClockWeather/TimeHero';
+import { TimeHeroHalloween } from './CardClockWeather/TimeHeroHalloween';
+import { TimeHeroNewYear } from './CardClockWeather/TimeHeroNewYear';
 import { Clock } from './Clock';
-import { Weather } from './Weather';
-import { WeatherCard } from './WeatherCard';
-import { WeatherCardHalloween } from './WeatherCardHalloween';
-import { RadioCard } from './RadioCard';
+import { WeatherFlip } from './CardClockWeather/WeatherFlip';
+import { WeatherCard } from './CardClockWeather/WeatherCard';
+import { WeatherCardHalloween } from './CardClockWeather/WeatherCardHalloween';
+import { RadioCard } from './CardRadio/RadioCard';
 import { CurrencyCard } from './CurrencyCard';
 import { DynamicContent } from './DynamicContent';
-import { Timers } from './Timers';
-import { MyEvents } from './MyEvents';
-import { NewYearCountdown } from './NewYearCountdown';
+import { Timers } from './CardTimerEvent/Timers';
+import { MyEvents } from './CardTimerEvent/MyEvents';
+// import { NewYearCountdown } from './NewYearCountdown';
 
 import { rootSelectors } from 'store';
 
-import snowMan from '../../images/winter/snowman-min.png';
-import christmasTree from '../../images/winter/christmas tree.png';
-import pole from '../../images/winter/pole.png';
-import sugrob from '../../images/winter/sugrob.png';
-import blueWhiteIgloo from '../../images/winter/blue-white-igloo.png';
-import santaSleigh from '../../images/winter/santa-claus.png';
+// import snowMan from '../../images/winter/snowman-min.png';
+// import christmasTree from '../../images/winter/christmas tree.png';
+// import pole from '../../images/winter/pole.png';
+// import sugrob from '../../images/winter/sugrob.png';
+// import blueWhiteIgloo from '../../images/winter/blue-white-igloo.png';
+// import santaSleigh from '../../images/winter/santa-claus.png';
 
-import year from '../../images/winter/year.png';
-import snake from '../../images/winter/horse.png';
+// import year from '../../images/winter/year.png';
+// import snake from '../../images/winter/horse.png';
 
 export const Main = ({ onAudio }) => {
-  const THEME_NEW_YEAR = useSelector(rootSelectors.getThemeNewYear);
+  // const THEME_NEW_YEAR = useSelector(rootSelectors.getThemeNewYear);
   const THEME_MAIN_CLOCK = useSelector(rootSelectors.getThemeMainClock);
   const THEME_MAIN_WEATHER = useSelector(rootSelectors.getThemeMainWeather);
 
@@ -50,7 +50,7 @@ export const Main = ({ onAudio }) => {
           </div>
           <div className="grid-item weather-wrapper">
             {THEME_MAIN_WEATHER === 'weather' ? (
-              <Weather />
+              <WeatherFlip />
             ) : THEME_MAIN_WEATHER === 'weatherCardHalloween' ? (
               <WeatherCardHalloween />
             ) : (
@@ -86,16 +86,16 @@ export const Main = ({ onAudio }) => {
           </div>
         </div>
 
-        {THEME_NEW_YEAR.timer && (
+        {/* {THEME_NEW_YEAR.timer && (
           <div className="merry">
             <h1>До Нового года</h1>
             <NewYearCountdown />
           </div>
-        )}
+        )} */}
       </div>
 
       {/* New Year decorations */}
-      {THEME_NEW_YEAR.sugrob && (
+      {/* {THEME_NEW_YEAR.sugrob && (
         <div className="sugrob">
           <img src={sugrob} alt="sugrob" />
         </div>
@@ -134,7 +134,7 @@ export const Main = ({ onAudio }) => {
         <div className="snake">
           <img src={snake} alt="snake" />
         </div>
-      )}
+      )} */}
     </>
   );
 };

@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { authOperations } from 'store';
+import { BASE_URL } from '../config';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -16,6 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import GoogleIcon from '@mui/icons-material/Google';
 import { Button, TextField } from '@mui/material';
 
 const style = {
@@ -178,8 +180,21 @@ export const RegisterPage = () => {
           />
         </FormControl>
 
-        <Button type="submit" variant="outlined" color="success">
+        <Button fullWidth type="submit" variant="contained" color="success">
           Регистрация
+        </Button>
+
+        <Button
+          fullWidth
+          type="button"
+          variant="contained"
+          startIcon={<GoogleIcon />}
+          onClick={() => {
+            window.location.href = `${BASE_URL}/auth/google`;
+          }}
+          sx={{ mt: 1, textTransform: 'none' }}
+        >
+          Войти через Google
         </Button>
       </form>
       <button className="btn-form-resend" onClick={handleOpen}>
@@ -191,6 +206,7 @@ export const RegisterPage = () => {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
+          disableScrollLock
         >
           <Box sx={style}>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>

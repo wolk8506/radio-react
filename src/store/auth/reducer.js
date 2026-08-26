@@ -55,6 +55,16 @@ const auth = createReducer(initState, builder => {
       state.token = null;
       localStorage.removeItem('authToken');
     })
+
+    .addCase(authOperations.completeGoogleLogin.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+    })
+    .addCase(authOperations.completeGoogleLogin.rejected, state => {
+      state.isLoggedIn = false;
+      state.token = null;
+    })
     // ~  updateAvatar
     .addCase(authOperations.updateAvatar.fulfilled, (state, action) => {
       state.user.avatarURL = action.payload.avatarURL;

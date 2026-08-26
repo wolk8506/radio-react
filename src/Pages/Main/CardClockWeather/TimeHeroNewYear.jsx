@@ -7,10 +7,10 @@ import { authSelectors } from 'store';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import countdownGlobe_2 from '../../images/winter/countdown-globe-2.png';
-import sugrob from '../../images/winter/sugrob.png';
-import christmasTree from '../../images/winter/christmas tree.png';
-import santaSleigh from '../../images/winter/santa-claus.png';
+import countdownGlobe_2 from './img/countdown-globe-2.png';
+import sugrob from './img/sugrob.png';
+import christmasTree from './img/christmas tree.png';
+import santaSleigh from './img/santa-claus.png';
 
 moment.locale('ru');
 

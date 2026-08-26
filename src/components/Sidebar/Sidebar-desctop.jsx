@@ -20,14 +20,13 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import TuneIcon from '@mui/icons-material/Tune';
 import PersonIcon from '@mui/icons-material/Person';
-import { BASE_URL } from '../../config';
+import { avatarUrl } from '../../config';
 
-import { RadioMini } from '../Main/Radio-mini';
+import { RadioMini } from '../../Pages/Main/Radio-mini';
 
 export const SidebarDesctop = ({ audio }) => {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   const avatar = useSelector(authSelectors.getAvatar);
-  const baseUrlImg = BASE_URL;
   const location = useLocation();
   const currentPage = '/' + location.pathname.split('/')[1];
   const menuData = [
@@ -98,7 +97,7 @@ export const SidebarDesctop = ({ audio }) => {
               sx={[{ minHeight: 48, px: 2.5 }, btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' }]}
             >
               <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}>
-                {isLoggedIn ? <Avatar alt="Remy Sharp" src={baseUrlImg + avatar} /> : React.createElement(PersonIcon)}
+                {isLoggedIn ? <Avatar alt="Remy Sharp" src={avatarUrl(avatar)} /> : React.createElement(PersonIcon)}
               </ListItemIcon>
               <ListItemText primary="Профиль" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
             </ListItemButton>

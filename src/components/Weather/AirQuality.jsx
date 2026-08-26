@@ -331,7 +331,7 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
                     label: chartAxisTitle[chartType][0],
                   },
                 ]}
-                borderRadius={15} // Добавляем закругление к столбцам
+                style={{ borderRadius: 15 }} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
               />
             </Box>

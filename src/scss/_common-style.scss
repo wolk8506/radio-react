@@ -25,6 +25,31 @@
   // border: 3px solid #050c26; /* Оформление границ бегунка */
 }
 
+// Стабильный гаттер: место под скроллбар резервируется всегда,
+// поэтому контент не «прыгает» при появлении/исчезновении скроллбара
+// (открытие модалок, раскрывающиеся списки с прокруткой).
+* {
+  scrollbar-gutter: stable;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: colors.$color-02 colors.$color-07;
+}
+
+.button{
+  height: 24;
+  border-radius: 8px;
+  padding: 12px 4px 12px 4px;
+  text-transform: none;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.color-text-1{color: colors.$color-01}
+.color-text-2{color: colors.$color-02}
+.color-text-3{color: colors.$color-03}
+
 // * select  - - - - - - - - - - - - - - - - - - - - -
 .MuiFormControl-root {
   .MuiFormLabel-root {
@@ -196,6 +221,28 @@
       }
     }
   }
+}
+
+// 
+
+.MuiTableContainer-root{
+  .MuiTable-root{
+    .MuiTableRow-root.MuiTableRow-head {
+      .MuiTableCell-root.MuiTableCell-head{
+        color: colors.$color-02;
+        // background-color: function.rgb-a(colors.$color-09, 50%);
+        background: function.rgb-a(colors.$color-07, 95%)
+      }
+
+     
+      
+    }
+         .MuiTableCell-root.MuiTableCell-body {
+           color: colors.$color-03;
+         }
+    
+  }
+  
 }
 
 // * - - chart   - - - - - - - - - - - - - - - - - - - - -

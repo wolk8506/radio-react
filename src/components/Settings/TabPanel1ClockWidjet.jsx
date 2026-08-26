@@ -10,13 +10,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-import { Weather } from '../Main/Weather';
-import { WeatherCard } from '../Main/WeatherCard';
-import { WeatherCardHalloween } from '../Main/WeatherCardHalloween';
-import { Clock } from '../Main/Clock';
-import { TimeHero } from '../Main/TimeHero';
-import { TimeHeroHalloween } from '../Main/TimeHeroHalloween';
-import { TimeHeroNewYear } from '../Main/TimeHeroNewYear';
+import { WeatherFlip } from '../../Pages/Main/CardClockWeather/WeatherFlip';
+import { WeatherCard } from '../../Pages/Main/CardClockWeather/WeatherCard';
+import { WeatherCardHalloween } from '../../Pages/Main/CardClockWeather/WeatherCardHalloween';
+import { Clock } from '../../Pages/Main/Clock';
+import { TimeHero } from '../../Pages/Main/CardClockWeather/TimeHero';
+import { TimeHeroHalloween } from '../../Pages/Main/CardClockWeather/TimeHeroHalloween';
+import { TimeHeroNewYear } from '../../Pages/Main/CardClockWeather/TimeHeroNewYear';
 
 export const TabPanel1ClockWidjet = () => {
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export const TabPanel1ClockWidjet = () => {
           <div className="main__block">
             <div className="block__element">
               {mainWeatherValue === 'weather' ? (
-                <Weather></Weather>
+                <WeatherFlip></WeatherFlip>
               ) : mainWeatherValue === 'weatherCardHalloween' ? (
                 <WeatherCardHalloween></WeatherCardHalloween>
               ) : (

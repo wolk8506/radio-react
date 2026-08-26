@@ -127,7 +127,7 @@ export const FilmLibraryPage = () => {
         </Box>
       )}
 
-      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} fullWidth maxWidth="xs">
+      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} fullWidth maxWidth="xs" disableScrollLock>
         <DialogTitle>Новая подборка</DialogTitle>
         <DialogContent>
           <TextField

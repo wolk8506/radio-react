@@ -3,8 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { authOperations } from 'store';
+import { BASE_URL } from '../config';
 
 import { Button, TextField } from '@mui/material';
+import GoogleIcon from '@mui/icons-material/Google';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -64,6 +66,8 @@ export const LoginPage = () => {
 
       <form onSubmit={handleSubmit} className="form" autoComplete="off">
         <TextField
+          fullWidth
+          sx={{ width: '320' }}
           label="Почта"
           variant="standard"
           type="email"
@@ -95,8 +99,21 @@ export const LoginPage = () => {
           />
         </FormControl>
 
-        <Button type="submit" variant="outlined" color="success">
+        <Button fullWidth type="submit" variant="contained" color="success">
           Вход
+        </Button>
+
+        <Button
+          fullWidth
+          type="button"
+          variant="contained"
+          startIcon={<GoogleIcon />}
+          onClick={() => {
+            window.location.href = `${BASE_URL}/auth/google`;
+          }}
+          sx={{ mt: 1, textTransform: 'none' }}
+        >
+          Войти через Google
         </Button>
       </form>
     </div>

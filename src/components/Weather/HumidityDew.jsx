@@ -234,7 +234,7 @@ export const HumidityDew = ({ choiceOfDayGlobal, onChange }) => {
                     label: 'Температура, °C',
                   },
                 ]}
-                borderRadius={15} // Добавляем закругление к столбцам
+                style={{ borderRadius: 15 }} // Добавляем закругление к столбцам
                 grid={{ vertical: true, horizontal: true }}
               >
                 <defs>
