@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/radio-react/static/css/main.dd33e61f.css",
-    "main.js": "/radio-react/static/js/main.12e8ed76.js",
+    "main.css": "/radio-react/static/css/main.42cb0979.css",
+    "main.js": "/radio-react/static/js/main.841bf668.js",
     "static/media/new-year-10.jpg": "/radio-react/static/media/new-year-10.f814aedb331c029d9b8b.jpg",
     "static/media/new-year-11.jpg": "/radio-react/static/media/new-year-11.1309fff012663662360f.jpg",
     "static/media/new-year-24.jpg": "/radio-react/static/media/new-year-24.6b9b8f06f7eb9de62ad0.jpg",
@@ -13,7 +13,6 @@
     "static/media/new-year-26.jpg": "/radio-react/static/media/new-year-26.fa160e46077aa70a6891.jpg",
     "static/media/new-year-28.jpg": "/radio-react/static/media/new-year-28.0f7feaf7127c94d419e4.jpg",
     "static/media/new-year-22.jpg": "/radio-react/static/media/new-year-22.270f5eacfb20fca3c084.jpg",
-    "static/media/year.png": "/radio-react/static/media/year.74554d5b70981be02059.png",
     "static/media/new-year-23.jpg": "/radio-react/static/media/new-year-23.2f83e435cbfb08376ca6.jpg",
     "static/media/new-year-18.jpg": "/radio-react/static/media/new-year-18.3a217a3fb087bd489ae0.jpg",
     "static/media/new-year-07.jpg": "/radio-react/static/media/new-year-07.0a89afdc824f5f21e3bf.jpg",
@@ -21,10 +20,8 @@
     "static/media/new-year-13.jpg": "/radio-react/static/media/new-year-13.c786a34bcf3780f3f119.jpg",
     "static/media/new-year-21.jpg": "/radio-react/static/media/new-year-21.1cc370f1828c9bb0b1a1.jpg",
     "static/media/new-year-15.jpg": "/radio-react/static/media/new-year-15.4aaff3616cce22a1f75e.jpg",
-    "static/media/horse.png": "/radio-react/static/media/horse.aefa86afe6df72c6c8f2.png",
     "static/media/new-year-27.jpg": "/radio-react/static/media/new-year-27.c7bccbb164f03fadfea4.jpg",
     "static/media/new-year-05.jpg": "/radio-react/static/media/new-year-05.0deeb0abe6b3388f88d6.jpg",
-    "static/media/snowman-min.png": "/radio-react/static/media/snowman-min.a82fd802e3114e134971.png",
     "static/media/new-year-03.jpg": "/radio-react/static/media/new-year-03.963f990991e76771a477.jpg",
     "static/media/new-year-02.jpg": "/radio-react/static/media/new-year-02.71b0699c4f6b375d2c8b.jpg",
     "static/media/new-year-25.jpg": "/radio-react/static/media/new-year-25.361d3cbf1fa5495da145.jpg",
@@ -51,7 +48,6 @@
     "static/media/img_11.jpg": "/radio-react/static/media/img_11.527d7de01c1d35fe3899.jpg",
     "static/media/NotFoundPage.png": "/radio-react/static/media/NotFoundPage.2aae2616df0d2eca13e9.png",
     "static/media/img_16.jpg": "/radio-react/static/media/img_16.cadfa317dd303688544a.jpg",
-    "static/media/blue-white-igloo.png": "/radio-react/static/media/blue-white-igloo.e3d25aca559e2c0f1c52.png",
     "static/media/new-year-09.jpg": "/radio-react/static/media/new-year-09.162288c6e4b37f84a45e.jpg",
     "static/media/new-year-20.jpg": "/radio-react/static/media/new-year-20.926ace0f14c82e620880.jpg",
     "static/media/dotf1.ttf": "/radio-react/static/media/dotf1.b959cb0ac57821ab6a89.ttf",
@@ -61,7 +57,6 @@
     "static/media/square_dot_digital-7.ttf": "/radio-react/static/media/square_dot_digital-7.3787f671fbe7bb7b16da.ttf",
     "static/media/sprite.svg": "/radio-react/static/media/sprite.e93f686c99ff27d439bb6887aa64cc50.svg",
     "static/media/countdown-globe-2.png": "/radio-react/static/media/countdown-globe-2.245d91a214062458eb34.png",
-    "static/media/countdown-globe-1.png": "/radio-react/static/media/countdown-globe-1.b0fae51ea2785223a997.png",
     "static/media/img_9_128.webp": "/radio-react/static/media/img_9_128.1a4debb5e3a5505d5546.webp",
     "static/media/img_13_128.webp": "/radio-react/static/media/img_13_128.d7c32a7db578150568b7.webp",
     "static/media/img_7_128.webp": "/radio-react/static/media/img_7_128.d1e8caaf0d790700d668.webp",
@@ -76,7 +71,6 @@
     "static/media/img_12_128.webp": "/radio-react/static/media/img_12_128.2401471fcbb0ef9dd745.webp",
     "static/media/img_1_128.webp": "/radio-react/static/media/img_1_128.eab92f24d6d5ba1a35ec.webp",
     "static/media/img-181.fm.jpg": "/radio-react/static/media/img-181.fm.b2970b049dfd1d231aca.jpg",
-    "static/media/countdown-globe.png": "/radio-react/static/media/countdown-globe.7630fc2c9e8c30a7ab86.png",
     "static/media/img_15_128.webp": "/radio-react/static/media/img_15_128.0c98b37f75ad050ab1e0.webp",
     "static/media/recordrock.webp": "/radio-react/static/media/recordrock.b2be14a787a0ebf1656b.webp",
     "static/media/img_11_128.webp": "/radio-react/static/media/img_11_128.5cef9e17a8ffe0ea8edd.webp",
@@ -111,11 +105,11 @@
     "static/media/equalizer.webp": "/radio-react/static/media/equalizer.5b7303a1f017cc53bbc9.webp",
     "static/media/clear-day.svg": "/radio-react/static/media/clear-day.e6541ce84a82ea86deaf2e63fc4f4089.svg",
     "static/media/clear-night.svg": "/radio-react/static/media/clear-night.10da86080cdf8ab805dcb093270308d3.svg",
-    "main.dd33e61f.css.map": "/radio-react/static/css/main.dd33e61f.css.map",
-    "main.12e8ed76.js.map": "/radio-react/static/js/main.12e8ed76.js.map"
+    "main.42cb0979.css.map": "/radio-react/static/css/main.42cb0979.css.map",
+    "main.841bf668.js.map": "/radio-react/static/js/main.841bf668.js.map"
   },
   "entrypoints": [
-    "static/css/main.dd33e61f.css",
-    "static/js/main.12e8ed76.js"
+    "static/css/main.42cb0979.css",
+    "static/js/main.841bf668.js"
   ]
 }
