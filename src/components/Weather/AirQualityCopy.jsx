@@ -19,7 +19,9 @@ export const AirQualityCopy = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}?unitGroup=metric&key=ALDXRSSMA67DYTJF696P4X2T8&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
+    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(
+      CITY
+    )}?unitGroup=metric&key=ALDXRSSMA67DYTJF696P4X2T8&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
 
     dispatch(weatherOperations.fetchWeatherAirQuality(URL));
   }, [CITY, dispatch]);

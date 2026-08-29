@@ -14,14 +14,14 @@ const fmtDate = d => {
 export const NewsCard = ({ item }) => {
   const source = item.source || {};
   return (
-    <Card variant="outlined" sx={{ mb: 2, bgcolor: 'background.paper' }}>
+    <Card variant="outlined" sx={{ minWidth: 0, bgcolor: 'background.paper' }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" color="text.secondary" sx={{ minWidth: 0, flex: 1, mr: 1 }}>
             {source.title || 'источник'}
             {item.author ? ` · ${item.author}` : ''}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" color="text.secondary" sx={{ flexShrink: 0 }}>
             {fmtDate(item.publishedAt)}
           </Typography>
         </Stack>

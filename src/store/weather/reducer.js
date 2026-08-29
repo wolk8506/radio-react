@@ -277,6 +277,18 @@ const cityList = createReducer([], builder => {
       }
     })
   );
+  builder.addCase(weatherActions.setCityList, (state, action) => action.payload);
+  builder.addCase(weatherOperations.fetchUserCities.fulfilled, (state, action) => action.payload);
+  builder.addCase(weatherOperations.addUserCity.fulfilled, (state, action) => action.payload);
+  builder.addCase(weatherOperations.removeUserCity.fulfilled, (state, action) => action.payload);
+  builder.addCase(weatherOperations.setHomeUserCity.fulfilled, (state, action) => action.payload);
+});
+
+const citiesWeather = createReducer({}, builder => {
+  builder.addCase(weatherActions.setCitiesWeather, (state, action) => action.payload);
+  builder.addCase(weatherOperations.fetchCitiesWeather.fulfilled, (state, action) => action.payload);
+  builder.addCase(weatherActions.setCityList, () => ({}));
+  builder.addCase(weatherOperations.fetchUserCities.fulfilled, () => ({}));
 });
 
 export default combineReducers({
@@ -292,4 +304,5 @@ export default combineReducers({
   weatherWeek,
   city,
   cityList,
+  citiesWeather,
 });

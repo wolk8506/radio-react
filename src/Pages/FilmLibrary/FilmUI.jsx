@@ -55,19 +55,21 @@ export const FolderCard = ({ collection, genreMap, onClick, isMine }) => {
   }, [preview.length]);
 
   return (
-    <Card
-      className="conteiner"
-      sx={{
-        width: '100%',
-        height: 230,
-        display: 'flex',
-        flexDirection: 'column',
-        transition: 'transform .15s, box-shadow .15s',
-        '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 },
-        cursor: 'pointer',
-      }}
-      onClick={onClick}
-    >
+      <Card
+        className="conteiner"
+        sx={{
+          width: '100%',
+          // width: 1200,
+          height: 230,
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'transform .15s, box-shadow .15s',
+          '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 },
+          cursor: 'pointer',
+          minWidth: 0,
+        }}
+        onClick={onClick}
+      >
       <Box
         sx={{
           position: 'relative',
@@ -133,7 +135,7 @@ export const FolderCard = ({ collection, genreMap, onClick, isMine }) => {
           ) : (
             <LockIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
           )}
-          <Typography variant="subtitle1" noWrap title={collection.name} sx={{ flex: 1 }}>
+          <Typography variant="subtitle1" noWrap title={collection.name} sx={{ flex: 1, minWidth: 0 }}>
             {collection.name}
           </Typography>
         </Stack>
@@ -153,7 +155,7 @@ export const MovieCard = ({ movie, genreMap, onOpen, onRemove, dragHandle, watch
   const genreText =
     names.length > 3 ? `${names.slice(0, 3).join(', ')}, other` : names.join(', ');
   return (
-    <Card sx={{ position: 'relative', cursor: 'pointer' }} onClick={onOpen}>
+    <Card sx={{ position: 'relative', cursor: 'pointer', minWidth: 0 }} onClick={onOpen}>
       {dragHandle}
       {watched && (
         <Chip
@@ -493,7 +495,7 @@ export const AddMovieDialog = ({ open, onClose, collectionId, userId, onAdded, e
             {results.map(m => {
               const added = addedIds.includes(m.id);
               return (
-                <Card key={`${mediaType}-${m.id}`} sx={{ position: 'relative' }}>
+                <Card key={`${mediaType}-${m.id}`} sx={{ position: 'relative', minWidth: 0 }}>
                   <Box
                     component="img"
                     src={m.poster_path ? getPosterUrl(m.poster_path) : PLACEHOLDER}

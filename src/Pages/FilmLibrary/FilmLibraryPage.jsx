@@ -66,7 +66,7 @@ export const FilmLibraryPage = () => {
   }
 
   return (
-    <Box className="conteiner" sx={{ p: { xs: 2, md: 3 }, maxWidth: 1200, mx: 'auto' }}>
+    <Box className="conteiner" sx={{ p: { xs: 2, md: 3 }, maxWidth: 1400, width: '100%', mx: 'auto' }}>
       <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
         <MovieFilterOutlinedIcon color="primary" />
         <Typography variant="h4" component="h1">

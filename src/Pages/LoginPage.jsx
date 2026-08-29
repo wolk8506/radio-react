@@ -40,11 +40,19 @@ export const LoginPage = () => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(authOperations.logIn({ email, password }));
-    setEmail('');
-    setPassword('');
+    try {
+      await dispatch(authOperations.logIn({ email, password })).unwrap();
+      // Синхронизируем пользователя из бэкенда (как при перезагрузке),
+      // чтобы isLoggedIn/user были актуальны без перезагрузки страницы.
+      dispatch(authOperations.fetchCurrentUser());
+    } catch {
+      // ошибка уже показана в operations
+    } finally {
+      setEmail('');
+      setPassword('');
+    }
   };
 
   return (

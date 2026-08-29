@@ -1,0 +1,516 @@
+.timemanagement {
+  padding: 20px 24px;
+  color: var(--color-01);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+  }
+}
+
+// Блок A: метаданные
+.tm-header {
+  flex: 0 0 auto;
+  margin-bottom: 12px;
+}
+
+.tm-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tm-stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-07);
+  border-radius: 8px;
+
+  .tm-caret {
+    padding: 2px;
+  }
+}
+
+// Блоки B + C: таблица + гант
+.tm-gantt {
+  flex: 1 1 auto;
+  overflow: auto;
+  border: 1px solid var(--color-07);
+  border-radius: 8px;
+  background: var(--color-08);
+}
+
+.tm-grid {
+  display: grid;
+  grid-auto-rows: 38px;
+  width: max-content;
+  min-width: 100%;
+}
+
+.tm-cell {
+  border-right: 1px solid var(--color-07);
+  border-bottom: 1px solid var(--color-07);
+  padding: 0 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  background: transparent;
+}
+
+.tm-sticky {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  background: var(--color-06);
+  box-shadow: 3px 0 0 var(--color-06);
+}
+
+.tm-cell--head {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: var(--color-06);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-07);
+}
+
+.tm-cell--head.tm-sticky {
+  z-index: 6;
+}
+
+.tm-day {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+
+  &__wd {
+    font-weight: 600;
+  }
+  &__dt {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+}
+
+.tm-col--today {
+  background: rgba(87, 132, 244, 0.12);
+  box-shadow: inset 1px 0 0 rgba(87, 132, 244, 0.6), inset -1px 0 0 rgba(87, 132, 244, 0.6);
+}
+
+// визуальное разделение дней
+.tm-weekend {
+  background: rgba(0, 0, 0, 0.10);
+}
+
+.tm-weekstart {
+  border-left: 2px solid var(--color-07);
+}
+
+.tm-day--today {
+  font-weight: 700;
+}
+
+.tm-miss {
+  border-color: #f44336;
+  background: transparent;
+}
+
+.tm-ext {
+  border-style: dashed;
+}
+
+// фаза
+.tm-phase {
+  font-weight: 700;
+  background: var(--color-06);
+
+  .tm-caret {
+    margin-right: 2px;
+  }
+}
+
+.tm-task {
+  cursor: pointer;
+  padding-left: 28px;
+
+  &:hover {
+    background: var(--color-08);
+  }
+}
+
+.tm-taskname {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tm-tasktitle {
+  margin-left: 8px;
+  opacity: 0.6;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// прогресс
+.tm-progress {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  background: var(--color-09);
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--color-03, #5784f4);
+    border-radius: 8px;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    padding-left: 6px;
+    line-height: 16px;
+  }
+}
+
+// полосы ганта
+.tm-bar {
+  background: rgba(87, 132, 244, 0.35);
+  border-right: 1px solid rgba(87, 132, 244, 0.5);
+
+  &--done {
+    background: #5784f4;
+  }
+
+  &--phase {
+    background: rgba(0, 0, 0, 0.14);
+  }
+
+  &--start {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  &--end {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+
+  &--today {
+    box-shadow: inset 0 0 0 2px rgba(87, 132, 244, 0.9);
+  }
+}
+
+.tm-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 6px;
+  flex: 0 0 auto;
+}
+
+.tm-fact {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.tm-hint {
+  font-size: 12px;
+  opacity: 0.65;
+}
+
+.tm-daycell {
+  position: relative;
+  padding: 0;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #5784f4;
+  background: transparent;
+  overflow: hidden;
+
+  & + & {
+    border-left: none;
+  }
+}
+
+.tm-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: #1b5e20;
+  z-index: 0;
+
+  &--proj {
+    opacity: 0.55;
+  }
+}
+
+.tm-pct {
+  position: relative;
+  z-index: 1;
+  font-size: 9px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+.tm-pct--miss {
+  color: #b71c1c;
+  text-shadow: none;
+}
+
+.tm-over {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+.tm-cut {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  border-color: #9e9e9e;
+  opacity: 0.5;
+}
+
+.tm-excluded {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-09),
+    var(--color-09) 4px,
+    var(--color-07) 4px,
+    var(--color-07) 8px
+  );
+  border-color: var(--color-07);
+  cursor: pointer;
+}
+
+.tm-gap-mark {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.tm-empty {
+  grid-column: 1 / -1;
+  padding: 24px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+// диалог
+.tm-dialog {
+  &__row {
+    display: flex;
+    gap: 8px;
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  &__slider {
+    margin-top: 12px;
+
+    span {
+      font-size: 12px;
+    }
+  }
+
+  &__colors {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+  }
+}
+
+.tm-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+
+  &--active {
+    border-color: var(--color-01);
+    box-shadow: 0 0 0 2px rgba(87, 132, 244, 0.5);
+  }
+}
+
+.tm-types {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.tm-type-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 14px;
+  border: 1px solid var(--color-07);
+  background: var(--color-06);
+  color: var(--color-01);
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    background: var(--color-08);
+  }
+}
+
+// статистика по категориям
+.tm-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tm-stat {
+  flex: 1 1 200px;
+  min-width: 200px;
+  border: 1px solid var(--color-07);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: var(--color-06);
+}
+
+.tm-stat__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.tm-stat__name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tm-stat__pct {
+  margin-left: auto;
+  font-weight: 700;
+  color: #1b5e20;
+}
+
+.tm-stat__bar {
+  height: 8px;
+  margin: 6px 0 4px;
+  background: var(--color-09);
+  border: 1px solid #5784f4;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.tm-stat__fill {
+  height: 100%;
+}
+
+.tm-stat__meta {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+// архив
+.tm-archive {
+  border: 1px solid var(--color-07);
+  border-radius: 8px;
+  background: var(--color-06);
+  padding: 12px;
+}
+
+.tm-archive__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tm-archive__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--color-07);
+
+  input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.tm-archive__name {
+  font-weight: 600;
+}
+
+.tm-archive__info {
+  opacity: 0.65;
+  font-size: 12px;
+}
+
+.tm-archive__date {
+  margin-left: auto;
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+// планы
+.tm-plan {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--color-07);
+}
+
+.tm-plan__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tm-plan__name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tm-plan__meta {
+  font-size: 12px;
+  opacity: 0.7;
+}

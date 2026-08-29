@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dataActions, rootSelectors } from 'store';
 
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-import Switch from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import CustomSwitch from 'components/Elements/CustomSwitch';
 import { useEffect } from 'react';
 
 export const TabPanel2Settings = () => {
@@ -33,11 +32,12 @@ export const TabPanel2Settings = () => {
       <Divider />
 
       <FormLabel id="controlled-radio-widget">Падающий снег</FormLabel>
-      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-        <Typography>выкл</Typography>
-        <Switch checked={state.snow} onChange={handleChange} name="snow" />
-        <Typography>вкл</Typography>
-      </Stack>
+      <FormControlLabel
+        labelPlacement="start"
+        sx={{ width: '100%', justifyContent: 'space-between', m: 0 }}
+        control={<CustomSwitch checked={state.snow} onChange={handleChange} name="snow" />}
+        label={state.snow ? 'выключить' : 'включить'}
+      />
     </FormControl>
   );
 };

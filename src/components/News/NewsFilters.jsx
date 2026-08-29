@@ -1,4 +1,5 @@
-import { Stack, FormControl, InputLabel, Select, MenuItem, Chip, FormControlLabel, Switch, Box } from '@mui/material';
+import { Stack, FormControl, InputLabel, Select, MenuItem, Chip, FormControlLabel, Box } from '@mui/material';
+import CustomSwitch from 'components/Elements/CustomSwitch';
 
 export const NewsFilters = ({
   facets,
@@ -33,8 +34,9 @@ export const NewsFilters = ({
         </FormControl>
 
         <FormControlLabel
+          labelPlacement="start"
           control={
-            <Switch checked={personalized} onChange={e => setPersonalized(e.target.checked)} disabled={disabledPersonalized} />
+            <CustomSwitch checked={personalized} onChange={e => setPersonalized(e.target.checked)} disabled={disabledPersonalized} />
           }
           label="Персонализация"
         />

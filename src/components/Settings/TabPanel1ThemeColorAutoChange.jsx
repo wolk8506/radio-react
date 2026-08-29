@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { dataActions, rootSelectors } from 'store';
 
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
+import CustomSwitch from 'components/Elements/CustomSwitch';
 
 export const TabPanel1ThemeColorAutoChange = () => {
   const dispatch = useDispatch();
@@ -21,14 +17,9 @@ export const TabPanel1ThemeColorAutoChange = () => {
     setValue(e.target.checked);
   };
   return (
-    <FormControl component="fieldset" variant="standard">
-      <FormLabel component="legend">Автоизменение темы</FormLabel>
-      <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={value} onChange={handleChange} name="gilad" />}
-          label={value ? 'выключить' : 'включить'}
-        />
-      </FormGroup>
-    </FormControl>
+    <div className="theme-auto-row">
+      <span className="theme-auto-row__label">Автоизменение темы</span>
+      <CustomSwitch checked={value} onChange={handleChange} name="autoTheme" />
+    </div>
   );
 };

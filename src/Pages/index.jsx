@@ -9,3 +9,4 @@ export { FilmLibraryPage } from './FilmLibrary/FilmLibraryPage';
 export { CollectionPage } from './FilmLibrary/CollectionPage';
 export { AdminUsersPage } from './AdminUsersPage';
 export { LibraryPage } from './LibraryPage';
+export { TimeManagementPage } from './TimeManagementPage';

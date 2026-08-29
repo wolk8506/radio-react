@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { weatherSelectors, weatherOperations, weatherActions, rootSelectors } from 'store';
+import { weatherSelectors, weatherOperations, weatherActions, rootSelectors, authSelectors } from 'store';
+import { toast } from 'react-toastify';
 
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 
@@ -27,7 +28,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { useDebounce } from '../../hooks';
 
-import weatherImage from 'components/Weather/weatherIcon';
+import weatherImage, { wmoToIconKey } from 'components/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -43,16 +44,15 @@ export const Weather = () => {
   const city_data = useSelector(weatherSelectors.getCityName);
   const cityList = useSelector(weatherSelectors.getCityList);
 
-  const data_today_city1 = useSelector(weatherSelectors.getWeatherDayCity1_Data);
-  const data_today_city2 = useSelector(weatherSelectors.getWeatherDayCity2_Data);
-  const data_today_city3 = useSelector(weatherSelectors.getWeatherDayCity3_Data);
+  const citiesWeather = useSelector(weatherSelectors.getCitiesWeather);
+
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
 
   const BASE_URL = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 
   // const REACT_APP_WEATHER_API_KEY_1 = 'D6MDZY6JMNHMG6CBQANG3GNHD';
   const REACT_APP_WEATHER_API_KEY_2 = 'ALDXRSSMA67DYTJF696P4X2T8';
   // const REACT_APP_WEATHER_API_KEY_3 = 'GP4GVCRSPM49PLYL6GG3XCCND';
-  const REACT_APP_WEATHER_API_KEY_4 = 'ZFDDCEUX8YARVXWEHNHDQP74C';
 
   const [CITY, setCITY] = useState(city_data);
   const [searchCity, setSearchCity] = useState('');
@@ -79,75 +79,42 @@ export const Weather = () => {
   const [cityListUpdate, setcityListUpdate] = useState(cityList);
 
   useEffect(() => {
-    const arr = [];
-    if (cityList[0]?.city !== undefined) {
-      const a = {
-        id: cityList[0]?.id,
-        city: cityList[0]?.city,
-        favorite: cityList[0]?.favorite,
-        home: cityList[0]?.home,
-        icon: weatherImage(data_today_city1.days[0].icon, themeImageWeather),
-
-        temperature: data_today_city1.days[0].tempmax.toFixed(0),
+    const arr = cityList.map(c => {
+      const w = citiesWeather[c.id];
+      return {
+        id: c.id,
+        city: c.city,
+        favorite: c.favorite,
+        home: c.home,
+        icon: w ? weatherImage(wmoToIconKey(w.code, w.isDay), themeImageWeather) : null,
+        temperature: w ? w.temperature : '',
       };
-      arr.push(a);
-    }
-    if (cityList[1]?.city !== undefined) {
-      const a = {
-        id: cityList[1]?.id,
-        city: cityList[1]?.city,
-        favorite: cityList[1]?.favorite,
-        home: cityList[1]?.home,
-        icon: weatherImage(data_today_city2.days[0].icon, themeImageWeather),
-        temperature: data_today_city2.days[0].tempmax.toFixed(0),
-      };
-      arr.push(a);
-    }
-    if (cityList[2]?.city !== undefined) {
-      const a = {
-        id: cityList[2]?.id,
-        city: cityList[2]?.city,
-        favorite: cityList[2]?.favorite,
-        home: cityList[2]?.home,
-        icon: weatherImage(data_today_city3.days[0].icon, themeImageWeather),
-        temperature: data_today_city3.days[0].tempmax.toFixed(0),
-      };
-      arr.push(a);
-    }
+    });
     setcityListUpdate(arr);
-  }, [cityList, data_today_city1.days, data_today_city2.days, data_today_city3.days, themeImageWeather]);
+  }, [cityList, citiesWeather, themeImageWeather]);
 
   useEffect(() => {
-    setcityListUpdate(cityList);
-  }, [cityList]);
+    if (isLoggedIn) {
+      dispatch(weatherOperations.fetchUserCities());
+    } else {
+      dispatch(weatherActions.setCityList([]));
+    }
+  }, [isLoggedIn, dispatch]);
 
+  // Погода для плашек избранных городов — через Open-Meteo (без ключа, без лимита)
   useEffect(() => {
-    const city_1 = cityList[0]?.city;
-    const city_2 = cityList[1]?.city;
-    const city_3 = cityList[2]?.city;
-
-    if (city_1 !== undefined) {
-      const BASE_URL_TODAY = `${BASE_URL}${city_1}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
-      dispatch(weatherOperations.fetchWeatherTodayCity1(BASE_URL_TODAY));
+    if (isLoggedIn && cityList.length > 0) {
+      dispatch(weatherOperations.fetchCitiesWeather(cityList));
     }
-
-    if (city_2 !== undefined) {
-      const BASE_URL_TODAY = `${BASE_URL}${city_2}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
-      dispatch(weatherOperations.fetchWeatherTodayCity2(BASE_URL_TODAY));
-    }
-
-    if (city_3 !== undefined) {
-      const BASE_URL_TODAY = `${BASE_URL}${city_3}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_4}&contentType=json&lang=ru&unitGroup=metric&include=days&elements=tempmax,icon`;
-      dispatch(weatherOperations.fetchWeatherTodayCity3(BASE_URL_TODAY));
-    }
-  }, [cityList, dispatch]);
+  }, [cityList, isLoggedIn, dispatch]);
 
   useEffect(() => {
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else if (CITY.city !== undefined && CITY !== null) {
-      const BASE_URL_TODAY = `${BASE_URL}${CITY.city}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_2}&contentType=json&lang=ru&unitGroup=metric`;
-      const URL_WEATHER_ELEMENTS = `${BASE_URL}${CITY.city}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
+      const cityQuery = encodeURIComponent(CITY.city);
+      const BASE_URL_TODAY = `${BASE_URL}${cityQuery}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_2}&contentType=json&lang=ru&unitGroup=metric`;
+      const URL_WEATHER_ELEMENTS = `${BASE_URL}${cityQuery}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
       dispatch(weatherOperations.fetchWeatherToday(BASE_URL_TODAY));
       dispatch(weatherOperations.fetchWeatherElements(URL_WEATHER_ELEMENTS));
@@ -184,8 +151,9 @@ export const Weather = () => {
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else {
-      const URL_WEATHER = `${BASE_URL}${CITY.city}/${DATE}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=days&elements=tempmax,tempmin,pressure,icon,humidity,uvindex,datetime`;
-      const URL_WEATHER_WEEK = `${BASE_URL}${CITY.city}/${START_DATE_WEEK}/${END_DATE_WEEK}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=hours`;
+      const cityQuery = encodeURIComponent(CITY.city);
+      const URL_WEATHER = `${BASE_URL}${cityQuery}/${DATE}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=days&elements=tempmax,tempmin,pressure,icon,humidity,uvindex,datetime`;
+      const URL_WEATHER_WEEK = `${BASE_URL}${cityQuery}/${START_DATE_WEEK}/${END_DATE_WEEK}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=hours`;
 
       // const URL_WEATHER_WEEK = `${BASE_URL}${CITY.city}/${START_DATE_WEEK}/${END_DATE_WEEK}?&key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&include=days`
 
@@ -197,14 +165,16 @@ export const Weather = () => {
   }, [CITY, dispatch]);
 
   // !!!!!!!!!!------------------------------------------------------------------------
+  // Поиск городов — Open-Meteo Geocoding (без ключа, CORS)
   function searchCharacters(search) {
-    return fetch(`https://data-api.oxilor.com/rest/search-regions?lng=ru&searchTerm=${search}`, {
-      headers: {
-        Authorization: 'Bearer 7rzbXDCf-D7EB6bPdf3oa23Pj90cD_',
-      },
-    })
+    return fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+        search
+      )}&count=10&language=ru&format=json`,
+      { mode: 'cors' }
+    )
       .then(r => r.json())
-      .then(r => r)
+      .then(r => r.results || [])
       .catch(error => {
         console.error(error);
         return [];
@@ -239,22 +209,14 @@ export const Weather = () => {
           // Выставить состояние в false, так-как запрос завершен
           setIsSearching(false);
           // Выставит состояние с результатом
-          setResults([
-            ...results.map(i => {
-              const isKyr = function (str) {
-                if (str === undefined) return false;
-                return /[а-я]/i.test(str);
-              };
-              const name = i.name;
-              let name2 = i.parentRegions.map(i => isKyr(i.name) && ` ${i.name}`);
-              name2 = name2.filter(n => {
-                return n !== false;
-              });
-              if (name2.length === 4) name2.shift();
-              name2.pop();
-              return `${name}, ${name2.slice()} `;
-            }),
-          ]);
+          setResults(
+            results.map(i => {
+              const parts = [i.name];
+              if (i.admin1 && i.admin1 !== i.name) parts.push(i.admin1);
+              if (i.country) parts.push(i.country);
+              return parts.join(', ');
+            })
+          );
         });
       } else {
         setResults([]);
@@ -284,18 +246,35 @@ export const Weather = () => {
   };
   const maxEl = cityList.length;
 
-  const handleCity = () => {
-    if (maxEl < 3)
-      dispatch(
-        weatherActions.addCityListItem({
-          city: data_today.address,
+  const normalizeCity = city => (city || '').split(',')[0].trim().toLowerCase();
+
+  const handleCity = async () => {
+    if (!isLoggedIn) return;
+
+    const city = data_today.address;
+    if (cityList.some(c => normalizeCity(c.city) === normalizeCity(city))) {
+      toast.info('Этот город уже в избранном');
+      return;
+    }
+    if (cityList.length >= 3) {
+      toast.info('Достигнут лимит городов (максимум 3)');
+      return;
+    }
+
+    try {
+      await dispatch(
+        weatherOperations.addUserCity({
+          city,
           favorite: true,
           home: false,
-          icon: weatherImage(data_today.days[0].icon, themeImageWeather),
-          temperature: data_today.days[0].tempmax.toFixed(0),
+          lat: data_today.latitude,
+          lon: data_today.longitude,
         })
-      );
-    else console.log('Превышено кол-во городов');
+      ).unwrap();
+    } catch (error) {
+      const message = error?.message || (typeof error === 'string' ? error : 'Не удалось сохранить город');
+      toast.error(message);
+    }
   };
 
   // ----------------333333----------------------------------------
@@ -335,7 +314,7 @@ export const Weather = () => {
 
   useEffect(() => {
     // console.log('data_today', data_today);
-    const today = data_today;
+    const today = Array.isArray(data_today) ? data_today[0] : data_today;
     const hour = moment().format('H');
     setWeather({
       latitude: today.latitude,
@@ -362,12 +341,20 @@ export const Weather = () => {
             loading={isSearching}
             options={results}
             sx={{ width: 300 }}
+            inputValue={searchTerm}
+            onInputChange={(event, value) => setSearchTerm(value)}
+            onChange={(event, value) => {
+              if (value) {
+                dispatch(weatherActions.setCityName(value));
+                setSearchCity({ city: value, home: false });
+                setSearchTerm('');
+              }
+            }}
             onClose={handleClose}
             renderInput={params => (
               <TextField
                 {...params}
                 label="Поиск местоположения"
-                onChange={e => setSearchTerm(e.target.value)}
                 slotProps={{
                   input: {
                     ...params.InputProps,
@@ -392,14 +379,14 @@ export const Weather = () => {
             >
               <div className="card-city">
                 {cityListUpdate[0].home && (
-                  <IconButton aria-label="delete" size="small">
+                  <IconButton aria-label="delete" size="small" onClick={e => e.stopPropagation()}>
                     <HomeIcon fontSize="inherit" />
                   </IconButton>
                 )}
                 <p>{cityListUpdate[0]?.city.split(',')[0]}</p>
                 <img className="card-city__image" src={cityListUpdate[0]?.icon} widh="17" alt="icon" />
                 <p>{cityListUpdate[0]?.temperature}°</p>
-                <div>
+                <div onClick={e => e.stopPropagation()}>
                   <IconButton
                     aria-label="more"
                     id="long-button_1"
@@ -431,7 +418,10 @@ export const Weather = () => {
                       onClick={() => {
                         setAnchorEl_1(null);
                         dispatch(
-                          weatherActions.homeCityListItem({ id: cityListUpdate[0].id, home: !cityListUpdate[0].home })
+                          weatherOperations.setHomeUserCity({
+                            city: cityListUpdate[0].city,
+                            home: !cityListUpdate[0].home,
+                          })
                         );
                       }}
                       disableRipple
@@ -442,7 +432,7 @@ export const Weather = () => {
                     <MenuItem
                       onClick={() => {
                         setAnchorEl_1(null);
-                        dispatch(weatherActions.deleteCityListItem(cityListUpdate[0].id));
+                        dispatch(weatherOperations.removeUserCity(cityListUpdate[0].city));
                       }}
                       disableRipple
                     >
@@ -464,14 +454,14 @@ export const Weather = () => {
             >
               <div className="card-city">
                 {cityListUpdate[1].home && (
-                  <IconButton aria-label="delete" size="small">
+                  <IconButton aria-label="delete" size="small" onClick={e => e.stopPropagation()}>
                     <HomeIcon fontSize="inherit" />
                   </IconButton>
                 )}
                 <p>{cityListUpdate[1]?.city.split(',')[0]}</p>
                 <img className="card-city__image" src={cityListUpdate[1]?.icon} widh="17" alt="icon" />
                 <p>{cityListUpdate[1]?.temperature}°</p>
-                <div>
+                <div onClick={e => e.stopPropagation()}>
                   <IconButton
                     aria-label="more"
                     id="long-button_2"
@@ -489,7 +479,7 @@ export const Weather = () => {
                     }}
                     anchorEl={anchorEl_2}
                     open={open_2}
-                    onClose={() => setAnchorEl_1(null)}
+                    onClose={() => setAnchorEl_2(null)}
                     slotProps={{
                       paper: {
                         style: {
@@ -503,7 +493,10 @@ export const Weather = () => {
                       onClick={() => {
                         setAnchorEl_2(null);
                         dispatch(
-                          weatherActions.homeCityListItem({ id: cityListUpdate[1].id, home: !cityListUpdate[1].home })
+                          weatherOperations.setHomeUserCity({
+                            city: cityListUpdate[1].city,
+                            home: !cityListUpdate[1].home,
+                          })
                         );
                       }}
                       disableRipple
@@ -514,7 +507,7 @@ export const Weather = () => {
                     <MenuItem
                       onClick={() => {
                         setAnchorEl_2(null);
-                        dispatch(weatherActions.deleteCityListItem(cityListUpdate[1].id));
+                        dispatch(weatherOperations.removeUserCity(cityListUpdate[1].city));
                       }}
                       disableRipple
                     >
@@ -536,14 +529,14 @@ export const Weather = () => {
             >
               <div className="card-city">
                 {cityListUpdate[2].home && (
-                  <IconButton aria-label="delete" size="small">
+                  <IconButton aria-label="delete" size="small" onClick={e => e.stopPropagation()}>
                     <HomeIcon fontSize="inherit" />
                   </IconButton>
                 )}
                 <p>{cityListUpdate[2]?.city.split(',')[0]}</p>
                 <img className="card-city__image" src={cityListUpdate[2]?.icon} widh="17" alt="icon" />
                 <p>{cityListUpdate[2]?.temperature}°</p>
-                <div>
+                <div onClick={e => e.stopPropagation()}>
                   <IconButton
                     aria-label="more"
                     id="long-button_3"
@@ -561,7 +554,7 @@ export const Weather = () => {
                     }}
                     anchorEl={anchorEl_3}
                     open={open_3}
-                    onClose={() => setAnchorEl_1(null)}
+                    onClose={() => setAnchorEl_3(null)}
                     slotProps={{
                       paper: {
                         style: {
@@ -575,7 +568,10 @@ export const Weather = () => {
                       onClick={() => {
                         setAnchorEl_3(null);
                         dispatch(
-                          weatherActions.homeCityListItem({ id: cityListUpdate[2].id, home: !cityListUpdate[2].home })
+                          weatherOperations.setHomeUserCity({
+                            city: cityListUpdate[2].city,
+                            home: !cityListUpdate[2].home,
+                          })
                         );
                       }}
                       disableRipple
@@ -586,7 +582,7 @@ export const Weather = () => {
                     <MenuItem
                       onClick={() => {
                         setAnchorEl_3(null);
-                        dispatch(weatherActions.deleteCityListItem(cityListUpdate[2].id));
+                        dispatch(weatherOperations.removeUserCity(cityListUpdate[2].city));
                       }}
                       disableRipple
                     >
@@ -639,7 +635,7 @@ export const Weather = () => {
                 handleCity();
               }}
               disableRipple
-              disabled={maxEl === 3}
+              disabled={maxEl === 3 || !isLoggedIn}
             >
               <GradeIcon />
               Избранное

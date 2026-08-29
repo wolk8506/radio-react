@@ -5,6 +5,7 @@ const getWeatherDayCity3_Data = state => state.weather.weatherCity3.data;
 
 const getCityName = state => state.weather.city;
 const getCityList = state => state.weather.cityList;
+const getCitiesWeather = state => state.weather.citiesWeather;
 
 //
 const getWeatherAirQuality_Data = state => state.weather.weatherAirQuality.data;
@@ -36,6 +37,7 @@ export const weatherSelectors = {
   getWeatherDayCity3_Data,
   getCityName,
   getCityList,
+  getCitiesWeather,
   //
   getWeatherWeek_Data,
   //
