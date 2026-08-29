@@ -4,63 +4,64 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { dataActions, rootSelectors } from 'store';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import CheckIcon from '@mui/icons-material/Check';
 import weatherImage from 'components/Weather/weatherIcon';
+
+const codes = [
+  'clear-day',
+  'clear-night',
+  'partly-cloudy-day',
+  'rain-snow',
+  'snow-showers-day',
+  'thunder-showers-night',
+  'hail',
+  'showers-night',
+  'sleet',
+];
 
 export const TabPanel1WeatherIcon = () => {
   const dispatch = useDispatch();
 
   const THEME_WIDGET_CHANGE = useSelector(rootSelectors.getThemeIconWeather);
   const [value, setValue] = useState(THEME_WIDGET_CHANGE);
-  const image = [
-    weatherImage('clear-day', value),
-    weatherImage('clear-night', value),
-    weatherImage('partly-cloudy-day', value),
-    weatherImage('rain-snow', value),
-    weatherImage('snow-showers-day', value),
-    weatherImage('thunder-showers-night', value),
-    weatherImage('hail', value),
-    weatherImage('showers-night', value),
-    weatherImage('sleet', value),
-  ];
 
-  const handleChange = e => {
-    dispatch(dataActions.setThemeIconWeather(e.target.value));
-    setValue(e.target.value);
+  const handleChange = key => {
+    dispatch(dataActions.setThemeIconWeather(key));
+    setValue(key);
   };
 
   return (
-    <FormControl className="form-auto-chenge-theme">
-      <FormLabel id="controlled-radio-widget">Вид значков погоды</FormLabel>
-      <RadioGroup
-        aria-labelledby="controlled-radio-widget"
-        name="radio-theme-auto"
-        value={value}
-        onChange={handleChange}
-      >
-        <div className="weather-settings">
-          <div className="weather-settings__btn">
-            <FormControlLabel className="btn" value={0} control={<Radio />} label="Вариант 1" />
-            <FormControlLabel className="btn" value={1} control={<Radio />} label="Вариант 2" />
-            <FormControlLabel className="btn" value={2} control={<Radio />} label="Вариант 3" />
-            <FormControlLabel className="btn" value={3} control={<Radio />} label="Вариант 4" />
-          </div>
-          <p className="weather-settings__title">Образец</p>
-          <div className="weather-img-block">
-            {image.map((i, index) => {
-              return (
-                <div className="weather-img-block__item" key={index}>
-                  <img src={i} alt="" width={100} />
-                </div>
-              );
-            })}
+    <div className="weather-variants">
+      {[0, 1, 2, 3].map(v => (
+        <div
+          key={v}
+          className={`weather-variant-card${value === v ? ' weather-variant-card--selected' : ''}`}
+          onClick={() => handleChange(v)}
+          role="radio"
+          aria-checked={value === v}
+          tabIndex={0}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleChange(v);
+            }
+          }}
+        >
+          <span className="weather-variant-card__title">Вариант {v + 1}</span>
+          {value === v && (
+            <span className="weather-variant-card__check">
+              <CheckIcon />
+            </span>
+          )}
+          <div className="weather-variant-card__icons">
+            {codes.map(code => (
+              <div className="weather-img-block__item" key={code}>
+                <img src={weatherImage(code, v)} alt="" />
+              </div>
+            ))}
           </div>
         </div>
-      </RadioGroup>
-    </FormControl>
+      ))}
+    </div>
   );
 };

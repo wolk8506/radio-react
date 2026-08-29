@@ -21,7 +21,7 @@ import { Recipe } from './components/Recipes/Recipe';
 import { radioData } from './Pages/Main/CardRadio/Radio-data';
 import { Sidebar } from 'components/Sidebar/Sidebar';
 import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
-import { LoginPage, RegisterPage, GoogleCallback, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage, FilmLibraryPage, CollectionPage, AdminUsersPage, LibraryPage } from './Pages';
+import { LoginPage, RegisterPage, GoogleCallback, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage, FilmLibraryPage, CollectionPage, AdminUsersPage, LibraryPage, TimeManagementPage } from './Pages';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -52,6 +52,7 @@ export const App = () => {
     { path: '/profile', element: <ProfilePage />, isPublic: false },
     { path: '/profile/admin', element: <AdminUsersPage />, isPublic: false },
     { path: '/profile/library/:type', element: <LibraryPage />, isPublic: false },
+    { path: '/profile/timemanagement', element: <TimeManagementPage />, isPublic: false },
     { path: '/filmLibrary', element: <FilmLibraryPage />, isPublic: false },
     { path: '/filmLibrary/:collectionId', element: <CollectionPage />, isPublic: false },
     { path: '/register', element: <RegisterPage />, isPublic: true, restricted: true },

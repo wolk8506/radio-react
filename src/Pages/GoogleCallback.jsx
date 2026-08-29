@@ -16,10 +16,14 @@ export const GoogleCallback = () => {
   useEffect(() => {
     if (token) {
       dispatch(authOperations.completeGoogleLogin(token))
+        .then(() => dispatch(authOperations.fetchCurrentUser()))
         .then(() => navigate('/profile', { replace: true }))
         .catch(() => navigate('/login', { replace: true }));
     } else if (status === 'connected') {
-      navigate('/profile', { replace: true });
+      // Привязка Google к уже авторизованному аккаунту:
+      // бэкенд обновил user.googleId, но токен не менялся — синхронизируем user из бэкенда.
+      dispatch(authOperations.fetchCurrentUser())
+        .then(() => navigate('/profile', { replace: true }));
     }
   }, [token, status, dispatch, navigate]);
 

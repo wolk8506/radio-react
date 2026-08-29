@@ -10,6 +10,8 @@ const prependCityListItem = createAction('data/prependCityListItem', ({ city, fa
 }));
 const deleteCityListItem = createAction('data/deleteCityListItem');
 const homeCityListItem = createAction('data/homeCityListItem');
+const setCityList = createAction('data/setCityList', list => ({ payload: list }));
+const setCitiesWeather = createAction('data/setCitiesWeather', map => ({ payload: map }));
 
 export const weatherActions = {
   setCityName,
@@ -17,4 +19,6 @@ export const weatherActions = {
   prependCityListItem,
   deleteCityListItem,
   homeCityListItem,
+  setCityList,
+  setCitiesWeather,
 };

@@ -7,136 +7,386 @@
     padding: 0;
   }
 
-  .tab-panel {
+  .settings-section {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 18px 22px;
+    border: 1px solid function.rgb-a(colors.$color-03, 12%);
+    border-radius: 16px;
+    background: function.rgb-a(colors.$color-03, 5%);
+    box-shadow: 0 1px 2px function.rgb-a(colors.$color-03, 10%);
+  }
+
+  .settings__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: colors.$color-02;
+    margin-bottom: 10px;
+  }
+
+  .theme-auto-row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    padding-top: 24px;
+    padding: 2px 0 4px;
+
+    &__label {
+      font-size: 14px;
+      color: colors.$color-02;
+    }
+  }
+
+  .tab-panel {
+    width: 100%;
 
     .settings {
-      width: 380px;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid function.rgb-a(colors.$color-03, 10%);
-      border-radius: 15px;
+      padding: 14px 0;
+      border: none;
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &--themes {
+        width: 100%;
+      }
+
+      .wallpaper-categories {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .wallpaper-category__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .wallpaper-category__title {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        color: colors.$color-02;
+      }
+
+      .wallpaper-category__toggle {
+        border: none;
+        background: none;
+        cursor: pointer;
+        padding: 0;
+        font-size: 0.8rem;
+        color: rgb(57, 122, 245);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .wallpaper-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+        gap: 10px;
+
+        &--collapsed {
+          overflow: hidden;
+        }
+
+        .wallpaper-thumb,
+        .wallpaper-add {
+          min-width: 0;
+        }
+      }
+
+      .wallpaper-thumb--color {
+        background-size: cover;
+        background-position: center;
+      }
+
+      .wallpaper-thumb {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        border: 1px solid function.rgb-a(colors.$color-02, 40%);
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        background: none;
+        aspect-ratio: 16 / 10;
+        transition: box-shadow 0.2s, border-color 0.2s;
+
+        .wallpaper-thumb__img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .wallpaper-thumb__num {
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          font-size: 11px;
+          line-height: 1;
+          color: #fff;
+          background: rgba(0, 0, 0, 0.45);
+          border-radius: 6px;
+          padding: 2px 5px;
+        }
+
+        &:hover {
+          border-color: function.rgb-a(colors.$color-02, 70%);
+        }
+
+        &--selected {
+          border-color: rgb(57, 122, 245);
+          box-shadow: 0 0 0 2px rgb(57, 122, 245);
+        }
+      }
+
+      .wallpaper-add {
+        position: relative;
+        aspect-ratio: 16 / 10;
+        border: 1px dashed function.rgb-a(colors.$color-02, 50%);
+        border-radius: 10px;
+        overflow: hidden;
+        background: function.rgb-a(colors.$color-03, 6%);
+
+        .wallpaper-add__input {
+          display: none;
+        }
+
+        .wallpaper-add__frame {
+          width: 100%;
+          height: 100%;
+          border: none;
+          background: none;
+          cursor: pointer;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          color: function.rgb-a(colors.$color-03, 70%);
+        }
+
+        .wallpaper-add__icon {
+          font-size: 28px;
+        }
+
+        .wallpaper-add__label {
+          font-size: 0.8rem;
+          text-align: center;
+          padding: 0 8px;
+        }
+
+        .wallpaper-add__img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        &:hover {
+          border-color: function.rgb-a(colors.$color-02, 80%);
+        }
+
+        .wallpaper-add__confirm {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          color: #fff;
+          background: rgb(57, 122, 245);
+
+          &:hover {
+            background: rgb(47, 112, 235);
+          }
+        }
+
+        .wallpaper-add__remove {
+          position: absolute;
+          top: 6px;
+          right: 44px;
+          color: #fff;
+          background: rgba(0, 0, 0, 0.5);
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.7);
+          }
+        }
+      }
+
+      .wallpaper-upload-meta {
+        margin-top: 10px;
+
+        p {
+          margin: 2px 0;
+          font-size: 0.82rem;
+          color: function.rgb-a(colors.$color-03, 80%);
+        }
+      }
 
       // ~  Автоизменение темы, цвета темы  -------------------------------------------------------------------
 
       // ~  Виджеты часов   -----------------------------------------------------------------------------------
 
       .clock-example-block {
-        width: 100%;
-        height: 260px;
+        width: 574px;
+        height: 280px;
         margin-bottom: 12px;
         overflow: hidden;
+        border-radius: 14px;
         @include function.card-style;
         background-color: function.rgb-a(colors.$color-03, 30%);
         background: no-repeat var(--background-image);
         background-size: 200% 200%;
         background-position: left top;
-        border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
+        border: 1px solid function.rgb-a(colors.$color-03, 12%);
 
-        .clock-example {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transform: scale(0.5);
-          transform-origin: center;
+        @media screen and (max-width: 720px) {
           width: 100%;
-          height: 100%;
         }
+
+        .main__block {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: start;
+          gap: 24px;
+
+          .block__element {
+            flex: 1 1 0;
+            min-width: 0;
+            width: 554px;
+
+            @media screen and (max-width: 900px) {
+              // flex-direction: column;
+              width: 90%;
+            }
+
+          }
+
+          @media screen and (max-width: 900px) {
+            flex-direction: column;
+            // margin-top: 280px;
+            width: 400%;
+          }
+
+        }
+      }
+
+      .preview-title {
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 4px 0 8px;
+        color: colors.$color-02;
+      }
+
+      .clock-example {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: scale(0.5);
+        transform-origin: top left;
+        width: 200%;
+        height: 100%;
+
+        @media screen and (max-width: 900px) {
+
+          transform-origin: center left;
+        }
+
       }
 
       // ~  Значки погоды   -----------------------------------------------------------------------------------
 
-      .weather-settings {
-        width: 100%;
+      .weather-variants {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
 
-        .weather-settings__btn {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          width: 100%;
-          padding-bottom: 12px;
-          margin-bottom: 24px;
-          border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
-        }
+        .weather-variant-card {
+          position: relative;
+          min-width: 0;
+          flex: 1 1 calc(25% - 10.5px);
 
-        .weather-settings__title {
-          text-transform: uppercase;
-          text-align: center;
-          margin-bottom: 12px;
-        }
+          @media screen and (max-width: 389px) {
+            flex: 1 1 100%;
+          }
 
-        .weather-img-block {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          width: 100%;
+          @media screen and (max-width: 900px) {
+            flex: 1 1 calc(50% - 7px);
+          }
 
-          .weather-img-block__item {
-            width: 90px;
-            height: 90px;
-            padding: 5px;
+          border: 1px solid function.rgb-a(colors.$color-03, 14%);
+          border-radius: 12px;
+          padding: 12px;
+          cursor: pointer;
+          background: function.rgb-a(colors.$color-03, 4%);
+          transition: border-color 0.15s,
+          box-shadow 0.15s;
 
-            img {
-              width: 100%;
-              height: 100%;
+          &:hover {
+            border-color: function.rgb-a(colors.$color-03, 32%);
+          }
+
+          &--selected {
+            border-color: rgb(57, 122, 245);
+            box-shadow: 0 0 0 2px rgb(57, 122, 245);
+          }
+
+          &__title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: colors.$color-02;
+          }
+
+          &__check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgb(57, 122, 245);
+          }
+
+          &__icons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 8px;
+
+            .weather-img-block__item {
+              width: auto;
+              height: auto;
+              min-width: 0;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              aspect-ratio: 1 / 1;
+
+              img {
+                width: 100%;
+                height: 100%;
+                min-width: 0;
+                object-fit: contain;
+                display: block;
+              }
             }
           }
         }
-      }
-
-      // ~  Фоновый цвет темы   -------------------------------------------------------------------------------
-
-      .item-background-color {
-        width: 64px;
-        height: 36px;
-        border: 1px solid function.rgb-a(colors.$color-02, 50%);
-        border-radius: 10px;
-      }
-
-      .item-background:nth-child(3) .item-background-color {
-        background: rgb(39, 33, 33);
-      }
-
-      .item-background:nth-child(4) .item-background-color {
-        background: rgb(33, 37, 39);
-      }
-
-      .item-background:nth-child(5) .item-background-color {
-        background: rgb(196, 159, 104);
-      }
-
-      .item-background:nth-child(6) .item-background-color {
-        background: rgb(236 234 228);
-      }
-
-      .item-background:nth-child(7) .item-background-color {
-        background: radial-gradient(ellipse farthest-corner at right bottom,
-            rgb(254, 219, 55) 0%,
-            rgb(253, 185, 49) 8%,
-            rgb(159, 121, 40) 30%,
-            rgb(138, 110, 47) 40%,
-            transparent 80%),
-          radial-gradient(ellipse farthest-corner at left top,
-            rgb(255, 255, 255) 0%,
-            rgb(255, 255, 172) 8%,
-            rgb(209, 180, 100) 25%,
-            rgb(93, 74, 31) 62.5%,
-            rgb(93, 74, 31) 100%);
-      }
-
-      .item-background:nth-child(8) .item-background-color {
-        background: linear-gradient(90deg, rgb(62, 77, 74), rgb(126, 72, 161));
-      }
-
-      .item-background:nth-child(9) .item-background-color {
-        background: linear-gradient(90deg, rgb(72, 92, 100), rgb(68, 76, 84), rgb(52, 60, 60), rgb(24, 36, 44));
       }
 
       // ~  Фоновое изображение темы | изображение новогодней темы | изображение хэллоуин темы  -------------
@@ -157,31 +407,12 @@
 
       // ~  Загрузка изображение      -------------------------------------------------------------------------
 
-      .add-background-img {
-        .title {
-          font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-          font-weight: 400;
-          font-size: 1rem;
-          line-height: 1.4375em;
-          letter-spacing: 0.00938em;
-          padding: 0;
-          position: relative;
-          color: function.rgb-a(colors.$color-03, 60%);
-        }
+      .size-error {
+        color: function.rgb-a(colors.$color-05, 60%);
+      }
 
-        .img-block {
-          width: 100%;
-          margin-top: 12px;
-          margin-bottom: 12px;
-        }
-
-        .size-error {
-          color: function.rgb-a(colors.$color-05, 60%);
-        }
-
-        .size-success {
-          color: function.rgb-a(colors.$color-04, 100%);
-        }
+      .size-success {
+        color: function.rgb-a(colors.$color-04, 100%);
       }
 
       .item-background__load {
@@ -212,6 +443,38 @@
 
       // ~ --------------------------------------------------------------------------------------------------
 
+      .clock-weather-split {
+        display: flex;
+        flex-wrap: nowrap;
+        // align-items: flex-start;
+        gap: 16px;
+        width: 100%;
+        justify-content: space-between;
+
+        .form-auto-change-theme {
+          flex: 1 1 0;
+          min-width: 0;
+          max-width: 100%;
+        }
+
+        .clock-preview-col {
+          flex: 0 0 auto;
+          min-width: 0;
+        }
+
+        .clock-example-block {
+          width: 574px;
+        }
+
+        @media screen and (max-width: 990px) {
+          flex-direction: column;
+
+          .clock-example-block {
+            width: 100%;
+          }
+        }
+      }
+
       .theme-clock-divider {
         width: 100%;
         margin-top: 12px;
@@ -222,6 +485,12 @@
       label {
         color: colors.$color-02;
       }
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .settings-section {
+      padding: 8px;
     }
   }
 }
@@ -266,10 +535,10 @@
     }
 
     .clock-example-block {
-      width: 100%;
+      width: 574px;
 
       .clock-example {
-        scale: 0.8;
+        // scale: 0.8;
         width: 100%;
         height: 200px;
 
@@ -283,5 +552,9 @@
         }
       }
     }
+  }
+
+  .settings-section {
+    padding: 8px;
   }
 }

@@ -57,6 +57,13 @@ export const ProfilePage = () => {
               >
                 Шутки
               </Button>
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={() => navigate('/profile/timemanagement', { replace: true })}
+              >
+                Тайм-менеджмент
+              </Button>
             </>
           )}
           <Button type="button" variant="outlined" onClick={() => dispatch(authOperations.logOut())}>

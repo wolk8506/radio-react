@@ -17,7 +17,9 @@ export const AirQuality = ({ choiceOfDayGlobal, onChange }) => {
   const END_DATE = moment().add(5, 'days').format('YYYY-MM-DD');
   const WEATHER_API_KEY = 'D6MDZY6JMNHMG6CBQANG3GNHD';
   useEffect(() => {
-    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${CITY}/${START_DATE}/${END_DATE}?unitGroup=metric&key=${WEATHER_API_KEY}&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
+    const URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(
+      CITY
+    )}/${START_DATE}/${END_DATE}?unitGroup=metric&key=${WEATHER_API_KEY}&contentType=json&elements=datetime,pm1,pm2p5,pm10,o3,no2,so2,co,aqius,aqieur`;
 
     dispatch(weatherOperations.fetchWeatherAirQuality(URL));
   }, [CITY, END_DATE, START_DATE, dispatch]);

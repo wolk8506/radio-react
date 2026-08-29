@@ -145,3 +145,54 @@ const weatherIcon = {
 export default function weatherImage(icon, set) {
   return weatherIcon[icon][set];
 }
+
+// Маппинг WMO-кодов погоды Open-Meteo в ключи иконок текущей темы
+export function wmoToIconKey(code, isDay) {
+  const day = isDay ? 'day' : 'night';
+  switch (code) {
+    case 0:
+      return isDay ? 'clear-day' : 'clear-night';
+    case 1:
+      return isDay ? 'clear-day' : 'clear-night';
+    case 2:
+      return isDay ? `partly-cloudy-${day}` : 'partly-cloudy-night';
+    case 3:
+      return 'cloudy';
+    case 45:
+    case 48:
+      return 'fog';
+    case 51:
+    case 53:
+    case 55:
+      return 'rain';
+    case 56:
+    case 57:
+      return 'sleet';
+    case 61:
+    case 63:
+    case 65:
+      return 'rain';
+    case 66:
+    case 67:
+      return 'sleet';
+    case 71:
+    case 73:
+    case 75:
+    case 77:
+      return 'snow';
+    case 80:
+    case 81:
+    case 82:
+      return isDay ? 'showers-day' : 'showers-night';
+    case 85:
+    case 86:
+      return isDay ? 'snow-showers-day' : 'snow-showers-night';
+    case 95:
+      return 'thunder';
+    case 96:
+    case 99:
+      return 'thunder-rain';
+    default:
+      return isDay ? 'clear-day' : 'clear-night';
+  }
+}

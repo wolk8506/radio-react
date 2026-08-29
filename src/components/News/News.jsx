@@ -62,7 +62,7 @@ export const News = () => {
   ];
 
   return (
-    <Box className="container" sx={{ maxWidth: 820, mx: 'auto', p: { xs: 1, md: 2 } }}>
+    <Box className="container" sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
       <Typography variant="h4" sx={{ mb: 2 }}>Новости</Typography>
 
       <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 2 }}>
@@ -93,9 +93,18 @@ export const News = () => {
             <Stack alignItems="center" sx={{ py: 4 }}><CircularProgress /></Stack>
           ) : (
             <>
-              {items.map(it => (
-                <NewsCard key={it._id || it.link} item={it} />
-              ))}
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+                  gap: 2,
+                  alignItems: 'start',
+                }}
+              >
+                {items.map(it => (
+                  <NewsCard key={it._id || it.link} item={it} />
+                ))}
+              </Box>
               {items.length === 0 && !loading && (
                 <Typography color="text.secondary">Новостей пока нет. Источники обрабатываются автоматически.</Typography>
               )}

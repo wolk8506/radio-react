@@ -1,32 +1,87 @@
  @use "../../scss/colors";
  @use "../../scss/function";
 
- .item-theme {
-     display: flex;
-     align-items: center;
-     justify-content: space-between;
-     align-content: space-between;
-     margin-bottom: 5px;
-     padding-bottom: 5px;
-     border-bottom: 1px solid function.rgb-a(colors.$color-02, 50%);
+  .mac-list {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid function.rgb-a(colors.$color-03, 12%);
+      border-radius: 10px;
+      overflow: hidden;
 
-     .theme__color {
-         display: flex;
-         align-items: center;
-         flex-wrap: wrap;
-         justify-content: space-between;
-         align-content: space-between;
-         width: 100px;
-         height: 36px;
+      &__title {
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.2px;
+          text-transform: uppercase;
+          color: function.rgb-a(colors.$color-02, 55%);
+          padding: 9px 12px 7px;
+          background: function.rgb-a(colors.$color-03, 5%);
+          border-bottom: 1px solid function.rgb-a(colors.$color-03, 12%);
+      }
+  }
 
-         .color__item {
-             border: 1px solid function.rgb-a(colors.$color-02, 50%);
-             width: 16px;
-             height: 16px;
-             margin: 2px;
-             border-radius: 4px;
-         }
-     }
+  .mac-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid function.rgb-a(colors.$color-03, 10%);
+      transition: background 0.15s;
+
+      &:last-child {
+          border-bottom: none;
+      }
+
+      &:hover {
+          background: function.rgb-a(colors.$color-03, 8%);
+      }
+
+      &--selected {
+          background: function.rgb-a(rgb(57, 122, 245), 12%);
+      }
+
+      &__check {
+          flex: 0 0 18px;
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgb(57, 122, 245);
+
+          svg {
+              font-size: 18px;
+          }
+      }
+
+      &__name {
+          flex: 1 1 auto;
+          font-size: 14px;
+          color: colors.$color-02;
+      }
+
+      .theme__color {
+          flex: 0 0 auto;
+          display: flex;
+          align-items: center;
+          gap: 3px;
+          width: auto;
+          height: auto;
+          flex-wrap: nowrap;
+
+          .color__item {
+              border: 1px solid function.rgb-a(colors.$color-02, 25%);
+              width: 12px;
+              height: 18px;
+              margin: 0;
+              border-radius: 3px;
+
+              @media (min-width: 720px) {
+                width: 24px;
+              }
+          }
+      }
 
      //  ~   scheme-dark-eclipse
      .theme__color--scheme-dark-eclipse {
@@ -195,12 +250,55 @@
              background: rgb(215 213 208);
          }
 
-         .color__item:nth-child(10) {
-             background: rgb(204, 204, 204);
-         }
-     }
+          .color__item:nth-child(10) {
+              background: rgb(204, 204, 204);
+          }
+      }
 
-     //  ~   scheme-velvet-ember
+      //  ~   scheme-muted-moon
+      .theme__color--scheme-muted-moon {
+          .color__item:nth-child(1) {
+              background: rgb(33, 37, 49);
+          }
+
+          .color__item:nth-child(2) {
+              background: rgb(36, 88, 203);
+          }
+
+          .color__item:nth-child(3) {
+              background: rgb(96, 130, 210);
+          }
+
+          .color__item:nth-child(4) {
+              background: rgb(84, 122, 114);
+          }
+
+          .color__item:nth-child(5) {
+              background: rgb(174, 104, 124);
+          }
+
+          .color__item:nth-child(6) {
+              background: rgb(241, 243, 248);
+          }
+
+          .color__item:nth-child(7) {
+              background: rgb(226, 229, 235);
+          }
+
+          .color__item:nth-child(8) {
+              background: rgb(234, 237, 243);
+          }
+
+          .color__item:nth-child(9) {
+              background: rgb(205, 210, 219);
+          }
+
+          .color__item:nth-child(10) {
+              background: rgb(188, 194, 205);
+          }
+      }
+
+      //  ~   scheme-velvet-ember
      .theme__color--scheme-velvet-ember {
          .color__item:nth-child(1) {
              background: rgb(85, 80, 78);

@@ -212,7 +212,7 @@ export const CollectionPage = () => {
   const isMine = !collection.ownerId || collection.ownerId === userId;
 
   return (
-    <Box className="conteiner" sx={{ p: { xs: 2, md: 3 }, maxWidth: 1200, mx: 'auto' }}>
+    <Box className="conteiner" sx={{ p: { xs: 2, md: 3 }, maxWidth: 1400, width: '100%', mx: 'auto' }}>
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/filmLibrary')} sx={{ mb: 2 }}>
         Назад к подборкам
       </Button>
@@ -318,7 +318,7 @@ export const CollectionPage = () => {
                 onDragStart={e => handleDragStart(e, m.id)}
                 onDragOver={handleDragOver}
                 onDrop={e => handleDrop(e, m.id)}
-                sx={{ cursor: isMine ? 'grab' : 'default', '&:active': { cursor: isMine ? 'grabbing' : 'default' } }}
+                sx={{ cursor: isMine ? 'grab' : 'default', '&:active': { cursor: isMine ? 'grabbing' : 'default' }, minWidth: 0 }}
               >
                 <MovieCard
                   movie={m}

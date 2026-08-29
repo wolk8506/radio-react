@@ -1,108 +1,74 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import CheckIcon from '@mui/icons-material/Check';
 
-import { rootSelectors, dataActions } from 'store';
+const clockOptions = [
+  { value: 'timeHero', label: 'TimeHero' },
+  { value: 'clock', label: 'Flip-часы (Clock)' },
+  { value: 'timeHeroHalloween', label: 'TimeHero — Хэллоуин' },
+  { value: 'timeHeroNewYear', label: 'TimeHero — Новый год' },
+];
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+const weatherOptions = [
+  { value: 'weatherCard', label: 'Карточка (WeatherCard)' },
+  { value: 'weatherCardHalloween', label: 'Карточка — Хэллоуин' },
+  { value: 'weather', label: 'Flip-погода (Weather)' },
+];
 
-import { WeatherFlip } from '../../Pages/Main/CardClockWeather/WeatherFlip';
-import { WeatherCard } from '../../Pages/Main/CardClockWeather/WeatherCard';
-import { WeatherCardHalloween } from '../../Pages/Main/CardClockWeather/WeatherCardHalloween';
-import { Clock } from '../../Pages/Main/Clock';
-import { TimeHero } from '../../Pages/Main/CardClockWeather/TimeHero';
-import { TimeHeroHalloween } from '../../Pages/Main/CardClockWeather/TimeHeroHalloween';
-import { TimeHeroNewYear } from '../../Pages/Main/CardClockWeather/TimeHeroNewYear';
-
-export const TabPanel1ClockWidjet = () => {
-  const dispatch = useDispatch();
-  const dynamicImageUrl = useSelector(rootSelectors.getThemeChengeWalpaper);
-
-  // Часы на главной странице (слот TimeHero)
-  const mainClock = useSelector(rootSelectors.getThemeMainClock);
-  const [mainClockValue, setMainClockValue] = useState(mainClock);
-
-  const handleMainClockChange = e => {
-    const newValue = e.target.value;
-    dispatch(dataActions.setThemeMainClock(newValue));
-    setMainClockValue(newValue);
-  };
-
-  // Погода на главной странице
-  const mainWeather = useSelector(rootSelectors.getThemeMainWeather);
-  const [mainWeatherValue, setMainWeatherValue] = useState(mainWeather);
-
-  const handleMainWeatherChange = e => {
-    const newValue = e.target.value;
-    dispatch(dataActions.setThemeMainWeather(newValue));
-    setMainWeatherValue(newValue);
-  };
-
+export const TabPanel1ClockWidjet = ({
+  mainClockValue,
+  onMainClockChange,
+  mainWeatherValue,
+  onMainWeatherChange,
+}) => {
   return (
-    <FormControl className="form-auto-change-theme">
-      <div className="clock-mobile">
-        <FormLabel id="controlled-radio-mainclock">Часы на главной странице</FormLabel>
-        <RadioGroup
-          aria-labelledby="controlled-radio-mainclock"
-          name="radio-main-clock"
-          value={mainClockValue}
-          onChange={handleMainClockChange}
-        >
-          <FormControlLabel className="btn" value="timeHero" control={<Radio />} label="TimeHero" />
-          <FormControlLabel className="btn" value="clock" control={<Radio />} label="Flip-часы (Clock)" />
-          <FormControlLabel className="btn" value="timeHeroHalloween" control={<Radio />} label="TimeHero — Хэллоуин" />
-          <FormControlLabel className="btn" value="timeHeroNewYear" control={<Radio />} label="TimeHero — Новый год" />
-        </RadioGroup>
-      </div>
-
-      <div className="theme-clock-divider"></div>
-
-      <div className="clock-mobile">
-        <FormLabel id="controlled-radio-mainweather">Погода на главной странице</FormLabel>
-        <RadioGroup
-          aria-labelledby="controlled-radio-mainweather"
-          name="radio-main-weather"
-          value={mainWeatherValue}
-          onChange={handleMainWeatherChange}
-        >
-          <FormControlLabel className="btn" value="weatherCard" control={<Radio />} label="Карточка (WeatherCard)" />
-          <FormControlLabel className="btn" value="weatherCardHalloween" control={<Radio />} label="Карточка — Хэллоуин" />
-          <FormControlLabel className="btn" value="weather" control={<Radio />} label="Flip-погода (Weather)" />
-        </RadioGroup>
-      </div>
-
-      <div className="theme-clock-divider"></div>
-
-      <div className="clock-example-block" style={{ '--background-image': dynamicImageUrl }}>
-        <div className="clock-example">
-          <div className="main__block">
-            <div className="block__element">
-              {mainWeatherValue === 'weather' ? (
-                <WeatherFlip></WeatherFlip>
-              ) : mainWeatherValue === 'weatherCardHalloween' ? (
-                <WeatherCardHalloween></WeatherCardHalloween>
-              ) : (
-                <WeatherCard></WeatherCard>
-              )}
-            </div>
-            <div className="block__element">
-              {mainClockValue === 'clock' ? (
-                <Clock></Clock>
-              ) : mainClockValue === 'timeHeroHalloween' ? (
-                <TimeHeroHalloween></TimeHeroHalloween>
-              ) : mainClockValue === 'timeHeroNewYear' ? (
-                <TimeHeroNewYear></TimeHeroNewYear>
-              ) : (
-                <TimeHero></TimeHero>
-              )}
-            </div>
+    <div className="form-auto-change-theme">
+      <div className="mac-list">
+        <div className="mac-list__title">Часы на главной странице</div>
+        {clockOptions.map(opt => (
+          <div
+            key={opt.value}
+            className={`mac-row${mainClockValue === opt.value ? ' mac-row--selected' : ''}`}
+            onClick={() => onMainClockChange(opt.value)}
+            role="radio"
+            aria-checked={mainClockValue === opt.value}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onMainClockChange(opt.value);
+              }
+            }}
+          >
+            <span className="mac-row__check">{mainClockValue === opt.value && <CheckIcon />}</span>
+            <span className="mac-row__name">{opt.label}</span>
           </div>
-        </div>
+        ))}
       </div>
-    </FormControl>
+
+      <div className="theme-clock-divider" />
+
+      <div className="mac-list">
+        <div className="mac-list__title">Погода на главной странице</div>
+        {weatherOptions.map(opt => (
+          <div
+            key={opt.value}
+            className={`mac-row${mainWeatherValue === opt.value ? ' mac-row--selected' : ''}`}
+            onClick={() => onMainWeatherChange(opt.value)}
+            role="radio"
+            aria-checked={mainWeatherValue === opt.value}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onMainWeatherChange(opt.value);
+              }
+            }}
+          >
+            <span className="mac-row__check">{mainWeatherValue === opt.value && <CheckIcon />}</span>
+            <span className="mac-row__name">{opt.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };

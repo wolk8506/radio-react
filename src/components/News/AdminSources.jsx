@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import {
-  Box, Typography, List, ListItem, ListItemText, Switch, IconButton,
+  Box, Typography, List, ListItem, ListItemText, IconButton,
   Stack, TextField, Button, Divider, Select, MenuItem, FormControl, InputLabel,
 } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { toast } from 'react-toastify';
 import { newsService } from '../../services/newsService';
+import CustomSwitch from 'components/Elements/CustomSwitch';
 
 export const AdminSources = () => {
   const [sources, setSources] = useState([]);
@@ -96,25 +97,30 @@ export const AdminSources = () => {
         {sources.map(src => (
           <ListItem
             key={src._id}
-            secondaryAction={
-              <Stack direction="row" spacing={1} alignItems="center">
-                <FormControl size="small">
-                  <Select value={src.type || 'rss'} onChange={e => changeType(src, e.target.value)}>
-                    <MenuItem value="rss">RSS</MenuItem>
-                    <MenuItem value="telegram">TG</MenuItem>
-                  </Select>
-                </FormControl>
-                <Switch size="small" checked={src.active} onChange={() => toggleActive(src)} />
-                <IconButton edge="end" onClick={() => remove(src._id)}>
-                  <DeleteOutlineIcon />
-                </IconButton>
-              </Stack>
-            }
+            disableGutters
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              gap: { xs: 1, sm: 0 },
+            }}
           >
             <ListItemText
               primary={src.title}
               secondary={`${src.url}${src.lastError ? ` · ошибка: ${src.lastError}` : ''}`}
+              sx={{ minWidth: 0 }}
             />
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0 }}>
+              <FormControl size="small">
+                <Select value={src.type || 'rss'} onChange={e => changeType(src, e.target.value)}>
+                  <MenuItem value="rss">RSS</MenuItem>
+                  <MenuItem value="telegram">TG</MenuItem>
+                </Select>
+              </FormControl>
+                <CustomSwitch checked={src.active} onChange={() => toggleActive(src)} />
+              <IconButton edge="end" onClick={() => remove(src._id)}>
+                <DeleteOutlineIcon />
+              </IconButton>
+            </Stack>
           </ListItem>
         ))}
       </List>

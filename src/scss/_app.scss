@@ -32,7 +32,11 @@ body {
 // !  ⇩ start - - Десктопное меню - - - - - - -  ⇩
 
 .conteiner,.container {
-  margin-top: 10px;
+  // margin-top: 10px;
+  min-height: calc(100% - 10px);
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
   @include function.card-style;
 }
 .block {
@@ -92,6 +96,7 @@ body {
       margin: 10px 10px 10px 0px;
       position: fixed;
       padding-top: 16px;
+      // padding-left: 20px;
       transition: width 0.25s;
       overflow: hidden;
 
@@ -137,16 +142,15 @@ body {
   }
 
   .content {
-    margin-left: auto;
-    margin-right: auto;
-    // padding-top: 16px;
-    width: calc(100% - 65px);
+    flex: 1 1 0;
+    min-width: 0;
+    padding-top: 10px;
   }
 }
 
 // !  ⇧ end - - - Десктопное меню - - - - - - -  ⇧
 //
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 900px) {
   .app {
     flex-direction: column;
     padding: 0px 0px;
@@ -171,12 +175,12 @@ body {
 }
 
 /* Dashboard Grid Layout */
-.main {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0 20px 20px;
-}
+// .main {
+//   width: 100%;
+//   max-width: 100%;
+//   margin: 0;
+//   padding: 0 20px 20px;
+// }
 
 .dashboard-grid {
   display: grid;
@@ -187,7 +191,7 @@ body {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 20px;
   align-items: stretch;
 }
 
@@ -1046,7 +1050,7 @@ body {
 
 @media screen and (max-width: 1400px) {
   .dashboard-grid {
-    grid-template-rows: repeat(16, minmax(70px, auto));
+    grid-template-rows: repeat(10, minmax(70px, auto));
   }
   
   .digital-clock-large {

@@ -6,8 +6,8 @@ export const version = `version: ${versionJSON}`;
 export const info = `%c\n\n\n░██╗░░░░░░░██╗░█████╗░██╗░░░░░██╗░░██╗░█████╗░███████╗░█████╗░░█████╗░\n░██║░░██╗░░██║██╔══██╗██║░░░░░██║░██╔╝██╔══██╗██╔════╝██╔══██╗██╔═══╝░\n░╚██╗████╗██╔╝██║░░██║██║░░░░░█████═╝░╚█████╔╝██████╗░██║░░██║██████╗░\n░░████╔═████║░██║░░██║██║░░░░░██╔═██╗░██╔══██╗╚════██╗██║░░██║██╔══██╗\n░░╚██╔╝░╚██╔╝░╚█████╔╝███████╗██║░╚██╗╚█████╔╝██████╔╝╚█████╔╝╚█████╔╝\n░░░╚═╝░░░╚═╝░░░╚════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═════╝░░╚════╝░░╚════╝░\n\n\n${version}`;
 
 const config = {
-  local: 'http://localhost:8080/api',
-  // local: 'http://192.168.0.119:8080/api',
+  // local: 'http://localhost:8080/api',
+  local: 'http://192.168.0.119:8080/api',
   staging: 'https://radio-react-backend-production.up.railway.app/api',
   production: 'https://radio-react-backend-production.up.railway.app/api',
 };
