@@ -322,11 +322,10 @@ export const TimeManagementPage = () => {
   }, [tasks]);
 
   // Окно календаря
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const origin = useMemo(() => {
     if (!tasks.length) return today;
     return tasks.reduce((m, t) => (t.start < m ? t.start : m), tasks[0].start);
-  }, [tasks]);
+  }, [tasks, today]);
   const viewStart = addDays(origin, (Math.max(1, week) - 1) * 7);
   const days = useMemo(
     () => Array.from({ length: Math.max(1, weeks) * 7 }, (_, i) => addDays(viewStart, i)),
