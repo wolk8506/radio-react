@@ -85,44 +85,6 @@ const emptyTask = () => ({
   marks: {},
 });
 
-const seedExamples = () => [
-  {
-    id: 'seed-book',
-    name: 'Книга: пример',
-    info: '320 стр.',
-    color: COLORS[0],
-    kind: 'book',
-    mode: 'units',
-    unitsTotal: 320,
-    unitsStrategy: 'even',
-    unitsPerDay: '',
-    start: todayStr(),
-    plannedEnd: addDays(todayStr(), 13),
-    plannedDays: 14,
-    planMode: 'range',
-    daysCount: '',
-    excludeRule: 'none',
-    exclusions: [],
-    marks: {},
-  },
-  {
-    id: 'seed-walk',
-    name: 'Ходьба',
-    info: 'утро',
-    color: COLORS[3],
-    kind: 'walk',
-    mode: 'percent',
-    start: todayStr(),
-    plannedEnd: addDays(todayStr(), 29),
-    plannedDays: 30,
-    planMode: 'range',
-    daysCount: '',
-    excludeRule: 'none',
-    exclusions: [],
-    marks: {},
-  },
-];
-
 const isExcluded = (d, exclusions, rule) => {
   if (exclusions?.includes(d)) return true;
   if (rule === 'fri' && weekday(d) === 'Пт') return true;
