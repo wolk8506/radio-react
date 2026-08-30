@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { authSelectors } from 'store';
+import { authSelectors, timeManagementSelectors, timeManagementOperations } from 'store';
 import { toast } from 'react-toastify';
 
 import Dialog from '@mui/material/Dialog';
@@ -134,7 +134,7 @@ const isExcluded = (d, exclusions, rule) => {
 const plannedUnits = (task, idx) => {
   if (task.mode !== 'units') return null;
   const total = Number(task.unitsTotal) || 0;
-  const pd = task.plannedDays;
+  const pd = task.plannedDays || 1;
   if (task.unitsStrategy === 'even') {
     const base = Math.floor(total / pd);
     const rem = total % pd;
@@ -150,16 +150,16 @@ const plannedUnits = (task, idx) => {
 // перевыполнение → −дни (излишек), исключённый день → переносится в конец.
 const computeSchedule = (task, effStart) => {
   const today = todayStr();
-  const plannedDays = task.plannedDays;
+  const plannedDays = task.plannedDays || 1;
   const origEnd = addDays(effStart, plannedDays - 1);
   let balance = 0; // сумма (100 − процент): + нужно больше дней, − излишек
   let excludedCount = 0;
   let d = effStart;
   while (d <= origEnd) {
-    if (isExcluded(d, task.exclusions, task.excludeRule)) {
+    if (isExcluded(d, task.exclusions || [], task.excludeRule || 'none')) {
       excludedCount += 1;
     } else if (d <= today) {
-      const m = task.marks[d];
+      const m = (task.marks || {})[d];
       const pct = m && m.done ? m.percent || 0 : 0;
       balance += 100 - pct;
     }
@@ -188,9 +188,9 @@ const dayCell = (task, sch, effStart, d) => {
   }
   const { origEnd, excludedCount, carry } = sch;
   if (d <= origEnd) {
-    if (isExcluded(d, task.exclusions, task.excludeRule)) return { kind: 'gap', title: 'Перенесён в конец' };
+    if (isExcluded(d, task.exclusions || [], task.excludeRule || 'none')) return { kind: 'gap', title: 'Перенесён в конец' };
     const past = d <= todayStr();
-    const m = task.marks[d];
+    const m = (task.marks || {})[d];
     if (past) {
       if (!m || !m.done) return { kind: 'miss' };
       return { kind: 'done', fill: m.percent };
@@ -244,7 +244,11 @@ const LEFT_OFFSET = COLS.reduce((acc, c, i) => {
 
 export const TimeManagementPage = () => {
   const isAdmin = useSelector(authSelectors.getIsAdmin);
-  const userId = useSelector(authSelectors.getUserID);
+  const dispatch = useDispatch();
+
+  const reduxTasks = useSelector(timeManagementSelectors.getTimeManagementTasks);
+  const reduxPlans = useSelector(timeManagementSelectors.getTimeManagementPlans);
+  const loaded = useSelector(timeManagementSelectors.getTimeManagementLoaded);
 
   const [collapsed, setCollapsed] = useState({});
   const [taskForm, setTaskForm] = useState(emptyTask());
@@ -258,59 +262,53 @@ export const TimeManagementPage = () => {
   const [selected, setSelected] = useState({});
 
   const today = todayStr();
-  const storageKey = `timemanagement:gantt:${userId || 'default'}`;
-  const plansKey = `timemanagement:plans:${userId || 'default'}`;
-  const loadedRef = useRef(false);
 
-  const [tasks, setTasks] = useState(() => {
-    try {
-      const raw = localStorage.getItem(`timemanagement:gantt:${userId || 'default'}`);
-      if (raw) return JSON.parse(raw).tasks || [];
-    } catch (e) {
-      console.error('❌ timemanagement load', e);
-    }
-    return [];
-  });
+  // Local state synced with Redux
+  const [tasks, setTasks] = useState(() => reduxTasks || []);
+  const [plans, setPlans] = useState(() => reduxPlans || []);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) setTasks(JSON.parse(raw).tasks || []);
-      else setTasks(seedExamples());
-    } catch (e) {
-      console.error('❌ timemanagement load', e);
+    if (!loaded) {
+      dispatch(timeManagementOperations.fetchTimeManagement());
     }
-    loadedRef.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey]);
+  }, [dispatch, loaded]);
+
+  // Sync Redux -> local on load
+  useEffect(() => {
+    if (loaded && reduxTasks.length > 0) {
+      setTasks(reduxTasks);
+    }
+  }, [loaded, reduxTasks]);
 
   useEffect(() => {
-    if (!loadedRef.current) return;
-    try {
-      localStorage.setItem(storageKey, JSON.stringify({ tasks }));
-    } catch (e) {
-      console.error('❌ timemanagement save', e);
+    if (loaded && reduxPlans.length > 0) {
+      setPlans(reduxPlans);
     }
-  }, [tasks, storageKey]);
+  }, [loaded, reduxPlans]);
 
-  const [plans, setPlans] = useState([]);
+  const saveToServer = useCallback(() => {
+    dispatch(timeManagementOperations.saveTimeManagement({ tasks, plans }));
+  }, [dispatch, tasks, plans]);
+
+  // Debounced auto-save with content check
+  const saveTimeoutRef = useRef(null);
+  const prevTasksRef = useRef(JSON.stringify(tasks));
+  const prevPlansRef = useRef(JSON.stringify(plans));
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(plansKey);
-      if (raw) setPlans(JSON.parse(raw).plans || []);
-    } catch (e) {
-      console.error('❌ timemanagement plans load', e);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [plansKey]);
-  useEffect(() => {
-    if (!loadedRef.current) return;
-    try {
-      localStorage.setItem(plansKey, JSON.stringify({ plans }));
-    } catch (e) {
-      console.error('❌ timemanagement plans save', e);
-    }
-  }, [plans, plansKey]);
+    if (!loaded || tasks.length === 0) return;
+    const currentTasks = JSON.stringify(tasks);
+    const currentPlans = JSON.stringify(plans);
+    if (currentTasks === prevTasksRef.current && currentPlans === prevPlansRef.current) return;
+    prevTasksRef.current = currentTasks;
+    prevPlansRef.current = currentPlans;
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(() => {
+      saveToServer();
+    }, 2000);
+    return () => {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    };
+  }, [saveToServer, loaded, tasks, plans]);
 
   // Существующие типы (для быстрого выбора)
   const types = useMemo(() => {
@@ -368,14 +366,14 @@ export const TimeManagementPage = () => {
           reasons: 0,
         };
       const s = map[p];
-      s.planned += t.plannedDays;
-      s.done += Object.values(t.marks).filter(m => m.done).length;
+      s.planned += t.plannedDays || 0;
+      s.done += Object.values(t.marks || {}).filter(m => m.done).length;
       s.pagesTotal += Number(t.unitsTotal) || 0;
       let d = t.start;
-      const origEnd = addDays(t.start, t.plannedDays - 1);
+      const origEnd = addDays(t.start, (t.plannedDays || 1) - 1);
       while (d <= origEnd) {
-        if (!isExcluded(d, t.exclusions, t.excludeRule) && d <= today) {
-          const m = t.marks[d];
+        if (!isExcluded(d, t.exclusions || [], t.excludeRule || 'none') && d <= today) {
+          const m = (t.marks || {})[d];
           s.fillSum += m && m.done ? m.percent || 0 : 0;
           s.fillCount += 1;
           if (m && m.reason) s.reasons += 1;
@@ -507,15 +505,15 @@ export const TimeManagementPage = () => {
   const deletePlan = id => setPlans(prev => prev.filter(p => p.id !== id));
 
   const openDay = (task, effStart, date) => {
-    const excl = isExcluded(date, task.exclusions, task.excludeRule);
-    const m = task.marks[date];
+    const excl = isExcluded(date, task.exclusions || [], task.excludeRule || 'none');
+    const m = (task.marks || {})[date];
     const idx = diffDays(effStart, date);
     const planned = plannedUnits(task, idx);
     let walkTime = m?.walkTime || '';
     let speed = m?.speed || '';
     let reason = m?.reason || '';
     if (task.kind === 'walk' && !m) {
-      const past = Object.keys(task.marks)
+      const past = Object.keys(task.marks || {})
         .filter(d => d < date)
         .sort();
       for (let i = past.length - 1; i >= 0; i--) {
@@ -552,7 +550,7 @@ export const TimeManagementPage = () => {
         const exclusions = exclude
           ? [...new Set([...(t.exclusions || []), date])]
           : (t.exclusions || []).filter(x => x !== date);
-        const marks = { ...t.marks };
+        const marks = { ...(t.marks || {}) };
         if (exclude) delete marks[date];
         else {
           let pct = percent;
@@ -711,7 +709,7 @@ export const TimeManagementPage = () => {
             }
             const t = row.task;
             const sch = row.sch;
-            const factDays = Object.values(t.marks).filter(m => m.done).length;
+            const factDays = Object.values(t.marks || {}).filter(m => m.done).length;
             return (
               <React.Fragment key={t.id}>
                 <div

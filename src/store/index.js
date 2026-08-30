@@ -24,3 +24,6 @@ export { timerActions } from './timer';
 
 export { dataActions } from './root';
 export { rootSelectors } from './root';
+
+export * as timeManagementSelectors from './timemanagement/selectors';
+export * as timeManagementOperations from './timemanagement/operations';
