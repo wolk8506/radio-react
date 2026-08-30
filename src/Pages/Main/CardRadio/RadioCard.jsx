@@ -2,14 +2,108 @@ import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Typography, MenuItem, FormControl, Select, IconButton } from '@mui/material';
+import { Box, Typography, MenuItem, FormControl, Select, IconButton, Tooltip } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+// import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+// import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+// import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+// import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+// import SensorsIcon from '@mui/icons-material/Sensors';
 
 import { dataActions, rootSelectors } from 'store';
 import { radioData } from './Radio-data';
 import { useRadioNowPlaying } from './useRadioNowPlaying';
 import { playStream, resumeStream, isCurrentStream } from './playStream';
+
+const KEYFRAME_STYLES = `
+  @keyframes ambientPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.06); }
+  }
+  @keyframes liveBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+  @keyframes equalizerBar {
+    0% { height: 15%; }
+    50% { height: 95%; }
+    100% { height: 15%; }
+  }
+`;
+
+// Эквалайзер без фоновой подложки, со стильной полоской снизу
+const CssEqualizer = ({ isPlaying, accentColor }) => {
+  const bars = [
+    { duration: '0.8s', delay: '0.0s' },
+    { duration: '1.1s', delay: '0.2s' },
+    { duration: '0.7s', delay: '0.4s' },
+    { duration: '1.3s', delay: '0.1s' },
+    { duration: '0.9s', delay: '0.3s' },
+    { duration: '1.0s', delay: '0.5s' },
+    { duration: '0.7s', delay: '0.2s' },
+    { duration: '1.2s', delay: '0.4s' },
+    { duration: '0.8s', delay: '0.1s' },
+    { duration: '1.4s', delay: '0.3s' },
+    { duration: '0.9s', delay: '0.5s' },
+    { duration: '1.1s', delay: '0.0s' },
+  ];
+
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        my: 1,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          width: '100%',
+          height: 32,
+          gap: '4px',
+          px: 0.5,
+          pb: '6px',
+        }}
+      >
+        {bars.map((bar, i) => (
+          <Box
+            key={i}
+            sx={{
+              flex: 1,
+              borderRadius: '3px',
+              background: isPlaying
+                ? `linear-gradient(180deg, ${accentColor} 0%, rgba(255,255,255,0.5) 100%)`
+                : 'rgba(255, 255, 255, 0.15)',
+              height: isPlaying ? '30%' : '15%',
+              animation: isPlaying ? `equalizerBar ${bar.duration} ease-in-out infinite alternate` : 'none',
+              animationDelay: bar.delay,
+              transition: 'height 0.3s ease, background 0.3s ease',
+            }}
+          />
+        ))}
+      </Box>
+
+      {/* Стильная аккуратная полоска под эквалайзером */}
+      <Box
+        sx={{
+          width: '100%',
+          height: '2px',
+          borderRadius: '2px',
+          background: isPlaying
+            ? `linear-gradient(90deg, transparent 0%, ${accentColor} 50%, transparent 100%)`
+            : 'rgba(255, 255, 255, 0.1)',
+          transition: 'background 0.3s ease',
+        }}
+      />
+    </Box>
+  );
+};
 
 export const RadioCard = ({ onAudio }) => {
   const PLAYER_STATION = useSelector(rootSelectors.getPlayerStation);
@@ -18,8 +112,10 @@ export const RadioCard = ({ onAudio }) => {
   const [station, setStation] = useState(PLAYER_STATION ?? 0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playTime, setPlayTime] = useState('00:00');
+  // const [volume, setVolume] = useState(0.75);
+  // const [isHoveredVolume, setIsHoveredVolume] = useState(false);
+  // const [isDraggingVolume, setIsDraggingVolume] = useState(false);
 
-  // Что сейчас играет на станциях (обновляется с бэкенда)
   const nowPlayingMap = useRadioNowPlaying();
 
   useEffect(() => {
@@ -32,10 +128,13 @@ export const RadioCard = ({ onAudio }) => {
     dispatch(dataActions.setPlayerPlay(isPlaying));
   }, [dispatch, isPlaying]);
 
+  // useEffect(() => {
+  //   if (onAudio) onAudio.volume = volume;
+  // }, [onAudio, volume]);
+
   const playStation = useCallback(
     stationIndex => {
       if (!onAudio) return;
-
       const currentStation = radioData[stationIndex];
       if (currentStation) {
         playStream(onAudio, currentStation.url);
@@ -62,7 +161,7 @@ export const RadioCard = ({ onAudio }) => {
   }, [onAudio, isPlaying, station, playStation]);
 
   const handleStationChange = e => {
-    const newStationIndex = e.target.value;
+    const newStationIndex = Number(e.target.value);
     setStation(newStationIndex);
     dispatch(dataActions.setPlayerStation(newStationIndex));
     playStation(newStationIndex);
@@ -70,24 +169,19 @@ export const RadioCard = ({ onAudio }) => {
 
   useEffect(() => {
     if (!onAudio) return;
-
     const interval = setInterval(() => {
       const currentTime = onAudio.currentTime || 0;
       const m = Math.floor(currentTime / 60);
       const s = Math.floor(currentTime % 60);
-
-      const formattedTime = `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
-      setPlayTime(formattedTime);
+      setPlayTime(`${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`);
       setIsPlaying(!onAudio.paused);
     }, 500);
-
     return () => clearInterval(interval);
   }, [onAudio]);
 
   const currentStationData = radioData[station] || radioData[0];
-  const np = nowPlayingMap[currentStationData?.id];
+  const np = nowPlayingMap?.[currentStationData?.id] || null;
 
-  // Media Session API: показываем обложку/трек на экране блокировки
   useEffect(() => {
     if (
       typeof navigator === 'undefined' ||
@@ -97,98 +191,124 @@ export const RadioCard = ({ onAudio }) => {
     ) {
       return;
     }
-
     const stationName = currentStationData?.name || 'Радио';
     const title = np?.track || np?.title || stationName;
     const artist = np?.artist || stationName;
     const cover = np?.cover || currentStationData?.logo;
-
     navigator.mediaSession.metadata = new window.MediaMetadata({
       title,
       artist,
       album: stationName,
       artwork: cover ? [{ src: cover, sizes: '512x512', type: 'image/jpeg' }] : [],
     });
-
     navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
   }, [np, currentStationData, isPlaying]);
 
   useEffect(() => {
-    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return undefined;
-
-    const onPlay = () => {
-      if (onAudio && onAudio.paused) handlePlayPause();
-    };
-    const onPause = () => {
-      if (onAudio && !onAudio.paused) handlePlayPause();
-    };
-
-    try {
-      navigator.mediaSession.setActionHandler('play', onPlay);
-      navigator.mediaSession.setActionHandler('pause', onPause);
-    } catch (e) {
-      /* action handlers могут быть недоступны в некоторых браузерах */
-    }
-
+    const styleId = 'radio-card-keyframes';
+    if (document.getElementById(styleId)) return;
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = KEYFRAME_STYLES;
+    document.head.appendChild(style);
     return () => {
-      try {
-        navigator.mediaSession.setActionHandler('play', null);
-        navigator.mediaSession.setActionHandler('pause', null);
-      } catch (e) {
-        /* noop */
-      }
+      const el = document.getElementById(styleId);
+      if (el) el.remove();
     };
-  }, [onAudio, handlePlayPause]);
+  }, []);
+
+  const rawTrackInfo = np?.track || np?.title || '';
+  let artistName = np?.artist || '';
+  let songTitle = rawTrackInfo;
+
+  if (!artistName && rawTrackInfo.includes('—')) {
+    const parts = rawTrackInfo.split('—');
+    artistName = parts[0].trim();
+    songTitle = parts.slice(1).join('—').trim();
+  } else if (!artistName && rawTrackInfo.includes('-')) {
+    const parts = rawTrackInfo.split('-');
+    artistName = parts[0].trim();
+    songTitle = parts.slice(1).join('-').trim();
+  }
+
+  if (!artistName && !songTitle) {
+    artistName = currentStationData?.name || 'Radio';
+    songTitle = 'Прямой эфир';
+  }
+
+  const accent = currentStationData?.accentColor || '#a855f7';
+  const glass = 'rgba(255,255,255,0.08)';
+  const glassStrong = 'rgba(255,255,255,0.14)';
+  const textMain = '#fff';
+  const textMuted = 'rgba(255,255,255,0.55)';
+
+  // Динамическая иконка уровня громкости
+  // const renderVolumeIcon = () => {
+  //   if (volume === 0) return <VolumeOffIcon fontSize="small" />;
+  //   if (volume < 0.25) return <VolumeMuteIcon fontSize="small" />;
+  //   if (volume < 0.65) return <VolumeDownIcon fontSize="small" />;
+  //   return <VolumeUpIcon fontSize="small" />;
+  // };
+
+  // const isVolumeExpanded = isHoveredVolume || isDraggingVolume;
 
   return (
     <Box
-      className="col-6 row-span-5 maim-player card-main-page"
+      className="block"
       sx={{
-        height: '236px',
-
-        flexDirection: 'row !important',
-        // borderRadius: '22px',
-        // padding: '20px 24px',
-        // display: 'flex',
+        position: 'relative',
+        width: '100%',
+        p: '16px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        // justifyContent: 'space-between',
-        // gap: '20px',
-        // overflow: 'hidden',
-        // position: 'relative',
-        // background: 'rgba(30, 35, 45, 0.45)',
-        // backdropFilter: 'blur(40px) saturate(210%)',
-        // WebkitBackdropFilter: 'blur(40px) saturate(210%)',
-        // border: '1px solid rgba(255, 255, 255, 0.18)',
-        // boxShadow:
-        //   '0 20px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25)',
+        gap: 2,
+        height: 'auto',
+        '@media (min-width: 601px)': {
+          height: '236px',
+          alignItems: 'flex-start',
+          flexDirection: 'row',
+        },
       }}
     >
-      {/* 1. Увеличенный обложка / логотип радиостанции */}
+      {/* 1. Обложка */}
       <Box
         sx={{
           position: 'relative',
           flexShrink: 0,
-          '&::after': isPlaying
-            ? {
-                content: '""',
-                position: 'absolute',
-                inset: -4,
-                borderRadius: '24px',
-                background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.6), transparent)',
-                filter: 'blur(8px)',
-                zIndex: 0,
-              }
-            : {},
+          width: 200,
+          height: 200,
         }}
       >
+        {isPlaying && (
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: -16,
+              borderRadius: '28px',
+              background: `radial-gradient(ellipse at center, ${accent}40 0%, transparent 70%)`,
+              filter: 'blur(24px)',
+              zIndex: -1,
+              animation: 'ambientPulse 3.5s ease-in-out infinite',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
+
         <Box
           component="img"
           className="logoRadio"
-          src={np?.cover || currentStationData?.logo}
+          src={np?.cover ? np.cover : (currentStationData?.logo || null)}
           alt={currentStationData?.name || 'Radio logo'}
+          onError={e => {
+            if (currentStationData?.logo && e.currentTarget.src !== currentStationData.logo) {
+              e.currentTarget.src = currentStationData.logo;
+            }
+          }}
           sx={{
-            width: 160,
-            height: 160,
+            width: 200,
+            height: 200,
             borderRadius: '20px',
             objectFit: 'cover',
             boxShadow: '0 12px 28px rgba(0,0,0,0.5)',
@@ -198,191 +318,244 @@ export const RadioCard = ({ onAudio }) => {
             display: 'block',
           }}
         />
-        {np?.cover ? (
+
+        {np?.cover && (
           <Box
             component="img"
             src={currentStationData?.logo}
             alt=""
             sx={{
               position: 'absolute',
+              right: 10,
+              bottom: 10,
               width: 40,
               height: 40,
-              right: 6,
-              bottom: 6,
               borderRadius: '10px',
               objectFit: 'cover',
-              border: '1px solid rgba(255,255,255,0.5)',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.6)',
+              border: '2px solid rgba(255,255,255,0.7)',
+              boxShadow: '0 6px 18px rgba(0,0,0,0.55)',
               zIndex: 2,
+              backdropFilter: 'blur(4px)',
+              background: 'rgba(255,255,255,0.1)',
             }}
           />
-        ) : null}
+        )}
       </Box>
 
-      {/* 2. Выравнивание таймера и селекта радио по центру */}
+      {/* 2. Контентная часть — ровно 280px */}
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          gap: '14px',
-          flexGrow: 1,
-          minWidth: 0,
+          justifyContent: 'space-between',
+          height: '100%',
+          width: '280px',
+          maxWidth: '280px',
+          flexShrink: 0,
+          overflow: 'hidden',
         }}
       >
-        {/* Индикатор времени с акцентной плашкой */}
-        <Box className="maim-player__clock-block" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            width: '100%',
+          }}
+        >
           <Box
             sx={{
-              background: 'rgba(0, 0, 0, 0.35)',
-              padding: '6px 16px',
-              borderRadius: '10px',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              display: 'inline-flex',
-              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1,
+              flexGrow: 1,
+              minWidth: 0,
             }}
           >
-            <Typography
-              className="clock-block__clock"
-              sx={{
-                width: '100px',
-                fontSize: '1.65rem',
-                fontWeight: 700,
-                fontFamily: 'monospace',
-                color: isPlaying ? '#a855f7' : '#ffffff',
-                letterSpacing: '0.08em',
-                transition: 'color 0.3s',
-                lineHeight: 1,
-              }}
-            >
-              {playTime}
-            </Typography>
+            <FormControl fullWidth size="small" className="selectRadioStation">
+              <Select
+                value={station}
+                onChange={handleStationChange}
+                sx={{
+                  color: textMain,
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  background: `linear-gradient(135deg, ${glassStrong}, ${glass})`,
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  '& .MuiSelect-select': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '6px 12px',
+                    minHeight: 32,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                  '& .MuiSvgIcon-root': { color: textMuted },
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      background: 'rgba(22,26,36,0.98)',
+                      backdropFilter: 'blur(24px)',
+                      border: '1px solid rgba(255,255,255,0.12)',
+                      color: textMain,
+                      maxHeight: 220,
+                      borderRadius: '14px',
+                      mt: 1,
+                    },
+                  },
+                }}
+              >
+                {radioData.map((item, index) => (
+                  <MenuItem key={index} value={index}>
+                    <Box
+                      component="img"
+                      src={item.logo}
+                      alt={item.name}
+                      sx={{ width: 20, height: 20, borderRadius: '6px', mr: 1.5, objectFit: 'cover' }}
+                    />
+                    <Box sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </Box>
 
-        {/* Выпадающий список станций */}
-        <FormControl fullWidth size="small" className="selectRadioStation">
-          <Select
-            // className="list"
-            value={station}
-            onChange={handleStationChange}
+        {/* Информация о треке */}
+        <Box sx={{ mt: 1, width: '100%', overflow: 'hidden' }}>
+          <Tooltip title={artistName} arrow placement="top-start">
+            <Typography
+              sx={{
+                fontSize: '1.3rem',
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: '-0.02em',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%',
+              }}
+            >
+              {artistName}
+            </Typography>
+          </Tooltip>
+
+          <Tooltip title={songTitle} arrow placement="bottom-start">
+            <Typography
+              sx={{
+                fontSize: '0.9rem',
+                color: 'rgba(255,255,255,0.6)',
+                mt: 0.5,
+                fontWeight: 500,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%',
+              }}
+            >
+              {songTitle}
+            </Typography>
+          </Tooltip>
+        </Box>
+
+        {/* Легкий CSS Эквалайзер с нижней полоской + Время */}
+        <Box sx={{ width: '100%' }}>
+          <CssEqualizer isPlaying={isPlaying} accentColor={accent} />
+          <Typography
             sx={{
-              color: '#fff',
-              fontSize: '0.875rem',
+              fontSize: '0.75rem',
+              color: isPlaying ? accent : 'rgba(255,255,255,0.4)',
+              fontFamily: 'monospace',
               fontWeight: 600,
-              background: 'rgba(0, 0, 0, 0.35)',
-              borderRadius: '12px',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              '& .MuiSelect-select': {
-                display: 'flex',
-                alignItems: 'center',
-                padding: '10px 14px',
-              },
-              '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-              '& .MuiSvgIcon-root': { color: 'rgba(255, 255, 255, 0.7)' },
-            }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  background: 'rgba(25, 30, 40, 0.95)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#fff',
-                  maxHeight: 220,
-                  '& .MuiMenuItem-root': {
-                    fontSize: '0.85rem',
-                    padding: '8px 12px',
-                    '&:hover': { background: 'rgba(168, 85, 247, 0.2)' },
-                    '&.Mui-selected': { background: 'rgba(168, 85, 247, 0.35)' },
-                  },
-                },
-              },
+              textAlign: 'right',
+              px: 0.5,
+              mt: 0.5,
             }}
           >
-            {radioData.map((item, index) => (
-              <MenuItem key={index} value={index}>
-                <Box
-                  component="img"
-                  src={item.logo}
-                  alt={item.name}
-                  sx={{ width: 28, height: 28, borderRadius: '6px', mr: 1.5, objectFit: 'cover' }}
-                />
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        {/* Что сейчас играет (берётся с бэкенда) */}
-        <Box
-          sx={{
-            background: 'rgba(0, 0, 0, 0.35)',
-            padding: '6px 16px',
-            borderRadius: '10px',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            mr: 3,
-            ml:3,
-          }}
-        >
-        {(() => {
-          if (np?.track || np?.title) {
-              return (
-                <Typography
-                  noWrap
-                  title={`${np.artist ? np.artist + ' — ' : ''}${np.track || np.title}`}
-                  sx={{
-                    fontSize: '0.8rem',
-                    color: 'rgba(255,255,255,0.72)',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {np.artist ? `${np.artist} — ` : ''}
-                  {np.track || np.title}
-                </Typography>
-              );
-            }
-            return (
-              <Typography sx={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>нет данных о треке</Typography>
-            );
-          })()}
+            {playTime}
+          </Typography>
         </Box>
       </Box>
 
-      {/* 3. Увеличенная кнопка воспроизведения */}
-      <IconButton
-        className="btn"
-        onClick={handlePlayPause}
-        sx={{
-          width: 64,
-          height: 64,
-          flexShrink: 0,
-          background: 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)',
-          color: '#fff',
-          borderRadius: '20px',
-          boxShadow: isPlaying
-            ? '0 0 24px rgba(168, 85, 247, 0.6), 0 8px 20px rgba(0,0,0,0.4)'
-            : '0 8px 20px rgba(168, 85, 247, 0.35)',
-          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            background: 'linear-gradient(135deg, #9333ea 0%, #6b21a8 100%)',
-            transform: 'scale(1.06)',
-            boxShadow: '0 0 30px rgba(168, 85, 247, 0.8)',
-          },
-          '&:active': {
-            transform: 'scale(0.95)',
-          },
-        }}
-      >
-        {isPlaying ? (
-          <PauseIcon className="btn__icon" sx={{ fontSize: '2.4rem' }} />
-        ) : (
-          <PlayArrowIcon className="btn__icon" sx={{ fontSize: '2.4rem', ml: '2px' }} />
-        )}
-      </IconButton>
+      {/* 3. Управление */}
+      <Box sx={{ m: 'auto' }}>
+        {/* Индикатор LIVE / PAUSED */}
+        {/* <Box
+          sx={{
+            position: 'absolute',
+            bottom: 10,
+            right: 7,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            gap: 1,
+            height: 36,
+            px: 1.2,
+            borderRadius: '100px',
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            backdropFilter: 'blur(8px)',
+            transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+            '@media (min-width: 601px)': {
+              top: 10,
+              right: 7,
+            },
+          }}
+        >
+          <Box
+            sx={{
+              width: 7,
+              height: 7,
+              borderRadius: '50%',
+              background: isPlaying ? '#fff' : 'rgba(255,255,255,0.4)',
+              animation: isPlaying ? 'liveBlink 1.2s ease-in-out infinite' : 'none',
+            }}
+          />
+          {isPlaying ? (
+            <SensorsIcon />
+          ) : (
+            <Typography
+              sx={{
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: isPlaying ? '#fff' : 'rgba(255,255,255,0.6)',
+                fontFamily: 'monospace',
+              }}
+            >
+              PAUSED
+            </Typography>
+          )}
+        </Box> */}
+
+        {/* Кнопка Play / Pause */}
+        <IconButton
+          className="btn"
+          onClick={handlePlayPause}
+          sx={{
+            width: 70,
+            height: 70,
+            flexShrink: 0,
+            background: `linear-gradient(135deg, ${accent} 0%, #7e22ce 100%)`,
+            color: '#fff',
+            boxShadow: isPlaying ? `0 0 24px ${accent}80, 0 8px 20px rgba(0,0,0,0.4)` : `0 8px 20px ${accent}35`,
+            transition: 'all 0.3s cubic-bezier(0.2,0,0.2,1)',
+            '&:hover': {
+              transform: 'scale(1.05)',
+            },
+            '&:active': {
+              transform: 'scale(0.95)',
+            },
+          }}
+        >
+          {isPlaying ? <PauseIcon sx={{ fontSize: '2rem' }} /> : <PlayArrowIcon sx={{ fontSize: '2rem', ml: '2px' }} />}
+        </IconButton>
+
+        {/* Регулятор громкости */}
+        
+      </Box>
     </Box>
   );
 };

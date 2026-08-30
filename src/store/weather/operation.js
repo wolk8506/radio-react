@@ -1,12 +1,21 @@
 import axios from 'axios';
 import { createAsyncThunk, nanoid } from '@reduxjs/toolkit';
+import { weatherActions } from 'store';
 
 const URL_LOCATION = 'https://ipapi.co/json/';
+const CACHE_TTL_MS = 60 * 60 * 1000;
 
 async function fetchData(url) {
   const response = await fetch(url, { mode: 'cors' });
   const data = await response.json();
   return data;
+}
+
+function getCached(state, city, key) {
+  const entry = state.weather?.cache?.[city]?.[key];
+  if (!entry) return null;
+  if (Date.now() - entry.fetchedAt > CACHE_TTL_MS) return null;
+  return entry.data;
 }
 
 //
@@ -28,6 +37,7 @@ const fetchLocation = createAsyncThunk('weather/Location', async () => {
 //
 // *    Погода на вчера
 //
+//
 // const fetchWeatherYesterday = createAsyncThunk('weather/Yesterday', async url => {
 //   try {
 //     const response = await fetchData(url);
@@ -37,18 +47,26 @@ const fetchLocation = createAsyncThunk('weather/Location', async () => {
 //   }
 // });
 //
+//
 // *    Погода на сегодня
 //
-const fetchWeatherToday = createAsyncThunk('weather/Today', async url => {
-  try {
-    const response = await fetchData(url);
-    return response;
-  } catch (error) {
-    console.log('❌ error');
+const fetchWeatherToday = createAsyncThunk(
+  'weather/Today',
+  async ({ url, city, source = 'visual-crossing' }, thunkAPI) => {
+    const cached = getCached(thunkAPI.getState(), city, 'today');
+    if (cached) return { ...cached, _fromCache: true };
+    try {
+      const response = await fetchData(url);
+      thunkAPI.dispatch(weatherActions.setWeatherCache(city, 'today', response, source));
+      return response;
+    } catch (error) {
+      console.log('❌ error');
+    }
   }
-});
+);
 //
 // *    Погода на завтра
+//
 //
 // const fetchWeatherTomorrow = createAsyncThunk('weather/Tomorrow', async url => {
 //   try {
@@ -59,38 +77,57 @@ const fetchWeatherToday = createAsyncThunk('weather/Today', async url => {
 //   }
 // });
 //
+//
 // *    Погода на месяц
 //
-const fetchWeatherMonth = createAsyncThunk('weather/Month', async url => {
-  try {
-    const response = await fetchData(url);
-    return response;
-  } catch (error) {
-    console.log('❌ error');
+const fetchWeatherMonth = createAsyncThunk(
+  'weather/Month',
+  async ({ url, city, source = 'visual-crossing' }, thunkAPI) => {
+    const cached = getCached(thunkAPI.getState(), city, 'month');
+    if (cached) return { ...cached, _fromCache: true };
+    try {
+      const response = await fetchData(url);
+      thunkAPI.dispatch(weatherActions.setWeatherCache(city, 'month', response, source));
+      return response;
+    } catch (error) {
+      console.log('❌ error');
+    }
   }
-});
+);
 //
 // *    Погода на Неделю
 //
-const fetchWeatherWeek = createAsyncThunk('weather/Week', async url => {
-  try {
-    const response = await fetchData(url);
-    return response;
-  } catch (error) {
-    console.log('❌ error');
+const fetchWeatherWeek = createAsyncThunk(
+  'weather/Week',
+  async ({ url, city, source = 'visual-crossing' }, thunkAPI) => {
+    const cached = getCached(thunkAPI.getState(), city, 'week');
+    if (cached) return { ...cached, _fromCache: true };
+    try {
+      const response = await fetchData(url);
+      thunkAPI.dispatch(weatherActions.setWeatherCache(city, 'week', response, source));
+      return response;
+    } catch (error) {
+      console.log('❌ error');
+    }
   }
-});
+);
 //
 // *    Погода Луна / фаза Луны / Солнце
 //
-const fetchWeatherElements = createAsyncThunk('weather/Elements', async url => {
-  try {
-    const response = await fetchData(url);
-    return response;
-  } catch (error) {
-    console.log('❌ error');
+const fetchWeatherElements = createAsyncThunk(
+  'weather/Elements',
+  async ({ url, city, source = 'visual-crossing' }, thunkAPI) => {
+    const cached = getCached(thunkAPI.getState(), city, 'elements');
+    if (cached) return { ...cached, _fromCache: true };
+    try {
+      const response = await fetchData(url);
+      thunkAPI.dispatch(weatherActions.setWeatherCache(city, 'elements', response, source));
+      return response;
+    } catch (error) {
+      console.log('❌ error');
+    }
   }
-});
+);
 //
 // *    Погода качество воздуха
 //
@@ -137,6 +174,7 @@ const fetchWeatherTodayCity3 = createAsyncThunk('weather/TodayCity3', async url 
 });
 //
 // ?  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//
 //
 // *    Избранные города (сохраняются на бэкенде, привязаны к пользователю)
 //

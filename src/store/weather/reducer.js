@@ -10,6 +10,8 @@ import {
 
 import moment from 'moment';
 
+const CACHE_TTL_MS = 60 * 60 * 1000;
+
 const initState_WeatherAirQuality = {
   data: initStateWeatherAirQuality,
   loading: false,
@@ -291,6 +293,36 @@ const citiesWeather = createReducer({}, builder => {
   builder.addCase(weatherOperations.fetchUserCities.fulfilled, () => ({}));
 });
 
+const cache = createReducer({}, builder => {
+  builder
+    .addCase(weatherActions.setWeatherCache, (state, action) => {
+      const { city, key, data, source, fetchedAt } = action.payload;
+      if (!state[city]) state[city] = {};
+      state[city][key] = { data, source, fetchedAt };
+    })
+    .addCase(weatherActions.clearWeatherCache, (state, action) => {
+      delete state[action.payload];
+    })
+    .addCase(weatherActions.cleanupWeatherCache, (state, action) => {
+      const { favoriteCities, geoCity } = action.payload;
+      const now = Date.now();
+      const keep = new Set(favoriteCities.map(c => c.city));
+      if (geoCity) keep.add(geoCity);
+      Object.keys(state).forEach(city => {
+        if (!keep.has(city)) {
+          delete state[city];
+        } else {
+          Object.keys(state[city]).forEach(key => {
+            if (now - state[city][key].fetchedAt > CACHE_TTL_MS) {
+              delete state[city][key];
+            }
+          });
+          if (Object.keys(state[city]).length === 0) delete state[city];
+        }
+      });
+    });
+});
+
 export default combineReducers({
   weatherAirQuality,
   // weatherYesterday,
@@ -305,4 +337,5 @@ export default combineReducers({
   city,
   cityList,
   citiesWeather,
+  cache,
 });

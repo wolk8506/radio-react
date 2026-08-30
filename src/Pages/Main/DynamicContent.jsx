@@ -105,7 +105,8 @@ export const DynamicContent = ({ type, title, icon }) => {
             fontWeight: 600,
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
-            color: 'rgba(255, 255, 255, 0.65)',
+            // color: 'rgba(255, 255, 255, 0.65)',
+            opacity: 0.65,
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
@@ -118,7 +119,8 @@ export const DynamicContent = ({ type, title, icon }) => {
         {/* Действия с контентом */}
         {content.length > 1 && (
           <Box sx={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
-            {/* <IconButton
+            {/* 
+            <IconButton
             size="small"
             onClick={shuffle}
             title="Случайно"
@@ -135,9 +137,10 @@ export const DynamicContent = ({ type, title, icon }) => {
               onClick={prev}
               title="Назад"
               sx={{
-                color: 'rgba(255, 255, 255, 0.65)',
+                // color: 'rgba(255, 255, 255, 0.65)',
                 padding: '2px',
-                '&:hover': { color: '#fff' },
+                opacity: 0.65,
+                '&:hover': { opacity: 1 },
               }}
             >
               <ArrowBackIosNewIcon sx={{ fontSize: '0.8rem' }} />
@@ -147,9 +150,10 @@ export const DynamicContent = ({ type, title, icon }) => {
               onClick={next}
               title="Вперёд"
               sx={{
-                color: 'rgba(255, 255, 255, 0.65)',
+                // color: 'rgba(255, 255, 255, 0.65)',
                 padding: '2px',
-                '&:hover': { color: '#fff' },
+                opacity: 0.65,
+                '&:hover': { opacity: 1 },
               }}
             >
               <ArrowForwardIosIcon sx={{ fontSize: '0.8rem' }} />
@@ -171,13 +175,22 @@ export const DynamicContent = ({ type, title, icon }) => {
         }}
       >
         {content.length === 0 ? (
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.85rem' }}>Загрузка...</Typography>
+          <Typography
+            sx={{
+              // color: 'rgba(255, 255, 255, 0.65)',
+              opacity: 0.65,
+              fontSize: '0.85rem',
+            }}
+          >
+            Загрузка...
+          </Typography>
         ) : isString ? (
           <Typography
             sx={{
               fontSize: '0.85rem',
               lineHeight: 1.4,
-              color: 'rgba(255, 255, 255, 0.9)',
+              // color: 'rgba(255, 255, 255, 0.9)',
+              opacity: 0.9,
               whiteSpace: 'pre-line',
             }}
           >
@@ -190,7 +203,7 @@ export const DynamicContent = ({ type, title, icon }) => {
               sx={{
                 fontSize: '0.85rem',
                 fontWeight: 600,
-                color: '#ffffff',
+                // color: '#ffffff',
                 lineHeight: 1.3,
               }}
             >
@@ -200,7 +213,8 @@ export const DynamicContent = ({ type, title, icon }) => {
               <Typography
                 sx={{
                   fontSize: '0.75rem',
-                  color: 'rgba(255, 255, 255, 0.65)',
+                  // color: 'rgba(255, 255, 255, 0.65)',
+                  opacity: 0.65,
                   lineHeight: 1.3,
                   mt: '2px',
                 }}
@@ -210,7 +224,15 @@ export const DynamicContent = ({ type, title, icon }) => {
             )}
           </Box>
         ) : (
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.85rem' }}>—</Typography>
+          <Typography
+            sx={{
+              // color: 'rgba(255, 255, 255, 0.65)',
+              opacity: 0.65,
+              fontSize: '0.85rem',
+            }}
+          >
+            —
+          </Typography>
         )}
       </Box>
 
@@ -219,9 +241,10 @@ export const DynamicContent = ({ type, title, icon }) => {
         <Typography
           sx={{
             fontSize: '0.65rem',
-            color: 'rgba(255, 255, 255, 0.4)',
+            // color: 'rgba(255, 255, 255, 0.4)',
             textAlign: 'right',
             fontWeight: 500,
+            opacity: 0.4,
           }}
         >
           {index + 1} / {content.length}
