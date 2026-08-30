@@ -112,12 +112,13 @@ export const Weather = () => {
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else if (CITY.city !== undefined && CITY !== null) {
-      const cityQuery = encodeURIComponent(CITY.city);
+      const cityName = CITY.city;
+      const cityQuery = encodeURIComponent(cityName);
       const BASE_URL_TODAY = `${BASE_URL}${cityQuery}/today?include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=${REACT_APP_WEATHER_API_KEY_2}&contentType=json&lang=ru&unitGroup=metric`;
       const URL_WEATHER_ELEMENTS = `${BASE_URL}${cityQuery}?key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&unitGroup=metric&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
-      dispatch(weatherOperations.fetchWeatherToday(BASE_URL_TODAY));
-      dispatch(weatherOperations.fetchWeatherElements(URL_WEATHER_ELEMENTS));
+      dispatch(weatherOperations.fetchWeatherToday({ url: BASE_URL_TODAY, city: cityName, source: 'visual-crossing' }));
+      dispatch(weatherOperations.fetchWeatherElements({ url: URL_WEATHER_ELEMENTS, city: cityName, source: 'visual-crossing' }));
     }
   }, [CITY, dispatch]);
 
@@ -151,15 +152,16 @@ export const Weather = () => {
     if (CITY === null) {
       dispatch(weatherOperations.fetchLocation()); //Определение локации
     } else {
-      const cityQuery = encodeURIComponent(CITY.city);
+      const cityName = CITY.city;
+      const cityQuery = encodeURIComponent(cityName);
       const URL_WEATHER = `${BASE_URL}${cityQuery}/${DATE}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=days&elements=tempmax,tempmin,pressure,icon,humidity,uvindex,datetime`;
       const URL_WEATHER_WEEK = `${BASE_URL}${cityQuery}/${START_DATE_WEEK}/${END_DATE_WEEK}?key=${API_KEY_WEATHER_30}&lang=ru&unitGroup=metric&include=hours`;
 
       // const URL_WEATHER_WEEK = `${BASE_URL}${CITY.city}/${START_DATE_WEEK}/${END_DATE_WEEK}?&key=${REACT_APP_WEATHER_API_KEY_2}&lang=ru&include=days`
 
-      if (CITY.city !== undefined) {
-        dispatch(weatherOperations.fetchWeatherMonth(URL_WEATHER));
-        dispatch(weatherOperations.fetchWeatherWeek(URL_WEATHER_WEEK));
+      if (cityName !== undefined) {
+        dispatch(weatherOperations.fetchWeatherMonth({ url: URL_WEATHER, city: cityName, source: 'visual-crossing' }));
+        dispatch(weatherOperations.fetchWeatherWeek({ url: URL_WEATHER_WEEK, city: cityName, source: 'visual-crossing' }));
       }
     }
   }, [CITY, dispatch]);
@@ -384,7 +386,7 @@ export const Weather = () => {
                   </IconButton>
                 )}
                 <p>{cityListUpdate[0]?.city.split(',')[0]}</p>
-                <img className="card-city__image" src={cityListUpdate[0]?.icon} widh="17" alt="icon" />
+                <img className="card-city__image" src={cityListUpdate[0]?.icon || null} width="17" alt="icon" />
                 <p>{cityListUpdate[0]?.temperature}°</p>
                 <div onClick={e => e.stopPropagation()}>
                   <IconButton
@@ -459,7 +461,7 @@ export const Weather = () => {
                   </IconButton>
                 )}
                 <p>{cityListUpdate[1]?.city.split(',')[0]}</p>
-                <img className="card-city__image" src={cityListUpdate[1]?.icon} widh="17" alt="icon" />
+                <img className="card-city__image" src={cityListUpdate[1]?.icon || null} width="17" alt="icon" />
                 <p>{cityListUpdate[1]?.temperature}°</p>
                 <div onClick={e => e.stopPropagation()}>
                   <IconButton
@@ -534,7 +536,7 @@ export const Weather = () => {
                   </IconButton>
                 )}
                 <p>{cityListUpdate[2]?.city.split(',')[0]}</p>
-                <img className="card-city__image" src={cityListUpdate[2]?.icon} widh="17" alt="icon" />
+                <img className="card-city__image" src={cityListUpdate[2]?.icon || null} width="17" alt="icon" />
                 <p>{cityListUpdate[2]?.temperature}°</p>
                 <div onClick={e => e.stopPropagation()}>
                   <IconButton

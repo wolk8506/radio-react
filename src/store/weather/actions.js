@@ -12,6 +12,13 @@ const deleteCityListItem = createAction('data/deleteCityListItem');
 const homeCityListItem = createAction('data/homeCityListItem');
 const setCityList = createAction('data/setCityList', list => ({ payload: list }));
 const setCitiesWeather = createAction('data/setCitiesWeather', map => ({ payload: map }));
+const setWeatherCache = createAction('weather/setCache', (city, key, data, source) => ({
+  payload: { city, key, data, source, fetchedAt: Date.now() },
+}));
+const clearWeatherCache = createAction('weather/clearCache', city => ({ payload: city }));
+const cleanupWeatherCache = createAction('weather/cleanupCache', (favoriteCities, geoCity) => ({
+  payload: { favoriteCities, geoCity },
+}));
 
 export const weatherActions = {
   setCityName,
@@ -21,4 +28,7 @@ export const weatherActions = {
   homeCityListItem,
   setCityList,
   setCitiesWeather,
+  setWeatherCache,
+  clearWeatherCache,
+  cleanupWeatherCache,
 };

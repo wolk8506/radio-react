@@ -4,7 +4,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { useTransporantClock, useTheme } from 'hooks';
-import { authOperations, rootSelectors, authSelectors } from 'store';
+import { authOperations, rootSelectors, authSelectors, weatherSelectors, weatherActions } from 'store';
+import store from './store/store';
 
 // Компоненты
 import { PrivateRoute, PublicRoute } from 'components/Routes';
@@ -15,7 +16,7 @@ import { Main } from './Pages/Main/Main';
 import { Weather } from './components/Weather/Weather';
 import { RecipesIndex } from './components/Recipes/RecipesMain';
 import { RecipeAdd } from './components/Recipes/RecipeAdd';
-import { News } from './components/News/News';
+import { News } from './Pages/News/News';
 import { Recipes } from './components/Recipes/Recipes';
 import { Recipe } from './components/Recipes/Recipe';
 import { radioData } from './Pages/Main/CardRadio/Radio-data';
@@ -74,7 +75,20 @@ export const App = () => {
     }
   }, [dispatch]);
 
-  useEffect(() => setAudio(new Audio()), []);
+  // Cache cleanup on app start (once): remove non-favorite cities older than 60 min
+  useEffect(() => {
+    const state = store.getState();
+    const favorites = weatherSelectors.getCityList(state).filter(c => c.favorite).map(c => c.city);
+    const geoCity = authSelectors.getIsLoggedIn(state) ? null : weatherSelectors.getCityName(state);
+    
+    dispatch(weatherActions.cleanupWeatherCache(favorites, geoCity));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const audioElement = new Audio();
+    audioElement.crossOrigin = 'anonymous'; // <--- ОБЯЗАТЕЛЬНО ДЛЯ WEB AUDIO API И CORS
+    setAudio(audioElement);
+  }, []);
 
   // Пробрасываем переменную обоев на корень (html), чтобы фон работал и на body, и в зоне overscroll (CSS-переменные наследуются только вниз)
   useEffect(() => {

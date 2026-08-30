@@ -25,6 +25,19 @@ const persistConfigFiles = {
 const persistConfigWeather = {
   key: 'weather',
   storage,
+  version: 2,
+  migrate: async state => {
+    if (!state) return undefined;
+    // Old persisted weather slice may have nested `weather` key
+    // e.g. { weather: { weatherToday: {...}, weatherWeek: {...}, ... } }
+    // New reducer expects flat keys: { weatherToday: {...}, weatherWeek: {...}, ..., cache: {} }
+    let weather = state;
+    if (state.weather && typeof state.weather === 'object') {
+      weather = { ...state.weather };
+    }
+    if (!weather.cache) weather.cache = {};
+    return weather;
+  },
 };
 const persistConfigCurrency = {
   key: 'currency',
