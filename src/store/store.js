@@ -9,6 +9,7 @@ import currencyReducer from './currency/reducer';
 import filesReducer from './files/reducer';
 import rootReducer from './root/reducer';
 import timerReducer from './timer/reducer';
+import { timeManagementReducer } from './timemanagement';
 
 const persistConfig = {
   key: 'root',
@@ -60,6 +61,7 @@ const persistedRecipeFiles = persistReducer(persistConfigFiles, filesReducer);
 const persistedWeather = persistReducer(persistConfigWeather, weatherReducer);
 const persistedCurrency = persistReducer(persistConfigCurrency, currencyReducer);
 const persistedTimer = persistReducer(persistConfigTimer, timerReducer);
+const persistedTimeManagement = persistReducer({ key: 'timemanagement', storage }, timeManagementReducer);
 
 const store = configureStore({
   reducer: {
@@ -70,6 +72,7 @@ const store = configureStore({
     weather: persistedWeather,
     currency: persistedCurrency,
     timer: persistedTimer,
+    timemanagement: persistedTimeManagement,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
