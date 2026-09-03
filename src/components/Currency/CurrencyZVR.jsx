@@ -101,20 +101,32 @@ export const CurrencyZVR = () => {
   const rows = createDataTable(storeData); //  # Данные для таблицы 1
   const rows2 = createDataTable(storeData2); //  # Данные для таблицы 2
 
-  // ~ Стили таблиц
+  // ~ Стили таблиц — как у верхней (золотистый хедер)
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: '#1e1e1e',
+      color: '#c2a85a',
+      borderBottom: '1px solid #2a2a2e',
+      fontWeight: 600,
+      fontSize: 12,
+      textTransform: 'uppercase',
+      letterSpacing: '0.03em',
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
+      fontSize: 13,
+      color: '#e8dcc3',
+      borderBottom: '1px solid #232326',
+      // backgroundColor: '#121214',
+      fontFamily: 'monospace',
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: '#121214',
+    },
+    '&:nth-of-type(even)': {
+      backgroundColor: '#161618',
     },
     '&:last-child td, &:last-child th': {
       border: 0,
@@ -137,8 +149,12 @@ export const CurrencyZVR = () => {
         <h2 className="name-section__title">Золото-валютные резервы</h2>
       </div>
       <div className="tables">
-        <TableContainer className="table" component={Paper}>
-          <Table aria-label="customized table">
+        <TableContainer
+          className="table"
+          component={Paper}
+          sx={{ background: '#121214', border: '1px solid #1f1f22', borderRadius: '14px', overflow: 'hidden' }}
+        >
+          <Table aria-label="customized table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>
@@ -201,8 +217,12 @@ export const CurrencyZVR = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TableContainer className="table" component={Paper}>
-          <Table aria-label="customized table">
+        <TableContainer
+          className="table"
+          component={Paper}
+          sx={{ background: '#121214', border: '1px solid #1f1f22', borderRadius: '14px', overflow: 'hidden' }}
+        >
+          <Table aria-label="customized table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>

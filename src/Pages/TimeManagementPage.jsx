@@ -16,12 +16,35 @@ import Slider from '@mui/material/Slider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem';
-
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TodayIcon from '@mui/icons-material/Today';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
 
 import './TimeManagementPage.scss';
 
@@ -64,6 +87,8 @@ const WALK_REASONS = [
   { value: 'work', label: 'Работа' },
   { value: 'rest', label: 'Отдых' },
 ];
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_RU = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
 
 const emptyTask = () => ({
   id: null,
@@ -142,6 +167,31 @@ const computeSchedule = (task, effStart) => {
   return { plannedDays, origEnd, end, carry, excludedCount, ext };
 };
 
+const getForecast = (task) => {
+  if (task.kind !== 'book' || task.mode !== 'units') return null;
+  const total = Number(task.unitsTotal) || 0;
+  if (!total) return null;
+  let done = 0;
+  Object.values(task.marks || {}).forEach(m => { if (m.done) done += Number(m.units) || 0; });
+  const remaining = Math.max(0, total - done);
+  if (remaining === 0) return { done, remaining: 0, finished: true, avg: 0, estimatedEnd: null, diff: 0 };
+  const doneEntries = Object.entries(task.marks || {}).filter(([, m]) => m.done && Number(m.units) > 0);
+  const avg = doneEntries.length ? done / doneEntries.length : 0;
+  if (!avg) return null;
+  const daysNeeded = Math.ceil(remaining / avg);
+  let est = addDays(todayStr(), 1);
+  let need = daysNeeded;
+  let guard = 0;
+  while (need > 0 && guard < 500) {
+    if (!isExcluded(est, task.exclusions || [], task.excludeRule || 'none')) need -= 1;
+    if (need > 0) est = addDays(est, 1);
+    guard += 1;
+  }
+  const plannedEnd = task.plannedEnd || addDays(task.start, (task.plannedDays || 1) - 1);
+  const diff = diffDays(plannedEnd, est);
+  return { done, remaining, avg: Math.round(avg * 10) / 10, estimatedEnd: est, diff, finished: false };
+};
+
 // Описание ячейки дня для задачи
 const dayCell = (task, sch, effStart, d) => {
   if (d < effStart || d > sch.end) {
@@ -151,12 +201,15 @@ const dayCell = (task, sch, effStart, d) => {
   const { origEnd, excludedCount, carry } = sch;
   if (d <= origEnd) {
     if (isExcluded(d, task.exclusions || [], task.excludeRule || 'none')) return { kind: 'gap', title: 'Перенесён в конец' };
-    const past = d <= todayStr();
-    const m = (task.marks || {})[d];
-    if (past) {
-      if (!m || !m.done) return { kind: 'miss' };
-      return { kind: 'done', fill: m.percent };
-    }
+const past = d <= todayStr();
+      const m = (task.marks || {})[d];
+      if (past) {
+        if (!m || !m.done) {
+          if (d === todayStr()) return { kind: 'current' };
+          return { kind: 'miss' };
+        }
+        return { kind: 'done', fill: m.percent };
+      }
     return { kind: 'planned' };
   }
   const tailIdx = diffDays(origEnd, d); // 1 для первого хвостового дня
@@ -222,6 +275,15 @@ export const TimeManagementPage = () => {
   const [weeks, setWeeks] = useState(8);
   const [view, setView] = useState('board');
   const [selected, setSelected] = useState({});
+  const [boardSelected, setBoardSelected] = useState({});
+  const [dragTaskId, setDragTaskId] = useState(null);
+  const [chartType, setChartType] = useState('line');
+  const [selectedYear, setSelectedYear] = useState(() => Number(todayStr().slice(0, 4)));
+  const [selectedMonth, setSelectedMonth] = useState(() => Number(todayStr().slice(5, 7)) - 1);
+  const [granularity, setGranularity] = useState('months'); // months | days
+  const [selectedBook, setSelectedBook] = useState('all');
+  const [donutPeriod, setDonutPeriod] = useState('month');
+  const [perBookMode, setPerBookMode] = useState(false);
 
   const today = todayStr();
 
@@ -356,6 +418,399 @@ export const TimeManagementPage = () => {
       return { ...s, pct: s.fillCount ? Math.round(s.fillSum / s.fillCount) : 0, extra };
     });
   }, [tasks]);
+
+  const availableYears = useMemo(() => {
+    const set = new Set([Number(todayStr().slice(0,4))]);
+    tasks.forEach(t => {
+      if (t.start) set.add(Number(t.start.slice(0,4)));
+      Object.keys(t.marks||{}).forEach(d=> set.add(Number(d.slice(0,4))));
+    });
+    return Array.from(set).sort((a,b)=>a-b);
+  }, [tasks]);
+
+  const availableBooks = useMemo(() => {
+    const books = tasks.filter(t => t.kind === 'book');
+    if (books.length) {
+      return books
+        .map(t => ({
+          id: t.id,
+          label: `${t.name || ''} ${t.info || ''}`.trim() || t.name || 'Книга',
+          name: t.name,
+          info: t.info,
+        }))
+        .sort((a,b)=> a.label.localeCompare(b.label));
+    }
+    const set = new Set();
+    tasks.forEach(t => { if (t.name) set.add(t.name); });
+    return Array.from(set).map(name=> ({ id: name, label: name, name }));
+  }, [tasks]);
+
+  const detailed = useMemo(() => {
+    const today = todayStr();
+    const curYear = Number(today.slice(0,4));
+    const curMonthIdx = Number(today.slice(5,7)) - 1;
+    const filtered = selectedBook === 'all' ? tasks : tasks.filter(t => t.id === selectedBook || t.name === selectedBook);
+    let totalMarks = 0;
+    const donePerDay = {};
+    const donePerDayPages = {};
+    filtered.forEach(t=>{
+      const isBookUnits = t.kind === 'book' && t.mode === 'units';
+      Object.entries(t.marks||{}).forEach(([d,mark])=>{
+        if (!mark?.done) return;
+        if (isBookUnits) {
+          const v = Number(mark.units) || 0;
+          totalMarks += v;
+          donePerDay[d] = (donePerDay[d]||0) + 1;
+          donePerDayPages[d] = (donePerDayPages[d]||0) + v;
+        } else {
+          totalMarks += 1;
+          donePerDay[d] = (donePerDay[d]||0) + 1;
+          donePerDayPages[d] = (donePerDayPages[d]||0) + 1;
+        }
+      });
+    });
+    // streaks (filtered)
+    const allDoneDates = Object.keys(donePerDay).filter(d=>donePerDay[d]>0).sort();
+    let bestStreak = 0; let curSt = 0; let prev = null; let freezeBest = false;
+    allDoneDates.forEach(d=>{
+      if (!prev) { curSt = 1; freezeBest = false; }
+      else {
+        const diff = diffDays(prev, d);
+        if (diff === 1) curSt += 1;
+        else if (diff === 2 && !freezeBest) { curSt += 2; freezeBest = true; }
+        else { bestStreak = Math.max(bestStreak, curSt); curSt = 1; freezeBest = false; }
+      }
+      bestStreak = Math.max(bestStreak, curSt);
+      prev = d;
+    });
+    // streaks с freeze (1 пропуск)
+    // best уже посчитан выше с freeze, пересчитаем current с допуском
+    let currentStreak2 = 0;
+    let cur2 = today;
+    let freeze2 = false;
+    while (true) {
+      if (donePerDay[cur2]) { currentStreak2 += 1; cur2 = addDays(cur2, -1); }
+      else if (!freeze2) { freeze2 = true; currentStreak2 += 1; cur2 = addDays(cur2, -1); }
+      else break;
+      if (currentStreak2 > 365) break;
+      if (cur2 < (allDoneDates[0] || cur2) && !donePerDay[cur2] && freeze2) break;
+    }
+    if (currentStreak2 === 1 && !donePerDay[today]) currentStreak2 = 0;
+    let currentStreak = currentStreak2;
+
+    // aggregates for selectedYear (filtered)
+    const y = selectedYear;
+    const planByMonth = Array(12).fill(0);
+    const actualByMonth = Array(12).fill(0);
+    filtered.forEach(t=>{
+      const isBookUnits = t.kind === 'book' && t.mode === 'units';
+      const plannedEnd = t.plannedEnd || addDays(t.start, (t.plannedDays||1)-1);
+      let d = t.start;
+      const yearStart = `${y}-01-01`;
+      const yearEnd = `${y}-12-31`;
+      if (!(plannedEnd < yearStart || d > yearEnd)) {
+        let cur = d < yearStart ? yearStart : d;
+        const end = plannedEnd > yearEnd ? yearEnd : plannedEnd;
+        while (cur <= end) {
+          if (!isExcluded(cur, t.exclusions||[], t.excludeRule||'none')) {
+            const mi = Number(cur.slice(5,7))-1;
+            if (isBookUnits) {
+              const idx = diffDays(t.start, cur);
+              const pu = plannedUnits(t, idx);
+              planByMonth[mi] += Number(pu) || 0;
+            } else {
+              planByMonth[mi] += 1;
+            }
+          }
+          cur = addDays(cur,1);
+        }
+      }
+      Object.entries(t.marks||{}).forEach(([date,mark])=>{
+        if (!mark?.done) return;
+        if (Number(date.slice(0,4))!==y) return;
+        const mi = Number(date.slice(5,7))-1;
+        if (isBookUnits) actualByMonth[mi] += Number(mark.units) || 0;
+        else actualByMonth[mi] += 1;
+      });
+    });
+    const monthlyData = MONTHS_SHORT.map((name,i)=> ({
+      name,
+      ru: MONTHS_RU[i],
+      monthIdx: i,
+      actual: actualByMonth[i],
+      plan: planByMonth[i],
+      hasPlan: planByMonth[i] > 0,
+    }));
+    const maxMonthly = Math.max(1, ...monthlyData.map(x=> Math.max(x.actual, x.plan)));
+    const yearTotal = actualByMonth.reduce((a,b)=>a+b,0);
+    const planYearTotal = planByMonth.reduce((a,b)=>a+b,0);
+    const hasAnyPlan = planYearTotal > 0;
+
+    // daily data for selectedYear + selectedMonth (when granularity === 'days')
+    const daysInSelMonth = new Date(y, selectedMonth+1, 0).getDate();
+    const planByDay = Array(daysInSelMonth).fill(0);
+    const actualByDay = Array(daysInSelMonth).fill(0);
+    const monthPrefix = `${y}-${pad(selectedMonth+1)}`;
+    filtered.forEach(t=>{
+      const isBookUnits = t.kind === 'book' && t.mode === 'units';
+      const plannedEnd = t.plannedEnd || addDays(t.start, (t.plannedDays||1)-1);
+      let cur = t.start;
+      const monthStart = `${monthPrefix}-01`;
+      const monthEnd = `${monthPrefix}-${pad(daysInSelMonth)}`;
+      if (!(plannedEnd < monthStart || cur > monthEnd)) {
+        let d = cur < monthStart ? monthStart : cur;
+        const end = plannedEnd > monthEnd ? monthEnd : plannedEnd;
+        while (d <= end) {
+          if (!isExcluded(d, t.exclusions||[], t.excludeRule||'none')) {
+            const di = Number(d.slice(8,10))-1;
+            if (isBookUnits) {
+              const idx = diffDays(t.start, d);
+              const pu = plannedUnits(t, idx);
+              planByDay[di] += Number(pu) || 0;
+            } else {
+              planByDay[di] += 1;
+            }
+          }
+          d = addDays(d,1);
+        }
+      }
+      Object.entries(t.marks||{}).forEach(([date,mark])=>{
+        if (!mark?.done) return;
+        if (!date.startsWith(monthPrefix)) return;
+        const di = Number(date.slice(8,10))-1;
+        if (di>=0 && di<daysInSelMonth) {
+          if (isBookUnits) actualByDay[di] += Number(mark.units) || 0;
+          else actualByDay[di] += 1;
+        }
+      });
+    });
+    const dailyData = Array.from({length: daysInSelMonth}, (_,i)=> ({
+      name: String(i+1),
+      label: String(i+1),
+      actual: actualByDay[i],
+      plan: planByDay[i],
+      hasPlan: planByDay[i] > 0,
+      date: `${monthPrefix}-${pad(i+1)}`,
+      isToday: `${monthPrefix}-${pad(i+1)}` === today,
+      isFuture: `${monthPrefix}-${pad(i+1)}` > today,
+    }));
+    const maxDaily = Math.max(1, ...dailyData.map(x=> Math.max(x.actual, x.plan)));
+    const chartData = granularity === 'days' ? dailyData : monthlyData;
+    const maxChart = granularity === 'days' ? maxDaily : maxMonthly;
+    const chartHasPlan = chartData.some(x=> x.plan > 0);
+
+    // per-book линии для режима "Все книги"
+    const perBookData = (() => {
+      if (selectedBook !== 'all') return [];
+      const books = filtered.filter(t => t.kind === 'book');
+      if (!books.length) return [];
+      return books.map(t => {
+        const isBookUnits = t.kind === 'book' && t.mode === 'units';
+        if (granularity === 'months') {
+          const pbm = Array(12).fill(0); const abm = Array(12).fill(0);
+          const pe = t.plannedEnd || addDays(t.start, (t.plannedDays||1)-1);
+          const ys = `${y}-01-01`; const ye = `${y}-12-31`;
+          if (!(pe < ys || t.start > ye)) {
+            let cur = t.start < ys ? ys : t.start;
+            const e = pe > ye ? ye : pe;
+            while (cur <= e) {
+              if (!isExcluded(cur, t.exclusions||[], t.excludeRule||'none')) {
+                const mi = Number(cur.slice(5,7))-1;
+                if (isBookUnits) { const idx = diffDays(t.start, cur); pbm[mi] += Number(plannedUnits(t, idx))||0; } else pbm[mi]+=1;
+              }
+              cur = addDays(cur,1);
+            }
+          }
+          Object.entries(t.marks||{}).forEach(([date,mark])=>{
+            if (!mark?.done) return; if (Number(date.slice(0,4))!==y) return;
+            const mi = Number(date.slice(5,7))-1;
+            if (isBookUnits) abm[mi] += Number(mark.units)||0; else abm[mi]+=1;
+          });
+          const data = MONTHS_SHORT.map((n,i)=> ({ name:n, actual:abm[i], plan:pbm[i] }));
+          return { id: t.id, label: `${t.name||''} ${t.info||''}`.trim()||t.name, color: t.color, data };
+        } else {
+          const days = daysInSelMonth;
+          const pb = Array(days).fill(0); const ab = Array(days).fill(0);
+          const pe = t.plannedEnd || addDays(t.start, (t.plannedDays||1)-1);
+          const ms = `${monthPrefix}-01`; const me = `${monthPrefix}-${pad(days)}`;
+          if (!(pe < ms || t.start > me)) {
+            let cur = t.start < ms ? ms : t.start;
+            const e = pe > me ? me : pe;
+            while (cur <= e) {
+              if (!isExcluded(cur, t.exclusions||[], t.excludeRule||'none')) {
+                const di = Number(cur.slice(8,10))-1;
+                if (isBookUnits) { const idx=diffDays(t.start, cur); pb[di]+= Number(plannedUnits(t, idx))||0; } else pb[di]+=1;
+              }
+              cur = addDays(cur,1);
+            }
+          }
+          Object.entries(t.marks||{}).forEach(([date,mark])=>{
+            if (!mark?.done) return; if (!date.startsWith(monthPrefix)) return;
+            const di = Number(date.slice(8,10))-1;
+            if (di>=0 && di<days) { if (isBookUnits) ab[di]+= Number(mark.units)||0; else ab[di]+=1; }
+          });
+          const data = Array.from({length:days},(_,i)=> ({ name:String(i+1), actual:ab[i], plan:pb[i] }));
+          return { id: t.id, label: `${t.name||''} ${t.info||''}`.trim()||t.name, color: t.color, data };
+        }
+      });
+    })();
+
+    // heatmap weeks for selectedYear (filtered)
+    const weeks = (() => {
+      const year = y;
+      const first = new Date(year,0,1);
+      const last = new Date(year,11,31);
+      const start = new Date(first); start.setDate(first.getDate() - ((first.getDay()+6)%7));
+      const end = new Date(last); end.setDate(last.getDate() + (6 - ((last.getDay()+6)%7)));
+      const ws=[]; let cur=new Date(start);
+      const maxVal = Math.max(1, ...Object.values(donePerDayPages).map(v=>v));
+      while (cur <= end) {
+        const week=[];
+        for(let i=0;i<7;i++){
+          const dStr=toStr(cur);
+          const v = donePerDay[dStr] ? (donePerDayPages[dStr]||donePerDay[dStr]) : 0;
+          const intensity = maxVal ? v / maxVal : 0;
+          week.push({ date:dStr, value:v, intensity, isOutside: cur.getFullYear()!==year, isFuture: dStr>today, isToday: dStr===today });
+          cur.setDate(cur.getDate()+1);
+        }
+        ws.push(week);
+      }
+      return ws;
+    })();
+
+    // header stats
+    const monthNameForStat = MONTHS_SHORT[curMonthIdx];
+    const monthCount = actualByMonth[curMonthIdx] || 0;
+    const bestMonthVal = Math.max(...actualByMonth);
+    const bestMonthIdxSel = actualByMonth.indexOf(bestMonthVal);
+    const bestMonthName = MONTHS_SHORT[bestMonthIdxSel];
+    const yearStr = String(y);
+
+    // donut data (filtered, respects period and selectedGranularity for month)
+    let donutTotalDays, donutMarkedDays;
+    if (donutPeriod === 'month') {
+      // for days granularity use selectedMonth, otherwise cur month
+      const mIdx = granularity === 'days' ? selectedMonth : curMonthIdx;
+      const daysInMonth = new Date(y, mIdx+1, 0).getDate();
+      const prefix = `${y}-${pad(mIdx+1)}`;
+      let marked = 0;
+      for (let d=1; d<=daysInMonth; d++) {
+        const date = `${prefix}-${pad(d)}`;
+        if (donePerDay[date]) marked += 1;
+      }
+      donutMarkedDays = marked;
+      donutTotalDays = daysInMonth;
+    } else {
+      const isLeap = (y%4===0 && y%100!==0) || y%400===0;
+      const daysInYear = isLeap ? 366 : 365;
+      let marked = 0;
+      Object.keys(donePerDay).forEach(d=>{
+        if (Number(d.slice(0,4))===y) marked += 1;
+      });
+      donutMarkedDays = marked;
+      donutTotalDays = daysInYear;
+    }
+    const donutData = [
+      { name: 'Отмеченные дни', value: donutMarkedDays, color: '#c2a85a' },
+      { name: 'Неотмеченные дни', value: Math.max(0, donutTotalDays - donutMarkedDays), color: '#3a3a45' },
+    ];
+
+    // keep daily for backward compat (current month)
+    const curMonthPrefix = today.slice(0,7);
+    const yCur = Number(today.slice(0,4)); const mCur = Number(today.slice(5,7));
+    const daysInCurMonth = new Date(yCur, mCur, 0).getDate();
+    const daily = Array.from({length: daysInCurMonth}, (_,i)=>{
+      const day = pad(i+1);
+      const d = `${curMonthPrefix}-${day}`;
+      return { date: d, label: String(i+1), value: donePerDay[d]||0, isFuture: d>today, isToday: d===today, wd: weekday(d) };
+    });
+
+    return {
+      totalMarks,
+      bestStreak,
+      currentStreak,
+      monthlyData,
+      dailyData,
+      chartData,
+      maxChart,
+      maxMonthly,
+      maxDaily,
+      yearTotal,
+      planYearTotal,
+      hasAnyPlan,
+      chartHasPlan,
+      perBookData,
+      weeks,
+      monthNameForStat,
+      monthCount,
+      bestMonthName,
+      bestMonthVal,
+      yearStr,
+      donutData,
+      donutMarkedDays,
+      donutTotalDays,
+      daily,
+      donePerDay,
+      donePerDayPages,
+      curYear,
+      curMonthIdx,
+    };
+  }, [tasks, selectedYear, selectedMonth, granularity, selectedBook, donutPeriod]);
+
+  // автосоздание следующего тома при 100% (книги)
+  useEffect(()=>{
+    if (!loaded) return;
+    const toCreate = [];
+    tasks.filter(t=> t.kind==='book' && t.mode==='units' && !t.archived).forEach(t=>{
+      const total = Number(t.unitsTotal)||0;
+      if (!total) return;
+      let done = 0;
+      Object.values(t.marks||{}).forEach(m=> { if(m.done) done += Number(m.units)||0; });
+      if (done >= total) {
+        const hasNext = tasks.some(x=> x.name===t.name && x.start === addDays(t.plannedEnd || addDays(t.start,(t.plannedDays||1)-1),1));
+        const exists = tasks.some(x=> x.name===t.name && x.info && t.info && x.info!==t.info && x.start > t.start);
+        if (!exists && !hasNext) {
+          let nextInfo = t.info || '';
+          const m = nextInfo.match(/(\d+)\s*$/);
+          if (m) {
+            const n = Number(m[1]) + 1;
+            nextInfo = nextInfo.replace(/\d+\s*$/, String(n));
+          } else if (nextInfo) {
+            nextInfo = nextInfo + ' (Том 2)';
+          } else {
+            nextInfo = 'Том 2';
+          }
+          toCreate.push({ base: t, nextInfo });
+        }
+      }
+    });
+    if (toCreate.length) {
+      const { base, nextInfo } = toCreate[0];
+      const nextStart = addDays(base.plannedEnd || addDays(base.start,(base.plannedDays||1)-1),1);
+      const nextTask = {
+        ...emptyTask(),
+        id: `${Date.now()}`,
+        name: base.name,
+        info: nextInfo,
+        color: base.color,
+        kind: base.kind,
+        mode: base.mode,
+        unitsTotal: base.unitsTotal,
+        unitsStrategy: base.unitsStrategy,
+        unitsPerDay: base.unitsPerDay,
+        start: nextStart,
+        plannedEnd: addDays(nextStart, (base.plannedDays||1)-1),
+        plannedDays: base.plannedDays,
+        planMode: base.planMode,
+        daysCount: base.daysCount,
+        excludeRule: base.excludeRule,
+        exclusions: [],
+        marks: {},
+      };
+      setTasks(prev=> [...prev, nextTask]);
+      toast.success(`Автосоздан следующий том: ${nextInfo}`);
+    }
+  }, [tasks, loaded]);
 
   if (!isAdmin) return <Navigate to="/profile" replace />;
 
@@ -501,11 +956,12 @@ export const TimeManagementPage = () => {
       walkTime,
       speed,
       reason,
+      notes: m?.notes || '',
     });
     setDayOpen(true);
   };
   const saveDay = () => {
-    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, walkTime, speed, reason } = dayForm;
+    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, walkTime, speed, reason, notes } = dayForm;
     setTasks(prev =>
       prev.map(t => {
         if (t.id !== taskId) return t;
@@ -530,6 +986,7 @@ export const TimeManagementPage = () => {
             walkTime: kind === 'walk' ? Number(walkTime) || 0 : undefined,
             speed: kind === 'walk' ? Number(speed) || 0 : undefined,
             reason: kind === 'walk' && !done ? reason : undefined,
+            notes: notes?.trim() ? notes.trim() : undefined,
           };
         }
         return { ...t, exclusions, marks };
@@ -541,6 +998,48 @@ export const TimeManagementPage = () => {
 
   const togglePhase = p => setCollapsed(prev => ({ ...prev, [p]: !prev[p] }));
   const goToday = () => setWeek(Math.max(1, Math.floor(diffDays(origin, today) / 7) + 1));
+  const toggleBoardSelect = id => setBoardSelected(prev => ({ ...prev, [id]: !prev[id] }));
+  const bulkArchiveBoard = () => {
+    const ids = Object.keys(boardSelected).filter(k=> boardSelected[k]);
+    if (!ids.length) return;
+    setTasks(prev=> prev.map(t=> ids.includes(t.id) ? { ...t, archived: true } : t));
+    setBoardSelected({});
+    toast.success(`В архив: ${ids.length}`);
+  };
+  const bulkDeleteBoard = () => {
+    const ids = Object.keys(boardSelected).filter(k=> boardSelected[k]);
+    if (!ids.length) return;
+    if (!window.confirm(`Удалить ${ids.length} задач?`)) return;
+    setTasks(prev=> prev.filter(t=> !ids.includes(t.id)));
+    setBoardSelected({});
+  };
+  const bulkShiftBoard = (delta) => {
+    const ids = Object.keys(boardSelected).filter(k=> boardSelected[k]);
+    if (!ids.length) return;
+    setTasks(prev=> prev.map(t=> {
+      if (!ids.includes(t.id)) return t;
+      const newStart = addDays(t.start, delta);
+      const newPlannedEnd = addDays(t.plannedEnd || addDays(t.start, (t.plannedDays||1)-1), delta);
+      return { ...t, start: newStart, plannedEnd: newPlannedEnd };
+    }));
+    toast.success(`Сдвинуто на ${delta} дн: ${ids.length}`);
+  };
+  const handleDragStart = (e, id) => { setDragTaskId(id); e.dataTransfer.effectAllowed = 'move'; };
+  const handleDragOver = (e) => e.preventDefault();
+  const handleDrop = (e, date) => {
+    e.preventDefault();
+    if (!dragTaskId) return;
+    const task = tasks.find(t=> t.id === dragTaskId);
+    if (!task) return;
+    const delta = diffDays(task.start, date);
+    if (delta === 0) { setDragTaskId(null); return; }
+    const newStart = date;
+    const duration = diffDays(task.start, task.plannedEnd || addDays(task.start, (task.plannedDays||1)-1));
+    const newEnd = addDays(newStart, duration);
+    setTasks(prev=> prev.map(t=> t.id===dragTaskId ? { ...t, start: newStart, plannedEnd: newEnd } : t));
+    toast.success(`Перенесено: ${task.name} → ${newStart}`);
+    setDragTaskId(null);
+  };
 
   const gridTemplate = `${COLS.map(c => `${c.width}px`).join(' ')} repeat(${days.length}, 32px)`;
 
@@ -571,6 +1070,17 @@ export const TimeManagementPage = () => {
               }}
             >
               Доска
+            </Button>
+            <Button
+              size="small"
+              variant={view === 'chart' ? 'contained' : 'outlined'}
+              startIcon={<BarChartIcon />}
+              onClick={() => {
+                setView('chart');
+                setSelected({});
+              }}
+            >
+              График
             </Button>
             <Button
               size="small"
@@ -633,7 +1143,18 @@ export const TimeManagementPage = () => {
       </div>
 
       {view === 'board' && (
-        <div className="tm-gantt">
+        <>
+          {Object.values(boardSelected).some(Boolean) && (
+            <div className="tm-bulkbar">
+              <span>Выбрано {Object.values(boardSelected).filter(Boolean).length}</span>
+              <Button size="small" variant="outlined" onClick={()=> bulkShiftBoard(-1)}>← -1 день</Button>
+              <Button size="small" variant="outlined" onClick={()=> bulkShiftBoard(1)}>+1 день →</Button>
+              <Button size="small" variant="outlined" onClick={bulkArchiveBoard}>В архив</Button>
+              <Button size="small" variant="outlined" color="error" onClick={bulkDeleteBoard}>Удалить</Button>
+              <Button size="small" onClick={()=> setBoardSelected({})}>Снять</Button>
+            </div>
+          )}
+          <div className="tm-gantt" onDragOver={handleDragOver}>
           <div className="tm-grid" style={{ gridTemplateColumns: gridTemplate }}>
           {COLS.map((c, i) => (
             <div key={c.key} className="tm-cell tm-cell--head tm-sticky" style={{ left: LEFT_OFFSET[i], width: c.width }}>
@@ -672,13 +1193,17 @@ export const TimeManagementPage = () => {
             const t = row.task;
             const sch = row.sch;
             const factDays = Object.values(t.marks || {}).filter(m => m.done).length;
+            const forecast = getForecast(t);
             return (
               <React.Fragment key={t.id}>
                 <div
                   className="tm-cell tm-sticky tm-task"
-                  style={{ left: LEFT_OFFSET[0], width: COLS[0].width, borderLeft: `4px solid ${t.color}` }}
+                  draggable
+                  onDragStart={(e)=> handleDragStart(e, t.id)}
+                  style={{ left: LEFT_OFFSET[0], width: COLS[0].width, borderLeft: `4px solid ${t.color}`, cursor: 'grab' }}
                   onClick={() => openEdit(t)}
                 >
+                  <input type="checkbox" checked={!!boardSelected[t.id]} onChange={()=> toggleBoardSelect(t.id)} onClick={e=> e.stopPropagation()} style={{ accentColor: t.color, width:14, height:14 }} />
                   <span className="tm-swatch" style={{ background: t.color }} />
                   <span className="tm-taskname">{t.name}</span>
                   {t.info && <span className="tm-tasktitle">{t.info}</span>}
@@ -689,12 +1214,20 @@ export const TimeManagementPage = () => {
                 <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[2], width: COLS[2].width }} onClick={() => openEdit(t)}>
                   {t.plannedEnd}
                 </div>
-                <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[3], width: COLS[3].width }} onClick={() => openEdit(t)}>
-                  {sch.end}{' '}
-                  <span className="tm-fact">
-                    ({factDays}/{sch.plannedDays}
-                    {sch.ext + sch.excludedCount > 0 ? `+${sch.ext + sch.excludedCount}` : ''})
-                  </span>
+                <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[3], width: COLS[3].width, flexDirection: 'column', alignItems: 'flex-start', gap: 2, padding: '4px 6px' }} onClick={() => openEdit(t)}>
+                  <div>
+                    {sch.end}{' '}
+                    <span className="tm-fact">
+                      ({factDays}/{sch.plannedDays}
+                      {sch.ext + sch.excludedCount > 0 ? `+${sch.ext + sch.excludedCount}` : ''})
+                    </span>
+                  </div>
+                  {forecast && !forecast.finished && (
+                    <span className="tm-forecast" title={`Среднее ${forecast.avg} стр/день, осталось ${forecast.remaining} стр.`} style={{ fontSize: 10, color: forecast.diff > 3 ? '#ff8a8a' : forecast.diff > 0 ? '#f5c16c' : '#4ade80' }}>
+                      прогноз {forecast.estimatedEnd} {forecast.diff !== 0 ? `(${forecast.diff > 0 ? '+' : ''}${forecast.diff} дн)` : '(в срок)'}
+                    </span>
+                  )}
+                  {forecast?.finished && <span className="tm-forecast" style={{ fontSize: 10, color: '#4ade80' }}>✓ Готово</span>}
                 </div>
                 {days.map(d => {
                   const cell = dayCell(t, sch, row.effStart, d);
@@ -702,11 +1235,11 @@ export const TimeManagementPage = () => {
                     isMonday(d) ? 'tm-weekstart' : ''
                   }`;
                   if (cell.kind === 'empty')
-                    return <div key={d} className={baseCls} onClick={() => openDay(t, row.effStart, d)} />;
+                    return <div key={d} className={baseCls} onClick={() => openDay(t, row.effStart, d)} onDragOver={handleDragOver} onDrop={(e)=> handleDrop(e, d)} />;
                   const pct = Math.max(0, Math.min(100, cell.fill || 0));
                   const title =
                     cell.title ||
-                    (cell.kind === 'done' ? `${Math.round(cell.fill)}%` : cell.kind === 'miss' ? 'Пропуск' : '');
+                    (cell.kind === 'done' ? `${Math.round(cell.fill)}%` : cell.kind === 'miss' ? 'Пропуск' : cell.kind === 'current' ? 'Текущий день' : '');
                   const showText = cell.kind === 'done' || cell.kind === 'miss' || (cell.kind === 'extension' && cell.fill > 0);
                   const filled = (cell.kind === 'done' || cell.kind === 'extension') && cell.fill > 0;
                   const borderColor =
@@ -722,9 +1255,11 @@ export const TimeManagementPage = () => {
                       key={d}
                       className={`${baseCls} tm-daycell ${cell.kind === 'miss' ? 'tm-miss' : ''} ${
                         cell.kind === 'cut' ? 'tm-cut' : ''
-                      } ${cell.kind === 'gap' ? 'tm-excluded' : ''} ${cell.kind === 'extension' ? 'tm-ext' : ''}`}
+                      } ${cell.kind === 'gap' ? 'tm-excluded' : ''} ${cell.kind === 'extension' ? 'tm-ext' : ''} ${dragTaskId===t.id ? 'tm-drop-target' : ''}`}
                       style={{ borderColor }}
                       onClick={() => openDay(t, row.effStart, d)}
+                      onDragOver={handleDragOver}
+                      onDrop={(e)=> handleDrop(e, d)}
                       title={title}
                     >
                       {cell.kind === 'gap' && <span className="tm-gap-mark">↩</span>}
@@ -736,6 +1271,7 @@ export const TimeManagementPage = () => {
                           {cell.kind === 'miss' ? '✗' : Math.round(cell.fill)}
                         </span>
                       )}
+                      {t.marks?.[d]?.notes && <span className="tm-note-dot" title={t.marks[d].notes}>✎</span>}
                     </div>
                   );
                 })}
@@ -748,6 +1284,248 @@ export const TimeManagementPage = () => {
               Пока нет задач. Нажмите «Добавить задачу».
             </div>
           )}
+          </div>
+        </div>
+        </>
+      )}
+
+      {view === 'chart' && (
+        <div className="tm-detail">
+          {/* header как на макете */}
+          <div className="tm-detail__head">
+            <IconButton onClick={()=> setView('board')} size="small" sx={{ color: '#c9c9c9', bgcolor: '#1e1e1e', width: 36, height: 36 }}>
+              <ArrowBackIcon fontSize="small" />
+            </IconButton>
+            <div className="tm-detail__head-icon">
+              <CalendarTodayIcon sx={{ fontSize: 18, color: '#c2a85a' }} />
+            </div>
+            <div className="tm-detail__head-text">
+              <b>{tasks[0]?.name || 'Статистика'}</b>
+              <span>Детальная статистика</span>
+            </div>
+          </div>
+
+          {/* 2 большие карточки */}
+          <div className="tm-detail__grid2">
+            <div className="tm-detail__card tm-detail__card--stat">
+              <div className="tm-detail__icon tm-detail__icon--gold"><CheckCircleOutlineIcon sx={{ color: '#c2a85a', fontSize: 20 }} /></div>
+              <div>
+                <b>{detailed.totalMarks}</b>
+                <span>Всего отметок</span>
+              </div>
+            </div>
+            <div className="tm-detail__card tm-detail__card--stat">
+              <div className="tm-detail__icon tm-detail__icon--gold2"><EmojiEventsIcon sx={{ color: '#c2a85a', fontSize: 20 }} /></div>
+              <div>
+                <b>{detailed.bestStreak}</b>
+                <span>Лучшая серия</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 4 маленькие карточки */}
+          <div className="tm-detail__grid4">
+            <div className="tm-detail__card tm-detail__card--sm">
+              <div className="tm-detail__icon tm-detail__icon--gold"><CalendarTodayIcon sx={{ color: '#c2a85a', fontSize: 18 }} /></div>
+              <div>
+                <b>{detailed.monthCount}</b>
+                <span>{detailed.monthNameForStat} {detailed.yearStr}</span>
+              </div>
+            </div>
+            <div className="tm-detail__card tm-detail__card--sm">
+              <div className="tm-detail__icon tm-detail__icon--blue"><TrendingUpIcon sx={{ color: '#6ea8ff', fontSize: 18 }} /></div>
+              <div>
+                <b>{detailed.yearTotal}</b>
+                <span>{detailed.yearStr} всего</span>
+              </div>
+            </div>
+            <div className="tm-detail__card tm-detail__card--sm">
+              <div className="tm-detail__icon tm-detail__icon--green"><WorkspacePremiumIcon sx={{ color: '#4ade80', fontSize: 18 }} /></div>
+              <div>
+                <b>{detailed.bestMonthName}</b>
+                <span>{detailed.bestMonthVal} отм.</span>
+              </div>
+            </div>
+            <div className="tm-detail__card tm-detail__card--sm">
+              <div className="tm-detail__icon tm-detail__icon--orange"><LocalFireDepartmentIcon sx={{ color: '#f59e0b', fontSize: 18 }} /></div>
+              <div>
+                <b>{detailed.currentStreak}</b>
+                <span>Текущая серия</span>
+              </div>
+            </div>
+          </div>
+
+          {/* контролы графика */}
+          <div className="tm-detail__controls">
+            <div className="tm-segment">
+              <button className={chartType==='bar' ? 'active' : ''} onClick={()=> setChartType('bar')}>
+                <BarChartOutlinedIcon sx={{ fontSize: 16 }} /> Столбчатый
+              </button>
+              <button className={chartType==='line' ? 'active' : ''} onClick={()=> setChartType('line')}>
+                <ShowChartIcon sx={{ fontSize: 16 }} /> Линейный
+              </button>
+            </div>
+            <div className="tm-segment">
+              <button className={granularity==='months' ? 'active' : ''} onClick={()=> setGranularity('months')}>По месяцам</button>
+              <button className={granularity==='days' ? 'active' : ''} onClick={()=> setGranularity('days')}>По дням</button>
+            </div>
+            <div className="tm-year-select">
+              <select value={selectedYear} onChange={e=> setSelectedYear(Number(e.target.value))}>
+                {availableYears.map(y=> <option key={y} value={y}>{y}</option>)}
+              </select>
+            </div>
+            {granularity==='days' && (
+              <div className="tm-year-select">
+                <select value={selectedMonth} onChange={e=> setSelectedMonth(Number(e.target.value))}>
+                  {MONTHS_RU.map((m,i)=> <option key={i} value={i}>{m} {selectedYear}</option>)}
+                </select>
+              </div>
+            )}
+            <div className="tm-year-select">
+              <select value={selectedBook} onChange={e=> setSelectedBook(e.target.value)}>
+                <option value="all">Все книги</option>
+                {availableBooks.map(b=> <option key={b.id} value={b.id}>{b.label}</option>)}
+              </select>
+            </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#c9c9c9', fontSize: 12 }}>
+              <Switch size="small" checked={perBookMode} onChange={e=> setPerBookMode(e.target.checked)} disabled={selectedBook !== 'all' || availableBooks.filter(b=> tasks.some(t=> t.id===b.id && t.kind==='book')).length < 2} />
+              Раздельно по книгам
+            </label>
+          </div>
+
+          {/* Распределение */}
+          <div className="tm-detail__card tm-detail__card--chart">
+            <h4>{granularity==='days' ? `Распределение по дням — ${MONTHS_RU[selectedMonth]} ${selectedYear}` : 'Распределение по месяцам'}{selectedBook!=='all' ? ` — ${availableBooks.find(b=>b.id===selectedBook)?.label}` : ''}</h4>
+            <div style={{ width: '100%', height: 260 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                {perBookMode && selectedBook==='all' && detailed.perBookData.length ? (
+                  chartType === 'line' ? (
+                    <LineChart data={detailed.perBookData[0]?.data || detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                      <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
+                      <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} domain={[0, 'auto']} />
+                      <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
+                      {detailed.perBookData.map(b=> (
+                        <Line key={b.id} data={b.data} type="monotone" dataKey="actual" stroke={b.color} strokeWidth={2} dot={{ r: 3, fill: b.color }} name={`${b.label} факт`} />
+                      ))}
+                      {detailed.perBookData.map(b=> b.data.some(x=>x.plan>0) ? (
+                        <Line key={b.id+'-plan'} data={b.data} type="monotone" dataKey="plan" stroke={b.color} strokeDasharray="6 4" strokeWidth={1.5} dot={false} opacity={0.6} name={`${b.label} план`} />
+                      ) : null)}
+                    </LineChart>
+                  ) : (
+                    <BarChart data={detailed.perBookData[0]?.data || detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                      <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
+                      <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} />
+                      <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
+                      {detailed.perBookData.map(b=> (
+                        <Bar key={b.id} data={b.data} dataKey="actual" fill={b.color} radius={[4,4,0,0]} name={`${b.label} факт`} />
+                      ))}
+                    </BarChart>
+                  )
+                ) : chartType === 'line' ? (
+                  <LineChart data={detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                    <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
+                    <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
+                    <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} domain={[0, 'auto']} />
+                    <Tooltip
+                      contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }}
+                      formatter={(value, name) => [value, name === 'actual' ? 'Факт' : 'План']}
+                    />
+                    {detailed.chartHasPlan && (
+                      <Line type="monotone" dataKey="plan" stroke="#6b6b6b" strokeDasharray="6 4" strokeWidth={2} dot={{ r: 3, fill: '#6b6b6b' }} name="plan" />
+                    )}
+                    <Line type="monotone" dataKey="actual" stroke="#c2a85a" strokeWidth={2.5} dot={{ r: granularity==='days'? 3 : 5, fill: '#c2a85a', stroke: '#c2a85a' }} activeDot={{ r: 6 }} name="actual" />
+                  </LineChart>
+                ) : (
+                  <BarChart data={detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                    <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
+                    <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
+                    <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} />
+                    <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
+                    {detailed.chartHasPlan && <Bar dataKey="plan" fill="#3a3a3a" radius={[6,6,0,0]} name="План" />}
+                    <Bar dataKey="actual" fill="#c2a85a" radius={[6,6,0,0]} name="Факт" />
+                  </BarChart>
+                )}
+              </ResponsiveContainer>
+            </div>
+            {(perBookMode && selectedBook==='all' && detailed.perBookData.length ? detailed.perBookData.some(b=> b.data.some(x=>x.plan>0)) : detailed.chartHasPlan) ? (
+              <div className="tm-detail__legend">
+                <span><i style={{ background: '#c2a85a' }} /> Факт</span>
+                <span><i style={{ background: '#6b6b6b' }} /> План</span>
+              </div>
+            ) : perBookMode && selectedBook==='all' && detailed.perBookData.length ? (
+              <div className="tm-detail__legend">
+                {detailed.perBookData.map(b=> <span key={b.id}><i style={{ background: b.color }} /> {b.label}</span>)}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Heatmap */}
+          <div className="tm-detail__card tm-detail__card--chart">
+            <h4>Карта активности — {selectedYear}</h4>
+            <div className="tm-heatmap">
+              <div className="tm-heatmap__grid">
+                {detailed.weeks.map((week, wi) => (
+                  <div key={wi} className="tm-heatmap__week">
+                    {week.map(day => {
+                      const lvl = day.isOutside ? -1 : day.intensity === 0 ? 0 : day.intensity < 0.25 ? 1 : day.intensity < 0.5 ? 2 : day.intensity < 0.75 ? 3 : 4;
+                      const cls = lvl === -1 ? 'is-outside' : lvl === 0 ? 'lvl-0' : `lvl-${lvl}`;
+                      return (
+                        <div
+                          key={day.date}
+                          className={`tm-heatmap__cell ${cls} ${day.isToday ? 'is-today' : ''}`}
+                          title={`${day.date}: ${day.value} ${selectedBook==='all' ? 'отм.' : 'стр.'}`}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+              <div className="tm-heatmap__legend">
+                <span>Меньше</span>
+                <div className="tm-heatmap__scale">
+                  <i className="lvl-0" /><i className="lvl-1" /><i className="lvl-2" /><i className="lvl-3" /><i className="lvl-4" />
+                </div>
+                <span>Больше</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Соотношение выполнения */}
+          <div className="tm-detail__card tm-detail__card--chart">
+            <div className="tm-detail__card-head">
+              <h4>Соотношение выполнения</h4>
+              <div className="tm-segment tm-segment--small">
+                <button className={donutPeriod==='month' ? 'active' : ''} onClick={()=> setDonutPeriod('month')}>Текущий месяц</button>
+                <button className={donutPeriod==='year' ? 'active' : ''} onClick={()=> setDonutPeriod('year')}>Год</button>
+              </div>
+            </div>
+            <div style={{ width: '100%', height: 240, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={detailed.donutData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={64}
+                    outerRadius={88}
+                    paddingAngle={3}
+                    dataKey="value"
+                    stroke="#111"
+                  >
+                    {detailed.donutData.map((entry, idx) => (
+                      <Cell key={`cell-${idx}`} fill={entry.color} stroke="#111" />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="tm-detail__legend tm-detail__legend--center">
+              <span><i style={{ background: '#3a3a45' }} /> Неотмеченные дни</span>
+              <span><i style={{ background: '#c2a85a' }} /> Отмеченные дни</span>
+            </div>
           </div>
         </div>
       )}
@@ -950,6 +1728,47 @@ export const TimeManagementPage = () => {
               </MenuItem>
             ))}
           </TextField>
+          {/* произвольные даты-исключения */}
+          <div style={{ marginTop: 8 }}>
+            <div style={{ fontSize: 12, color: '#8a8a8a', marginBottom: 4 }}>Исключённые даты ({(taskForm.exclusions||[]).length})</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
+              {(taskForm.exclusions||[]).map(d=> (
+                <span key={d} style={{ display:'inline-flex', alignItems:'center', gap:4, background:'#1e1e1e', border:'1px solid #333', borderRadius:12, padding:'2px 8px', fontSize:11 }}>
+                  {d} <IconButton size="small" onClick={()=> setTaskForm(p=> ({...p, exclusions: p.exclusions.filter(x=> x!==d)}))} sx={{ width:16, height:16, p:0 }}><DeleteOutlineIcon sx={{ fontSize:12 }} /></IconButton>
+                </span>
+              ))}
+              {!(taskForm.exclusions||[]).length && <span style={{ fontSize:11, color:'#666' }}>нет дат</span>}
+            </div>
+            <div style={{ display:'flex', gap:6 }}>
+              <TextField type="date" size="small" id="exclDate" InputLabelProps={{ shrink:true }} sx={{ flex:1 }} />
+              <Button size="small" variant="outlined" onClick={()=>{
+                const el = document.getElementById('exclDate');
+                const v = el && el.value;
+                if (!v) return toast.warn('Выберите дату');
+                if ((taskForm.exclusions||[]).includes(v)) return toast.warn('Уже в списке');
+                setTaskForm(p=> ({...p, exclusions: [...(p.exclusions||[]), v]}));
+                if (el) el.value = '';
+              }}>+ Дата</Button>
+            </div>
+          </div>
+          {taskForm.kind==='book' && (
+            <div style={{ marginTop: 12, padding: 8, background:'#121214', border:'1px solid #1f1f22', borderRadius:10 }}>
+              <div style={{ fontSize:11, color:'#8a8a8a', marginBottom:6 }}>Шаблоны серии (томов)</div>
+              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                {[
+                  { label:'Трилогия 3×320', total:960, days:90 },
+                  { label:'5 томов 1500', total:1500, days:120 },
+                  { label:'30 дней ×20стр', total:600, days:30, perDay:20 },
+                  { label:'90 дней ×10стр', total:900, days:90, perDay:10 },
+                ].map(tpl=> (
+                  <Button key={tpl.label} size="small" variant="outlined" sx={{ fontSize:11, borderColor:'#333', color:'#c9c9c9' }} onClick={()=>{
+                    setTaskForm(p=> ({...p, mode:'units', unitsTotal: String(tpl.total), unitsStrategy: tpl.perDay ? 'fixed' : 'even', unitsPerDay: tpl.perDay ? String(tpl.perDay) : p.unitsPerDay, plannedDays: tpl.days, plannedEnd: addDays(p.start, tpl.days-1), daysCount: String(tpl.days)}));
+                    toast.info(`Применён шаблон: ${tpl.label}`);
+                  }}>{tpl.label}</Button>
+                ))}
+              </div>
+            </div>
+          )}
         </DialogContent>
         <DialogActions>
           {taskForm.id && (
@@ -1097,6 +1916,18 @@ export const TimeManagementPage = () => {
                     )}
                   </>
                 )
+              )}
+              {!dayForm.exclude && dayForm.date <= today && (
+                <TextField
+                  label="Заметка"
+                  value={dayForm.notes || ''}
+                  onChange={e => setDayForm(p => ({ ...p, notes: e.target.value }))}
+                  fullWidth
+                  multiline
+                  rows={2}
+                  margin="dense"
+                  placeholder="Комментарий к дню..."
+                />
               )}
             </>
           )}

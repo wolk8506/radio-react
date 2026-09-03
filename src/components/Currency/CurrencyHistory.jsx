@@ -25,6 +25,10 @@ const CURRENCIES = [
   { code: 'USD', label: 'Доллар США', color: '#a855f7' },
   { code: 'EUR', label: 'Евро', color: '#38bdf8' },
   { code: 'PLN', label: 'Злотый', color: '#34d399' },
+  { code: 'GBP', label: 'Фунт', color: '#f59e0b' },
+  { code: 'CHF', label: 'Франк', color: '#ec4899' },
+  { code: 'CAD', label: 'Канадский доллар', color: '#10b981' },
+  { code: 'JPY', label: 'Иена', color: '#eab308' },
 ];
 
 export const CurrencyHistory = () => {

@@ -8,4 +8,6 @@ export const radioService = {
   getStations: async () => (await api.get('/radio/stations')).data.data.result,
   // Что играет на всех станциях (закешировано на бэкенде)
   getNowPlaying: async () => (await api.get('/radio/now-playing')).data.data.result,
+  // История воспроизведения за последний час для конкретной станции
+  getHistory: async (stationId) => (await api.get(`/radio/history/${stationId}`)).data.data.result,
 };
