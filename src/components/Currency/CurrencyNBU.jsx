@@ -82,17 +82,29 @@ export const CurrencyNBU = () => {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: '#1e1e1e',
+      color: '#c2a85a',
+      borderBottom: '1px solid #2a2a2e',
+      fontWeight: 600,
+      fontSize: 12,
+      textTransform: 'uppercase',
+      letterSpacing: '0.03em',
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
+      fontSize: 13,
+      color: '#e8dcc3',
+      borderBottom: '1px solid #232326',
+      // backgroundColor: '#121214',
+      fontFamily: 'monospace',
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: '#121214',
+    },
+    '&:nth-of-type(even)': {
+      backgroundColor: '#161618',
     },
     '&:last-child td, &:last-child th': {
       border: 0,
@@ -166,8 +178,11 @@ export const CurrencyNBU = () => {
       </div>
 
       <div></div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <TableContainer
+        component={Paper}
+        sx={{ background: '#121214', border: '1px solid #1f1f22', borderRadius: '14px', overflow: 'hidden' }}
+      >
+        <Table sx={{ minWidth: 700 }} aria-label="customized table" size="small">
           <TableHead>
             <TableRow>
               <StyledTableCell>Валюта</StyledTableCell>
@@ -179,7 +194,11 @@ export const CurrencyNBU = () => {
           <TableBody>
             {rows.map(row => (
               <StyledTableRow key={row.name}>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ color: '#e8e8e8', borderBottom: '1px solid #232326', background: 'transparent' }}
+                >
                   {row.name}
                 </TableCell>
                 <StyledTableCell align="right">{row.calories}</StyledTableCell>

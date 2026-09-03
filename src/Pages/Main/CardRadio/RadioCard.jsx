@@ -2,9 +2,11 @@ import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Typography, MenuItem, FormControl, Select, IconButton, Tooltip } from '@mui/material';
+import { Box, Typography, MenuItem, FormControl, Select, IconButton, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import HistoryIcon from '@mui/icons-material/History';
+import CloseIcon from '@mui/icons-material/Close';
 // import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 // import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 // import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
@@ -14,6 +16,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import { dataActions, rootSelectors } from 'store';
 import { radioData } from './Radio-data';
 import { useRadioNowPlaying } from './useRadioNowPlaying';
+import { useRadioHistory } from './useRadioHistory';
 import { playStream, resumeStream, isCurrentStream } from './playStream';
 
 const KEYFRAME_STYLES = `
@@ -112,11 +115,14 @@ export const RadioCard = ({ onAudio }) => {
   const [station, setStation] = useState(PLAYER_STATION ?? 0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playTime, setPlayTime] = useState('00:00');
+  const [showHistory, setShowHistory] = useState(false);
   // const [volume, setVolume] = useState(0.75);
   // const [isHoveredVolume, setIsHoveredVolume] = useState(false);
   // const [isDraggingVolume, setIsDraggingVolume] = useState(false);
 
   const nowPlayingMap = useRadioNowPlaying();
+  const currentStationData = radioData[station] || radioData[0];
+  const { history, loading: historyLoading } = useRadioHistory(currentStationData?.id, showHistory);
 
   useEffect(() => {
     if (PLAYER_STATION !== undefined && PLAYER_STATION !== station) {
@@ -179,7 +185,6 @@ export const RadioCard = ({ onAudio }) => {
     return () => clearInterval(interval);
   }, [onAudio]);
 
-  const currentStationData = radioData[station] || radioData[0];
   const np = nowPlayingMap?.[currentStationData?.id] || null;
 
   useEffect(() => {
@@ -241,6 +246,110 @@ export const RadioCard = ({ onAudio }) => {
   const glassStrong = 'rgba(255,255,255,0.14)';
   const textMain = '#fff';
   const textMuted = 'rgba(255,255,255,0.55)';
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const renderHistoryView = () => (
+    <Box
+      className="block"
+      sx={{
+        width: '100%',
+        maxWidth: '100%',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '236px',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          // mb: 2,
+          pb: 1,
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: 700, color: textMain }}>
+          История воспроизведения
+        </Typography>
+        <IconButton
+          size="small"
+          onClick={() => setShowHistory(false)}
+          sx={{ color: textMuted, '&:hover': { color: textMain } }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          flex: 1,
+          overflow: 'auto',
+          maxHeight: 'calc(100% - 60px)',
+          '&::-webkit-scrollbar': { width: 6 },
+          '&::-webkit-scrollbar-track': { background: 'transparent' },
+          '&::-webkit-scrollbar-thumb': { background: 'rgba(255,255,255,0.2)', borderRadius: 3 },
+        }}
+      >
+        {historyLoading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4, color: textMuted }}>Загрузка...</Box>
+        ) : history.length === 0 ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4, color: textMuted }}>История пуста</Box>
+        ) : (
+          <List disablePadding dense>
+            {history
+              .slice()
+              .reverse()
+              .map((item, idx) => (
+                <ListItem
+                  key={`${item.playedAt}-${idx}`}
+                  sx={{
+                    px: 0,
+                    py: 1,
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    '&:last-child': { borderBottom: 'none' },
+                  }}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      src={item.cover || currentStationData?.logo}
+                      alt={item.track || 'Track'}
+                      sx={{ width: 40, height: 40, bgcolor: 'rgba(255,255,255,0.1)' }}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography variant="body2" sx={{ color: textMain, fontWeight: 600, fontSize: '0.85rem' }} noWrap>
+                        {item.artist || currentStationData?.name}
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography variant="caption" sx={{ color: textMuted, fontSize: '0.75rem', mt: 0.2 }} noWrap>
+                        {item.track || item.title || 'Неизвестный трек'}
+                      </Typography>
+                    }
+                  />
+                  <Typography
+                    variant="caption"
+                    sx={{ color: textMuted, fontSize: '0.7rem', minWidth: 55, textAlign: 'right', ml: 1 }}
+                  >
+                    {formatTime(item.playedAt)}
+                  </Typography>
+                </ListItem>
+              ))}
+          </List>
+        )}
+      </Box>
+    </Box>
+  );
+
+  if (showHistory) {
+    return renderHistoryView();
+  }
 
   // Динамическая иконка уровня громкости
   // const renderVolumeIcon = () => {
@@ -479,56 +588,30 @@ export const RadioCard = ({ onAudio }) => {
       </Box>
 
       {/* 3. Управление */}
-      <Box sx={{ m: 'auto' }}>
-        {/* Индикатор LIVE / PAUSED */}
-        {/* <Box
-          sx={{
-            position: 'absolute',
-            bottom: 10,
-            right: 7,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            gap: 1,
-            height: 36,
-            px: 1.2,
-            borderRadius: '100px',
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            backdropFilter: 'blur(8px)',
-            transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-            '@media (min-width: 601px)': {
-              top: 10,
-              right: 7,
-            },
-          }}
-        >
-          <Box
+      <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
+        {/* Кнопка истории */}
+        <Tooltip title="История воспроизведения" arrow placement="top">
+          <IconButton
+            onClick={() => setShowHistory(true)}
             sx={{
-              width: 7,
-              height: 7,
-              borderRadius: '50%',
-              background: isPlaying ? '#fff' : 'rgba(255,255,255,0.4)',
-              animation: isPlaying ? 'liveBlink 1.2s ease-in-out infinite' : 'none',
+              width: 48,
+              height: 48,
+              flexShrink: 0,
+              background: `linear-gradient(135deg, ${glassStrong}, ${glass})`,
+              color: textMain,
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              transition: 'all 0.3s cubic-bezier(0.2,0,0.2,1)',
+              '&:hover': {
+                transform: 'scale(1.05)',
+                background: `linear-gradient(135deg, ${accent}40, ${accent}20)`,
+                borderColor: `${accent}60`,
+              },
             }}
-          />
-          {isPlaying ? (
-            <SensorsIcon />
-          ) : (
-            <Typography
-              sx={{
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: isPlaying ? '#fff' : 'rgba(255,255,255,0.6)',
-                fontFamily: 'monospace',
-              }}
-            >
-              PAUSED
-            </Typography>
-          )}
-        </Box> */}
+          >
+            <HistoryIcon sx={{ fontSize: '1.5rem' }} />
+          </IconButton>
+        </Tooltip>
 
         {/* Кнопка Play / Pause */}
         <IconButton

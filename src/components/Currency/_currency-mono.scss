@@ -7,9 +7,18 @@ form {
 }
 
 .converter-block {
-  padding: 30px;
-  width: 500px;
-  margin: 20px 20px 20px 0px;
+  padding: 24px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0;
+  // background: #121214;
+  // border: 1px solid #1f1f22;
+  border-radius: 14px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  // justify-content: space-between;
+  // flex: 1 1 480px;
   @include function.card-style;
 
   .text-field-block {
