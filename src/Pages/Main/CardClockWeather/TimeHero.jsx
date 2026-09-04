@@ -26,7 +26,8 @@ export const TimeHero = () => {
         mm: now.format('mm'),
         ss: now.format('ss'),
       });
-      setFullDate(now.format('dddd, D MMMM YYYY'));
+      // setFullDate(now.format('dddd'));
+      setFullDate({day:now.format('dddd'), date:now.format('D MMMM YYYY')});
       setDayOfYear(now.dayOfYear());
       setWeekOfYear(now.week());
     };
@@ -65,7 +66,7 @@ export const TimeHero = () => {
       {/* Шапка карточки */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
         <AccessTimeIcon sx={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)' }} />
-        <Typography
+        {/* <Typography
           sx={{
             fontSize: '0.75rem',
             fontWeight: 600,
@@ -75,6 +76,33 @@ export const TimeHero = () => {
           }}
         >
           Система времени
+        </Typography> */}
+        <Typography
+          sx={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            // color: '#ffffff',
+            lineHeight: 1.2,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            '@media (max-width: 768px)': {
+              fontSize: '1.2rem',
+            },
+          }}
+        >
+          Привет,{' '}
+          <Box
+            component="span"
+            sx={{
+              background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            {username}
+          </Box>{' '}
+          👋
         </Typography>
       </Box>
 
@@ -97,8 +125,17 @@ export const TimeHero = () => {
         }}
       >
         {/* Приветствие и дата */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: 1, minWidth: 0 }}>
-          <Typography
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px',
+            flex: 1,
+            minWidth: 0,
+            '@media (max-width: 769px)': { flexDirection:'row',mt:1},
+          }}
+        >
+          {/* <Typography
             sx={{
               fontSize: '1.5rem',
               fontWeight: 700,
@@ -124,19 +161,38 @@ export const TimeHero = () => {
               {username}
             </Box>{' '}
             👋
-          </Typography>
+          </Typography> */}
 
           <Typography
             sx={{
               fontSize: '1rem',
-              color: 'rgba(255, 255, 255, 0.6)',
+              // color: 'rgba(255, 255, 255, 0.6)',
               textTransform: 'capitalize',
             }}
           >
-            {fullDate}
+            {fullDate.day}
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '1rem',
+              // color: 'rgba(255, 255, 255, 0.6)',
+              textTransform: 'capitalize',
+            }}
+          >
+            {fullDate.date}
           </Typography>
 
-          <Box sx={{ display: 'flex', gap: '8px', mt: '4px' }}>
+          <Box
+            sx={{
+              position: 'absolute',
+              display: 'flex',
+              gap: '8px',
+              mt: '4px',
+              bottom: 20,
+              '@media (max-width: 768px)': { top: 20, right: 24 },
+              '@media (min-width: 769px)': { left: 24 },
+            }}
+          >
             <Chip
               label={`День ${dayOfYear}`}
               size="small"
@@ -144,7 +200,7 @@ export const TimeHero = () => {
                 height: '22px',
                 fontSize: '0.7rem',
                 fontWeight: 600,
-                color: 'rgba(255, 255, 255, 0.85)',
+                // color: 'rgba(255, 255, 255, 0.85)',
                 background: 'rgba(255, 255, 255, 0.08)',
                 border: '1px solid rgba(255, 255, 255, 0.12)',
               }}
@@ -156,7 +212,7 @@ export const TimeHero = () => {
                 height: '22px',
                 fontSize: '0.7rem',
                 fontWeight: 600,
-                color: 'rgba(255, 255, 255, 0.85)',
+                // color: 'rgba(255, 255, 255, 0.85)',
                 background: 'rgba(255, 255, 255, 0.08)',
                 border: '1px solid rgba(255, 255, 255, 0.12)',
               }}
@@ -178,39 +234,39 @@ export const TimeHero = () => {
             boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)',
           }}
         >
-            <Typography
-              sx={{
-                fontSize: '5rem',
-                fontWeight: 700,
-                fontFamily: 'monospace',
-                color: '#ffffff',
-                lineHeight: 1,
-                letterSpacing: '-0.02em',
-                '@media (max-width: 768px)': {
-                  fontSize: '3rem',
-                },
-              }}
-            >
-              {time.hh}:{time.mm}
-            </Typography>
+          <Typography
+            sx={{
+              fontSize: '5rem',
+              fontWeight: 700,
+              fontFamily: 'monospace',
+              // color: '#ffffff',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
+              '@media (max-width: 768px)': {
+                fontSize: '3rem',
+              },
+            }}
+          >
+            {time.hh}:{time.mm}
+          </Typography>
 
-            <Typography
-              sx={{
-                fontSize: '2.1rem',
-                fontWeight: 700,
-                fontFamily: 'monospace',
-                color: '#a855f7',
-                background: 'rgba(168, 85, 247, 0.15)',
-                padding: '2px 8px',
-                borderRadius: '6px',
-                border: '1px solid rgba(168, 85, 247, 0.3)',
-                lineHeight: 1,
-                '@media (max-width: 768px)': {
-                  fontSize: '1.4rem',
-                  padding: '2px 6px',
-                },
-              }}
-            >
+          <Typography
+            sx={{
+              fontSize: '2.1rem',
+              fontWeight: 700,
+              fontFamily: 'monospace',
+              color: '#a855f7',
+              background: 'rgba(168, 85, 247, 0.15)',
+              padding: '2px 8px',
+              borderRadius: '6px',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
+              lineHeight: 1,
+              '@media (max-width: 768px)': {
+                fontSize: '1.4rem',
+                padding: '2px 6px',
+              },
+            }}
+          >
             {time.ss}
           </Typography>
         </Box>

@@ -1082,26 +1082,26 @@ body {
 }
 
 /* ===== Планшет (до 1024px): компактнее отступы и шрифты ===== */
-@media screen and (max-width: 1024px) {
-  .dashboard-grid {
-    gap: 12px;
-  }
+// @media screen and (max-width: 1080px) {
+//   .dashboard-grid {
+//     gap: 12px;
+//   }
 
-  .hero-title {
-    font-size: 1.1rem;
-  }
+//   .hero-title {
+//     font-size: 1.1rem;
+//   }
 
-  .digital-clock-large {
-    font-size: 4rem;
-  }
+//   .digital-clock-large {
+//     font-size: 4rem;
+//   }
 
-  .seconds-badge-large {
-    font-size: 2.2rem;
-  }
-}
+//   .seconds-badge-large {
+//     font-size: 2.2rem;
+//   }
+// }
 
 /* ===== Планшет в портретной ориентации (до 900px): крупные карточки в одну колонку ===== */
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1160px) {
   .time-hero-wrapper,
   .weather-wrapper,
   .radio-wrapper,
@@ -1116,6 +1116,15 @@ body {
   .joke-wrapper {
     grid-column: span 4;
   }
+
+     .dashboard-grid {
+      //  display: flex;
+      //  flex-direction: column;
+      //  gap: 10px;
+      //  padding: 8px;
+      //  min-height: auto;
+       max-width: 800px;
+     }
 }
 
 /* ===== Мобильная версия главной страницы (телефоны) ===== */
