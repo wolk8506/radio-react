@@ -61,7 +61,10 @@ const persistedRecipeFiles = persistReducer(persistConfigFiles, filesReducer);
 const persistedWeather = persistReducer(persistConfigWeather, weatherReducer);
 const persistedCurrency = persistReducer(persistConfigCurrency, currencyReducer);
 const persistedTimer = persistReducer(persistConfigTimer, timerReducer);
-const persistedTimeManagement = persistReducer({ key: 'timemanagement', storage }, timeManagementReducer);
+
+// timemanagement НЕ персистим — единый источник истины — сервер (иначе расхождение между устройствами)
+// ранее был persist с key 'timemanagement', оставлял stale данные в localStorage
+const nonPersistedTimeManagement = timeManagementReducer;
 
 const store = configureStore({
   reducer: {
@@ -72,7 +75,7 @@ const store = configureStore({
     weather: persistedWeather,
     currency: persistedCurrency,
     timer: persistedTimer,
-    timemanagement: persistedTimeManagement,
+    timemanagement: nonPersistedTimeManagement,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -83,4 +86,12 @@ const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+// очистка старого persist для timemanagement (был причиной расхождения между устройствами)
+try {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.removeItem('persist:timemanagement');
+  }
+} catch {}
+
 export default store;

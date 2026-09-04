@@ -16,6 +16,9 @@ import Slider from '@mui/material/Slider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+// import Paper from '@mui/material/Paper';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -822,7 +825,29 @@ export const TimeManagementPage = () => {
       base.name = 'Книга: ';
       base.mode = 'units';
       base.unitsTotal = 320;
-      base.unitsStrategy = 'even';
+      base.unitsStrategy = 'fixed';
+      base.unitsPerDay = 20;
+      // старт по умолчанию — день после окончания последней книги
+      const bookTasks = tasks.filter(t => t.kind === 'book' && !t.archived);
+      if (bookTasks.length) {
+        const lastEnd = bookTasks.reduce((max, t) => {
+          const end = t.plannedEnd || addDays(t.start, (t.plannedDays || 1) - 1);
+          return end > max ? end : max;
+        }, bookTasks[0].plannedEnd || bookTasks[0].start);
+        const nextStart = addDays(lastEnd, 1);
+        base.start = nextStart;
+        const days = Math.ceil(Number(base.unitsTotal) / Number(base.unitsPerDay));
+        base.plannedDays = days;
+        base.plannedEnd = addDays(nextStart, days - 1);
+        base.daysCount = String(days);
+        base.planMode = 'days';
+      } else {
+        const days = Math.ceil(Number(base.unitsTotal) / Number(base.unitsPerDay));
+        base.plannedDays = days;
+        base.plannedEnd = addDays(base.start, days - 1);
+        base.daysCount = String(days);
+        base.planMode = 'days';
+      }
     } else if (kind === 'walk') {
       base.kind = 'walk';
       base.name = 'Ходьба';
@@ -842,13 +867,35 @@ export const TimeManagementPage = () => {
     if (!name) return toast.warn('Укажите название задачи');
     let plannedDays;
     let plannedEnd;
-    if (taskForm.planMode === 'days') {
-      plannedDays = Math.max(1, Number(taskForm.daysCount) || 1);
-      plannedEnd = addDays(taskForm.start, plannedDays - 1);
+    if (taskForm.kind === 'book' && taskForm.mode === 'units') {
+      const total = Number(taskForm.unitsTotal) || 0;
+      if (!total) return toast.warn('Укажите всего страниц');
+      if (taskForm.unitsStrategy === 'fixed') {
+        const perDay = Number(taskForm.unitsPerDay) || 0;
+        if (!perDay) return toast.warn('Укажите страниц в день');
+        const days = Math.ceil(total / perDay);
+        plannedDays = days;
+        plannedEnd = addDays(taskForm.start, days - 1);
+      } else {
+        // even — берём из planMode как раньше
+        if (taskForm.planMode === 'days') {
+          plannedDays = Math.max(1, Number(taskForm.daysCount) || 1);
+          plannedEnd = addDays(taskForm.start, plannedDays - 1);
+        } else {
+          if (taskForm.plannedEnd < taskForm.start) return toast.warn('План. финиш раньше старта');
+          plannedDays = Math.max(1, diffDays(taskForm.start, taskForm.plannedEnd) + 1);
+          plannedEnd = taskForm.plannedEnd;
+        }
+      }
     } else {
-      if (taskForm.plannedEnd < taskForm.start) return toast.warn('План. финиш раньше старта');
-      plannedDays = Math.max(1, diffDays(taskForm.start, taskForm.plannedEnd) + 1);
-      plannedEnd = taskForm.plannedEnd;
+      if (taskForm.planMode === 'days') {
+        plannedDays = Math.max(1, Number(taskForm.daysCount) || 1);
+        plannedEnd = addDays(taskForm.start, plannedDays - 1);
+      } else {
+        if (taskForm.plannedEnd < taskForm.start) return toast.warn('План. финиш раньше старта');
+        plannedDays = Math.max(1, diffDays(taskForm.start, taskForm.plannedEnd) + 1);
+        plannedEnd = taskForm.plannedEnd;
+      }
     }
     const payload = { ...taskForm, name, plannedDays, plannedEnd };
     if (taskForm.id) {
@@ -1147,145 +1194,230 @@ export const TimeManagementPage = () => {
           {Object.values(boardSelected).some(Boolean) && (
             <div className="tm-bulkbar">
               <span>Выбрано {Object.values(boardSelected).filter(Boolean).length}</span>
-              <Button size="small" variant="outlined" onClick={()=> bulkShiftBoard(-1)}>← -1 день</Button>
-              <Button size="small" variant="outlined" onClick={()=> bulkShiftBoard(1)}>+1 день →</Button>
-              <Button size="small" variant="outlined" onClick={bulkArchiveBoard}>В архив</Button>
-              <Button size="small" variant="outlined" color="error" onClick={bulkDeleteBoard}>Удалить</Button>
-              <Button size="small" onClick={()=> setBoardSelected({})}>Снять</Button>
+              <Button size="small" variant="outlined" onClick={() => bulkShiftBoard(-1)}>
+                ← -1 день
+              </Button>
+              <Button size="small" variant="outlined" onClick={() => bulkShiftBoard(1)}>
+                +1 день →
+              </Button>
+              <Button size="small" variant="outlined" onClick={bulkArchiveBoard}>
+                В архив
+              </Button>
+              <Button size="small" variant="outlined" color="error" onClick={bulkDeleteBoard}>
+                Удалить
+              </Button>
+              <Button size="small" onClick={() => setBoardSelected({})}>
+                Снять
+              </Button>
             </div>
           )}
           <div className="tm-gantt" onDragOver={handleDragOver}>
-          <div className="tm-grid" style={{ gridTemplateColumns: gridTemplate }}>
-          {COLS.map((c, i) => (
-            <div key={c.key} className="tm-cell tm-cell--head tm-sticky" style={{ left: LEFT_OFFSET[i], width: c.width }}>
-              {c.label}
-            </div>
-          ))}
-          {days.map(d => (
-            <div
-              key={d}
-              className={`tm-cell tm-cell--head tm-day ${d === today ? 'tm-day--today tm-col--today' : ''} ${
-                isWeekend(d) ? 'tm-weekend' : ''
-              } ${isMonday(d) ? 'tm-weekstart' : ''}`}
-            >
-              <span className="tm-day__wd">{weekday(d)}</span>
-              <span className="tm-day__dt">{d.slice(5)}</span>
-            </div>
-          ))}
-
-          {boardRows.map(row => {
-            if (row.type === 'phase') {
-              return (
-                <React.Fragment key={`ph-${row.phase}`}>
-                  <div className="tm-cell tm-sticky tm-phase" style={{ left: LEFT_OFFSET[0], width: COLS[0].width }}>
-                    <IconButton size="small" className="tm-caret" onClick={() => togglePhase(row.phase)}>
-                      {collapsed[row.phase] ? <ChevronRightIcon /> : <ExpandMoreIcon />}
-                    </IconButton>
-                    <b>{row.phase}</b>
-                  </div>
-                  {COLS.slice(1).map((c, i) => (
-                    <div key={c.key} className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[i + 1], width: c.width }} />
-                  ))}
-                  <div className="tm-cell" style={{ gridColumn: `span ${days.length}` }} />
-                </React.Fragment>
-              );
-            }
-            const t = row.task;
-            const sch = row.sch;
-            const factDays = Object.values(t.marks || {}).filter(m => m.done).length;
-            const forecast = getForecast(t);
-            return (
-              <React.Fragment key={t.id}>
+            <div className="tm-grid" style={{ gridTemplateColumns: gridTemplate }}>
+              {COLS.map((c, i) => (
                 <div
-                  className="tm-cell tm-sticky tm-task"
-                  draggable
-                  onDragStart={(e)=> handleDragStart(e, t.id)}
-                  style={{ left: LEFT_OFFSET[0], width: COLS[0].width, borderLeft: `4px solid ${t.color}`, cursor: 'grab' }}
-                  onClick={() => openEdit(t)}
+                  key={c.key}
+                  className="tm-cell tm-cell--head tm-sticky"
+                  style={{ left: LEFT_OFFSET[i], width: c.width }}
                 >
-                  <input type="checkbox" checked={!!boardSelected[t.id]} onChange={()=> toggleBoardSelect(t.id)} onClick={e=> e.stopPropagation()} style={{ accentColor: t.color, width:14, height:14 }} />
-                  <span className="tm-swatch" style={{ background: t.color }} />
-                  <span className="tm-taskname">{t.name}</span>
-                  {t.info && <span className="tm-tasktitle">{t.info}</span>}
+                  {c.label}
                 </div>
-                <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[1], width: COLS[1].width }} onClick={() => openEdit(t)}>
-                  {row.effStart}
+              ))}
+              {days.map(d => (
+                <div
+                  key={d}
+                  className={`tm-cell tm-cell--head tm-day ${d === today ? 'tm-day--today tm-col--today' : ''} ${
+                    isWeekend(d) ? 'tm-weekend' : ''
+                  } ${isMonday(d) ? 'tm-weekstart' : ''}`}
+                >
+                  <span className="tm-day__wd">{weekday(d)}</span>
+                  <span className="tm-day__dt">{d.slice(5)}</span>
                 </div>
-                <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[2], width: COLS[2].width }} onClick={() => openEdit(t)}>
-                  {t.plannedEnd}
-                </div>
-                <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[3], width: COLS[3].width, flexDirection: 'column', alignItems: 'flex-start', gap: 2, padding: '4px 6px' }} onClick={() => openEdit(t)}>
-                  <div>
-                    {sch.end}{' '}
-                    <span className="tm-fact">
-                      ({factDays}/{sch.plannedDays}
-                      {sch.ext + sch.excludedCount > 0 ? `+${sch.ext + sch.excludedCount}` : ''})
-                    </span>
-                  </div>
-                  {forecast && !forecast.finished && (
-                    <span className="tm-forecast" title={`Среднее ${forecast.avg} стр/день, осталось ${forecast.remaining} стр.`} style={{ fontSize: 10, color: forecast.diff > 3 ? '#ff8a8a' : forecast.diff > 0 ? '#f5c16c' : '#4ade80' }}>
-                      прогноз {forecast.estimatedEnd} {forecast.diff !== 0 ? `(${forecast.diff > 0 ? '+' : ''}${forecast.diff} дн)` : '(в срок)'}
-                    </span>
-                  )}
-                  {forecast?.finished && <span className="tm-forecast" style={{ fontSize: 10, color: '#4ade80' }}>✓ Готово</span>}
-                </div>
-                {days.map(d => {
-                  const cell = dayCell(t, sch, row.effStart, d);
-                  const baseCls = `tm-cell ${d === today ? 'tm-col--today' : ''} ${isWeekend(d) ? 'tm-weekend' : ''} ${
-                    isMonday(d) ? 'tm-weekstart' : ''
-                  }`;
-                  if (cell.kind === 'empty')
-                    return <div key={d} className={baseCls} onClick={() => openDay(t, row.effStart, d)} onDragOver={handleDragOver} onDrop={(e)=> handleDrop(e, d)} />;
-                  const pct = Math.max(0, Math.min(100, cell.fill || 0));
-                  const title =
-                    cell.title ||
-                    (cell.kind === 'done' ? `${Math.round(cell.fill)}%` : cell.kind === 'miss' ? 'Пропуск' : cell.kind === 'current' ? 'Текущий день' : '');
-                  const showText = cell.kind === 'done' || cell.kind === 'miss' || (cell.kind === 'extension' && cell.fill > 0);
-                  const filled = (cell.kind === 'done' || cell.kind === 'extension') && cell.fill > 0;
-                  const borderColor =
-                    cell.kind === 'miss'
-                      ? '#f44336'
-                      : cell.kind === 'cut'
-                      ? '#9e9e9e'
-                      : cell.kind === 'gap'
-                      ? 'var(--color-07)'
-                      : t.color;
+              ))}
+
+              {boardRows.map(row => {
+                if (row.type === 'phase') {
                   return (
+                    <React.Fragment key={`ph-${row.phase}`}>
+                      <div
+                        className="tm-cell tm-sticky tm-phase"
+                        style={{ left: LEFT_OFFSET[0], width: COLS[0].width }}
+                      >
+                        <IconButton size="small" className="tm-caret" onClick={() => togglePhase(row.phase)}>
+                          {collapsed[row.phase] ? <ChevronRightIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                        <b>{row.phase}</b>
+                      </div>
+                      {COLS.slice(1).map((c, i) => (
+                        <div
+                          key={c.key}
+                          className="tm-cell tm-sticky"
+                          style={{ left: LEFT_OFFSET[i + 1], width: c.width }}
+                        />
+                      ))}
+                      <div className="tm-cell" style={{ gridColumn: `span ${days.length}` }} />
+                    </React.Fragment>
+                  );
+                }
+                const t = row.task;
+                const sch = row.sch;
+                const factDays = Object.values(t.marks || {}).filter(m => m.done).length;
+                const forecast = getForecast(t);
+                return (
+                  <React.Fragment key={t.id}>
                     <div
-                      key={d}
-                      className={`${baseCls} tm-daycell ${cell.kind === 'miss' ? 'tm-miss' : ''} ${
-                        cell.kind === 'cut' ? 'tm-cut' : ''
-                      } ${cell.kind === 'gap' ? 'tm-excluded' : ''} ${cell.kind === 'extension' ? 'tm-ext' : ''} ${dragTaskId===t.id ? 'tm-drop-target' : ''}`}
-                      style={{ borderColor }}
-                      onClick={() => openDay(t, row.effStart, d)}
-                      onDragOver={handleDragOver}
-                      onDrop={(e)=> handleDrop(e, d)}
-                      title={title}
+                      className="tm-cell tm-sticky tm-task"
+                      draggable
+                      onDragStart={e => handleDragStart(e, t.id)}
+                      style={{
+                        left: LEFT_OFFSET[0],
+                        width: COLS[0].width,
+                        borderLeft: `4px solid ${t.color}`,
+                        cursor: 'grab',
+                      }}
+                      onClick={() => openEdit(t)}
                     >
-                      {cell.kind === 'gap' && <span className="tm-gap-mark">↩</span>}
-                      {filled && (
-                        <div className={`tm-fill ${cell.kind === 'extension' ? 'tm-fill--proj' : ''}`} style={{ width: `${pct}%` }} />
-                      )}
-                      {showText && (
-                        <span className={`tm-pct ${cell.kind === 'miss' ? 'tm-pct--miss' : ''}`}>
-                          {cell.kind === 'miss' ? '✗' : Math.round(cell.fill)}
+                      <input
+                        type="checkbox"
+                        checked={!!boardSelected[t.id]}
+                        onChange={() => toggleBoardSelect(t.id)}
+                        onClick={e => e.stopPropagation()}
+                        style={{ accentColor: t.color, width: 14, height: 14 }}
+                      />
+                      <span className="tm-swatch" style={{ background: t.color }} />
+                      <span className="tm-taskname">{t.name}</span>
+                      {t.info && <span className="tm-tasktitle">{t.info}</span>}
+                    </div>
+                    <div
+                      className="tm-cell tm-sticky"
+                      style={{ left: LEFT_OFFSET[1], width: COLS[1].width }}
+                      onClick={() => openEdit(t)}
+                    >
+                      {row.effStart}
+                    </div>
+                    <div
+                      className="tm-cell tm-sticky"
+                      style={{ left: LEFT_OFFSET[2], width: COLS[2].width }}
+                      onClick={() => openEdit(t)}
+                    >
+                      {t.plannedEnd}
+                    </div>
+                    <div
+                      className="tm-cell tm-sticky"
+                      style={{
+                        left: LEFT_OFFSET[3],
+                        width: COLS[3].width,
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        gap: 2,
+                        padding: '4px 6px',
+                      }}
+                      onClick={() => openEdit(t)}
+                    >
+                      <div>
+                        {sch.end}{' '}
+                        <span className="tm-fact">
+                          ({factDays}/{sch.plannedDays}
+                          {sch.ext + sch.excludedCount > 0 ? `+${sch.ext + sch.excludedCount}` : ''})
+                        </span>
+                      </div>
+                      {forecast && !forecast.finished && (
+                        <span
+                          className="tm-forecast"
+                          title={`Среднее ${forecast.avg} стр/день, осталось ${forecast.remaining} стр.`}
+                          style={{
+                            fontSize: 10,
+                            color: forecast.diff > 3 ? '#ff8a8a' : forecast.diff > 0 ? '#f5c16c' : '#4ade80',
+                          }}
+                        >
+                          прогноз {forecast.estimatedEnd}{' '}
+                          {forecast.diff !== 0 ? `(${forecast.diff > 0 ? '+' : ''}${forecast.diff} дн)` : '(в срок)'}
                         </span>
                       )}
-                      {t.marks?.[d]?.notes && <span className="tm-note-dot" title={t.marks[d].notes}>✎</span>}
+                      {forecast?.finished && (
+                        <span className="tm-forecast" style={{ fontSize: 10, color: '#4ade80' }}>
+                          ✓ Готово
+                        </span>
+                      )}
                     </div>
-                  );
-                })}
-              </React.Fragment>
-            );
-          })}
+                    {days.map(d => {
+                      const cell = dayCell(t, sch, row.effStart, d);
+                      const baseCls = `tm-cell ${d === today ? 'tm-col--today' : ''} ${isWeekend(d) ? 'tm-weekend' : ''} ${
+                        isMonday(d) ? 'tm-weekstart' : ''
+                      }`;
+                      if (cell.kind === 'empty')
+                        return (
+                          <div
+                            key={d}
+                            className={baseCls}
+                            onClick={() => openDay(t, row.effStart, d)}
+                            onDragOver={handleDragOver}
+                            onDrop={e => handleDrop(e, d)}
+                          />
+                        );
+                      const pct = Math.max(0, Math.min(100, cell.fill || 0));
+                      const title =
+                        cell.title ||
+                        (cell.kind === 'done'
+                          ? `${Math.round(cell.fill)}%`
+                          : cell.kind === 'miss'
+                            ? 'Пропуск'
+                            : cell.kind === 'current'
+                              ? 'Текущий день'
+                              : '');
+                      const showText =
+                        cell.kind === 'done' || cell.kind === 'miss' || (cell.kind === 'extension' && cell.fill > 0);
+                      const filled = (cell.kind === 'done' || cell.kind === 'extension') && cell.fill > 0;
+                      const borderColor =
+                        cell.kind === 'miss'
+                          ? '#f44336'
+                          : cell.kind === 'cut'
+                            ? '#9e9e9e'
+                            : cell.kind === 'gap'
+                              ? 'var(--color-07)'
+                              : t.color;
+                      return (
+                        <div
+                          key={d}
+                          className={`${baseCls} tm-daycell ${cell.kind === 'miss' ? 'tm-miss' : ''} ${
+                            cell.kind === 'cut' ? 'tm-cut' : ''
+                          } ${cell.kind === 'gap' ? 'tm-excluded' : ''} ${cell.kind === 'extension' ? 'tm-ext' : ''} ${dragTaskId === t.id ? 'tm-drop-target' : ''}`}
+                          style={{ borderColor }}
+                          onClick={() => openDay(t, row.effStart, d)}
+                          onDragOver={handleDragOver}
+                          onDrop={e => handleDrop(e, d)}
+                          title={title}
+                        >
+                          {cell.kind === 'gap' && <span className="tm-gap-mark">↩</span>}
+                          {filled && (
+                            <div
+                              className={`tm-fill ${cell.kind === 'extension' ? 'tm-fill--proj' : ''}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          )}
+                          {showText && (
+                            <span className={`tm-pct ${cell.kind === 'miss' ? 'tm-pct--miss' : ''}`}>
+                              {cell.kind === 'miss' ? '✗' : Math.round(cell.fill)}
+                            </span>
+                          )}
+                          {t.marks?.[d]?.notes && (
+                            <span className="tm-note-dot" title={t.marks[d].notes}>
+                              ✎
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
 
-          {boardRows.length === 0 && (
-            <div className="tm-empty" style={{ gridColumn: `1 / span ${days.length + COLS.length}` }}>
-              Пока нет задач. Нажмите «Добавить задачу».
+              {boardRows.length === 0 && (
+                <div className="tm-empty" style={{ gridColumn: `1 / span ${days.length + COLS.length}` }}>
+                  Пока нет задач. Нажмите «Добавить задачу».
+                </div>
+              )}
             </div>
-          )}
           </div>
-        </div>
         </>
       )}
 
@@ -1293,7 +1425,11 @@ export const TimeManagementPage = () => {
         <div className="tm-detail">
           {/* header как на макете */}
           <div className="tm-detail__head">
-            <IconButton onClick={()=> setView('board')} size="small" sx={{ color: '#c9c9c9', bgcolor: '#1e1e1e', width: 36, height: 36 }}>
+            <IconButton
+              onClick={() => setView('board')}
+              size="small"
+              sx={{ color: '#c9c9c9', bgcolor: '#1e1e1e', width: 36, height: 36 }}
+            >
               <ArrowBackIcon fontSize="small" />
             </IconButton>
             <div className="tm-detail__head-icon">
@@ -1308,14 +1444,18 @@ export const TimeManagementPage = () => {
           {/* 2 большие карточки */}
           <div className="tm-detail__grid2">
             <div className="tm-detail__card tm-detail__card--stat">
-              <div className="tm-detail__icon tm-detail__icon--gold"><CheckCircleOutlineIcon sx={{ color: '#c2a85a', fontSize: 20 }} /></div>
+              <div className="tm-detail__icon tm-detail__icon--gold">
+                <CheckCircleOutlineIcon sx={{ color: '#c2a85a', fontSize: 20 }} />
+              </div>
               <div>
                 <b>{detailed.totalMarks}</b>
                 <span>Всего отметок</span>
               </div>
             </div>
             <div className="tm-detail__card tm-detail__card--stat">
-              <div className="tm-detail__icon tm-detail__icon--gold2"><EmojiEventsIcon sx={{ color: '#c2a85a', fontSize: 20 }} /></div>
+              <div className="tm-detail__icon tm-detail__icon--gold2">
+                <EmojiEventsIcon sx={{ color: '#c2a85a', fontSize: 20 }} />
+              </div>
               <div>
                 <b>{detailed.bestStreak}</b>
                 <span>Лучшая серия</span>
@@ -1326,28 +1466,38 @@ export const TimeManagementPage = () => {
           {/* 4 маленькие карточки */}
           <div className="tm-detail__grid4">
             <div className="tm-detail__card tm-detail__card--sm">
-              <div className="tm-detail__icon tm-detail__icon--gold"><CalendarTodayIcon sx={{ color: '#c2a85a', fontSize: 18 }} /></div>
+              <div className="tm-detail__icon tm-detail__icon--gold">
+                <CalendarTodayIcon sx={{ color: '#c2a85a', fontSize: 18 }} />
+              </div>
               <div>
                 <b>{detailed.monthCount}</b>
-                <span>{detailed.monthNameForStat} {detailed.yearStr}</span>
+                <span>
+                  {detailed.monthNameForStat} {detailed.yearStr}
+                </span>
               </div>
             </div>
             <div className="tm-detail__card tm-detail__card--sm">
-              <div className="tm-detail__icon tm-detail__icon--blue"><TrendingUpIcon sx={{ color: '#6ea8ff', fontSize: 18 }} /></div>
+              <div className="tm-detail__icon tm-detail__icon--blue">
+                <TrendingUpIcon sx={{ color: '#6ea8ff', fontSize: 18 }} />
+              </div>
               <div>
                 <b>{detailed.yearTotal}</b>
                 <span>{detailed.yearStr} всего</span>
               </div>
             </div>
             <div className="tm-detail__card tm-detail__card--sm">
-              <div className="tm-detail__icon tm-detail__icon--green"><WorkspacePremiumIcon sx={{ color: '#4ade80', fontSize: 18 }} /></div>
+              <div className="tm-detail__icon tm-detail__icon--green">
+                <WorkspacePremiumIcon sx={{ color: '#4ade80', fontSize: 18 }} />
+              </div>
               <div>
                 <b>{detailed.bestMonthName}</b>
                 <span>{detailed.bestMonthVal} отм.</span>
               </div>
             </div>
             <div className="tm-detail__card tm-detail__card--sm">
-              <div className="tm-detail__icon tm-detail__icon--orange"><LocalFireDepartmentIcon sx={{ color: '#f59e0b', fontSize: 18 }} /></div>
+              <div className="tm-detail__icon tm-detail__icon--orange">
+                <LocalFireDepartmentIcon sx={{ color: '#f59e0b', fontSize: 18 }} />
+              </div>
               <div>
                 <b>{detailed.currentStreak}</b>
                 <span>Текущая серия</span>
@@ -1358,105 +1508,259 @@ export const TimeManagementPage = () => {
           {/* контролы графика */}
           <div className="tm-detail__controls">
             <div className="tm-segment">
-              <button className={chartType==='bar' ? 'active' : ''} onClick={()=> setChartType('bar')}>
+              <button className={chartType === 'bar' ? 'active' : ''} onClick={() => setChartType('bar')}>
                 <BarChartOutlinedIcon sx={{ fontSize: 16 }} /> Столбчатый
               </button>
-              <button className={chartType==='line' ? 'active' : ''} onClick={()=> setChartType('line')}>
+              <button className={chartType === 'line' ? 'active' : ''} onClick={() => setChartType('line')}>
                 <ShowChartIcon sx={{ fontSize: 16 }} /> Линейный
               </button>
             </div>
             <div className="tm-segment">
-              <button className={granularity==='months' ? 'active' : ''} onClick={()=> setGranularity('months')}>По месяцам</button>
-              <button className={granularity==='days' ? 'active' : ''} onClick={()=> setGranularity('days')}>По дням</button>
+              <button className={granularity === 'months' ? 'active' : ''} onClick={() => setGranularity('months')}>
+                По месяцам
+              </button>
+              <button className={granularity === 'days' ? 'active' : ''} onClick={() => setGranularity('days')}>
+                По дням
+              </button>
             </div>
             <div className="tm-year-select">
-              <select value={selectedYear} onChange={e=> setSelectedYear(Number(e.target.value))}>
-                {availableYears.map(y=> <option key={y} value={y}>{y}</option>)}
+              <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))}>
+                {availableYears.map(y => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
               </select>
             </div>
-            {granularity==='days' && (
+            {granularity === 'days' && (
               <div className="tm-year-select">
-                <select value={selectedMonth} onChange={e=> setSelectedMonth(Number(e.target.value))}>
-                  {MONTHS_RU.map((m,i)=> <option key={i} value={i}>{m} {selectedYear}</option>)}
+                <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))}>
+                  {MONTHS_RU.map((m, i) => (
+                    <option key={i} value={i}>
+                      {m} {selectedYear}
+                    </option>
+                  ))}
                 </select>
               </div>
             )}
             <div className="tm-year-select">
-              <select value={selectedBook} onChange={e=> setSelectedBook(e.target.value)}>
+              <select value={selectedBook} onChange={e => setSelectedBook(e.target.value)}>
                 <option value="all">Все книги</option>
-                {availableBooks.map(b=> <option key={b.id} value={b.id}>{b.label}</option>)}
+                {availableBooks.map(b => (
+                  <option key={b.id} value={b.id}>
+                    {b.label}
+                  </option>
+                ))}
               </select>
             </div>
             <label style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#c9c9c9', fontSize: 12 }}>
-              <Switch size="small" checked={perBookMode} onChange={e=> setPerBookMode(e.target.checked)} disabled={selectedBook !== 'all' || availableBooks.filter(b=> tasks.some(t=> t.id===b.id && t.kind==='book')).length < 2} />
+              <Switch
+                size="small"
+                checked={perBookMode}
+                onChange={e => setPerBookMode(e.target.checked)}
+                disabled={
+                  selectedBook !== 'all' ||
+                  availableBooks.filter(b => tasks.some(t => t.id === b.id && t.kind === 'book')).length < 2
+                }
+              />
               Раздельно по книгам
             </label>
           </div>
 
           {/* Распределение */}
           <div className="tm-detail__card tm-detail__card--chart">
-            <h4>{granularity==='days' ? `Распределение по дням — ${MONTHS_RU[selectedMonth]} ${selectedYear}` : 'Распределение по месяцам'}{selectedBook!=='all' ? ` — ${availableBooks.find(b=>b.id===selectedBook)?.label}` : ''}</h4>
+            <h4>
+              {granularity === 'days'
+                ? `Распределение по дням — ${MONTHS_RU[selectedMonth]} ${selectedYear}`
+                : 'Распределение по месяцам'}
+              {selectedBook !== 'all' ? ` — ${availableBooks.find(b => b.id === selectedBook)?.label}` : ''}
+            </h4>
             <div style={{ width: '100%', height: 260 }}>
               <ResponsiveContainer width="100%" height="100%">
-                {perBookMode && selectedBook==='all' && detailed.perBookData.length ? (
+                {perBookMode && selectedBook === 'all' && detailed.perBookData.length ? (
                   chartType === 'line' ? (
-                    <LineChart data={detailed.perBookData[0]?.data || detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                    <LineChart
+                      data={detailed.perBookData[0]?.data || detailed.chartData}
+                      margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
+                    >
                       <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
-                      <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} domain={[0, 'auto']} />
-                      <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
-                      {detailed.perBookData.map(b=> (
-                        <Line key={b.id} data={b.data} type="monotone" dataKey="actual" stroke={b.color} strokeWidth={2} dot={{ r: 3, fill: b.color }} name={`${b.label} факт`} />
+                      <XAxis
+                        dataKey="name"
+                        tick={{ fill: '#8a8a8a', fontSize: granularity === 'days' ? 10 : 11 }}
+                        axisLine={{ stroke: '#2a2a2a' }}
+                        tickLine={false}
+                        interval={granularity === 'days' && detailed.chartData.length > 20 ? 1 : 0}
+                      />
+                      <YAxis
+                        tick={{ fill: '#8a8a8a', fontSize: 11 }}
+                        axisLine={{ stroke: '#2a2a2a' }}
+                        tickLine={false}
+                        allowDecimals={false}
+                        domain={[0, 'auto']}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          background: '#1e1e1e',
+                          border: '1px solid #333',
+                          borderRadius: 8,
+                          color: '#fff',
+                        }}
+                      />
+                      {detailed.perBookData.map(b => (
+                        <Line
+                          key={b.id}
+                          data={b.data}
+                          type="monotone"
+                          dataKey="actual"
+                          stroke={b.color}
+                          strokeWidth={2}
+                          dot={{ r: 3, fill: b.color }}
+                          name={`${b.label} факт`}
+                        />
                       ))}
-                      {detailed.perBookData.map(b=> b.data.some(x=>x.plan>0) ? (
-                        <Line key={b.id+'-plan'} data={b.data} type="monotone" dataKey="plan" stroke={b.color} strokeDasharray="6 4" strokeWidth={1.5} dot={false} opacity={0.6} name={`${b.label} план`} />
-                      ) : null)}
+                      {detailed.perBookData.map(b =>
+                        b.data.some(x => x.plan > 0) ? (
+                          <Line
+                            key={b.id + '-plan'}
+                            data={b.data}
+                            type="monotone"
+                            dataKey="plan"
+                            stroke={b.color}
+                            strokeDasharray="6 4"
+                            strokeWidth={1.5}
+                            dot={false}
+                            opacity={0.6}
+                            name={`${b.label} план`}
+                          />
+                        ) : null
+                      )}
                     </LineChart>
                   ) : (
-                    <BarChart data={detailed.perBookData[0]?.data || detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                    <BarChart
+                      data={detailed.perBookData[0]?.data || detailed.chartData}
+                      margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
+                    >
                       <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
-                      <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} />
-                      <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
-                      {detailed.perBookData.map(b=> (
-                        <Bar key={b.id} data={b.data} dataKey="actual" fill={b.color} radius={[4,4,0,0]} name={`${b.label} факт`} />
+                      <XAxis
+                        dataKey="name"
+                        tick={{ fill: '#8a8a8a', fontSize: granularity === 'days' ? 10 : 11 }}
+                        axisLine={{ stroke: '#2a2a2a' }}
+                        tickLine={false}
+                        interval={granularity === 'days' && detailed.chartData.length > 20 ? 1 : 0}
+                      />
+                      <YAxis
+                        tick={{ fill: '#8a8a8a', fontSize: 11 }}
+                        axisLine={{ stroke: '#2a2a2a' }}
+                        tickLine={false}
+                        allowDecimals={false}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          background: '#1e1e1e',
+                          border: '1px solid #333',
+                          borderRadius: 8,
+                          color: '#fff',
+                        }}
+                      />
+                      {detailed.perBookData.map(b => (
+                        <Bar
+                          key={b.id}
+                          data={b.data}
+                          dataKey="actual"
+                          fill={b.color}
+                          radius={[4, 4, 0, 0]}
+                          name={`${b.label} факт`}
+                        />
                       ))}
                     </BarChart>
                   )
                 ) : chartType === 'line' ? (
                   <LineChart data={detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
                     <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
-                    <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} domain={[0, 'auto']} />
+                    <XAxis
+                      dataKey="name"
+                      tick={{ fill: '#8a8a8a', fontSize: granularity === 'days' ? 10 : 11 }}
+                      axisLine={{ stroke: '#2a2a2a' }}
+                      tickLine={false}
+                      interval={granularity === 'days' && detailed.chartData.length > 20 ? 1 : 0}
+                    />
+                    <YAxis
+                      tick={{ fill: '#8a8a8a', fontSize: 11 }}
+                      axisLine={{ stroke: '#2a2a2a' }}
+                      tickLine={false}
+                      allowDecimals={false}
+                      domain={[0, 'auto']}
+                    />
                     <Tooltip
                       contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }}
                       formatter={(value, name) => [value, name === 'actual' ? 'Факт' : 'План']}
                     />
                     {detailed.chartHasPlan && (
-                      <Line type="monotone" dataKey="plan" stroke="#6b6b6b" strokeDasharray="6 4" strokeWidth={2} dot={{ r: 3, fill: '#6b6b6b' }} name="plan" />
+                      <Line
+                        type="monotone"
+                        dataKey="plan"
+                        stroke="#6b6b6b"
+                        strokeDasharray="6 4"
+                        strokeWidth={2}
+                        dot={{ r: 3, fill: '#6b6b6b' }}
+                        name="plan"
+                      />
                     )}
-                    <Line type="monotone" dataKey="actual" stroke="#c2a85a" strokeWidth={2.5} dot={{ r: granularity==='days'? 3 : 5, fill: '#c2a85a', stroke: '#c2a85a' }} activeDot={{ r: 6 }} name="actual" />
+                    <Line
+                      type="monotone"
+                      dataKey="actual"
+                      stroke="#c2a85a"
+                      strokeWidth={2.5}
+                      dot={{ r: granularity === 'days' ? 3 : 5, fill: '#c2a85a', stroke: '#c2a85a' }}
+                      activeDot={{ r: 6 }}
+                      name="actual"
+                    />
                   </LineChart>
                 ) : (
                   <BarChart data={detailed.chartData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
                     <CartesianGrid stroke="#1f1f1f" strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fill: '#8a8a8a', fontSize: granularity==='days'?10:11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} interval={granularity==='days' && detailed.chartData.length>20 ? 1 : 0} />
-                    <YAxis tick={{ fill: '#8a8a8a', fontSize: 11 }} axisLine={{ stroke: '#2a2a2a' }} tickLine={false} allowDecimals={false} />
-                    <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
-                    {detailed.chartHasPlan && <Bar dataKey="plan" fill="#3a3a3a" radius={[6,6,0,0]} name="План" />}
-                    <Bar dataKey="actual" fill="#c2a85a" radius={[6,6,0,0]} name="Факт" />
+                    <XAxis
+                      dataKey="name"
+                      tick={{ fill: '#8a8a8a', fontSize: granularity === 'days' ? 10 : 11 }}
+                      axisLine={{ stroke: '#2a2a2a' }}
+                      tickLine={false}
+                      interval={granularity === 'days' && detailed.chartData.length > 20 ? 1 : 0}
+                    />
+                    <YAxis
+                      tick={{ fill: '#8a8a8a', fontSize: 11 }}
+                      axisLine={{ stroke: '#2a2a2a' }}
+                      tickLine={false}
+                      allowDecimals={false}
+                    />
+                    <Tooltip
+                      contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }}
+                    />
+                    {detailed.chartHasPlan && <Bar dataKey="plan" fill="#3a3a3a" radius={[6, 6, 0, 0]} name="План" />}
+                    <Bar dataKey="actual" fill="#c2a85a" radius={[6, 6, 0, 0]} name="Факт" />
                   </BarChart>
                 )}
               </ResponsiveContainer>
             </div>
-            {(perBookMode && selectedBook==='all' && detailed.perBookData.length ? detailed.perBookData.some(b=> b.data.some(x=>x.plan>0)) : detailed.chartHasPlan) ? (
+            {(
+              perBookMode && selectedBook === 'all' && detailed.perBookData.length
+                ? detailed.perBookData.some(b => b.data.some(x => x.plan > 0))
+                : detailed.chartHasPlan
+            ) ? (
               <div className="tm-detail__legend">
-                <span><i style={{ background: '#c2a85a' }} /> Факт</span>
-                <span><i style={{ background: '#6b6b6b' }} /> План</span>
+                <span>
+                  <i style={{ background: '#c2a85a' }} /> Факт
+                </span>
+                <span>
+                  <i style={{ background: '#6b6b6b' }} /> План
+                </span>
               </div>
-            ) : perBookMode && selectedBook==='all' && detailed.perBookData.length ? (
+            ) : perBookMode && selectedBook === 'all' && detailed.perBookData.length ? (
               <div className="tm-detail__legend">
-                {detailed.perBookData.map(b=> <span key={b.id}><i style={{ background: b.color }} /> {b.label}</span>)}
+                {detailed.perBookData.map(b => (
+                  <span key={b.id}>
+                    <i style={{ background: b.color }} /> {b.label}
+                  </span>
+                ))}
               </div>
             ) : null}
           </div>
@@ -1469,13 +1773,23 @@ export const TimeManagementPage = () => {
                 {detailed.weeks.map((week, wi) => (
                   <div key={wi} className="tm-heatmap__week">
                     {week.map(day => {
-                      const lvl = day.isOutside ? -1 : day.intensity === 0 ? 0 : day.intensity < 0.25 ? 1 : day.intensity < 0.5 ? 2 : day.intensity < 0.75 ? 3 : 4;
+                      const lvl = day.isOutside
+                        ? -1
+                        : day.intensity === 0
+                          ? 0
+                          : day.intensity < 0.25
+                            ? 1
+                            : day.intensity < 0.5
+                              ? 2
+                              : day.intensity < 0.75
+                                ? 3
+                                : 4;
                       const cls = lvl === -1 ? 'is-outside' : lvl === 0 ? 'lvl-0' : `lvl-${lvl}`;
                       return (
                         <div
                           key={day.date}
                           className={`tm-heatmap__cell ${cls} ${day.isToday ? 'is-today' : ''}`}
-                          title={`${day.date}: ${day.value} ${selectedBook==='all' ? 'отм.' : 'стр.'}`}
+                          title={`${day.date}: ${day.value} ${selectedBook === 'all' ? 'отм.' : 'стр.'}`}
                         />
                       );
                     })}
@@ -1485,7 +1799,11 @@ export const TimeManagementPage = () => {
               <div className="tm-heatmap__legend">
                 <span>Меньше</span>
                 <div className="tm-heatmap__scale">
-                  <i className="lvl-0" /><i className="lvl-1" /><i className="lvl-2" /><i className="lvl-3" /><i className="lvl-4" />
+                  <i className="lvl-0" />
+                  <i className="lvl-1" />
+                  <i className="lvl-2" />
+                  <i className="lvl-3" />
+                  <i className="lvl-4" />
                 </div>
                 <span>Больше</span>
               </div>
@@ -1497,11 +1815,17 @@ export const TimeManagementPage = () => {
             <div className="tm-detail__card-head">
               <h4>Соотношение выполнения</h4>
               <div className="tm-segment tm-segment--small">
-                <button className={donutPeriod==='month' ? 'active' : ''} onClick={()=> setDonutPeriod('month')}>Текущий месяц</button>
-                <button className={donutPeriod==='year' ? 'active' : ''} onClick={()=> setDonutPeriod('year')}>Год</button>
+                <button className={donutPeriod === 'month' ? 'active' : ''} onClick={() => setDonutPeriod('month')}>
+                  Текущий месяц
+                </button>
+                <button className={donutPeriod === 'year' ? 'active' : ''} onClick={() => setDonutPeriod('year')}>
+                  Год
+                </button>
               </div>
             </div>
-            <div style={{ width: '100%', height: 240, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div
+              style={{ width: '100%', height: 240, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -1518,13 +1842,19 @@ export const TimeManagementPage = () => {
                       <Cell key={`cell-${idx}`} fill={entry.color} stroke="#111" />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }} />
+                  <Tooltip
+                    contentStyle={{ background: '#1e1e1e', border: '1px solid #333', borderRadius: 8, color: '#fff' }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
             <div className="tm-detail__legend tm-detail__legend--center">
-              <span><i style={{ background: '#3a3a45' }} /> Неотмеченные дни</span>
-              <span><i style={{ background: '#c2a85a' }} /> Отмеченные дни</span>
+              <span>
+                <i style={{ background: '#3a3a45' }} /> Неотмеченные дни
+              </span>
+              <span>
+                <i style={{ background: '#c2a85a' }} /> Отмеченные дни
+              </span>
             </div>
           </div>
         </div>
@@ -1535,7 +1865,13 @@ export const TimeManagementPage = () => {
           <div className="tm-archive__bar">
             <span>Архив — отмеченные можно удалить или восстановить</span>
             <div style={{ display: 'flex', gap: 8 }}>
-              <Button size="small" variant="contained" color="error" disabled={!Object.values(selected).some(Boolean)} onClick={deleteArchived}>
+              <Button
+                size="small"
+                variant="contained"
+                color="error"
+                disabled={!Object.values(selected).some(Boolean)}
+                onClick={deleteArchived}
+              >
                 Удалить выбранные
               </Button>
             </div>
@@ -1656,7 +1992,9 @@ export const TimeManagementPage = () => {
                     margin="dense"
                   >
                     <MenuItem value="even">Поровну между днями (остаток в конец)</MenuItem>
-                    <MenuItem value="fixed">Фикс {taskForm.kind === 'book' ? 'стр.' : 'ед.'}/день (остаток в конец)</MenuItem>
+                    <MenuItem value="fixed">
+                      Фикс {taskForm.kind === 'book' ? 'стр.' : 'ед.'}/день (остаток в конец)
+                    </MenuItem>
                   </TextField>
                   {taskForm.unitsStrategy === 'fixed' && (
                     <TextField
@@ -1671,6 +2009,71 @@ export const TimeManagementPage = () => {
                 </>
               )}
             </>
+          )}
+          {taskForm.kind === 'book' && taskForm.mode === 'units' && Number(taskForm.unitsTotal) > 0 && (
+            <Box
+              sx={{
+                mt: 1,
+                p: 1.2,
+                background: '#1a1a1e',
+                border: '1px solid #2a2a2e',
+                borderRadius: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 0.5,
+              }}
+            >
+              {(() => {
+                const total = Number(taskForm.unitsTotal) || 0;
+                if (taskForm.unitsStrategy === 'fixed') {
+                  const perDay = Number(taskForm.unitsPerDay) || 0;
+                  if (!perDay)
+                    return <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>Укажите страниц в день</Typography>;
+                  const days = Math.ceil(total / perDay);
+                  const last = total - perDay * (days - 1);
+                  const end = addDays(taskForm.start, days - 1);
+                  const isAfterPrev = (() => {
+                    const books = tasks.filter(t => t.kind === 'book' && !t.archived && t.id !== taskForm.id);
+                    if (!books.length) return false;
+                    const lastEnd = books.reduce((max, t) => {
+                      const e = t.plannedEnd || addDays(t.start, (t.plannedDays || 1) - 1);
+                      return e > max ? e : max;
+                    }, books[0].plannedEnd || books[0].start);
+                    return taskForm.start === addDays(lastEnd, 1);
+                  })();
+                  return (
+                    <>
+                      <Typography sx={{ fontSize: 11, color: '#e8dcc3' }}>
+                        📖 <b>{days} дн.</b> по <b>{perDay} стр.</b>, в последний день <b>{last} стр.</b>
+                      </Typography>
+                      <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>
+                        Финиш: <b style={{ color: '#c2a85a' }}>{end}</b> {isAfterPrev ? '(авто после предыдущей)' : ''}
+                      </Typography>
+                    </>
+                  );
+                } else {
+                  const days =
+                    taskForm.planMode === 'days'
+                      ? Number(taskForm.daysCount) || 1
+                      : Math.max(1, diffDays(taskForm.start, taskForm.plannedEnd) + 1);
+                  const avg = Math.round(total / days);
+                  const base = Math.floor(total / days);
+                  return (
+                    <>
+                      <Typography sx={{ fontSize: 11, color: '#e8dcc3' }}>
+                        📖 Равномерно <b>{days} дн.</b> ~<b>{avg} стр/день</b>, посл. <b>{base} стр.</b>
+                      </Typography>
+                      <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>
+                        Финиш:{' '}
+                        <b style={{ color: '#c2a85a' }}>
+                          {taskForm.planMode === 'days' ? addDays(taskForm.start, days - 1) : taskForm.plannedEnd}
+                        </b>
+                      </Typography>
+                    </>
+                  );
+                }
+              })()}
+            </Box>
           )}
           {taskForm.kind === 'walk' && (
             <div className="tm-hint">Ходьба отмечается по дням: время и скорость (или причина пропуска).</div>
@@ -1694,6 +2097,8 @@ export const TimeManagementPage = () => {
               onChange={e => setTaskForm(p => ({ ...p, start: e.target.value }))}
               InputLabelProps={{ shrink: true }}
               margin="dense"
+              helperText={taskForm.kind === 'book' ? 'По умолчанию — день после предыдущей' : ''}
+              FormHelperTextProps={{ sx: { fontSize: 10, color: '#8a8a8a' } }}
             />
             {taskForm.planMode === 'days' ? (
               <TextField
@@ -1730,41 +2135,93 @@ export const TimeManagementPage = () => {
           </TextField>
           {/* произвольные даты-исключения */}
           <div style={{ marginTop: 8 }}>
-            <div style={{ fontSize: 12, color: '#8a8a8a', marginBottom: 4 }}>Исключённые даты ({(taskForm.exclusions||[]).length})</div>
+            <div style={{ fontSize: 12, color: '#8a8a8a', marginBottom: 4 }}>
+              Исключённые даты ({(taskForm.exclusions || []).length})
+            </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
-              {(taskForm.exclusions||[]).map(d=> (
-                <span key={d} style={{ display:'inline-flex', alignItems:'center', gap:4, background:'#1e1e1e', border:'1px solid #333', borderRadius:12, padding:'2px 8px', fontSize:11 }}>
-                  {d} <IconButton size="small" onClick={()=> setTaskForm(p=> ({...p, exclusions: p.exclusions.filter(x=> x!==d)}))} sx={{ width:16, height:16, p:0 }}><DeleteOutlineIcon sx={{ fontSize:12 }} /></IconButton>
+              {(taskForm.exclusions || []).map(d => (
+                <span
+                  key={d}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    background: '#1e1e1e',
+                    border: '1px solid #333',
+                    borderRadius: 12,
+                    padding: '2px 8px',
+                    fontSize: 11,
+                  }}
+                >
+                  {d}{' '}
+                  <IconButton
+                    size="small"
+                    onClick={() => setTaskForm(p => ({ ...p, exclusions: p.exclusions.filter(x => x !== d) }))}
+                    sx={{ width: 16, height: 16, p: 0 }}
+                  >
+                    <DeleteOutlineIcon sx={{ fontSize: 12 }} />
+                  </IconButton>
                 </span>
               ))}
-              {!(taskForm.exclusions||[]).length && <span style={{ fontSize:11, color:'#666' }}>нет дат</span>}
+              {!(taskForm.exclusions || []).length && <span style={{ fontSize: 11, color: '#666' }}>нет дат</span>}
             </div>
-            <div style={{ display:'flex', gap:6 }}>
-              <TextField type="date" size="small" id="exclDate" InputLabelProps={{ shrink:true }} sx={{ flex:1 }} />
-              <Button size="small" variant="outlined" onClick={()=>{
-                const el = document.getElementById('exclDate');
-                const v = el && el.value;
-                if (!v) return toast.warn('Выберите дату');
-                if ((taskForm.exclusions||[]).includes(v)) return toast.warn('Уже в списке');
-                setTaskForm(p=> ({...p, exclusions: [...(p.exclusions||[]), v]}));
-                if (el) el.value = '';
-              }}>+ Дата</Button>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <TextField type="date" size="small" id="exclDate" InputLabelProps={{ shrink: true }} sx={{ flex: 1 }} />
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => {
+                  const el = document.getElementById('exclDate');
+                  const v = el && el.value;
+                  if (!v) return toast.warn('Выберите дату');
+                  if ((taskForm.exclusions || []).includes(v)) return toast.warn('Уже в списке');
+                  setTaskForm(p => ({ ...p, exclusions: [...(p.exclusions || []), v] }));
+                  if (el) el.value = '';
+                }}
+              >
+                + Дата
+              </Button>
             </div>
           </div>
-          {taskForm.kind==='book' && (
-            <div style={{ marginTop: 12, padding: 8, background:'#121214', border:'1px solid #1f1f22', borderRadius:10 }}>
-              <div style={{ fontSize:11, color:'#8a8a8a', marginBottom:6 }}>Шаблоны серии (томов)</div>
-              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+          {taskForm.kind === 'book' && (
+            <div
+              style={{
+                marginTop: 12,
+                padding: 8,
+                background: '#121214',
+                border: '1px solid #1f1f22',
+                borderRadius: 10,
+              }}
+            >
+              <div style={{ fontSize: 11, color: '#8a8a8a', marginBottom: 6 }}>Шаблоны серии (томов)</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {[
-                  { label:'Трилогия 3×320', total:960, days:90 },
-                  { label:'5 томов 1500', total:1500, days:120 },
-                  { label:'30 дней ×20стр', total:600, days:30, perDay:20 },
-                  { label:'90 дней ×10стр', total:900, days:90, perDay:10 },
-                ].map(tpl=> (
-                  <Button key={tpl.label} size="small" variant="outlined" sx={{ fontSize:11, borderColor:'#333', color:'#c9c9c9' }} onClick={()=>{
-                    setTaskForm(p=> ({...p, mode:'units', unitsTotal: String(tpl.total), unitsStrategy: tpl.perDay ? 'fixed' : 'even', unitsPerDay: tpl.perDay ? String(tpl.perDay) : p.unitsPerDay, plannedDays: tpl.days, plannedEnd: addDays(p.start, tpl.days-1), daysCount: String(tpl.days)}));
-                    toast.info(`Применён шаблон: ${tpl.label}`);
-                  }}>{tpl.label}</Button>
+                  { label: 'Трилогия 3×320', total: 960, days: 90 },
+                  { label: '5 томов 1500', total: 1500, days: 120 },
+                  { label: '30 дней ×20стр', total: 600, days: 30, perDay: 20 },
+                  { label: '90 дней ×10стр', total: 900, days: 90, perDay: 10 },
+                ].map(tpl => (
+                  <Button
+                    key={tpl.label}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: 11, borderColor: '#333', color: '#c9c9c9' }}
+                    onClick={() => {
+                      setTaskForm(p => ({
+                        ...p,
+                        mode: 'units',
+                        unitsTotal: String(tpl.total),
+                        unitsStrategy: tpl.perDay ? 'fixed' : 'even',
+                        unitsPerDay: tpl.perDay ? String(tpl.perDay) : p.unitsPerDay,
+                        plannedDays: tpl.days,
+                        plannedEnd: addDays(p.start, tpl.days - 1),
+                        daysCount: String(tpl.days),
+                      }));
+                      toast.info(`Применён шаблон: ${tpl.label}`);
+                    }}
+                  >
+                    {tpl.label}
+                  </Button>
                 ))}
               </div>
             </div>
@@ -1777,7 +2234,14 @@ export const TimeManagementPage = () => {
             </IconButton>
           )}
           {taskForm.id && (
-            <Button onClick={() => { archiveTask(taskForm.id); setTaskOpen(false); }}>В архив</Button>
+            <Button
+              onClick={() => {
+                archiveTask(taskForm.id);
+                setTaskOpen(false);
+              }}
+            >
+              В архив
+            </Button>
           )}
           <Button onClick={saveAsPlan}>Сохранить как план</Button>
           <Button onClick={() => setTaskOpen(false)}>Отмена</Button>
@@ -1791,7 +2255,9 @@ export const TimeManagementPage = () => {
       <Dialog open={plansOpen} onClose={() => setPlansOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Планы (шаблоны)</DialogTitle>
         <DialogContent className="tm-dialog">
-          {plans.length === 0 && <span className="tm-hint">Планов пока нет. Откройте задачу и нажмите «Сохранить как план».</span>}
+          {plans.length === 0 && (
+            <span className="tm-hint">Планов пока нет. Откройте задачу и нажмите «Сохранить как план».</span>
+          )}
           {plans.map(p => (
             <div key={p.id} className="tm-plan">
               <span className="tm-swatch" style={{ background: p.color }} />
@@ -1803,7 +2269,14 @@ export const TimeManagementPage = () => {
                   {p.planMode === 'days' ? ` · за ${p.daysCount || '?'} дн.` : ''}
                 </div>
               </div>
-              <Button size="small" variant="contained" onClick={() => { addPlanToBoard(p); setPlansOpen(false); }}>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => {
+                  addPlanToBoard(p);
+                  setPlansOpen(false);
+                }}
+              >
                 На доску
               </Button>
               <IconButton size="small" color="error" onClick={() => deletePlan(p.id)} aria-label="delete">
@@ -1825,12 +2298,16 @@ export const TimeManagementPage = () => {
             <>
               <FormControlLabel
                 control={
-                  <Switch checked={dayForm.exclude} onChange={e => setDayForm(p => ({ ...p, exclude: e.target.checked }))} />
+                  <Switch
+                    checked={dayForm.exclude}
+                    onChange={e => setDayForm(p => ({ ...p, exclude: e.target.checked }))}
+                  />
                 }
                 label="Исключить день (перенести в конец)"
               />
-              {!dayForm.exclude && dayForm.date <= today && (
-                dayForm.kind === 'walk' ? (
+              {!dayForm.exclude &&
+                dayForm.date <= today &&
+                (dayForm.kind === 'walk' ? (
                   <div>
                     <FormControlLabel
                       control={
@@ -1908,15 +2385,16 @@ export const TimeManagementPage = () => {
                           label={dayForm.kind === 'book' ? 'Страниц прочитано' : 'Единиц выполнено'}
                           type="number"
                           value={dayForm.units}
-                          onChange={e => setDayForm(p => ({ ...p, units: e.target.value, done: Number(e.target.value) > 0 }))}
+                          onChange={e =>
+                            setDayForm(p => ({ ...p, units: e.target.value, done: Number(e.target.value) > 0 }))
+                          }
                           fullWidth
                           margin="dense"
                         />
                       </>
                     )}
                   </>
-                )
-              )}
+                ))}
               {!dayForm.exclude && dayForm.date <= today && (
                 <TextField
                   label="Заметка"
