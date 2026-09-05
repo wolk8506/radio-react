@@ -101,7 +101,7 @@ export const CurrencyConverterEnhanced = () => {
   const rate = rates[valueSelect2];
 
   return (
-    <div className="converter-block" style={{ margin: 0, flex: '1 1 480px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <div className="converter-block" style={{ margin: 0,  display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <Typography sx={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', mb: 1, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
         150+ валют · open.er-api.com / frankfurter
       </Typography>

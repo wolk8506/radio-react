@@ -132,7 +132,7 @@ export const TimeHero = () => {
             gap: '6px',
             flex: 1,
             minWidth: 0,
-            '@media (max-width: 769px)': { flexDirection:'row',mt:1},
+            '@media (max-width: 769px)': { flexDirection: 'row', mt: 1 },
           }}
         >
           {/* <Typography
@@ -201,6 +201,7 @@ export const TimeHero = () => {
                 fontSize: '0.7rem',
                 fontWeight: 600,
                 // color: 'rgba(255, 255, 255, 0.85)',
+                color: 'var(--color-02)',
                 background: 'rgba(255, 255, 255, 0.08)',
                 border: '1px solid rgba(255, 255, 255, 0.12)',
               }}
@@ -213,6 +214,7 @@ export const TimeHero = () => {
                 fontSize: '0.7rem',
                 fontWeight: 600,
                 // color: 'rgba(255, 255, 255, 0.85)',
+                color: 'var(--color-02)',
                 background: 'rgba(255, 255, 255, 0.08)',
                 border: '1px solid rgba(255, 255, 255, 0.12)',
               }}

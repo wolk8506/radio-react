@@ -56,7 +56,7 @@ export const CurrencyBanks = () => {
   return (
     <section className="secton-nbu">
       <div className="name-section">
-        <h2 className="name-section__title">Сравнение банков — Privat + Mono + NBU (бесплатно)</h2>
+        <h2 className="name-section__title">Сравнение банков — Privat + Mono + NBU</h2>
         <Typography sx={{ ml: 'auto', color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem' }}>Зелёный — лучший buy/sell, спред = sell-buy</Typography>
       </div>
       <TableContainer component={Paper} sx={{ background: '#121214', border: '1px solid #1f1f22', borderRadius: '14px', overflow: 'hidden' }}>
