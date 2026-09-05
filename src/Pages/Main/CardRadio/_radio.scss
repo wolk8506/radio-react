@@ -1,7 +1,26 @@
 @use "../../../scss/colors";
 @use "../../../scss/function";
 
- .selectRadioStation div img {
-     margin-right: 10px;
-     display: none;
+ .select-radio-station {
+    @media screen and (max-width: 600px) {
+        display: none !important;
+    }
+    
+   & div img {
+            margin-right: 10px;
+            display: none;
+        }
+ }
+
+ .select-radio-station-mobile{
+    margin-bottom: 10px;
+    // width: 100%;
+    @media screen and (min-width: 601px) {
+            display: none !important;
+        }
+
+         & div img {
+             margin-right: 10px;
+             display: none;
+         }
  }

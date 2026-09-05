@@ -1,4 +1,5 @@
-import img_181_fm from './station/img-181.fm.jpg';
+// import img_181_fm from './station/img-181.fm.jpg';
+import img_181_fm from './station/181-rock_300.webp';
 // import img_kiss_fm from '../../images/station/kissfm.webp';
 import img_nrg_radio from './station/img-nrg-radio.jpg';
 import img_soundpark_deep from './station/img-soundpark-deep.jpg';
