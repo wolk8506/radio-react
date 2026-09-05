@@ -10,4 +10,7 @@ export const radioService = {
   getNowPlaying: async () => (await api.get('/radio/now-playing')).data.data.result,
   // История воспроизведения за последний час для конкретной станции
   getHistory: async (stationId) => (await api.get(`/radio/history/${stationId}`)).data.data.result,
+  // Детальная информация о треке: альбом, жанр, год, превью
+  getTrackInfo: async (artist, track) =>
+    (await api.get('/radio/track-info', { params: { artist: artist || '', track: track || '' } })).data.data.result,
 };

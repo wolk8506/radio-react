@@ -88,7 +88,7 @@ export const Radio = ({ onAudio }) => {
           <p className="clock-block__clock">{playTime}</p>
         </div>
 
-        <FormControl className="selectRadioStation">
+        <FormControl className="select-radio-station">
           <Select className="list" value={station} onChange={handleStahion}>
             {radioData.map((i, index) => {
               return (

@@ -408,7 +408,7 @@ export const RadioCard = ({ onAudio }) => {
         <Box
           component="img"
           className="logoRadio"
-          src={np?.cover ? np.cover : (currentStationData?.logo || null)}
+          src={np?.cover ? np.cover : currentStationData?.logo || null}
           alt={currentStationData?.name || 'Radio logo'}
           onError={e => {
             if (currentStationData?.logo && e.currentTarget.src !== currentStationData.logo) {
@@ -481,7 +481,7 @@ export const RadioCard = ({ onAudio }) => {
               minWidth: 0,
             }}
           >
-            <FormControl fullWidth size="small" className="selectRadioStation">
+            <FormControl fullWidth size="small" className="select-radio-station">
               <Select
                 value={station}
                 onChange={handleStationChange}
@@ -637,7 +637,6 @@ export const RadioCard = ({ onAudio }) => {
         </IconButton>
 
         {/* Регулятор громкости */}
-        
       </Box>
     </Box>
   );

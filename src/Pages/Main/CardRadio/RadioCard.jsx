@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Typography, MenuItem, FormControl, Select, IconButton, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { Box, Typography, MenuItem, FormControl, Select, IconButton, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar, Dialog, DialogContent, Link, CircularProgress } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import HistoryIcon from '@mui/icons-material/History';
@@ -57,6 +58,94 @@ const CssEqualizer = ({ isPlaying, accentColor }) => {
   );
 };
 
+const fmtPreviewTime = s => {
+  if (!isFinite(s) || s < 0) return '0:00';
+  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+};
+
+const TrackPreviewPlayer = ({ src, accent }) => {
+  const ac = accent || '#c2a85a';
+  const audioRef = React.useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [cur, setCur] = useState(0);
+  const [dur, setDur] = useState(0);
+
+  useEffect(() => {
+    setPlaying(false);
+    setCur(0);
+    setDur(0);
+    const el = audioRef.current;
+    if (el) { el.pause(); el.currentTime = 0; }
+  }, [src]);
+
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el) return;
+    const onEnd = () => setPlaying(false);
+    el.addEventListener('ended', onEnd);
+    return () => el.removeEventListener('ended', onEnd);
+  }, []);
+
+  const toggle = () => {
+    const el = audioRef.current;
+    if (!el) return;
+    if (playing) { el.pause(); setPlaying(false); }
+    else { el.play().then(() => setPlaying(true)).catch(() => setPlaying(false)); }
+  };
+
+  const seek = e => {
+    const el = audioRef.current;
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    if (el && dur) { el.currentTime = ratio * dur; setCur(ratio * dur); }
+  };
+
+  const pct = dur ? Math.min(100, (cur / dur) * 100) : 0;
+
+  return (
+    <Box sx={{
+      display: 'flex', alignItems: 'center', gap: 1.25, p: '8px 10px',
+      borderRadius: '12px', background: 'rgba(255,255,255,0.04)',
+      border: '1px solid rgba(255,255,255,0.08)',
+    }}>
+      <audio ref={audioRef} preload="none" src={src}
+        onTimeUpdate={e => setCur(e.currentTarget.currentTime)}
+        onLoadedMetadata={e => setDur(e.currentTarget.duration || 0)} />
+      <IconButton onClick={toggle} aria-label={playing ? 'Пауза превью' : 'Слушать превью'} sx={{
+        width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+        background: `linear-gradient(135deg, ${ac} 0%, #7e22ce 100%)`, color: '#fff',
+        border: '1px solid rgba(255,255,255,0.16)', boxShadow: `0 4px 14px ${ac}45`,
+        '&:hover': { transform: 'scale(1.05)' }, transition: 'all 0.2s',
+      }}>
+        {playing ? <PauseIcon sx={{ fontSize: 19 }} /> : <PlayArrowIcon sx={{ fontSize: 19, ml: '2px' }} />}
+      </IconButton>
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 0.5 }}>
+          <Typography sx={{ fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.08em', color: playing ? ac : 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>
+            {playing ? 'Превью играет' : 'Превью 30 сек'}
+          </Typography>
+          <Typography sx={{ fontSize: '0.62rem', fontFamily: 'monospace', color: 'rgba(255,255,255,0.5)' }}>
+            {fmtPreviewTime(cur)} / {fmtPreviewTime(dur || 30)}
+          </Typography>
+        </Box>
+        <Box onClick={seek} sx={{
+          height: 5, borderRadius: 3, cursor: 'pointer',
+          background: 'rgba(255,255,255,0.1)',
+          position: 'relative', overflow: 'hidden',
+          '&:hover': { background: 'rgba(255,255,255,0.14)' },
+        }}>
+          <Box sx={{
+            position: 'absolute', inset: 0, width: `${pct}%`,
+            background: `linear-gradient(90deg, ${ac}, #7e22ce)`,
+            borderRadius: 3, transition: 'width 0.15s linear',
+          }} />
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
 const StationCarousel = ({ stations, current, onSelect, accent, onClose }) => {
   const [swiper, setSwiper] = useState(null);
 
@@ -94,9 +183,9 @@ const StationCarousel = ({ stations, current, onSelect, accent, onClose }) => {
       </Box>
 
       <Box sx={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', py: 1, px: 0.5,
-        '& .swiper': { width: '100%', padding: '12px 0 18px', overflow: 'visible' },
+        '& .swiper': { width: '100%', padding: '12px 0 18px', overflow: 'visible', '@media (max-width: 600px)': { padding: '20px 0 28px' } },
         '& .swiper-wrapper': { alignItems: 'center' },
-        '& .swiper-slide': { width: 148, height: 148, borderRadius: '16px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.4s ease', border: '1px solid rgba(255,255,255,0.08)', background: '#0b0e14', boxShadow: '0 6px 18px rgba(0,0,0,0.35)', flexShrink: 0, pointerEvents: 'auto' },
+        '& .swiper-slide': { width: 210, height: 210, '@media (min-width: 601px)': { width: 148, height: 148 }, borderRadius: '16px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.4s ease', border: '1px solid rgba(255,255,255,0.08)', background: '#0b0e14', boxShadow: '0 6px 18px rgba(0,0,0,0.35)', flexShrink: 0, pointerEvents: 'auto' },
         '& .swiper-slide-active': { transform: 'scale(1.08)', borderColor: `${accent}55`, boxShadow: `0 10px 28px rgba(0,0,0,0.5), 0 0 0 2px ${accent}30`, zIndex: 2 },
         '& .swiper-slide-prev, & .swiper-slide-next': { opacity: 0.72, transform: 'scale(0.88) translateY(6px)', filter: 'blur(0.3px)' },
         '& .swiper-button-prev, & .swiper-button-next': { color: '#fff', width: 28, height: 28,  '&:after': { fontSize: '12px', fontWeight: 800 } },
@@ -197,6 +286,25 @@ export const RadioCard = ({ onAudio }) => {
     setShowCarousel(false);
   };
 
+  const [trackModal, setTrackModal] = useState(null);
+  const [trackInfo, setTrackInfo] = useState(null);
+  const [trackInfoLoading, setTrackInfoLoading] = useState(false);
+  const [trackInfoError, setTrackInfoError] = useState(false);
+
+  const openTrackInfo = (item) => {
+    setTrackModal(item);
+    setTrackInfo(null);
+    setTrackInfoError(false);
+    if (!item?.artist && !item?.track) return;
+    setTrackInfoLoading(true);
+    import('./radioService').then(({ radioService }) =>
+      radioService.getTrackInfo(item.artist || '', item.track || item.title || '')
+        .then(info => setTrackInfo(info))
+        .catch(() => setTrackInfoError(true))
+        .finally(() => setTrackInfoLoading(false))
+    );
+  };
+
   useEffect(() => {
     if (!onAudio) return;
     const id = setInterval(() => {
@@ -246,7 +354,7 @@ export const RadioCard = ({ onAudio }) => {
     <Box className="block" sx={{
       position: 'relative', width: '100%', p: '14px 16px 14px 20px',
       display: 'flex', flexDirection: 'column', gap: 0,
-      height: 'auto', '@media (min-width: 601px)': { height: '236px' },
+      height: '561px', '@media (min-width: 601px)': { height: '236px' },
       overflow: 'hidden',
       background: `radial-gradient(600px 300px at 15% 50%, ${accent}18 0%, transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))`,
     }}>
@@ -285,8 +393,8 @@ export const RadioCard = ({ onAudio }) => {
             {history.slice().reverse().map((item, idx, arr) => {
               const isLive = idx === arr.length - 1;
               return (
-                <ListItem key={`${item.playedAt}-${idx}`} sx={{
-                  p: '6px 8px', borderRadius: '10px',
+                <ListItem key={`${item.playedAt}-${idx}`} button onClick={() => openTrackInfo(item)} sx={{
+                  p: '6px 8px', borderRadius: '10px', cursor: 'pointer',
                   background: isLive ? `linear-gradient(90deg, ${accent}14, transparent)` : 'transparent',
                   border: isLive ? `1px solid ${accent}22` : '1px solid transparent',
                   '&:hover': { background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.07)' },
@@ -313,6 +421,73 @@ export const RadioCard = ({ onAudio }) => {
           </List>
         )}
       </Box>
+      <Dialog open={!!trackModal} onClose={() => setTrackModal(null)} maxWidth="xs" fullWidth
+        PaperProps={{ sx: { background: 'rgba(18,20,27,0.98)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', color: '#fff' } }}>
+        <DialogContent sx={{ p: 2.5 }}>
+          {trackModal && (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              <Box sx={{ display: 'flex', gap: 1.5 }}>
+                <Box component="img" src={trackInfo?.cover || trackModal.cover || currentStationData?.logo} alt=""
+                  sx={{ width: 96, height: 96, borderRadius: '12px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.12)', flexShrink: 0 }} />
+                <Box sx={{ minWidth: 0, flex: 1 }}>
+                  <Typography sx={{ fontSize: '1rem', fontWeight: 800, lineHeight: 1.2 }}>{trackInfo?.track || trackModal.track || trackModal.title}</Typography>
+                  <Typography sx={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.65)', mt: 0.3 }}>{trackInfo?.artist || trackModal.artist}</Typography>
+                  <Typography sx={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', mt: 0.5 }}>
+                    {formatTime(trackModal.playedAt)} • {currentStationData?.name}
+                  </Typography>
+                </Box>
+                <IconButton size="small" onClick={() => setTrackModal(null)} sx={{ width: 28, height: 28, color: textMuted, alignSelf: 'flex-start' }}>
+                  <CloseIcon sx={{ fontSize: 16 }} />
+                </IconButton>
+              </Box>
+              {trackInfoLoading ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 1, color: textMuted }}>
+                  <CircularProgress size={16} sx={{ color: accent }} />
+                  <Typography sx={{ fontSize: '0.75rem' }}>Ищем альбом, жанр, год…</Typography>
+                </Box>
+              ) : trackInfoError || !trackInfo ? (
+                <Typography sx={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>
+                  Подробности не найдены (реклама или редкий трек).
+                </Typography>
+              ) : (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+                  {[
+                    ['Альбом', trackInfo.album],
+                    ['Жанр', trackInfo.genre],
+                    ['Год', trackInfo.year],
+                    ['Длительность', trackInfo.duration],
+                  ].filter(([, v]) => v).map(([k, v]) => (
+                    <Box key={k} sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, fontSize: '0.78rem' }}>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem' }}>{k}</Typography>
+                      <Typography sx={{ color: '#fff', fontWeight: 600, fontSize: '0.78rem', textAlign: 'right' }}>{v}</Typography>
+                    </Box>
+                  ))}
+                  {trackInfo.preview && (
+                    <Box sx={{ mt: 0.5 }}>
+                      <TrackPreviewPlayer src={trackInfo.preview} accent={accent} />
+                    </Box>
+                  )}
+                  <Box sx={{ display: 'flex', gap: 1.5, mt: 0.5 }}>
+                    {trackInfo.trackUrl && (
+                      <Link href={trackInfo.trackUrl} target="_blank" rel="noreferrer" sx={{ fontSize: '0.75rem', color: accent, display: 'inline-flex', alignItems: 'center', gap: 0.4 }}>
+                        {trackInfo.source === 'deezer' ? 'Deezer' : 'Apple Music'} <OpenInNewIcon sx={{ fontSize: 12 }} />
+                      </Link>
+                    )}
+                    {trackInfo.albumUrl && (
+                      <Link href={trackInfo.albumUrl} target="_blank" rel="noreferrer" sx={{ fontSize: '0.75rem', color: textMuted }}>
+                        Альбом <OpenInNewIcon sx={{ fontSize: 12 }} />
+                      </Link>
+                    )}
+                  </Box>
+                </Box>
+              )}
+              <Typography sx={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.35)' }}>
+                Источник: {trackInfo?.source === 'deezer' ? 'Deezer' : 'iTunes Search'} • бесплатно, без ключа
+              </Typography>
+            </Box>
+          )}
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 
@@ -322,7 +497,7 @@ export const RadioCard = ({ onAudio }) => {
       <Box className="block" sx={{
         position: 'relative', width: '100%', p: '12px 12px 10px',
         display: 'flex', flexDirection: 'column',
-        height: 'auto', '@media (min-width: 601px)': { height: '236px' },
+        height: '561px', '@media (min-width: 601px)': { height: '236px' },
         overflow: 'hidden',
       }}>
         <StationCarousel stations={radioData} current={station} onSelect={handleSelectStation} accent={accent} onClose={() => setShowCarousel(false)} />
@@ -376,9 +551,90 @@ export const RadioCard = ({ onAudio }) => {
           minHeight: 0,
           aspectRatio: '1 / 1',
           alignSelf: 'center',
-          '@media (min-width: 601px)': { alignSelf: 'stretch' },
+          '@media (max-width: 601px)': {
+            flexDirection: 'column',
+            width: 'clamp(250px, 42vw, 300px)',
+            height: 'clamp(300px, 42vw, 350px)',
+            maxWidth: 300,
+            maxHeight: 350,
+          },
         }}
       >
+        <FormControl fullWidth size="small" className="select-radio-station-mobile">
+          <Select
+            value={station}
+            onChange={handleStationChange}
+            sx={{
+              // '@media (max-width: 600px)': { alignItems: 'center' },
+              width: '100%',
+              mb: 1,
+              height: 24,
+              color: textMain,
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              letterSpacing: '-0.01em',
+              background: `linear-gradient(180deg, ${glassStrong}, ${glass})`,
+              borderRadius: '12px',
+              border: '1px solid rgba(255,255,255,0.1)',
+              '& .MuiSelect-select': { display: 'flex', alignItems: 'center', py: '7px', px: '12px', minHeight: 34 },
+              '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+              '& .MuiSvgIcon-root': { color: textMuted },
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  background: 'rgba(14,16,22,0.98)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  color: textMain,
+                  maxHeight: 240,
+                  borderRadius: '12px',
+                  mt: 1,
+                },
+              },
+            }}
+          >
+            {radioData.map((item, index) => (
+              <MenuItem key={index} value={index} sx={{ fontSize: '0.82rem', py: 0.9 }}>
+                <Box
+                  component="img"
+                  src={item.logo}
+                  alt={item.name}
+                  sx={{
+                    width: 22,
+                    height: 22,
+                    borderRadius: '6px',
+                    mr: 1.25,
+                    objectFit: 'cover',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                  }}
+                />
+                <Box
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    fontWeight: index === station ? 700 : 500,
+                  }}
+                >
+                  {item.name}
+                </Box>
+                {/* {index === station && isPlaying && (
+                  <Box
+                    sx={{
+                      ml: 'auto',
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      bgcolor: '#22c55e',
+                      boxShadow: '0 0 6px #22c55e',
+                    }}
+                  />
+                )} */}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         {isPlaying && (
           <Box
             sx={{
@@ -431,24 +687,24 @@ export const RadioCard = ({ onAudio }) => {
           />
 
           {np?.cover && (
-          <Box
-            component="img"
-            src={currentStationData?.logo}
-            alt=""
-            sx={{
-              position: 'absolute',
-              right: 8,
-              bottom: 8,
-              width: 38,
-              height: 38,
-              borderRadius: '10px',
-              objectFit: 'cover',
-              border: '2px solid rgba(255,255,255,0.85)',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.45)',
-              bgcolor: 'rgba(255,255,255,0.9)',
-            }}
-          />
-        )}
+            <Box
+              component="img"
+              src={currentStationData?.logo}
+              alt=""
+              sx={{
+                position: 'absolute',
+                right: 8,
+                bottom: 8,
+                width: 38,
+                height: 38,
+                borderRadius: '10px',
+                objectFit: 'cover',
+                border: '2px solid rgba(255,255,255,0.85)',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.45)',
+                bgcolor: 'rgba(255,255,255,0.9)',
+              }}
+            />
+          )}
         </Box>
       </Box>
 
@@ -469,7 +725,7 @@ export const RadioCard = ({ onAudio }) => {
           pr: 1,
         }}
       >
-        <FormControl fullWidth size="small" className="selectRadioStation">
+        <FormControl fullWidth size="small" className="select-radio-station">
           <Select
             value={station}
             onChange={handleStationChange}
