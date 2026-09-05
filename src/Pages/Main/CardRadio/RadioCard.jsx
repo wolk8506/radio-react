@@ -482,7 +482,7 @@ export const RadioCard = ({ onAudio }) => {
                 </Box>
               )}
               <Typography sx={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.35)' }}>
-                Источник: {trackInfo?.source === 'deezer' ? 'Deezer' : 'iTunes Search'} • бесплатно, без ключа
+                Источник: {trackInfo?.source === 'deezer' ? 'Deezer' : 'iTunes Search'}
               </Typography>
             </Box>
           )}

@@ -95,7 +95,7 @@ export const RadioMini = ({ onAudio, open }) => {
           </ListItemIcon>
           <ListItemText
             primary={
-              PLAYER_PLAY ? (
+              !PLAYER_PLAY ? (
                 <div className="radio-station-name">
                   <img src={equalizer_off} alt="equalizer" />
                   <span>{radioData[PLAYER_STATION].name}</span>

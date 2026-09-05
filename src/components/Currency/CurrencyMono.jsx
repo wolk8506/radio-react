@@ -227,7 +227,7 @@ export const CurrencyMono = () => {
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  let dateToday = moment().format('DD MMMM YYYY');
+  // let dateToday = moment().format('DD MMMM YYYY');
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -288,18 +288,32 @@ export const CurrencyMono = () => {
         <h2 className="name-section__title">Конвертер валют.</h2>
       </div>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: 'flex',
           // gap: '16px',
           // flexWrap: 'wrap',
           // alignItems: 'stretch'
           justifyContent: 'space-between',
+
           // width:"1260px"
           marginBottom: '32px',
+          // border: '1px solid red',
+          // '@media (max-width: 601px)': { border: '1px solid red' },
+          '@media (max-width: 601px)': {
+            // border: '1px solid red',
+            flexDirection: 'column',
+          },
         }}
       >
-        <div className="converter-block" style={{ margin: 0, display: 'flex', flexDirection: 'column', width: 500 }}>
+        <Box className="converter-block" sx={{
+          margin: 0, display: 'flex', flexDirection: 'column', width: 500,
+          '@media (max-width: 601px)': {
+              border: '1px solid red',
+              width: "100%",
+              mt:2
+            },
+         }}>
           <Box className="text-field-block" component="form" noValidate autoComplete="off">
             <NumericFormat
               prefix={currencySign[valueSelect1]}
@@ -370,12 +384,21 @@ export const CurrencyMono = () => {
               </Select>
             </FormControl>
           </div>
-        </div>
+        </Box>
 
-        <Box sx={{ minWidth: 380 }}>
+        <Box
+          sx={{
+            // minWidth: 380,
+            '@media (max-width: 601px)': {
+              border: '1px solid red',
+              // minWidth: "100%",
+              mt:2
+            },
+          }}
+        >
           <CurrencyConverterEnhanced />
         </Box>
-      </div>
+      </Box>
 
       <div className="name-section">
         <Button
@@ -388,7 +411,7 @@ export const CurrencyMono = () => {
         >
           Обновить
         </Button>
-        <h2 className="name-section__title">Курс MONObank на {dateToday}.</h2>
+        <h2 className="name-section__title">Курс MONObank</h2>
         <div className="update-block">
           {status ? <CheckCircleOutlineIcon className="icon-success" /> : <WarningAmberIcon className="icon-warning" />}
           <p className="update-time" title="Время обновления данных с сервера.">

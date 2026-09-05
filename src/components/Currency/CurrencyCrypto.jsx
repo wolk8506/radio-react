@@ -38,7 +38,7 @@ export const CurrencyCrypto = () => {
   return (
     <section className="secton-nbu">
       <div className="name-section">
-        <h2 className="name-section__title">Крипта — CoinGecko (бесплатно)</h2>
+        <h2 className="name-section__title">Крипта — CoinGecko</h2>
         <Chip icon={<CurrencyBitcoinIcon />} label="Авто 2 мин" size="small" sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.15)', ml: 'auto' }} variant="outlined" />
       </div>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px,1fr))', gap: 1.5, p: 2 }}>
