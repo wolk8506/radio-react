@@ -7,8 +7,8 @@ import { avatarUrl } from '../config';
 
 import { Button } from '@mui/material';
 
-import { ProfileAvatar } from 'components/Profile/ProfileAvatar';
-import { ProfilePersonData } from 'components/Profile/ProfilePersonData';
+import { ProfileAvatar } from 'Pages/Profile/ProfileAvatar';
+import { ProfilePersonData } from 'Pages/Profile/ProfilePersonData';
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -56,13 +56,6 @@ export const ProfilePage = () => {
                 onClick={() => navigate('/profile/library/jokes', { replace: true })}
               >
                 Шутки
-              </Button>
-              <Button
-                type="button"
-                variant="outlined"
-                onClick={() => navigate('/profile/timemanagement', { replace: true })}
-              >
-                Тайм-менеджмент
               </Button>
             </>
           )}

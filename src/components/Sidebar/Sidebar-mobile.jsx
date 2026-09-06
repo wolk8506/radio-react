@@ -17,6 +17,7 @@ import { authSelectors } from 'store';
 
 export const SidebarMobile = () => {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const isAdmin = useSelector(authSelectors.getIsAdmin);
   const location = useLocation();
   const currentPage = '/' + location.pathname.split('/')[1];
   const menuData = [
@@ -28,6 +29,7 @@ export const SidebarMobile = () => {
     { name: 'Медиатека', link: '/filmLibrary', route: 'privat' },
     { name: 'Настройки', link: '/settings', route: 'public' },
     { name: 'Профиль', link: '/profile', route: 'privat' },
+    { name: 'Трекер привычек', link: '/profile/timemanagement', route: 'admin' },
     { name: 'Страница входа', link: '/login', route: 'restricted' },
     { name: 'Регистрация', link: '/register', route: 'restricted' },
   ];
@@ -97,7 +99,8 @@ export const SidebarMobile = () => {
               const shouldRender =
                 i.route === 'public' ||
                 (isLoggedIn && i.route === 'privat') ||
-                (!isLoggedIn && i.route === 'restricted');
+                (!isLoggedIn && i.route === 'restricted') ||
+                (isAdmin && i.route === 'admin');
 
               if (!shouldRender) return null;
 

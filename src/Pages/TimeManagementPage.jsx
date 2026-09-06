@@ -989,6 +989,25 @@ export const TimeManagementPage = () => {
         }
       }
     }
+    // Для книг (режим страниц): с какой страницы начинаем = после последней прочитанной
+    let pageFrom = '';
+    let pageTo = m?.pageTo ?? '';
+    if (task.kind === 'book' && task.mode === 'units') {
+      let cursor = 0;
+      Object.keys(task.marks || {})
+        .filter(d => d < date)
+        .sort()
+        .forEach(d => {
+          const pm = task.marks[d];
+          if (!pm?.done) return;
+          if (pm.pageTo != null && pm.pageTo !== '') cursor = Number(pm.pageTo) || cursor;
+          else cursor += Number(pm.units) || 0;
+        });
+      pageFrom = m?.pageFrom ?? cursor;
+      if (m?.done && (m?.pageTo == null || m?.pageTo === '') && m?.units) {
+        pageTo = Number(pageFrom) + Number(m.units);
+      }
+    }
     setDayForm({
       taskId: task.id,
       date,
@@ -1000,6 +1019,8 @@ export const TimeManagementPage = () => {
       done: m?.done || false,
       percent: m?.percent || 0,
       units: m?.units || 0,
+      pageFrom,
+      pageTo,
       walkTime,
       speed,
       reason,
@@ -1008,7 +1029,7 @@ export const TimeManagementPage = () => {
     setDayOpen(true);
   };
   const saveDay = () => {
-    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, walkTime, speed, reason, notes } = dayForm;
+    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, pageFrom, pageTo, walkTime, speed, reason, notes } = dayForm;
     setTasks(prev =>
       prev.map(t => {
         if (t.id !== taskId) return t;
@@ -1030,6 +1051,8 @@ export const TimeManagementPage = () => {
             done,
             percent: Math.max(0, Math.min(999, pct)),
             units: Number(units) || 0,
+            pageFrom: kind === 'book' && mode === 'units' && pageFrom !== '' && pageFrom != null ? Number(pageFrom) : undefined,
+            pageTo: kind === 'book' && mode === 'units' && pageTo !== '' && pageTo != null ? Number(pageTo) : undefined,
             walkTime: kind === 'walk' ? Number(walkTime) || 0 : undefined,
             speed: kind === 'walk' ? Number(speed) || 0 : undefined,
             reason: kind === 'walk' && !done ? reason : undefined,
@@ -1094,7 +1117,7 @@ export const TimeManagementPage = () => {
     <div className="timemanagement">
       <div className="tm-header">
         <div className="tm-header__title">
-          <h1>Тайм-менеджмент</h1>
+          <h1>Трекер привычек</h1>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <Button size="small" variant="outlined" startIcon={<TodayIcon />} onClick={goToday}>
               Сегодня
@@ -2373,16 +2396,71 @@ export const TimeManagementPage = () => {
                           />
                         </div>
                       </>
-                    ) : (
+                    ) : dayForm.kind === 'book' && dayForm.mode === 'units' ? (
                       <>
                         <div className="tm-dialog__slider">
                           <span>
-                            {dayForm.kind === 'book' ? 'Прочитано стр.' : 'Сделано единиц'}: {dayForm.units}
+                            Прочитано: стр. {dayForm.pageFrom || '…'} — {dayForm.pageTo || '…'} (
+                            {dayForm.units || 0} стр.)
                           </span>
                           {dayForm.planned != null && <span> (план: {dayForm.planned})</span>}
                         </div>
+                        <div className="tm-dialog__row">
+                          <TextField
+                            label="С какой страницы"
+                            type="number"
+                            value={dayForm.pageFrom}
+                            onChange={e => {
+                              const pf = e.target.value;
+                              setDayForm(p => {
+                                const pt = Number(p.pageTo) || 0;
+                                const units =
+                                  pf !== '' && pt >= Number(pf) ? pt - Number(pf) : 0;
+                                return { ...p, pageFrom: pf, units, done: units > 0 };
+                              });
+                            }}
+                            margin="dense"
+                          />
+                          <TextField
+                            label="На какой странице читаю"
+                            type="number"
+                            value={dayForm.pageTo}
+                            onChange={e => {
+                              const pt = e.target.value;
+                              setDayForm(p => {
+                                const pf = p.pageFrom === '' || p.pageFrom == null ? 0 : Number(p.pageFrom);
+                                const units =
+                                  pt !== '' && Number(pt) >= pf ? Number(pt) - pf : 0;
+                                return { ...p, pageTo: pt, units, done: units > 0 };
+                              });
+                            }}
+                            margin="dense"
+                          />
+                        </div>
                         <TextField
-                          label={dayForm.kind === 'book' ? 'Страниц прочитано' : 'Единиц выполнено'}
+                          label="Страниц прочитано"
+                          type="number"
+                          value={dayForm.units}
+                          onChange={e => {
+                            const u = e.target.value;
+                            setDayForm(p => {
+                              const pf = p.pageFrom === '' || p.pageFrom == null ? 0 : Number(p.pageFrom);
+                              const pt = Number(u) > 0 ? pf + Number(u) : '';
+                              return { ...p, units: u, pageTo: pt, done: Number(u) > 0 };
+                            });
+                          }}
+                          fullWidth
+                          margin="dense"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <div className="tm-dialog__slider">
+                          <span>Сделано единиц: {dayForm.units}</span>
+                          {dayForm.planned != null && <span> (план: {dayForm.planned})</span>}
+                        </div>
+                        <TextField
+                          label="Единиц выполнено"
                           type="number"
                           value={dayForm.units}
                           onChange={e =>

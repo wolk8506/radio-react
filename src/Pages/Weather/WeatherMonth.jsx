@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import sprite from '../../images/sprite.svg';
-import weatherImage from 'components/Weather/weatherIcon';
+import weatherImage from 'Pages/Weather/weatherIcon';
 
 import { weatherSelectors, rootSelectors } from 'store';
 

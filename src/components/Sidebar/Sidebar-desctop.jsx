@@ -20,12 +20,14 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import TuneIcon from '@mui/icons-material/Tune';
 import PersonIcon from '@mui/icons-material/Person';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import { avatarUrl } from '../../config';
 
 import { RadioMini } from '../../Pages/Main/Radio-mini';
 
 export const SidebarDesctop = ({ audio }) => {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const isAdmin = useSelector(authSelectors.getIsAdmin);
   const avatar = useSelector(authSelectors.getAvatar);
   const location = useLocation();
   const currentPage = '/' + location.pathname.split('/')[1];
@@ -84,6 +86,30 @@ export const SidebarDesctop = ({ audio }) => {
             );
           })}
         </List>
+        {isAdmin && (
+          <List>
+            <ListItem
+              className={location.pathname.startsWith('/profile/timemanagement') ? 'activ' : ''}
+              onClick={handleBtnTab}
+              disablePadding
+              sx={{ display: 'block' }}
+            >
+              <ListItemButton
+                component={Link}
+                to={'/profile/timemanagement'}
+                sx={[
+                  { minHeight: 48, px: 2.5 },
+                  btnMenu ? { justifyContent: 'initial' } : { justifyContent: 'center' },
+                ]}
+              >
+                <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, btnMenu ? { mr: 3 } : { mr: 'auto' }]}>
+                  {React.createElement(ChecklistIcon)}
+                </ListItemIcon>
+                <ListItemText primary="Трекер привычек" sx={[btnMenu ? { opacity: 1 } : { opacity: 0 }]} />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        )}
         <List>
           <ListItem
             className={currentPage === '/profile' ? 'activ' : ''}
