@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { TabPanel1 } from 'components/Settings/TabPanel1';
-import { WallpaperThemes } from 'components/Settings/WallpaperThemes';
-import { TabPanel2 } from 'components/Settings/TabPanel2';
+import { TabPanel1 } from 'Pages/Settings/TabPanel1';
+import { WallpaperThemes } from 'Pages/Settings/WallpaperThemes';
+import { TabPanel2 } from 'Pages/Settings/TabPanel2';
 import packageJson from '../../package.json';
 const version = packageJson.version;
 

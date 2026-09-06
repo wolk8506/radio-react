@@ -3,7 +3,7 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { authSelectors } from 'store';
-import { LibraryAdmin } from 'components/Profile/LibraryAdmin';
+import { LibraryAdmin } from 'Pages/Profile/LibraryAdmin';
 import { Button } from '@mui/material';
 
 const LABELS = { events: 'События', facts: 'Факты', jokes: 'Шутки' };

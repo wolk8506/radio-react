@@ -6,7 +6,7 @@ import { authSelectors } from 'store';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { AdminUsers } from 'components/Profile/AdminUsers';
+import { AdminUsers } from 'Pages/Profile/AdminUsers';
 
 export const AdminUsersPage = () => {
   const navigate = useNavigate();

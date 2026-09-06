@@ -21,18 +21,18 @@
 @use 'Pages/Main/weather-dashboard';
 @use 'Pages/Main/wind-gust';
 
-@use 'components/Currency/currency' as currency2;
-@use 'components/Currency/currency-mono';
+@use 'Pages/Currency/currency' as currency2;
+@use 'Pages/Currency/currency-mono';
 
-@use 'components/Weather/weather';
-@use 'components/Weather/air-quality';
-@use 'components/Weather/chart-weather';
-@use 'components/Weather/tiles';
-@use 'components/Weather/weather-map';
+@use 'Pages/Weather/weather';
+@use 'Pages/Weather/air-quality';
+@use 'Pages/Weather/chart-weather';
+@use 'Pages/Weather/tiles';
+@use 'Pages/Weather/weather-map';
 
 @use 'Pages//News/news';
 
-@use 'components/Recipes/recipes';
+@use 'Pages/Recipes/recipes';
 
 
 

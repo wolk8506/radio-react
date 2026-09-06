@@ -13,15 +13,15 @@ import { PrivateRoute, PublicRoute } from 'components/Routes';
 import { info } from 'config';
 
 import { Main } from './Pages/Main/Main';
-import { Weather } from './components/Weather/Weather';
-import { RecipesIndex } from './components/Recipes/RecipesMain';
-import { RecipeAdd } from './components/Recipes/RecipeAdd';
+import { Weather } from './Pages/Weather/Weather';
+import { RecipesIndex } from './Pages/Recipes/RecipesMain';
+import { RecipeAdd } from './Pages/Recipes/RecipeAdd';
 import { News } from './Pages/News/News';
-import { Recipes } from './components/Recipes/Recipes';
-import { Recipe } from './components/Recipes/Recipe';
+import { Recipes } from './Pages/Recipes/Recipes';
+import { Recipe } from './Pages/Recipes/Recipe';
 import { radioData } from './Pages/Main/CardRadio/Radio-data';
 import { Sidebar } from 'components/Sidebar/Sidebar';
-import { RecipeUpdate } from 'components/Recipes/RecipeUpdate';
+import { RecipeUpdate } from 'Pages/Recipes/RecipeUpdate';
 import { LoginPage, RegisterPage, GoogleCallback, ProfilePage, NotFoundPage, SettingsPage, CurrencyPage, FilmLibraryPage, CollectionPage, AdminUsersPage, LibraryPage, TimeManagementPage } from './Pages';
 
 import Backdrop from '@mui/material/Backdrop';

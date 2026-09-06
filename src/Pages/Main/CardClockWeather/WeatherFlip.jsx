@@ -10,7 +10,7 @@ import { WindGust } from './WeatherFlip-components/WeatherFlip_WindGust';
 
 import { weatherSelectors, weatherOperations, rootSelectors } from 'store';
 
-import weatherImage from 'components/Weather/weatherIcon';
+import weatherImage from 'Pages/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';

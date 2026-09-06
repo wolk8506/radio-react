@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dataActions, rootSelectors } from 'store';
 
 import CheckIcon from '@mui/icons-material/Check';
-import weatherImage from 'components/Weather/weatherIcon';
+import weatherImage from 'Pages/Weather/weatherIcon';
 
 const codes = [
   'clear-day',

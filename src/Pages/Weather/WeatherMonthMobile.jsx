@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-import weatherImage from 'components/Weather/weatherIcon';
+import weatherImage from 'Pages/Weather/weatherIcon';
 
 import moment from 'moment';
 import 'moment/locale/ru';
