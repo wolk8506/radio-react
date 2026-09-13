@@ -15,11 +15,15 @@ const tmdbAxios = axios.create({
 const API_KEY = 'a8df323e9ca157a6f58df54190ee006c';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
+const IMAGE_PROFILE = 'https://image.tmdb.org/t/p/w185';
 export const PLACEHOLDER =
   'https://cdn.pixabay.com/photo/2012/04/14/15/43/film-34332_960_720.png';
 
 export const getPosterUrl = posterPath =>
   posterPath ? `${IMAGE_BASE}${posterPath}` : PLACEHOLDER;
+
+export const getProfileUrl = profilePath =>
+  profilePath ? `${IMAGE_PROFILE}${profilePath}` : null;
 
 export const tmdbService = {
   // mediaType: 'movie' | 'tv'
@@ -72,4 +76,20 @@ export const tmdbService = {
         videos.find(v => v.site === 'YouTube') ||
         null,
       ),
+
+  // Актёры фильма/сериала по id. mediaType: 'movie' | 'tv'
+  getCredits: (id, mediaType = 'movie', lang = 'ru-RU') =>
+    tmdbAxios
+      .get(`${mediaType === 'tv' ? 'tv' : 'movie'}/${id}/credits`, {
+        params: { api_key: API_KEY, language: lang },
+      })
+      .then(res => ({ cast: res.data.cast || [], crew: res.data.crew || [] })),
+
+  // Фильмы актёра (отсортированы по популярности)
+  getPersonMovies: (personId, lang = 'ru-RU') =>
+    tmdbAxios
+      .get(`person/${personId}/movie_credits`, {
+        params: { api_key: API_KEY, language: lang },
+      })
+      .then(res => [...(res.data.cast || [])].sort((a, b) => (b.popularity || 0) - (a.popularity || 0))),
 };

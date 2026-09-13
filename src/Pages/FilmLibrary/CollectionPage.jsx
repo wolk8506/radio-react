@@ -112,6 +112,23 @@ export const CollectionPage = () => {
     }
   };
 
+  const handleDetailsAdd = async movie => {
+    if (!movie) return;
+    if ((collection?.movies || []).some(m => m.id === movie.id)) {
+      toast.info('Фильм уже в этой подборке');
+      return;
+    }
+    try {
+      await libraryService.addMovie(collectionId, movie);
+      const data = await libraryService.getCollections();
+      const found = data.find(c => c.id === collectionId);
+      if (found) setCollection(found);
+      toast.success(`«${movie.title}» добавлен`);
+    } catch {
+      toast.error('Не удалось добавить фильм');
+    }
+  };
+
   const requestRemove = movie => {
     setMovieToRemove(movie);
     setConfirmOpen(true);
@@ -359,7 +376,13 @@ export const CollectionPage = () => {
         }}
       />
 
-      <MovieDetailsModal open={detailsOpen} movie={detailsMovie} onClose={() => setDetailsOpen(false)} />
+      <MovieDetailsModal
+        open={detailsOpen}
+        movie={detailsMovie}
+        onClose={() => setDetailsOpen(false)}
+        onAddMovie={isMine ? handleDetailsAdd : undefined}
+        isMovieAdded={id => (collection?.movies || []).some(m => m.id === id)}
+      />
 
       <Dialog open={renameOpen} onClose={() => setRenameOpen(false)} fullWidth maxWidth="xs" disableScrollLock>
         <DialogTitle>Переименовать подборку</DialogTitle>

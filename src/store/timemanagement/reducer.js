@@ -4,6 +4,7 @@ import { fetchTimeManagement, saveTimeManagement } from './operations';
 const initialState = {
   tasks: [],
   plans: [],
+  todos: [],
   loading: false,
   saving: false,
   error: null,
@@ -20,6 +21,7 @@ export const timeManagementReducer = createReducer(initialState, builder => {
       state.loading = false;
       state.tasks = action.payload.tasks || [];
       state.plans = action.payload.plans || [];
+      state.todos = action.payload.todos || [];
       state.loaded = true;
     })
     .addCase(fetchTimeManagement.rejected, (state, action) => {
@@ -34,6 +36,7 @@ export const timeManagementReducer = createReducer(initialState, builder => {
       state.saving = false;
       state.tasks = action.payload.tasks;
       state.plans = action.payload.plans;
+      if (action.payload.todos !== undefined) state.todos = action.payload.todos;
     })
     .addCase(saveTimeManagement.rejected, (state, action) => {
       state.saving = false;

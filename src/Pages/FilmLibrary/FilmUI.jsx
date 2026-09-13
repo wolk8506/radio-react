@@ -8,6 +8,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -19,6 +20,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -31,7 +33,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import MovieIcon from '@mui/icons-material/Movie';
 import TvIcon from '@mui/icons-material/Tv';
 
-import { tmdbService, getPosterUrl, PLACEHOLDER } from './tmdbService';
+import { tmdbService, getPosterUrl, getProfileUrl, PLACEHOLDER } from './tmdbService';
 
 // ---------- Пустая папка: кастомная иллюстрация ----------
 export const EmptyFolderArt = ({ size = 96 }) => (
@@ -255,23 +257,153 @@ export const VideoModal = ({ open, video, onClose }) => (
   </Dialog>
 );
 
+// ---------- Модалка с фильмами актёра ----------
+export const ActorMoviesModal = ({ open, actor, onClose, onSelect, onAddMovie, isMovieAdded }) => {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!open || !actor) return;
+    let mounted = true;
+    setLoading(true);
+    setMovies([]);
+    tmdbService
+      .getPersonMovies(actor.id)
+      .then(list => mounted && setMovies(list))
+      .catch(() => {})
+      .finally(() => mounted && setLoading(false));
+    return () => {
+      mounted = false;
+    };
+  }, [open, actor]);
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth disableScrollLock>
+      <DialogContent>
+        <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+          {actor &&
+            (getProfileUrl(actor.profile_path) ? (
+              <Box
+                component="img"
+                src={getProfileUrl(actor.profile_path)}
+                alt={actor.name}
+                sx={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+              />
+            ) : (
+              <Avatar sx={{ width: 64, height: 64 }}>
+                {(actor?.name || '?').slice(0, 1)}
+              </Avatar>
+            ))}
+          <Box sx={{ minWidth: 0 }}>
+            <Typography variant="h6" noWrap title={actor?.name}>
+              {actor?.name || 'Актёр'}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {movies.length ? `Фильмов: ${movies.length}` : 'Фильмография'}
+            </Typography>
+          </Box>
+        </Stack>
+
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : movies.length === 0 ? (
+          <Typography color="text.secondary" sx={{ py: 4, textAlign: 'center' }}>
+            Фильмы не найдены.
+          </Typography>
+        ) : (
+          <Stack spacing={0.5}>
+            {movies.map(m => {
+              const added = isMovieAdded ? isMovieAdded(m.id) : false;
+              return (
+                <Box
+                  key={m.id}
+                  onClick={() => onSelect && onSelect(m)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    p: 1,
+                    borderRadius: 2,
+                    cursor: 'pointer',
+                    '&:hover': { bgcolor: 'action.hover' },
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={m.poster_path ? getPosterUrl(m.poster_path) : PLACEHOLDER}
+                    alt={m.title}
+                    sx={{ width: 46, height: 68, objectFit: 'cover', borderRadius: 1, flexShrink: 0 }}
+                  />
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography variant="body2" noWrap title={m.title} sx={{ fontWeight: 600 }}>
+                      {m.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" noWrap>
+                      {m.release_date?.slice(0, 4) || '—'}
+                      {m.character ? ` · ${m.character}` : ''}
+                      {m.vote_average > 0 ? ` · ★ ${m.vote_average.toFixed(1)}` : ''}
+                    </Typography>
+                  </Box>
+                  {onAddMovie && (
+                    <Tooltip title={added ? 'Уже в подборке' : 'Добавить в подборку'}>
+                      <span>
+                        <IconButton
+                          size="small"
+                          color={added ? 'success' : 'primary'}
+                          disabled={added}
+                          onClick={e => {
+                            e.stopPropagation();
+                            onAddMovie(m);
+                          }}
+                        >
+                          {added ? <CheckIcon fontSize="small" /> : <AddIcon fontSize="small" />}
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                  )}
+                </Box>
+              );
+            })}
+          </Stack>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 // ---------- Модалка с подробностями о фильме ----------
-export const MovieDetailsModal = ({ open, movie, onClose, onAdd, alreadyAdded }) => {
+export const MovieDetailsModal = ({ open, movie, onClose, onAdd, alreadyAdded, onAddMovie, isMovieAdded }) => {
   const [video, setVideo] = useState(null);
   const [videoOpen, setVideoOpen] = useState(false);
   const [loadingVideo, setLoadingVideo] = useState(false);
   const [genreText, setGenreText] = useState('—');
+  const [cast, setCast] = useState([]);
+  const [loadingCast, setLoadingCast] = useState(false);
+  // Стек навигации: клик по фильму актёра открывает его детали здесь же
+  const [nav, setNav] = useState([]);
+  const [actor, setActor] = useState(null);
+  const [actorOpen, setActorOpen] = useState(false);
+
+  const current = nav.length ? nav[nav.length - 1] : movie;
 
   useEffect(() => {
-    if (!open || !movie) return;
+    if (open) setNav([]);
+  }, [open, movie?.id]);
+
+  useEffect(() => {
+    if (!open || !current) return;
     let mounted = true;
     setLoadingVideo(true);
     setVideo(null);
     setVideoOpen(false);
     setGenreText('—');
+    setLoadingCast(true);
+    setCast([]);
 
     tmdbService
-      .getVideos(movie.id, movie.media_type || 'movie')
+      .getVideos(current.id, current.media_type || 'movie')
       .then(v => mounted && setVideo(v))
       .catch(() => {})
       .finally(() => mounted && setLoadingVideo(false));
@@ -282,51 +414,162 @@ export const MovieDetailsModal = ({ open, movie, onClose, onAdd, alreadyAdded })
         if (!mounted) return;
         const map = {};
         genres.forEach(g => (map[g.id] = g.name));
-        const names = (movie.genre_ids || []).map(id => map[id]).filter(Boolean);
+        const names = (current.genre_ids || []).map(id => map[id]).filter(Boolean);
         setGenreText(names.join(', ') || '—');
       })
       .catch(() => {});
 
+    tmdbService
+      .getCredits(current.id, current.media_type || 'movie')
+      .then(({ cast }) => mounted && setCast((cast || []).slice(0, 15)))
+      .catch(() => {})
+      .finally(() => mounted && setLoadingCast(false));
+
     return () => {
       mounted = false;
     };
-  }, [open, movie]);
+  }, [open, current]);
+
+  const handleActorMovie = m => {
+    setActorOpen(false);
+    setNav(prev => [
+      ...prev,
+      { ...m, media_type: 'movie', title: m.title || m.name || '', release_date: m.release_date || '' },
+    ]);
+  };
 
   if (!movie) return null;
 
+  const isNav = nav.length > 0;
+  const showAdd = isNav ? !!onAddMovie : !!onAdd;
+  const showAdded = isNav ? !!(isMovieAdded && current && isMovieAdded(current.id)) : !!alreadyAdded;
+  const handleAddClick = () => {
+    if (isNav) onAddMovie && current && onAddMovie(current);
+    else onAdd && onAdd();
+  };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth disableScrollLock>
-      <DialogContent sx={{ p: 0 }}>
+      <DialogContent sx={{ p: 0, overflowY: 'auto' }}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ p: 2 }}>
           <Box
             component="img"
-            src={movie.poster_path ? getPosterUrl(movie.poster_path) : PLACEHOLDER}
-            alt={movie.title}
-            sx={{ width: { xs: '100%', sm: 220 }, borderRadius: 2, objectFit: 'cover' }}
+            src={current.poster_path ? getPosterUrl(current.poster_path) : PLACEHOLDER}
+            alt={current.title}
+            sx={{
+              width: { xs: '100%', sm: 260 },
+              maxHeight: { xs: 340, sm: 390 },
+              borderRadius: 2,
+              objectFit: 'cover',
+              flexShrink: 0,
+              alignSelf: 'flex-start',
+            }}
           />
-          <Box className="block" sx={{ flex: 1 }}>
+          <Box className="block" sx={{ flex: 1, minWidth: 0 }}>
+            {isNav && (
+              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+                <Button
+                  size="small"
+                  startIcon={<ArrowBackIcon />}
+                  onClick={() => setNav(prev => prev.slice(0, -1))}
+                  sx={{ ml: -1 }}
+                >
+                  Назад
+                </Button>
+                {showAdd && !showAdded && (
+                  <Button size="small" variant="contained" startIcon={<AddIcon />} onClick={handleAddClick}>
+                    В подборку
+                  </Button>
+                )}
+              </Stack>
+            )}
             <Typography variant="h5" gutterBottom className="color-text">
-              {movie.title}
+              {current.title}
             </Typography>
             <Typography variant="body2" color="text.secondary" gutterBottom>
-              {movie.release_date?.slice(0, 4) || '—'} · {genreText}
+              {current.release_date?.slice(0, 4) || '—'} · {genreText}
             </Typography>
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <Rating value={(movie.vote_average || 0) / 2} precision={0.1} readOnly size="small" />
-              <Typography variant="body2">{movie.vote_average?.toFixed(1) || '—'}</Typography>
+              <Rating value={(current.vote_average || 0) / 2} precision={0.1} readOnly size="small" />
+              <Typography variant="body2">{current.vote_average?.toFixed(1) || '—'}</Typography>
             </Stack>
             <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-              {movie.overview || 'Описание отсутствует.'}
+              {current.overview || 'Описание отсутствует.'}
             </Typography>
-            {onAdd && (
-              <Button
-                variant={alreadyAdded ? 'outlined' : 'contained'}
-                startIcon={alreadyAdded ? <CheckIcon /> : <AddIcon />}
-                sx={{ mt: 2 }}
-                disabled={alreadyAdded}
-                onClick={onAdd}
+            <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
+              В ролях
+            </Typography>
+            {loadingCast ? (
+              <Box sx={{ display: 'flex', py: 1 }}>
+                <CircularProgress size={20} />
+              </Box>
+            ) : cast.length === 0 ? (
+              <Typography variant="caption" color="text.secondary">
+                Состав неизвестен.
+              </Typography>
+            ) : (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 1.5,
+                  pb: 1,
+                  pr: 0.5,
+                  maxHeight: 300,
+                  overflowY: 'auto',
+                  alignContent: 'flex-start',
+                }}
               >
-                {alreadyAdded ? 'Уже в подборке' : 'Добавить в подборку'}
+                {cast.map(person => {
+                  const photo = getProfileUrl(person.profile_path);
+                  return (
+                    <Box
+                      key={person.id}
+                      onClick={() => {
+                        setActor({ id: person.id, name: person.name, profile_path: person.profile_path });
+                        setActorOpen(true);
+                      }}
+                      sx={{ width: 76, flexShrink: 0, cursor: 'pointer', textAlign: 'center' }}
+                      title={person.name}
+                    >
+                      {photo ? (
+                        <Box
+                          component="img"
+                          src={photo}
+                          alt={person.name}
+                          sx={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', mx: 'auto' }}
+                        />
+                      ) : (
+                        <Avatar sx={{ width: 64, height: 64, mx: 'auto' }}>
+                          {(person.name || '?').slice(0, 1)}
+                        </Avatar>
+                      )}
+                      <Typography variant="caption" display="block" noWrap sx={{ mt: 0.5, fontWeight: 600 }}>
+                        {person.name}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        display="block"
+                        noWrap
+                        color="text.secondary"
+                        sx={{ fontSize: '0.65rem' }}
+                      >
+                        {person.character || ''}
+                      </Typography>
+                    </Box>
+                  );
+                })}
+              </Box>
+            )}
+            {!isNav && showAdd && (
+              <Button
+                variant={showAdded ? 'outlined' : 'contained'}
+                startIcon={showAdded ? <CheckIcon /> : <AddIcon />}
+                sx={{ mt: 2 }}
+                disabled={showAdded}
+                onClick={handleAddClick}
+              >
+                {showAdded ? 'Уже в подборке' : 'Добавить в подборку'}
               </Button>
             )}
           </Box>
@@ -354,6 +597,14 @@ export const MovieDetailsModal = ({ open, movie, onClose, onAdd, alreadyAdded })
         </Stack>
       </DialogContent>
       <VideoModal open={videoOpen} video={video} onClose={() => setVideoOpen(false)} />
+      <ActorMoviesModal
+        open={actorOpen}
+        actor={actor}
+        onClose={() => setActorOpen(false)}
+        onSelect={handleActorMovie}
+        onAddMovie={onAddMovie}
+        isMovieAdded={isMovieAdded}
+      />
     </Dialog>
   );
 };
@@ -565,6 +816,8 @@ export const AddMovieDialog = ({ open, onClose, collectionId, userId, onAdded, e
         onClose={() => setDetailsOpen(false)}
         onAdd={detailsMovie ? () => handleAdd(detailsMovie) : null}
         alreadyAdded={detailsMovie ? addedIds.includes(detailsMovie.id) : false}
+        onAddMovie={handleAdd}
+        isMovieAdded={id => addedIds.includes(id)}
       />
     </Dialog>
   );

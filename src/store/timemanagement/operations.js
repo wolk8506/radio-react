@@ -15,9 +15,9 @@ export const fetchTimeManagement = createAsyncThunk(
 
 export const saveTimeManagement = createAsyncThunk(
   'timemanagement/save',
-  async ({ tasks, plans }, thunkAPI) => {
+  async ({ tasks, plans, todos }, thunkAPI) => {
     try {
-      const { data } = await axios.put('/timemanagement', { tasks, plans });
+      const { data } = await axios.put('/timemanagement', { tasks, plans, todos });
       return data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to save');

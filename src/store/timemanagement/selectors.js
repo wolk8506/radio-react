@@ -1,5 +1,6 @@
 export const getTimeManagementTasks = state => state.timemanagement.tasks;
 export const getTimeManagementPlans = state => state.timemanagement.plans;
+export const getTimeManagementTodos = state => state.timemanagement.todos || [];
 export const getTimeManagementLoading = state => state.timemanagement.loading;
 export const getTimeManagementSaving = state => state.timemanagement.saving;
 export const getTimeManagementError = state => state.timemanagement.error;

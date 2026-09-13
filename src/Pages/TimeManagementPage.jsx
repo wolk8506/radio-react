@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 import { authSelectors, timeManagementSelectors, timeManagementOperations } from 'store';
 import { toast } from 'react-toastify';
@@ -90,6 +91,9 @@ const WALK_REASONS = [
   { value: 'work', label: 'Работа' },
   { value: 'rest', label: 'Отдых' },
 ];
+// Смайлик по умолчанию для причины пропуска ходьбы + пресеты на выбор
+const REASON_EMOJI = { lazy: '😴', sick: '🤒', work: '💼', rest: '🏖️' };
+const WALK_EMOJIS = ['🤒', '😴', '💼', '🏖️', '🌧️', '🤕', '😷', '🥶'];
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_RU = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
 
@@ -148,10 +152,16 @@ const computeSchedule = (task, effStart) => {
   while (d <= origEnd) {
     if (isExcluded(d, task.exclusions || [], task.excludeRule || 'none')) {
       excludedCount += 1;
-    } else if (d <= today) {
+    } else if (d <= today && task.kind !== 'walk') {
+      // Ходьба: пропущенные дни НЕ переносятся в конец (без пролонгации)
       const m = (task.marks || {})[d];
-      const pct = m && m.done ? m.percent || 0 : 0;
-      balance += 100 - pct;
+      if (d === today && (!m || !m.done)) {
+        // Текущий день без отметки — не считаем пропуском (как и в ячейках 'current'),
+        // иначе график «дышит» +1 день до вечерней отметки
+      } else {
+        const pct = m && m.done ? m.percent || 0 : 0;
+        balance += 100 - pct;
+      }
     }
     d = addDays(d, 1);
   }
@@ -163,6 +173,21 @@ const computeSchedule = (task, effStart) => {
   while (balance <= -100) {
     ext -= 1;
     balance += 100;
+  }
+  // Книга полностью прочитана по страницам — дефицита нет, не продлеваем,
+  // даже если остались неотмеченные дни (добивка хвоста, финиш раньше плана)
+  if (ext > 0 && task.kind === 'book' && task.mode === 'units') {
+    const total = Number(task.unitsTotal) || 0;
+    if (total > 0) {
+      let doneUnits = 0;
+      Object.values(task.marks || {}).forEach(mm => {
+        if (mm && mm.done) doneUnits += Number(mm.units) || 0;
+      });
+      if (doneUnits >= total) {
+        ext = 0;
+        balance = 0;
+      }
+    }
   }
   const carry = Math.round(balance); // остаток −99..99
   const scheduledCount = Math.max(1, plannedDays + ext + excludedCount);
@@ -209,6 +234,14 @@ const past = d <= todayStr();
       if (past) {
         if (!m || !m.done) {
           if (d === todayStr()) return { kind: 'current' };
+          // Ходьба: вместо крестика можно показать смайлик причины пропуска
+          if (task.kind === 'walk') {
+            const emoji = m?.emoji || (m?.reason ? REASON_EMOJI[m.reason] : '');
+            if (emoji) {
+              const reasonLabel = (WALK_REASONS.find(r => r.value === m.reason)?.label) || '';
+              return { kind: 'missEmoji', emoji, title: `Пропуск${reasonLabel ? `: ${reasonLabel}` : ''}` };
+            }
+          }
           return { kind: 'miss' };
         }
         return { kind: 'done', fill: m.percent };
@@ -239,7 +272,10 @@ const buildRows = (tasks, collapsed) => {
       const sorted = [...map[p]].sort((a, b) => (a.start < b.start ? -1 : 1));
       let prevEnd = null;
       sorted.forEach(t => {
-        const effStart = prevEnd ? addDays(prevEnd, 1) : t.start;
+        // Вручную можно начать в день окончания предыдущей (t.start === prevEnd),
+        // иначе цепочка идёт непрерывно со следующего дня
+        let effStart = t.start;
+        if (prevEnd && t.start !== prevEnd) effStart = addDays(prevEnd, 1);
         const sch = computeSchedule(t, effStart);
         result.push({ type: 'task', task: t, effStart, sch });
         prevEnd = sch.end;
@@ -251,8 +287,6 @@ const buildRows = (tasks, collapsed) => {
 
 const COLS = [
   { key: 'title', label: 'Категория / Задача', width: 320 },
-  { key: 'start', label: 'Старт', width: 100 },
-  { key: 'planned', label: 'План', width: 100 },
   { key: 'fact', label: 'Факт', width: 130 },
 ];
 const LEFT_OFFSET = COLS.reduce((acc, c, i) => {
@@ -260,12 +294,115 @@ const LEFT_OFFSET = COLS.reduce((acc, c, i) => {
   return acc;
 }, []);
 
+// 3-way merge (только фронт, бэкенд не трогаем): local — текущее состояние,
+// snap — последнее известное состояние сервера, fresh — свежий GET с сервера.
+// Правило: менялось локально → побеждает локальное, иначе — свежее с сервера.
+const sameJSON = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+
+const mergeMarks = (local, snap, fresh) => {
+  const out = {};
+  const dates = new Set([...Object.keys(snap || {}), ...Object.keys(local || {}), ...Object.keys(fresh || {})]);
+  dates.forEach(d => {
+    const s = snap?.[d];
+    const l = local?.[d];
+    const f = fresh?.[d];
+    if (sameJSON(l, s)) {
+      if (f !== undefined) out[d] = f; // локально не трогали — берём свежее (включая удаление на другом устройстве)
+    } else if (l !== undefined) {
+      out[d] = l; // меняли локально — локальное побеждает
+    }
+    // удалено локально — пропускаем
+  });
+  return out;
+};
+
+const SCALAR_KEYS = [
+  'name', 'info', 'color', 'kind', 'mode', 'unitsTotal', 'unitsStrategy', 'unitsPerDay',
+  'start', 'plannedEnd', 'plannedDays', 'planMode', 'daysCount', 'excludeRule', 'archived',
+];
+
+const mergeTask = (lt, st, ft) => {
+  const merged = { ...lt };
+  SCALAR_KEYS.forEach(k => {
+    merged[k] = !sameJSON(lt[k], st[k]) ? lt[k] : ft[k];
+  });
+  if (lt.exclusions || st.exclusions || ft.exclusions) {
+    merged.exclusions = !sameJSON(lt.exclusions || [], st.exclusions || [])
+      ? lt.exclusions || []
+      : ft.exclusions || [];
+  }
+  if (lt.marks || st.marks || ft.marks) {
+    merged.marks = mergeMarks(lt.marks, st.marks, ft.marks);
+  }
+  return merged;
+};
+
+const mergeTMLists = (localList, snapList, freshList, mergeFn = mergeTask) => {
+  const snapById = Object.fromEntries((snapList || []).map(t => [t.id, t]));
+  const freshById = Object.fromEntries((freshList || []).map(t => [t.id, t]));
+  const localById = Object.fromEntries((localList || []).map(t => [t.id, t]));
+  const out = [];
+  (freshList || []).forEach(ft => {
+    const lt = localById[ft.id];
+    const st = snapById[ft.id];
+    if (!lt) {
+      if (st) return; // удалено локально
+      out.push(ft); // добавлено на другом устройстве
+      return;
+    }
+    if (!st) {
+      out.push(lt); // добавлено локально
+      return;
+    }
+    if (sameJSON(lt, st)) {
+      out.push(ft); // не менялось локально — берём свежее
+      return;
+    }
+    out.push(mergeFn(lt, st, ft));
+  });
+  (localList || []).forEach(lt => {
+    if (!freshById[lt.id] && !snapById[lt.id]) out.push(lt); // добавлено локально, на сервере пока нет
+  });
+  return out;
+};
+
+// Дела: тот же 3-way merge, свои поля
+const TODO_KEYS = ['title', 'date', 'done', 'doneDate', 'priority', 'rollover', 'postponed', 'createdAt'];
+
+const mergeTodo = (lt, st, ft) => {
+  const merged = { ...lt };
+  TODO_KEYS.forEach(k => {
+    merged[k] = !sameJSON(lt[k], st[k]) ? lt[k] : ft[k];
+  });
+  return merged;
+};
+
+const mergeTodoLists = (localList, snapList, freshList) => mergeTMLists(localList, snapList, freshList, mergeTodo);
+
+// Приоритеты дел: P1 выше; сортировка — приоритет, затем создание
+const TODO_PRIORITIES = ['P1', 'P2', 'P3'];
+const TODO_PRIORITY_WEIGHT = { P1: 0, P2: 1, P3: 2 };
+const TODO_ROLLOVERS = [
+  { value: 'ask', label: 'Спрашивать', icon: '?' },
+  { value: 'today', label: 'На сегодня', icon: '📅' },
+  { value: 'plan', label: 'В план', icon: '📥' },
+];
+
+const sortTodos = list =>
+  [...(list || [])].sort((a, b) => {
+    const pa = TODO_PRIORITY_WEIGHT[a.priority] ?? 1;
+    const pb = TODO_PRIORITY_WEIGHT[b.priority] ?? 1;
+    if (pa !== pb) return pa - pb;
+    return (a.createdAt || 0) - (b.createdAt || 0);
+  });
+
 export const TimeManagementPage = () => {
   const isAdmin = useSelector(authSelectors.getIsAdmin);
   const dispatch = useDispatch();
 
   const reduxTasks = useSelector(timeManagementSelectors.getTimeManagementTasks);
   const reduxPlans = useSelector(timeManagementSelectors.getTimeManagementPlans);
+  const reduxTodos = useSelector(timeManagementSelectors.getTimeManagementTodos);
   const loaded = useSelector(timeManagementSelectors.getTimeManagementLoaded);
 
   const [collapsed, setCollapsed] = useState({});
@@ -287,12 +424,62 @@ export const TimeManagementPage = () => {
   const [selectedBook, setSelectedBook] = useState('all');
   const [donutPeriod, setDonutPeriod] = useState('month');
   const [perBookMode, setPerBookMode] = useState(false);
+  // Цель недели: активных дней (цель — локальная настройка, прогресс — с сервера)
+  const [weeklyGoal, setWeeklyGoal] = useState(() => {
+    try {
+      const v = Number(localStorage.getItem('tm-weekly-goal'));
+      return v >= 1 && v <= 7 ? v : 5;
+    } catch {
+      return 5;
+    }
+  });
+  const setWeeklyGoalPersist = v => {
+    const nv = Math.min(7, Math.max(1, v));
+    setWeeklyGoal(nv);
+    try {
+      localStorage.setItem('tm-weekly-goal', String(nv));
+    } catch {
+      /* ignore */
+    }
+  };
 
   const today = todayStr();
 
   // Local state synced with Redux
   const [tasks, setTasks] = useState(() => reduxTasks || []);
   const [plans, setPlans] = useState(() => reduxPlans || []);
+  const [todos, setTodos] = useState(() => reduxTodos || []);
+  // Дела: быстрое добавление, окно дней, фильтр, drag&drop, просрочка
+  const [todoTitle, setTodoTitle] = useState('');
+  const [todoPriority, setTodoPriority] = useState('P2');
+  const [todoDate, setTodoDate] = useState('today'); // today | tomorrow | plan
+  const [hideDoneTodos, setHideDoneTodos] = useState(false);
+  const [dragTodoId, setDragTodoId] = useState(null);
+  const [overdueOpen, setOverdueOpen] = useState(false);
+  const [overdueIds, setOverdueIds] = useState([]);
+  const [todoDayModal, setTodoDayModal] = useState(null); // дата дня для модалки дел
+  const [todoModalTitle, setTodoModalTitle] = useState('');
+  const [expandedTodoDay, setExpandedTodoDay] = useState(null); // раздвинутый кликом день ганта
+
+  const addTodoToDate = () => {
+    const title = todoModalTitle.trim();
+    if (!title || !todoDayModal) return;
+    setTodos(prev => [
+      ...prev,
+      {
+        id: `td${Date.now()}`,
+        title,
+        date: todoDayModal,
+        done: false,
+        doneDate: undefined,
+        priority: TODO_PRIORITIES.includes(todoPriority) ? todoPriority : 'P2',
+        rollover: 'ask',
+        postponed: 0,
+        createdAt: Date.now(),
+      },
+    ]);
+    setTodoModalTitle('');
+  };
 
   useEffect(() => {
     if (!loaded) {
@@ -313,21 +500,68 @@ export const TimeManagementPage = () => {
     }
   }, [loaded, reduxPlans]);
 
-  const saveToServer = useCallback(() => {
-    dispatch(timeManagementOperations.saveTimeManagement({ tasks, plans }));
-  }, [dispatch, tasks, plans]);
+  useEffect(() => {
+    if (loaded && reduxTodos.length > 0) {
+      setTodos(reduxTodos);
+    }
+  }, [loaded, reduxTodos]);
+
+  // Снапшот последнего известного состояния сервера (для 3-way merge)
+  const lastServerRef = useRef(null);
+  useEffect(() => {
+    lastServerRef.current = { tasks: reduxTasks || [], plans: reduxPlans || [], todos: reduxTodos || [] };
+  }, [reduxTasks, reduxPlans, reduxTodos]);
 
   // Debounced auto-save with content check
   const saveTimeoutRef = useRef(null);
   const prevTasksRef = useRef(JSON.stringify(tasks));
   const prevPlansRef = useRef(JSON.stringify(plans));
+  const prevTodosRef = useRef(JSON.stringify(todos));
+  const saveToServer = useCallback(async () => {
+    let tasksToSave = tasks;
+    let plansToSave = plans;
+    let todosToSave = todos;
+    try {
+      // Подтягиваем свежее с сервера и сливаем по датам/полям, чтобы не затереть правки с другого устройства
+      const { data } = await axios.get('/timemanagement');
+      const fresh = data?.data;
+      const snap = lastServerRef.current;
+      if (fresh && snap) {
+        const mergedTasks = mergeTMLists(tasks, snap.tasks, fresh.tasks || []);
+        const mergedPlans = mergeTMLists(plans, snap.plans, fresh.plans || []);
+        const mergedTodos = mergeTodoLists(todos, snap.todos, fresh.todos || []);
+        if (JSON.stringify(mergedTasks) !== JSON.stringify(tasks)) setTasks(mergedTasks);
+        if (JSON.stringify(mergedPlans) !== JSON.stringify(plans)) setPlans(mergedPlans);
+        if (JSON.stringify(mergedTodos) !== JSON.stringify(todos)) setTodos(mergedTodos);
+        tasksToSave = mergedTasks;
+        plansToSave = mergedPlans;
+        todosToSave = mergedTodos;
+      }
+    } catch {
+      // нет связи — сохраняем локальное как есть
+    }
+    prevTasksRef.current = JSON.stringify(tasksToSave);
+    prevPlansRef.current = JSON.stringify(plansToSave);
+    prevTodosRef.current = JSON.stringify(todosToSave);
+    dispatch(
+      timeManagementOperations.saveTimeManagement({ tasks: tasksToSave, plans: plansToSave, todos: todosToSave })
+    );
+  }, [dispatch, tasks, plans, todos]);
+
   useEffect(() => {
-    if (!loaded || tasks.length === 0) return;
+    if (!loaded || (tasks.length === 0 && todos.length === 0)) return;
     const currentTasks = JSON.stringify(tasks);
     const currentPlans = JSON.stringify(plans);
-    if (currentTasks === prevTasksRef.current && currentPlans === prevPlansRef.current) return;
+    const currentTodos = JSON.stringify(todos);
+    if (
+      currentTasks === prevTasksRef.current &&
+      currentPlans === prevPlansRef.current &&
+      currentTodos === prevTodosRef.current
+    )
+      return;
     prevTasksRef.current = currentTasks;
     prevPlansRef.current = currentPlans;
+    prevTodosRef.current = currentTodos;
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
       saveToServer();
@@ -335,7 +569,7 @@ export const TimeManagementPage = () => {
     return () => {
       if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     };
-  }, [saveToServer, loaded, tasks, plans]);
+  }, [saveToServer, loaded, tasks, plans, todos]);
 
   // Существующие типы (для быстрого выбора)
   const types = useMemo(() => {
@@ -360,6 +594,14 @@ export const TimeManagementPage = () => {
   // Строки: фазы (по типу) с авто-продолжением задач одного типа
   const rows = useMemo(() => buildRows(tasks, collapsed), [tasks, collapsed]);
   const boardRows = useMemo(() => buildRows(tasks.filter(t => !t.archived), collapsed), [tasks, collapsed]);
+
+  // Эксперимент: дела подразделом ганта (фазой «Дела» + широкая строка).
+  // Сворачивается кареткой фазы, как остальные.
+  const boardRowsWithTodos = useMemo(() => {
+    const head = { type: 'phase', phase: 'Дела', items: [] };
+    if (collapsed['Дела']) return [head, ...boardRows];
+    return [head, { type: 'todos' }, ...boardRows];
+  }, [boardRows, collapsed]);
 
   // Авто-архив: задачи, завершённые ≥7 дней назад
   useEffect(() => {
@@ -403,7 +645,7 @@ export const TimeManagementPage = () => {
           const m = (t.marks || {})[d];
           s.fillSum += m && m.done ? m.percent || 0 : 0;
           s.fillCount += 1;
-          if (m && m.reason) s.reasons += 1;
+          if (m && (m.reason || m.emoji)) s.reasons += 1;
           if (m && m.done) {
             s.pagesRead += Number(m.units) || 0;
             if (t.kind === 'walk') s.distance += ((Number(m.walkTime) || 0) / 60) * (Number(m.speed) || 0);
@@ -421,6 +663,23 @@ export const TimeManagementPage = () => {
       return { ...s, pct: s.fillCount ? Math.round(s.fillSum / s.fillCount) : 0, extra };
     });
   }, [tasks]);
+
+  // Цель недели: distinct дней с отметками с понедельника по сегодня
+  const weekProgress = useMemo(() => {
+    const t = todayStr();
+    const dow = (parse(t).getDay() + 6) % 7; // Пн=0
+    const mon = addDays(t, -dow);
+    const dates = new Set();
+    tasks
+      .filter(x => !x.archived)
+      .forEach(x => {
+        Object.entries(x.marks || {}).forEach(([d, m]) => {
+          if (m?.done && d >= mon && d <= t) dates.add(d);
+        });
+      });
+    const done = dates.size;
+    return { done, goal: weeklyGoal, pct: weeklyGoal ? Math.min(100, Math.round((done / weeklyGoal) * 100)) : 0 };
+  }, [tasks, weeklyGoal]);
 
   const availableYears = useMemo(() => {
     const set = new Set([Number(todayStr().slice(0,4))]);
@@ -728,6 +987,32 @@ export const TimeManagementPage = () => {
       return { date: d, label: String(i+1), value: donePerDay[d]||0, isFuture: d>today, isToday: d===today, wd: weekday(d) };
     });
 
+    // Активность по дням недели (Пн..Вс): средний % выполнения за все плановые дни
+    const wdNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const wdSum = Array(7).fill(0);
+    const wdCnt = Array(7).fill(0);
+    filtered.forEach(t => {
+      if (t.archived) return;
+      let d = t.start;
+      const origEnd = addDays(t.start, (t.plannedDays || 1) - 1);
+      while (d <= origEnd) {
+        if (!isExcluded(d, t.exclusions || [], t.excludeRule || 'none') && d <= today) {
+          const wi = (parse(d).getDay() + 6) % 7;
+          const mark = (t.marks || {})[d];
+          const pctVal = mark?.done ? (t.kind === 'walk' ? 100 : mark.percent || 0) : 0;
+          wdSum[wi] += pctVal;
+          wdCnt[wi] += 1;
+        }
+        d = addDays(d, 1);
+      }
+    });
+    const weekdayData = wdNames.map((name, i) => ({
+      name,
+      pct: wdCnt[i] ? Math.round(wdSum[i] / wdCnt[i]) : 0,
+      count: wdCnt[i],
+    }));
+    const bestWd = weekdayData.reduce((best, w) => (w.pct > best.pct ? w : best), weekdayData[0]);
+
     return {
       totalMarks,
       bestStreak,
@@ -744,6 +1029,8 @@ export const TimeManagementPage = () => {
       chartHasPlan,
       perBookData,
       weeks,
+      weekdayData,
+      bestWd,
       monthNameForStat,
       monthCount,
       bestMonthName,
@@ -815,6 +1102,47 @@ export const TimeManagementPage = () => {
     }
   }, [tasks, loaded]);
 
+  // Просрочка дел: авто по тумблеру сразу, 'ask' — диалог раз в день
+  useEffect(() => {
+    if (!loaded) return;
+    const t = todayStr();
+    const overdue = todos.filter(x => !x.done && x.date && x.date < t);
+    if (!overdue.length) return;
+    const autoPlan = overdue.filter(x => x.rollover === 'plan').map(x => x.id);
+    const autoToday = overdue.filter(x => x.rollover === 'today').map(x => x.id);
+    const ask = overdue.filter(x => !x.rollover || x.rollover === 'ask').map(x => x.id);
+    if (autoPlan.length || autoToday.length) {
+      setTodos(prev =>
+        prev.map(x => {
+          if (autoPlan.includes(x.id)) return { ...x, date: null, postponed: (x.postponed || 0) + 1 };
+          if (autoToday.includes(x.id)) return { ...x, date: t, postponed: (x.postponed || 0) + 1 };
+          return x;
+        })
+      );
+    }
+    if (!ask.length) return;
+    setOverdueIds(ask);
+    let asked = false;
+    try {
+      asked = localStorage.getItem('tm-overdue-asked') === t;
+    } catch {
+      /* ignore */
+    }
+    if (!asked) {
+      setOverdueOpen(true);
+      try {
+        localStorage.setItem('tm-overdue-asked', t);
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [loaded, todos]);
+
+  // Закрыть диалог просрочки, когда всё разобрано
+  useEffect(() => {
+    if (overdueOpen && overdueIds.length === 0) setOverdueOpen(false);
+  }, [overdueOpen, overdueIds]);
+
   if (!isAdmin) return <Navigate to="/profile" replace />;
 
   // ---------- handlers ----------
@@ -859,7 +1187,17 @@ export const TimeManagementPage = () => {
     setTaskOpen(true);
   };
   const openEdit = task => {
-    setTaskForm({ ...task });
+    if (task.kind === 'book') {
+      // Книги всегда: страницы + фикс страниц в день. Старые задачи мигрируем в форму.
+      const perDay =
+        task.unitsPerDay ||
+        (task.unitsTotal && task.plannedDays
+          ? String(Math.ceil(Number(task.unitsTotal) / task.plannedDays))
+          : task.unitsPerDay);
+      setTaskForm({ ...task, mode: 'units', unitsStrategy: 'fixed', planMode: 'days', unitsPerDay: perDay });
+    } else {
+      setTaskForm({ ...task });
+    }
     setTaskOpen(true);
   };
   const saveTask = () => {
@@ -867,26 +1205,15 @@ export const TimeManagementPage = () => {
     if (!name) return toast.warn('Укажите название задачи');
     let plannedDays;
     let plannedEnd;
-    if (taskForm.kind === 'book' && taskForm.mode === 'units') {
+    if (taskForm.kind === 'book') {
+      // Книги всегда: всего страниц + фикс страниц в день
       const total = Number(taskForm.unitsTotal) || 0;
       if (!total) return toast.warn('Укажите всего страниц');
-      if (taskForm.unitsStrategy === 'fixed') {
-        const perDay = Number(taskForm.unitsPerDay) || 0;
-        if (!perDay) return toast.warn('Укажите страниц в день');
-        const days = Math.ceil(total / perDay);
-        plannedDays = days;
-        plannedEnd = addDays(taskForm.start, days - 1);
-      } else {
-        // even — берём из planMode как раньше
-        if (taskForm.planMode === 'days') {
-          plannedDays = Math.max(1, Number(taskForm.daysCount) || 1);
-          plannedEnd = addDays(taskForm.start, plannedDays - 1);
-        } else {
-          if (taskForm.plannedEnd < taskForm.start) return toast.warn('План. финиш раньше старта');
-          plannedDays = Math.max(1, diffDays(taskForm.start, taskForm.plannedEnd) + 1);
-          plannedEnd = taskForm.plannedEnd;
-        }
-      }
+      const perDay = Number(taskForm.unitsPerDay) || 0;
+      if (!perDay) return toast.warn('Укажите, сколько страниц читать в день');
+      const days = Math.ceil(total / perDay);
+      plannedDays = days;
+      plannedEnd = addDays(taskForm.start, days - 1);
     } else {
       if (taskForm.planMode === 'days') {
         plannedDays = Math.max(1, Number(taskForm.daysCount) || 1);
@@ -897,7 +1224,15 @@ export const TimeManagementPage = () => {
         plannedEnd = taskForm.plannedEnd;
       }
     }
-    const payload = { ...taskForm, name, plannedDays, plannedEnd };
+    const payload = {
+      ...taskForm,
+      name,
+      plannedDays,
+      plannedEnd,
+      ...(taskForm.kind === 'book'
+        ? { mode: 'units', unitsStrategy: 'fixed', planMode: 'days', daysCount: String(plannedDays) }
+        : {}),
+    };
     if (taskForm.id) {
       setTasks(prev => prev.map(t => (t.id === taskForm.id ? payload : t)));
     } else {
@@ -1024,12 +1359,26 @@ export const TimeManagementPage = () => {
       walkTime,
       speed,
       reason,
+      emoji: m?.emoji || '',
       notes: m?.notes || '',
     });
     setDayOpen(true);
   };
   const saveDay = () => {
-    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, pageFrom, pageTo, walkTime, speed, reason, notes } = dayForm;
+    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, pageFrom, pageTo, walkTime, speed, reason, emoji, notes } = dayForm;
+    if (
+      kind === 'book' &&
+      mode === 'units' &&
+      !exclude &&
+      pageFrom !== '' &&
+      pageFrom != null &&
+      pageTo !== '' &&
+      pageTo != null &&
+      Number(pageTo) < Number(pageFrom)
+    ) {
+      toast.warn('«По» меньше «с» — проверь страницы');
+      return;
+    }
     setTasks(prev =>
       prev.map(t => {
         if (t.id !== taskId) return t;
@@ -1056,6 +1405,7 @@ export const TimeManagementPage = () => {
             walkTime: kind === 'walk' ? Number(walkTime) || 0 : undefined,
             speed: kind === 'walk' ? Number(speed) || 0 : undefined,
             reason: kind === 'walk' && !done ? reason : undefined,
+            emoji: kind === 'walk' && !done && emoji?.trim() ? emoji.trim() : undefined,
             notes: notes?.trim() ? notes.trim() : undefined,
           };
         }
@@ -1068,6 +1418,87 @@ export const TimeManagementPage = () => {
 
   const togglePhase = p => setCollapsed(prev => ({ ...prev, [p]: !prev[p] }));
   const goToday = () => setWeek(Math.max(1, Math.floor(diffDays(origin, today) / 7) + 1));
+
+  // ---------- Дела ----------
+  const addTodo = () => {
+    const title = todoTitle.trim();
+    if (!title) return toast.warn('Напиши задачу');
+    const t = todayStr();
+    const date = todoDate === 'today' ? t : todoDate === 'tomorrow' ? addDays(t, 1) : null;
+    setTodos(prev => [
+      ...prev,
+      {
+        id: `td${Date.now()}`,
+        title,
+        date,
+        done: false,
+        doneDate: undefined,
+        priority: TODO_PRIORITIES.includes(todoPriority) ? todoPriority : 'P2',
+        rollover: 'ask',
+        postponed: 0,
+        createdAt: Date.now(),
+      },
+    ]);
+    setTodoTitle('');
+  };
+
+  const toggleTodo = id =>
+    setTodos(prev =>
+      prev.map(x => (x.id === id ? { ...x, done: !x.done, doneDate: !x.done ? todayStr() : undefined } : x))
+    );
+
+  const deleteTodo = id => setTodos(prev => prev.filter(x => x.id !== id));
+
+  const cycleTodoPriority = id =>
+    setTodos(prev =>
+      prev.map(x => {
+        if (x.id !== id) return x;
+        const next = TODO_PRIORITIES[(TODO_PRIORITIES.indexOf(x.priority) + 1) % TODO_PRIORITIES.length];
+        return { ...x, priority: next };
+      })
+    );
+
+  const cycleTodoRollover = id =>
+    setTodos(prev =>
+      prev.map(x => {
+        if (x.id !== id) return x;
+        const order = ['ask', 'today', 'plan'];
+        const next = order[(order.indexOf(x.rollover) + 1) % order.length];
+        return { ...x, rollover: next };
+      })
+    );
+
+  const moveTodo = (id, date) => setTodos(prev => prev.map(x => (x.id === id ? { ...x, date } : x)));
+
+  const handleTodoDragStart = (e, id) => {
+    setDragTodoId(id);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+  const handleTodoDrop = (e, date) => {
+    e.preventDefault();
+    if (!dragTodoId) return;
+    const id = dragTodoId;
+    setDragTodoId(null);
+    moveTodo(id, date);
+  };
+
+  // Нерешённая просрочка (для бейджа/диалога): не выполнено и дата < сегодня
+  const pendingOverdue = todos
+    .map(x => x)
+    .filter(x => !x.done && x.date && x.date < today)
+    .sort((a, b) => (a.date < b.date ? -1 : 1));
+
+  const resolveOverdue = (ids, where) => {
+    const t = todayStr();
+    setTodos(prev =>
+      prev.map(x =>
+        ids.includes(x.id) ? { ...x, date: where === 'today' ? t : null, postponed: (x.postponed || 0) + 1 } : x
+      )
+    );
+    setOverdueIds(prev => prev.filter(id => !ids.includes(id)));
+  };
+
+  const planTodos = sortTodos(todos.filter(x => !x.date && (!hideDoneTodos || !x.done)));
   const toggleBoardSelect = id => setBoardSelected(prev => ({ ...prev, [id]: !prev[id] }));
   const bulkArchiveBoard = () => {
     const ids = Object.keys(boardSelected).filter(k=> boardSelected[k]);
@@ -1111,7 +1542,57 @@ export const TimeManagementPage = () => {
     setDragTaskId(null);
   };
 
-  const gridTemplate = `${COLS.map(c => `${c.width}px`).join(' ')} repeat(${days.length}, 32px)`;
+  // Эксперимент: 3 дня (вчера/сегодня/завтра) широкие под дела, остальные 32px.
+  // Ширина действует на все строки — принимаем как условие эксперимента.
+  const wideTodoDays = [addDays(today, -1), today, addDays(today, 1)];
+  const gridTemplate = `${COLS.map(c => `${c.width}px`).join(' ')} ${days
+    .map(d => `${wideTodoDays.includes(d) || d === expandedTodoDay ? 190 : 32}px`)
+    .join(' ')}`;
+  const gridTemplateRows = ['38px', ...boardRowsWithTodos.map(r => (r.type === 'todos' ? '132px' : '38px'))].join(
+    ' '
+  );
+
+  const renderTodo = x => {
+    const rollover = TODO_ROLLOVERS.find(r => r.value === (x.rollover || 'ask')) || TODO_ROLLOVERS[0];
+    return (
+      <div
+        key={x.id}
+        className={`tm-todo ${x.done ? 'is-done' : ''}`}
+        draggable
+        onDragStart={e => handleTodoDragStart(e, x.id)}
+      >
+        <input type="checkbox" checked={!!x.done} onChange={() => toggleTodo(x.id)} title="Выполнено" />
+        <button
+          type="button"
+          className="tm-todo__prio"
+          data-p={x.priority || 'P2'}
+          onClick={() => cycleTodoPriority(x.id)}
+          title={`Приоритет ${x.priority || 'P2'} — клик меняет`}
+        >
+          {x.priority || 'P2'}
+        </button>
+        <span className="tm-todo__title" title={x.title}>
+          {x.title}
+        </span>
+        {(x.postponed || 0) > 0 && (
+          <span className="tm-todo__post" title={`Переносилось раз: ${x.postponed}`}>
+            ×{x.postponed}
+          </span>
+        )}
+        <button
+          type="button"
+          className="tm-todo__roll"
+          onClick={() => cycleTodoRollover(x.id)}
+          title={`Просрочка: ${rollover.label} — клик меняет`}
+        >
+          {rollover.icon}
+        </button>
+        <button type="button" className="tm-todo__del" onClick={() => deleteTodo(x.id)} title="Удалить">
+          ×
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="timemanagement">
@@ -1194,6 +1675,34 @@ export const TimeManagementPage = () => {
       </div>
 
       <div className="tm-stats">
+        <div className="tm-stat tm-stat--goal">
+          <div className="tm-stat__head">
+            <span className="tm-stat__name">🎯 Цель недели</span>
+            <div className="tm-goal-step">
+              <button type="button" onClick={() => setWeeklyGoalPersist(weeklyGoal - 1)} aria-label="Меньше">
+                −
+              </button>
+              <span className="tm-stat__pct">
+                {weekProgress.done}/{weeklyGoal}
+              </span>
+              <button type="button" onClick={() => setWeeklyGoalPersist(weeklyGoal + 1)} aria-label="Больше">
+                +
+              </button>
+            </div>
+          </div>
+          <div className="tm-stat__bar">
+            <div
+              className="tm-stat__fill"
+              style={{
+                width: `${weekProgress.pct}%`,
+                background: weekProgress.done >= weeklyGoal ? '#4caf50' : '#c2a85a',
+              }}
+            />
+          </div>
+          <div className="tm-stat__meta">
+            {weekProgress.done >= weeklyGoal ? 'Цель выполнена! 🎉' : `осталось ${weeklyGoal - weekProgress.done} дн.`}
+          </div>
+        </div>
         {stats.map(s => (
           <div key={s.name} className="tm-stat">
             <div className="tm-stat__head">
@@ -1234,8 +1743,9 @@ export const TimeManagementPage = () => {
               </Button>
             </div>
           )}
-          <div className="tm-gantt" onDragOver={handleDragOver}>
-            <div className="tm-grid" style={{ gridTemplateColumns: gridTemplate }}>
+          <div className="tm-gantt tm-gantt--with-plan" onDragOver={handleDragOver}>
+            <div className="tm-gantt__scroll">
+            <div className="tm-grid" style={{ gridTemplateColumns: gridTemplate, gridTemplateRows }}>
               {COLS.map((c, i) => (
                 <div
                   key={c.key}
@@ -1257,7 +1767,100 @@ export const TimeManagementPage = () => {
                 </div>
               ))}
 
-              {boardRows.map(row => {
+              {boardRowsWithTodos.map(row => {
+                if (row.type === 'todos') {
+                  const allDayTodos = sortTodos(todos.filter(x => x.date && (!hideDoneTodos || !x.done)));
+                  const doneCount = todos.filter(x => x.done).length;
+                  const overdueCount = todos.filter(x => !x.done && x.date && x.date < today).length;
+                  return (
+                    <React.Fragment key="todos-row">
+                      <div
+                        className="tm-cell tm-sticky"
+                        style={{ left: LEFT_OFFSET[0], width: COLS[0].width, borderLeft: '4px solid #c2a85a' }}
+                      >
+                        <span className="tm-taskname">☑ Дела</span>
+                        <span className="tm-tasktitle">
+                          {doneCount}/{todos.length}
+                        </span>
+                      </div>
+                      <div className="tm-cell tm-sticky" style={{ left: LEFT_OFFSET[1], width: COLS[1].width }}>
+                        <span className="tm-fact">
+                          ✓{allDayTodos.filter(x => x.done).length}/{allDayTodos.length}
+                        </span>
+                        {overdueCount > 0 && (
+                          <span className="tm-fact" style={{ color: '#ff8a8a', fontWeight: 700, marginLeft: 6 }}>
+                            !{overdueCount}
+                          </span>
+                        )}
+                      </div>
+                      {days.map(d => {
+                        const items = sortTodos(todos.filter(x => x.date === d && (!hideDoneTodos || !x.done)));
+                        const wide = wideTodoDays.includes(d) || d === expandedTodoDay;
+                        if (!wide) {
+                          const open = items.filter(x => !x.done).slice(0, 6);
+                          return (
+                            <div
+                              key={d}
+                              className={`tm-cell tm-todocell--narrow ${isWeekend(d) ? 'tm-weekend' : ''} ${
+                                isMonday(d) ? 'tm-weekstart' : ''
+                              }`}
+                              onClick={() => setExpandedTodoDay(prev => (prev === d ? null : d))}
+                              onDragOver={e => e.preventDefault()}
+                              onDrop={e => handleTodoDrop(e, d)}
+                              title={
+                                items.length
+                                  ? `${items.filter(x => !x.done).length} откр. — раздвинуть день`
+                                  : 'Раздвинуть день'
+                              }
+                            >
+                              <div className="tm-todo-dots">
+                                {open.map(x => (
+                                  <i key={x.id} className="tm-todo-dot" data-p={x.priority || 'P2'} title={x.title} />
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        }
+                        const userExpanded = d === expandedTodoDay && !wideTodoDays.includes(d);
+                        return (
+                          <div
+                            key={d}
+                            className={`tm-cell tm-todocell ${d === today ? 'tm-col--today' : ''} ${
+                              isWeekend(d) ? 'tm-weekend' : ''
+                            } ${isMonday(d) ? 'tm-weekstart' : ''}`}
+                            onDragOver={e => e.preventDefault()}
+                            onDrop={e => handleTodoDrop(e, d)}
+                          >
+                            <div className="tm-todocell__corner">
+                              {userExpanded && (
+                                <button
+                                  type="button"
+                                  className="tm-todocell__btn"
+                                  onClick={() => setExpandedTodoDay(null)}
+                                  title="Свернуть"
+                                >
+                                  −
+                                </button>
+                              )}
+                              <button
+                                type="button"
+                                className="tm-todocell__btn"
+                                onClick={() => setTodoDayModal(d)}
+                                title="Открыть в окне"
+                              >
+                                ⤢
+                              </button>
+                            </div>
+                            <div className="tm-todocell__list">
+                              {items.map(renderTodo)}
+                              {!items.length && <span className="tm-todo-day__empty">—</span>}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </React.Fragment>
+                  );
+                }
                 if (row.type === 'phase') {
                   return (
                     <React.Fragment key={`ph-${row.phase}`}>
@@ -1312,23 +1915,9 @@ export const TimeManagementPage = () => {
                     </div>
                     <div
                       className="tm-cell tm-sticky"
-                      style={{ left: LEFT_OFFSET[1], width: COLS[1].width }}
-                      onClick={() => openEdit(t)}
-                    >
-                      {row.effStart}
-                    </div>
-                    <div
-                      className="tm-cell tm-sticky"
-                      style={{ left: LEFT_OFFSET[2], width: COLS[2].width }}
-                      onClick={() => openEdit(t)}
-                    >
-                      {t.plannedEnd}
-                    </div>
-                    <div
-                      className="tm-cell tm-sticky"
                       style={{
-                        left: LEFT_OFFSET[3],
-                        width: COLS[3].width,
+                        left: LEFT_OFFSET[1],
+                        width: COLS[1].width,
                         flexDirection: 'column',
                         alignItems: 'flex-start',
                         gap: 2,
@@ -1378,20 +1967,47 @@ export const TimeManagementPage = () => {
                           />
                         );
                       const pct = Math.max(0, Math.min(100, cell.fill || 0));
-                      const title =
-                        cell.title ||
-                        (cell.kind === 'done'
-                          ? `${Math.round(cell.fill)}%`
-                          : cell.kind === 'miss'
-                            ? 'Пропуск'
-                            : cell.kind === 'current'
-                              ? 'Текущий день'
-                              : '');
+                      const m = (t.marks || {})[d];
+                      let title = cell.title || '';
+                      if (!title) {
+                        if (cell.kind === 'done') {
+                          if (t.kind === 'book' && t.mode === 'units') {
+                            title =
+                              m?.pageFrom != null && m?.pageTo != null
+                                ? `Стр. ${m.pageFrom}—${m.pageTo} (${m.units || 0} стр.)`
+                                : `${m?.units || 0} стр.`;
+                            const pl = plannedUnits(t, diffDays(row.effStart, d));
+                            if (pl) title += ` · план ${pl}`;
+                          } else if (t.kind === 'walk') {
+                            const parts = [];
+                            if (m?.walkTime) parts.push(`${m.walkTime} мин`);
+                            if (m?.speed) parts.push(`${m.speed} км/ч`);
+                            const dist = ((Number(m?.walkTime) || 0) / 60) * (Number(m?.speed) || 0);
+                            if (dist) parts.push(`${dist.toFixed(1)} км`);
+                            title = parts.join(' • ') || `${Math.round(cell.fill)}%`;
+                          } else {
+                            title = `${Math.round(cell.fill)}%`;
+                          }
+                          if (m?.notes) title += ` • ✎ ${m.notes}`;
+                        } else if (cell.kind === 'miss') {
+                          title = 'Пропуск';
+                          if (m?.reason) {
+                            const rl = WALK_REASONS.find(r => r.value === m.reason)?.label;
+                            if (rl) title += `: ${rl}`;
+                          }
+                          if (m?.notes) title += ` • ✎ ${m.notes}`;
+                        } else if (cell.kind === 'current') {
+                          title = 'Текущий день';
+                        }
+                      }
                       const showText =
-                        cell.kind === 'done' || cell.kind === 'miss' || (cell.kind === 'extension' && cell.fill > 0);
+                        cell.kind === 'done' ||
+                        cell.kind === 'miss' ||
+                        cell.kind === 'missEmoji' ||
+                        (cell.kind === 'extension' && cell.fill > 0);
                       const filled = (cell.kind === 'done' || cell.kind === 'extension') && cell.fill > 0;
                       const borderColor =
-                        cell.kind === 'miss'
+                        cell.kind === 'miss' || cell.kind === 'missEmoji'
                           ? '#f44336'
                           : cell.kind === 'cut'
                             ? '#9e9e9e'
@@ -1401,7 +2017,7 @@ export const TimeManagementPage = () => {
                       return (
                         <div
                           key={d}
-                          className={`${baseCls} tm-daycell ${cell.kind === 'miss' ? 'tm-miss' : ''} ${
+                          className={`${baseCls} tm-daycell ${cell.kind === 'miss' || cell.kind === 'missEmoji' ? 'tm-miss' : ''} ${
                             cell.kind === 'cut' ? 'tm-cut' : ''
                           } ${cell.kind === 'gap' ? 'tm-excluded' : ''} ${cell.kind === 'extension' ? 'tm-ext' : ''} ${dragTaskId === t.id ? 'tm-drop-target' : ''}`}
                           style={{ borderColor }}
@@ -1418,8 +2034,14 @@ export const TimeManagementPage = () => {
                             />
                           )}
                           {showText && (
-                            <span className={`tm-pct ${cell.kind === 'miss' ? 'tm-pct--miss' : ''}`}>
-                              {cell.kind === 'miss' ? '✗' : Math.round(cell.fill)}
+                            <span
+                              className={`tm-pct ${cell.kind === 'miss' ? 'tm-pct--miss' : ''} ${cell.kind === 'missEmoji' ? 'tm-emoji' : ''}`}
+                            >
+                              {cell.kind === 'miss'
+                                ? '✗'
+                                : cell.kind === 'missEmoji'
+                                  ? cell.emoji
+                                  : Math.round(cell.fill)}
                             </span>
                           )}
                           {t.marks?.[d]?.notes && (
@@ -1434,11 +2056,78 @@ export const TimeManagementPage = () => {
                 );
               })}
 
-              {boardRows.length === 0 && (
+              {tasks.filter(t => !t.archived).length === 0 && (
                 <div className="tm-empty" style={{ gridColumn: `1 / span ${days.length + COLS.length}` }}>
                   Пока нет задач. Нажмите «Добавить задачу».
                 </div>
               )}
+            </div>
+            </div>
+            {/* План — общая колонка справа в ганте */}
+            <div
+              className="tm-planpane"
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => handleTodoDrop(e, null)}
+            >
+              <div className="tm-planpane__head">
+                <b>📥 План</b>
+                <span>{planTodos.length}</span>
+                {pendingOverdue.length > 0 && (
+                  <button type="button" className="tm-todos__badge" onClick={() => setOverdueOpen(true)}>
+                    !{pendingOverdue.length}
+                  </button>
+                )}
+              </div>
+              <div className="tm-planpane__add">
+                <TextField
+                  placeholder="Новое дело…"
+                  value={todoTitle}
+                  onChange={e => setTodoTitle(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') addTodo();
+                  }}
+                  size="small"
+                  fullWidth
+                  InputLabelProps={{ shrink: false }}
+                />
+                <div className="tm-planpane__row">
+                  <TextField
+                    select
+                    value={todoPriority}
+                    onChange={e => setTodoPriority(e.target.value)}
+                    size="small"
+                    style={{ flex: 1 }}
+                  >
+                    {TODO_PRIORITIES.map(p => (
+                      <MenuItem key={p} value={p}>
+                        {p}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    select
+                    value={todoDate}
+                    onChange={e => setTodoDate(e.target.value)}
+                    size="small"
+                    style={{ flex: 1 }}
+                  >
+                    <MenuItem value="today">Сегодня</MenuItem>
+                    <MenuItem value="tomorrow">Завтра</MenuItem>
+                    <MenuItem value="plan">В план</MenuItem>
+                  </TextField>
+                  <Button size="small" variant="contained" onClick={addTodo}>
+                    +
+                  </Button>
+                </div>
+              </div>
+              <div className="tm-planpane__list">
+                {planTodos.map(renderTodo)}
+                {!planTodos.length && <span className="tm-todo-day__empty">Пусто — перетащи сюда</span>}
+              </div>
+              <label className="tm-todos__filter" style={{ padding: '8px 10px 0' }}>
+                <input type="checkbox" checked={hideDoneTodos} onChange={e => setHideDoneTodos(e.target.checked)} />
+                скрыть выполненные
+              </label>
             </div>
           </div>
         </>
@@ -1833,6 +2522,29 @@ export const TimeManagementPage = () => {
             </div>
           </div>
 
+          {/* Активность по дням недели */}
+          <div className="tm-detail__card tm-detail__card--chart">
+            <h4>Лучший день недели{detailed.bestWd ? ` — ${detailed.bestWd.name} (${detailed.bestWd.pct}%)` : ''}</h4>
+            <div className="tm-weekdays">
+              {detailed.weekdayData.map(w => (
+                <div
+                  key={w.name}
+                  className={`tm-weekday ${detailed.bestWd && w.name === detailed.bestWd.name && w.count ? 'tm-weekday--best' : ''}`}
+                  title={`${w.name}: средний ${w.pct}% за ${w.count} дн.`}
+                >
+                  <div className="tm-weekday__bar">
+                    <div className="tm-weekday__fill" style={{ height: `${w.pct}%` }} />
+                  </div>
+                  <span className="tm-weekday__label">{w.name}</span>
+                  <span className="tm-weekday__pct">{w.pct}%</span>
+                </div>
+              ))}
+            </div>
+            <div className="tm-detail__legend tm-detail__legend--center">
+              <span>Средний % выполнения по дням недели</span>
+            </div>
+          </div>
+
           {/* Соотношение выполнения */}
           <div className="tm-detail__card tm-detail__card--chart">
             <div className="tm-detail__card-head">
@@ -1919,6 +2631,74 @@ export const TimeManagementPage = () => {
         </div>
       )}
 
+      {/* диалог просрочки дел */}
+      <Dialog open={overdueOpen} onClose={() => setOverdueOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle>Просроченные дела ({pendingOverdue.length})</DialogTitle>
+        <DialogContent className="tm-dialog">
+          <span className="tm-hint">Не успел отметить? Выбери куда перенести каждое дело.</span>
+          {pendingOverdue.map(x => (
+            <div key={x.id} className="tm-overdue__row">
+              <div className="tm-overdue__body">
+                <div className="tm-overdue__name">{x.title}</div>
+                <div className="tm-overdue__meta">
+                  было на {x.date}
+                  {(x.postponed || 0) > 0 ? ` · переносилось ×${x.postponed}` : ''}
+                </div>
+              </div>
+              <Button size="small" variant="outlined" onClick={() => resolveOverdue([x.id], 'plan')}>
+                В план
+              </Button>
+              <Button size="small" variant="contained" onClick={() => resolveOverdue([x.id], 'today')}>
+                На сегодня
+              </Button>
+            </div>
+          ))}
+          {!pendingOverdue.length && <span className="tm-hint">Всё разобрано 🎉</span>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => resolveOverdue(pendingOverdue.map(x => x.id), 'plan')}>Всё в план</Button>
+          <Button onClick={() => resolveOverdue(pendingOverdue.map(x => x.id), 'today')} variant="contained">
+            Всё на сегодня
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* модалка дня дел (дальние дни ганта) */}
+      <Dialog open={!!todoDayModal} onClose={() => setTodoDayModal(null)} maxWidth="xs" fullWidth>
+        <DialogTitle>
+          Дела — {todoDayModal === today ? 'сегодня' : todoDayModal ? `${weekday(todoDayModal)} ${todoDayModal.slice(5)}` : ''}
+        </DialogTitle>
+        <DialogContent className="tm-dialog">
+          <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+            <TextField
+              placeholder="Новое дело на этот день…"
+              value={todoModalTitle}
+              onChange={e => setTodoModalTitle(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') addTodoToDate();
+              }}
+              size="small"
+              fullWidth
+              InputLabelProps={{ shrink: false }}
+            />
+            <Button size="small" variant="contained" onClick={addTodoToDate} style={{ flexShrink: 0 }}>
+              +
+            </Button>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {todoDayModal &&
+              sortTodos(todos.filter(x => x.date === todoDayModal && (!hideDoneTodos || !x.done))).map(renderTodo)}
+            {todoDayModal &&
+              !todos.filter(x => x.date === todoDayModal && (!hideDoneTodos || !x.done)).length && (
+                <span className="tm-hint">Пусто — добавь первое дело выше.</span>
+              )}
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setTodoDayModal(null)}>Закрыть</Button>
+        </DialogActions>
+      </Dialog>
+
       {/* диалог задачи */}
       <Dialog open={taskOpen} onClose={() => setTaskOpen(false)} maxWidth="xs" fullWidth>
         <DialogTitle>{taskForm.id ? 'Редактировать задачу' : 'Новая задача'}</DialogTitle>
@@ -1982,58 +2762,79 @@ export const TimeManagementPage = () => {
               />
             ))}
           </div>
-          {taskForm.kind !== 'walk' && (
+          {taskForm.kind === 'book' ? (
             <>
               <TextField
-                label="Режим наполнения"
-                select
-                value={taskForm.mode}
-                onChange={e => setTaskForm(p => ({ ...p, mode: e.target.value }))}
+                label="Всего страниц в книге"
+                type="number"
+                value={taskForm.unitsTotal}
+                onChange={e => setTaskForm(p => ({ ...p, unitsTotal: e.target.value }))}
                 fullWidth
                 margin="dense"
-              >
-                <MenuItem value="percent">Проценты</MenuItem>
-                <MenuItem value="units">{taskForm.kind === 'book' ? 'Страницы' : 'Единицы'}</MenuItem>
-              </TextField>
-              {taskForm.mode === 'units' && (
-                <>
-                  <TextField
-                    label={taskForm.kind === 'book' ? 'Всего страниц' : 'Всего единиц'}
-                    type="number"
-                    value={taskForm.unitsTotal}
-                    onChange={e => setTaskForm(p => ({ ...p, unitsTotal: e.target.value }))}
-                    fullWidth
-                    margin="dense"
-                    placeholder="320"
-                  />
-                  <TextField
-                    label="Раскладка"
-                    select
-                    value={taskForm.unitsStrategy}
-                    onChange={e => setTaskForm(p => ({ ...p, unitsStrategy: e.target.value }))}
-                    fullWidth
-                    margin="dense"
-                  >
-                    <MenuItem value="even">Поровну между днями (остаток в конец)</MenuItem>
-                    <MenuItem value="fixed">
-                      Фикс {taskForm.kind === 'book' ? 'стр.' : 'ед.'}/день (остаток в конец)
-                    </MenuItem>
-                  </TextField>
-                  {taskForm.unitsStrategy === 'fixed' && (
+                placeholder="320"
+              />
+              <TextField
+                label="Страниц читать в день"
+                type="number"
+                value={taskForm.unitsPerDay}
+                onChange={e => setTaskForm(p => ({ ...p, unitsPerDay: e.target.value }))}
+                fullWidth
+                margin="dense"
+                placeholder="20"
+              />
+            </>
+          ) : (
+            taskForm.kind !== 'walk' && (
+              <>
+                <TextField
+                  label="Режим наполнения"
+                  select
+                  value={taskForm.mode}
+                  onChange={e => setTaskForm(p => ({ ...p, mode: e.target.value }))}
+                  fullWidth
+                  margin="dense"
+                >
+                  <MenuItem value="percent">Проценты</MenuItem>
+                  <MenuItem value="units">Единицы</MenuItem>
+                </TextField>
+                {taskForm.mode === 'units' && (
+                  <>
                     <TextField
-                      label={taskForm.kind === 'book' ? 'Страниц в день' : 'Единиц в день'}
+                      label="Всего единиц"
                       type="number"
-                      value={taskForm.unitsPerDay}
-                      onChange={e => setTaskForm(p => ({ ...p, unitsPerDay: e.target.value }))}
+                      value={taskForm.unitsTotal}
+                      onChange={e => setTaskForm(p => ({ ...p, unitsTotal: e.target.value }))}
                       fullWidth
                       margin="dense"
+                      placeholder="320"
                     />
-                  )}
-                </>
-              )}
-            </>
+                    <TextField
+                      label="Раскладка"
+                      select
+                      value={taskForm.unitsStrategy}
+                      onChange={e => setTaskForm(p => ({ ...p, unitsStrategy: e.target.value }))}
+                      fullWidth
+                      margin="dense"
+                    >
+                      <MenuItem value="even">Поровну между днями (остаток в конец)</MenuItem>
+                      <MenuItem value="fixed">Фикс ед./день (остаток в конец)</MenuItem>
+                    </TextField>
+                    {taskForm.unitsStrategy === 'fixed' && (
+                      <TextField
+                        label="Единиц в день"
+                        type="number"
+                        value={taskForm.unitsPerDay}
+                        onChange={e => setTaskForm(p => ({ ...p, unitsPerDay: e.target.value }))}
+                        fullWidth
+                        margin="dense"
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            )
           )}
-          {taskForm.kind === 'book' && taskForm.mode === 'units' && Number(taskForm.unitsTotal) > 0 && (
+          {taskForm.kind === 'book' && Number(taskForm.unitsTotal) > 0 && (
             <Box
               sx={{
                 mt: 1,
@@ -2048,100 +2849,96 @@ export const TimeManagementPage = () => {
             >
               {(() => {
                 const total = Number(taskForm.unitsTotal) || 0;
-                if (taskForm.unitsStrategy === 'fixed') {
-                  const perDay = Number(taskForm.unitsPerDay) || 0;
-                  if (!perDay)
-                    return <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>Укажите страниц в день</Typography>;
-                  const days = Math.ceil(total / perDay);
-                  const last = total - perDay * (days - 1);
-                  const end = addDays(taskForm.start, days - 1);
-                  const isAfterPrev = (() => {
-                    const books = tasks.filter(t => t.kind === 'book' && !t.archived && t.id !== taskForm.id);
-                    if (!books.length) return false;
-                    const lastEnd = books.reduce((max, t) => {
-                      const e = t.plannedEnd || addDays(t.start, (t.plannedDays || 1) - 1);
-                      return e > max ? e : max;
-                    }, books[0].plannedEnd || books[0].start);
-                    return taskForm.start === addDays(lastEnd, 1);
-                  })();
+                const perDay = Number(taskForm.unitsPerDay) || 0;
+                if (!perDay)
                   return (
-                    <>
-                      <Typography sx={{ fontSize: 11, color: '#e8dcc3' }}>
-                        📖 <b>{days} дн.</b> по <b>{perDay} стр.</b>, в последний день <b>{last} стр.</b>
-                      </Typography>
-                      <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>
-                        Финиш: <b style={{ color: '#c2a85a' }}>{end}</b> {isAfterPrev ? '(авто после предыдущей)' : ''}
-                      </Typography>
-                    </>
+                    <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>
+                      Укажите, сколько страниц читать в день
+                    </Typography>
                   );
-                } else {
-                  const days =
-                    taskForm.planMode === 'days'
-                      ? Number(taskForm.daysCount) || 1
-                      : Math.max(1, diffDays(taskForm.start, taskForm.plannedEnd) + 1);
-                  const avg = Math.round(total / days);
-                  const base = Math.floor(total / days);
-                  return (
-                    <>
-                      <Typography sx={{ fontSize: 11, color: '#e8dcc3' }}>
-                        📖 Равномерно <b>{days} дн.</b> ~<b>{avg} стр/день</b>, посл. <b>{base} стр.</b>
-                      </Typography>
-                      <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>
-                        Финиш:{' '}
-                        <b style={{ color: '#c2a85a' }}>
-                          {taskForm.planMode === 'days' ? addDays(taskForm.start, days - 1) : taskForm.plannedEnd}
-                        </b>
-                      </Typography>
-                    </>
-                  );
-                }
+                const days = Math.ceil(total / perDay);
+                const last = total - perDay * (days - 1);
+                const end = addDays(taskForm.start, days - 1);
+                const isAfterPrev = (() => {
+                  const books = tasks.filter(t => t.kind === 'book' && !t.archived && t.id !== taskForm.id);
+                  if (!books.length) return false;
+                  const lastEnd = books.reduce((max, t) => {
+                    const e = t.plannedEnd || addDays(t.start, (t.plannedDays || 1) - 1);
+                    return e > max ? e : max;
+                  }, books[0].plannedEnd || books[0].start);
+                  return taskForm.start === addDays(lastEnd, 1);
+                })();
+                return (
+                  <>
+                    <Typography sx={{ fontSize: 11, color: '#e8dcc3' }}>
+                      📖 <b>{days} дн.</b> по <b>{perDay} стр.</b>, в последний день <b>{last} стр.</b>
+                    </Typography>
+                    <Typography sx={{ fontSize: 11, color: '#8a8a8a' }}>
+                      Финиш: <b style={{ color: '#c2a85a' }}>{end}</b> {isAfterPrev ? '(авто после предыдущей)' : ''}
+                    </Typography>
+                  </>
+                );
               })()}
             </Box>
           )}
           {taskForm.kind === 'walk' && (
             <div className="tm-hint">Ходьба отмечается по дням: время и скорость (или причина пропуска).</div>
           )}
-          <TextField
-            label="Способ планирования"
-            select
-            value={taskForm.planMode}
-            onChange={e => setTaskForm(p => ({ ...p, planMode: e.target.value }))}
-            fullWidth
-            margin="dense"
-          >
-            <MenuItem value="range">Диапазон дат</MenuItem>
-            <MenuItem value="days">За N дней</MenuItem>
-          </TextField>
-          <div className="tm-dialog__row">
+          {taskForm.kind === 'book' ? (
             <TextField
-              label="Старт"
+              label="Дата начала"
               type="date"
               value={taskForm.start}
               onChange={e => setTaskForm(p => ({ ...p, start: e.target.value }))}
               InputLabelProps={{ shrink: true }}
+              fullWidth
               margin="dense"
-              helperText={taskForm.kind === 'book' ? 'По умолчанию — день после предыдущей' : ''}
+              helperText="По умолчанию — день после предыдущей, можно в день её окончания"
               FormHelperTextProps={{ sx: { fontSize: 10, color: '#8a8a8a' } }}
             />
-            {taskForm.planMode === 'days' ? (
+          ) : (
+            <>
               <TextField
-                label={taskForm.kind === 'book' ? 'Прочитать за N дней' : 'Сделать за N дней'}
-                type="number"
-                value={taskForm.daysCount}
-                onChange={e => setTaskForm(p => ({ ...p, daysCount: e.target.value }))}
+                label="Способ планирования"
+                select
+                value={taskForm.planMode}
+                onChange={e => setTaskForm(p => ({ ...p, planMode: e.target.value }))}
+                fullWidth
                 margin="dense"
-              />
-            ) : (
-              <TextField
-                label="План. финиш"
-                type="date"
-                value={taskForm.plannedEnd}
-                onChange={e => setTaskForm(p => ({ ...p, plannedEnd: e.target.value }))}
-                InputLabelProps={{ shrink: true }}
-                margin="dense"
-              />
-            )}
-          </div>
+              >
+                <MenuItem value="range">Диапазон дат</MenuItem>
+                <MenuItem value="days">За N дней</MenuItem>
+              </TextField>
+              <div className="tm-dialog__row">
+                <TextField
+                  label="Старт"
+                  type="date"
+                  value={taskForm.start}
+                  onChange={e => setTaskForm(p => ({ ...p, start: e.target.value }))}
+                  InputLabelProps={{ shrink: true }}
+                  margin="dense"
+                />
+                {taskForm.planMode === 'days' ? (
+                  <TextField
+                    label="Сделать за N дней"
+                    type="number"
+                    value={taskForm.daysCount}
+                    onChange={e => setTaskForm(p => ({ ...p, daysCount: e.target.value }))}
+                    margin="dense"
+                  />
+                ) : (
+                  <TextField
+                    label="План. финиш"
+                    type="date"
+                    value={taskForm.plannedEnd}
+                    onChange={e => setTaskForm(p => ({ ...p, plannedEnd: e.target.value }))}
+                    InputLabelProps={{ shrink: true }}
+                    margin="dense"
+                  />
+                )}
+              </div>
+            </>
+          )}
           <TextField
             label="Исключать дни"
             select
@@ -2206,49 +3003,6 @@ export const TimeManagementPage = () => {
               </Button>
             </div>
           </div>
-          {taskForm.kind === 'book' && (
-            <div
-              style={{
-                marginTop: 12,
-                padding: 8,
-                background: '#121214',
-                border: '1px solid #1f1f22',
-                borderRadius: 10,
-              }}
-            >
-              <div style={{ fontSize: 11, color: '#8a8a8a', marginBottom: 6 }}>Шаблоны серии (томов)</div>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {[
-                  { label: 'Трилогия 3×320', total: 960, days: 90 },
-                  { label: '5 томов 1500', total: 1500, days: 120 },
-                  { label: '30 дней ×20стр', total: 600, days: 30, perDay: 20 },
-                  { label: '90 дней ×10стр', total: 900, days: 90, perDay: 10 },
-                ].map(tpl => (
-                  <Button
-                    key={tpl.label}
-                    size="small"
-                    variant="outlined"
-                    sx={{ fontSize: 11, borderColor: '#333', color: '#c9c9c9' }}
-                    onClick={() => {
-                      setTaskForm(p => ({
-                        ...p,
-                        mode: 'units',
-                        unitsTotal: String(tpl.total),
-                        unitsStrategy: tpl.perDay ? 'fixed' : 'even',
-                        unitsPerDay: tpl.perDay ? String(tpl.perDay) : p.unitsPerDay,
-                        plannedDays: tpl.days,
-                        plannedEnd: addDays(p.start, tpl.days - 1),
-                        daysCount: String(tpl.days),
-                      }));
-                      toast.info(`Применён шаблон: ${tpl.label}`);
-                    }}
-                  >
-                    {tpl.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          )}
         </DialogContent>
         <DialogActions>
           {taskForm.id && (
@@ -2359,20 +3113,65 @@ export const TimeManagementPage = () => {
                         />
                       </div>
                     ) : (
-                      <TextField
-                        label="Причина пропуска"
-                        select
-                        value={dayForm.reason}
-                        onChange={e => setDayForm(p => ({ ...p, reason: e.target.value }))}
-                        fullWidth
-                        margin="dense"
-                      >
-                        {WALK_REASONS.map(r => (
-                          <MenuItem key={r.value} value={r.value}>
-                            {r.label}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                      <>
+                        <TextField
+                          label="Причина пропуска"
+                          select
+                          value={dayForm.reason}
+                          onChange={e => {
+                            const reason = e.target.value;
+                            setDayForm(p => {
+                              const prevAuto = REASON_EMOJI[p.reason] || '';
+                              const next =
+                                !p.emoji || p.emoji === prevAuto ? REASON_EMOJI[reason] || '' : p.emoji;
+                              return { ...p, reason, emoji: next };
+                            });
+                          }}
+                          fullWidth
+                          margin="dense"
+                        >
+                          {WALK_REASONS.map(r => (
+                            <MenuItem key={r.value} value={r.value}>
+                              {r.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                        <div style={{ marginTop: 8 }}>
+                          <div style={{ fontSize: 11, color: '#8a8a8a', marginBottom: 4 }}>
+                            Смайлик вместо ✗ {dayForm.emoji ? `— ${dayForm.emoji}` : ''}
+                          </div>
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 6 }}>
+                            {WALK_EMOJIS.map(em => (
+                              <button
+                                key={em}
+                                type="button"
+                                onClick={() => setDayForm(p => ({ ...p, emoji: p.emoji === em ? '' : em }))}
+                                style={{
+                                  fontSize: 20,
+                                  lineHeight: 1,
+                                  padding: '4px 8px',
+                                  borderRadius: 10,
+                                  border: dayForm.emoji === em ? '2px solid #c2a85a' : '1px solid #333',
+                                  background: dayForm.emoji === em ? '#2a2211' : '#1e1e1e',
+                                  cursor: 'pointer',
+                                }}
+                                aria-label={em}
+                              >
+                                {em}
+                              </button>
+                            ))}
+                          </div>
+                          <TextField
+                            label="Свой смайлик"
+                            value={dayForm.emoji || ''}
+                            onChange={e => setDayForm(p => ({ ...p, emoji: e.target.value }))}
+                            fullWidth
+                            margin="dense"
+                            placeholder="🤒"
+                            inputProps={{ maxLength: 8 }}
+                          />
+                        </div>
+                      </>
                     )}
                   </div>
                 ) : (
@@ -2435,6 +3234,23 @@ export const TimeManagementPage = () => {
                               });
                             }}
                             margin="dense"
+                            error={
+                              dayForm.pageFrom !== '' &&
+                              dayForm.pageFrom != null &&
+                              dayForm.pageTo !== '' &&
+                              dayForm.pageTo != null &&
+                              Number(dayForm.pageTo) < Number(dayForm.pageFrom)
+                            }
+                            helperText={
+                              dayForm.pageFrom !== '' &&
+                              dayForm.pageFrom != null &&
+                              dayForm.pageTo !== '' &&
+                              dayForm.pageTo != null &&
+                              Number(dayForm.pageTo) < Number(dayForm.pageFrom)
+                                ? '«По» меньше «с» — проверь страницы'
+                                : ''
+                            }
+                            FormHelperTextProps={{ sx: { fontSize: 10, color: '#ff8a8a' } }}
                           />
                         </div>
                         <TextField
