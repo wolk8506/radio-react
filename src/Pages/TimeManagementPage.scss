@@ -98,6 +98,114 @@
   box-shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
 
+// Гант с планом дел справа: сетка скроллится отдельно, план фиксирован
+.tm-gantt--with-plan {
+  display: flex;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.tm-gantt__scroll {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: auto;
+}
+
+.tm-planpane {
+  flex: 0 0 264px;
+  min-width: 220px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #101014;
+  border-left: 1px solid #2a2a2e;
+}
+
+.tm-planpane__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #232326;
+  flex-shrink: 0;
+
+  b {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+  span {
+    font-size: 11px;
+    color: #8a8a8a;
+    font-family: monospace;
+  }
+}
+
+.tm-planpane__add {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #232326;
+  flex-shrink: 0;
+
+  .MuiInputBase-root {
+    background: #0f0f0f;
+    color: #e8e8e8;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #232326;
+  }
+}
+
+.tm-planpane__row {
+  display: flex;
+  gap: 6px;
+}
+
+.tm-planpane__list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media (max-width: 700px) {
+  .tm-gantt--with-plan {
+    flex-direction: column;
+  }
+
+  .tm-planpane {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    border-left: none;
+    border-top: 1px solid #2a2a2e;
+  }
+
+  .tm-planpane__list {
+    max-height: 40vh;
+  }
+}
+
 .tm-grid {
   display: grid;
   grid-auto-rows: 38px;
@@ -357,6 +465,14 @@
   border: 1px solid #5a2020;
 }
 
+.tm-emoji {
+  font-size: 14px;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  text-shadow: none;
+}
+
 .tm-over {
   box-shadow: inset 0 0 0 2px rgba(194, 168, 90, 0.6);
 }
@@ -523,7 +639,35 @@
 .tm-stat__meta {
   font-size: 11px;
   opacity: 0.7;
-  color: #8a8a8a;
+}
+
+.tm-stat--goal {
+  border-color: #3a2e16;
+}
+
+.tm-goal-step {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  button {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1e1e1e;
+    color: #c9c9c9;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      border-color: #c2a85a;
+      color: #c2a85a;
+    }
+  }
 }
 
 // архив — тёмный
@@ -905,6 +1049,63 @@
   &--center { justify-content: center; }
 }
 
+.tm-weekdays {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  padding: 8px 4px 0;
+}
+
+.tm-weekday {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.tm-weekday__bar {
+  width: 100%;
+  max-width: 44px;
+  height: 110px;
+  background: #1e1e1e;
+  border: 1px solid #252525;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.tm-weekday__fill {
+  width: 100%;
+  min-height: 0;
+  background: linear-gradient(180deg, #c2a85a 0%, #9e8a4a 100%);
+}
+
+.tm-weekday--best .tm-weekday__bar {
+  border-color: #c2a85a;
+}
+
+.tm-weekday--best .tm-weekday__fill {
+  background: linear-gradient(180deg, #e8c96a 0%, #c2a85a 100%);
+}
+
+.tm-weekday__label {
+  font-size: 11px;
+  color: #8a8a8a;
+}
+
+.tm-weekday--best .tm-weekday__label {
+  color: #c2a85a;
+  font-weight: 700;
+}
+
+.tm-weekday__pct {
+  font-size: 11px;
+  color: #c9c9c9;
+  font-family: monospace;
+}
+
 .tm-heatmap {
   overflow-x: auto;
   padding: 4px 0 8px;
@@ -992,4 +1193,509 @@
 .tm-forecast {
   display: block;
   white-space: nowrap;
+}
+
+// Дела — всегда внизу страницы
+.tm-todos {
+  border: 1px solid #1f1f22;
+  border-radius: 14px;
+  background: #121214;
+  padding: 14px 16px;
+  color: #e8e8e8;
+}
+
+.tm-todos__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+
+  h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+  }
+}
+
+.tm-todos__badge {
+  border: 1px solid #5a2020;
+  background: #2a1212;
+  color: #ff8a8a;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 3px 10px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #ff8a8a;
+  }
+}
+
+.tm-todos__nav {
+  display: inline-flex;
+  background: #161618;
+  border: 1px solid #232326;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  margin-left: auto;
+
+  button {
+    border: none;
+    background: transparent;
+    color: #8a8a8a;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+
+    &:hover {
+      color: #e8e8e8;
+      background: #232326;
+    }
+  }
+}
+
+.tm-todos__filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #8a8a8a;
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    width: 14px;
+    height: 14px;
+    accent-color: #c2a85a;
+  }
+}
+
+.tm-todos__add {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .MuiInputBase-root {
+    background: #0f0f0f;
+    color: #e8e8e8;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #232326;
+  }
+}
+
+.tm-todos__body {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.tm-todos__days {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  min-width: 0;
+}
+
+.tm-todo-day {
+  flex: 1 0 150px;
+  min-width: 150px;
+  max-width: 220px;
+  background: #0f0f0f;
+  border: 1px solid #232326;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 120px;
+
+  &.is-today {
+    border-color: #c2a85a;
+  }
+}
+
+.tm-todo-day__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  color: #8a8a8a;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #232326;
+
+  b {
+    color: #e8e8e8;
+    font-size: 12px;
+  }
+  span {
+    font-family: monospace;
+  }
+}
+
+.tm-todo-day.is-today .tm-todo-day__head b {
+  color: #c2a85a;
+}
+
+.tm-todo-day__list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 24px;
+}
+
+.tm-todo-day__empty {
+  color: #3a3a40;
+  font-size: 12px;
+  text-align: center;
+}
+
+// Компакт: один день широко, остальные узкие с точками
+.tm-todos__days.is-compact .tm-todo-day {
+  flex: 1 1 0;
+}
+
+.tm-todo-day.is-narrow {
+  flex: 0 0 72px;
+  min-width: 72px;
+  max-width: 72px;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+
+  &:hover {
+    border-color: #c2a85a;
+  }
+
+  .tm-todo-day__head {
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.tm-todo-day__date {
+  font-size: 10px;
+  color: #5a5a60;
+  font-family: monospace;
+}
+
+.tm-todo-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  padding: 2px 0;
+  min-height: 16px;
+}
+
+.tm-todo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: block;
+
+  &[data-p='P1'] {
+    background: #ff8a8a;
+  }
+  &[data-p='P2'] {
+    background: #c2a85a;
+  }
+  &[data-p='P3'] {
+    background: #5a5a60;
+  }
+}
+
+// Рейл скрытого плана
+.tm-todo-rail {
+  flex: 0 0 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 10px 0;
+  background: #161618;
+  border: 1px dashed #3a3a40;
+  border-radius: 10px;
+  color: #c9c9c9;
+  font-size: 16px;
+  cursor: pointer;
+
+  b {
+    font-size: 12px;
+    font-family: monospace;
+  }
+
+  &:hover {
+    border-color: #c2a85a;
+  }
+}
+
+.tm-todo-rail__label {
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #8a8a8a;
+  text-transform: uppercase;
+}
+
+.tm-todo-plan__close {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #5a5a60;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+
+  &:hover {
+    color: #ff8a8a;
+  }
+}
+
+// Дела в ганте: широкие дни + точки
+.tm-todocell {
+  padding: 6px !important;
+  align-items: stretch !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.tm-todocell__corner {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+
+.tm-todocell:hover .tm-todocell__corner {
+  opacity: 1;
+}
+
+.tm-todocell__btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  backdrop-filter: blur(6px);
+
+  &:hover {
+    color: #c2a85a;
+    border-color: #c2a85a;
+  }
+}
+
+.tm-todocell__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.tm-todocell--narrow {
+  justify-content: center !important;
+  padding: 0 2px !important;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(194, 168, 90, 0.08);
+  }
+}
+
+@media (max-width: 700px) {
+  .tm-todos__body {
+    flex-direction: column;
+  }
+
+  .tm-todo-plan {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .tm-todo-rail {
+    flex: 1 1 auto;
+    flex-direction: row;
+    padding: 8px;
+  }
+
+  .tm-todo-rail__label {
+    writing-mode: horizontal-tb;
+  }
+}
+
+.tm-todo-plan {
+  flex: 0 0 230px;
+  min-width: 200px;
+  max-width: 280px;
+  background: #161618;
+  border: 1px dashed #3a3a40;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tm-todo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a1e;
+  border: 1px solid #2a2a2e;
+  border-radius: 8px;
+  padding: 5px 6px;
+  cursor: grab;
+  font-size: 12px;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &.is-done .tm-todo__title {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
+    accent-color: #4caf50;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+}
+
+.tm-todo__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #e8e8e8;
+}
+
+.tm-todo__prio {
+  border: 1px solid #333;
+  background: #0f0f0f;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: monospace;
+
+  &[data-p='P1'] {
+    color: #ff8a8a;
+    border-color: #5a2020;
+  }
+  &[data-p='P2'] {
+    color: #c2a85a;
+    border-color: #3a2e16;
+  }
+  &[data-p='P3'] {
+    color: #8a8a8a;
+  }
+}
+
+.tm-todo__post {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f5c16c;
+  font-family: monospace;
+  flex-shrink: 0;
+}
+
+.tm-todo__roll {
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.tm-todo__del {
+  border: none;
+  background: transparent;
+  color: #5a5a60;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #ff8a8a;
+  }
+}
+
+.tm-overdue__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #232326;
+}
+
+.tm-overdue__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tm-overdue__name {
+  font-weight: 600;
+  color: #fff;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tm-overdue__meta {
+  font-size: 11px;
+  color: #8a8a8a;
 }
