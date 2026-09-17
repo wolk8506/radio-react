@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Typography, Chip } from '@mui/material';
+import { Box, Typography, Chip, Tooltip, IconButton } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { authSelectors } from 'store';
+import { StandByModal } from './StandByModal';
 
 import moment from 'moment';
 import 'moment/locale/ru';
 
 moment.locale('ru');
 
-export const TimeHero = () => {
+export const TimeHero = ({ onAudio }) => {
   const username = useSelector(authSelectors.getUsername) || 'Гость';
+  const [standByOpen, setStandByOpen] = useState(false);
 
   const [time, setTime] = useState({ hh: '00', mm: '00', ss: '00' });
   const [fullDate, setFullDate] = useState('');
@@ -65,7 +67,24 @@ export const TimeHero = () => {
     >
       {/* Шапка карточки */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
-        <AccessTimeIcon sx={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)' }} />
+        <Tooltip title="Экран часов" arrow open={standByOpen ? false : undefined}>
+          <IconButton
+            aria-label="Открыть часы"
+            onClick={e => {
+              e.currentTarget.blur();
+              setStandByOpen(true);
+            }}
+            size="small"
+            sx={{
+              p: 0.4,
+              color: 'rgba(255, 255, 255, 0.65)',
+              flexShrink: 0,
+              '&:hover': { color: '#fff', bgcolor: 'rgba(255, 255, 255, 0.08)' },
+            }}
+          >
+            <AccessTimeIcon sx={{ fontSize: '0.9rem' }} />
+          </IconButton>
+        </Tooltip>
         {/* <Typography
           sx={{
             fontSize: '0.75rem',
@@ -273,6 +292,7 @@ export const TimeHero = () => {
           </Typography>
         </Box>
       </Box>
+      <StandByModal open={standByOpen} onClose={() => setStandByOpen(false)} onAudio={onAudio} />
     </Box>
   );
 };
