@@ -82,7 +82,7 @@ const EXCLUDE_RULES = [
 ];
 const KINDS = [
   { value: 'book', label: 'Книга' },
-  { value: 'walk', label: 'Ходьба' },
+  { value: 'fitness', label: 'Фитнес' },
   { value: 'other', label: 'Другое' },
 ];
 const WALK_REASONS = [
@@ -94,6 +94,42 @@ const WALK_REASONS = [
 // Смайлик по умолчанию для причины пропуска ходьбы + пресеты на выбор
 const REASON_EMOJI = { lazy: '😴', sick: '🤒', work: '💼', rest: '🏖️' };
 const WALK_EMOJIS = ['🤒', '😴', '💼', '🏖️', '🌧️', '🤕', '😷', '🥶'];
+
+// Каталог упражнений для фитнеса: unit reps = повторы, sec = секунды
+const EXERCISES = [
+  { value: 'pushups', label: 'Отжимания', unit: 'reps', withWeight: false },
+  { value: 'squats', label: 'Приседания', unit: 'reps', withWeight: false },
+  { value: 'pullups', label: 'Подтягивания', unit: 'reps', withWeight: false },
+  { value: 'abs', label: 'Пресс', unit: 'reps', withWeight: false },
+  { value: 'plank', label: 'Планка', unit: 'sec', withWeight: false },
+  { value: 'bench', label: 'Жим лёжа', unit: 'reps', withWeight: true },
+  { value: 'deadlift', label: 'Становая тяга', unit: 'reps', withWeight: true },
+  { value: 'hammer', label: 'Молоток', unit: 'reps', withWeight: true },
+  { value: 'custom', label: 'Своё упражнение', unit: 'reps', withWeight: false },
+];
+const exerciseByValue = v => EXERCISES.find(e => e.value === v);
+const unitLabelFor = ex => {
+  const e = typeof ex === 'string' ? exerciseByValue(ex) : ex;
+  return e && e.unit === 'sec' ? 'сек.' : 'повт.';
+};
+const unitShortFor = ex => {
+  const e = typeof ex === 'string' ? exerciseByValue(ex) : ex;
+  return e && e.unit === 'sec' ? 'сек' : 'повт';
+};
+
+// Подходы дня: новый формат — массив [{reps, weight}], старый — числа sets/reps/weight
+const markSetsList = m => {
+  if (!m) return [];
+  if (Array.isArray(m.sets)) return m.sets;
+  const n = Number(m.sets) || 0;
+  const r = Number(m.reps) || 0;
+  const w = m.weight ?? '';
+  if (n > 1 && r > 0) return Array.from({ length: Math.min(n, 30) }, () => ({ reps: r, weight: w }));
+  if (r > 0 || n > 0) return [{ reps: r || n, weight: w }];
+  return [];
+};
+const markTotalReps = m => markSetsList(m).reduce((a, s) => a + (Number(s.reps) || 0), 0);
+const markMaxWeight = m => markSetsList(m).reduce((a, s) => Math.max(a, Number(s.weight) || 0), 0);
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_RU = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
 
@@ -152,8 +188,8 @@ const computeSchedule = (task, effStart) => {
   while (d <= origEnd) {
     if (isExcluded(d, task.exclusions || [], task.excludeRule || 'none')) {
       excludedCount += 1;
-    } else if (d <= today && task.kind !== 'walk') {
-      // Ходьба: пропущенные дни НЕ переносятся в конец (без пролонгации)
+    } else if (d <= today && task.kind !== 'fitness' && task.kind !== 'walk') {
+      // Фитнес и ходьба: пропущенные дни НЕ переносятся в конец (без пролонгации)
       const m = (task.marks || {})[d];
       if (d === today && (!m || !m.done)) {
         // Текущий день без отметки — не считаем пропуском (как и в ячейках 'current'),
@@ -222,8 +258,33 @@ const getForecast = (task) => {
 
 // Описание ячейки дня для задачи
 const dayCell = (task, sch, effStart, d) => {
+  // Проверяем, завершена ли книга
+  const isBookFinished = task.kind === 'book' && task.mode === 'units' && (() => {
+    const total = Number(task.unitsTotal) || 0;
+    if (total > 0) {
+      let doneUnits = 0;
+      Object.values(task.marks || {}).forEach(mm => {
+        if (mm && mm.done) doneUnits += Number(mm.units) || 0;
+      });
+      return doneUnits >= total;
+    }
+    return false;
+  })();
+
+  // Находим дату последней отметки для завершенной книги
+  const lastMarkDate = isBookFinished ? (() => {
+    const marks = Object.keys(task.marks || {}).filter(d => task.marks[d]?.done);
+    return marks.length > 0 ? marks.sort().reverse()[0] : null;
+  })() : null;
+
   if (d < effStart || d > sch.end) {
-    if (d > sch.end && d <= sch.origEnd) return { kind: 'cut', title: 'Сокращено (излишек)' };
+    if (d > sch.end && d <= sch.origEnd) {
+      // Если книга полностью прочитана и день после последней отметки, помечаем как завершённую
+      if (isBookFinished && lastMarkDate && d > lastMarkDate) {
+        return { kind: 'cut', title: 'Книга завершена' };
+      }
+      return { kind: 'cut', title: 'Сокращено (излишек)' };
+    }
     return { kind: 'empty' };
   }
   const { origEnd, excludedCount, carry } = sch;
@@ -234,8 +295,12 @@ const past = d <= todayStr();
       if (past) {
         if (!m || !m.done) {
           if (d === todayStr()) return { kind: 'current' };
-          // Ходьба: вместо крестика можно показать смайлик причины пропуска
-          if (task.kind === 'walk') {
+          // Если книга полностью прочитана и день после последней отметки, не помечаем как пропущенный
+          if (isBookFinished && lastMarkDate && d > lastMarkDate) {
+            return { kind: 'cut', title: 'Книга завершена' };
+          }
+          // Фитнес: вместо крестика можно показать смайлик причины пропуска
+          if (task.kind === 'fitness') {
             const emoji = m?.emoji || (m?.reason ? REASON_EMOJI[m.reason] : '');
             if (emoji) {
               const reasonLabel = (WALK_REASONS.find(r => r.value === m.reason)?.label) || '';
@@ -250,15 +315,21 @@ const past = d <= todayStr();
   }
   const tailIdx = diffDays(origEnd, d); // 1 для первого хвостового дня
   if (tailIdx <= excludedCount) return { kind: 'relocated' };
+  // Если книга полностью прочитана и день после последней отметки, хвостовые дни тоже помечаем как сокращённые
+  if (isBookFinished && lastMarkDate && d > lastMarkDate) {
+    return { kind: 'cut', title: 'Книга завершена' };
+  }
   const extIdx = tailIdx - excludedCount;
   return { kind: 'extension', fill: extIdx === 1 ? carry : 0 };
 };
+
+const fitnessGroupKey = t => (t.kind === 'fitness' || t.kind === 'walk' ? 'Фитнес' : t.name || 'Без названия');
 
 const buildRows = (tasks, collapsed) => {
   const order = [];
   const map = {};
   tasks.forEach(t => {
-    const p = t.name || 'Без названия';
+    const p = fitnessGroupKey(t);
     if (!map[p]) {
       map[p] = [];
       order.push(p);
@@ -270,15 +341,53 @@ const buildRows = (tasks, collapsed) => {
     result.push({ type: 'phase', phase: p, items: map[p] });
     if (!collapsed[p]) {
       const sorted = [...map[p]].sort((a, b) => (a.start < b.start ? -1 : 1));
-      let prevEnd = null;
+      // Цепочка идёт по одинаковым названиям: одноимённые продолжают друг друга,
+      // разные упражнения в «Фитнесе» идут параллельно со своего старта
+      const prevEndByName = {};
       sorted.forEach(t => {
+        const prevEnd = prevEndByName[t.name] ?? null;
         // Вручную можно начать в день окончания предыдущей (t.start === prevEnd),
         // иначе цепочка идёт непрерывно со следующего дня
         let effStart = t.start;
         if (prevEnd && t.start !== prevEnd) effStart = addDays(prevEnd, 1);
         const sch = computeSchedule(t, effStart);
         result.push({ type: 'task', task: t, effStart, sch });
-        prevEnd = sch.end;
+        // Для завершенных книг используем дату последней отметки вместо sch.end
+        if (t.kind === 'book' && t.mode === 'units') {
+          const total = Number(t.unitsTotal) || 0;
+          if (total > 0) {
+            let doneUnits = 0;
+            let lastMarkDate = null;
+            Object.entries(t.marks || {}).forEach(([d, mm]) => {
+              if (mm && mm.done) {
+                doneUnits += Number(mm.units) || 0;
+                if (!lastMarkDate || d > lastMarkDate) lastMarkDate = d;
+              }
+            });
+            if (doneUnits >= total && lastMarkDate) {
+              prevEndByName[t.name] = lastMarkDate;
+            } else {
+              prevEndByName[t.name] = sch.end;
+            }
+          } else {
+            prevEndByName[t.name] = sch.end;
+          }
+        } else if (t.kind === 'fitness') {
+          // Для фитнеса используем дату последней отметки
+          let lastMarkDate = null;
+          Object.entries(t.marks || {}).forEach(([d, mm]) => {
+            if (mm && mm.done) {
+              if (!lastMarkDate || d > lastMarkDate) lastMarkDate = d;
+            }
+          });
+          if (lastMarkDate) {
+            prevEndByName[t.name] = lastMarkDate;
+          } else {
+            prevEndByName[t.name] = sch.end;
+          }
+        } else {
+          prevEndByName[t.name] = sch.end;
+        }
       });
     }
   });
@@ -319,6 +428,7 @@ const mergeMarks = (local, snap, fresh) => {
 const SCALAR_KEYS = [
   'name', 'info', 'color', 'kind', 'mode', 'unitsTotal', 'unitsStrategy', 'unitsPerDay',
   'start', 'plannedEnd', 'plannedDays', 'planMode', 'daysCount', 'excludeRule', 'archived',
+  'exercise', 'withWeight',
 ];
 
 const mergeTask = (lt, st, ft) => {
@@ -648,7 +758,17 @@ export const TimeManagementPage = () => {
           if (m && (m.reason || m.emoji)) s.reasons += 1;
           if (m && m.done) {
             s.pagesRead += Number(m.units) || 0;
-            if (t.kind === 'walk') s.distance += ((Number(m.walkTime) || 0) / 60) * (Number(m.speed) || 0);
+            if (t.kind === 'fitness') {
+              // Для фитнеса: всего повторов/секунд + максимальный вес
+              s.fitUnits = (s.fitUnits || 0) + markTotalReps(m);
+              s.maxWeight = Math.max(s.maxWeight || 0, markMaxWeight(m));
+              if (s.exercise === undefined) {
+                s.exercise = t.exercise;
+                s.withWeight = t.withWeight;
+              }
+            } else if (t.kind === 'walk') {
+              s.distance += ((Number(m.walkTime) || 0) / 60) * (Number(m.speed) || 0);
+            }
           }
         }
         d = addDays(d, 1);
@@ -657,6 +777,15 @@ export const TimeManagementPage = () => {
     return Object.values(map).map(s => {
       let extra = '';
       if (s.kind === 'book') extra = `прочитано ${s.pagesRead} из ${s.pagesTotal} стр.`;
+      else if (s.kind === 'fitness') {
+        const u = unitLabelFor(s.exercise);
+        extra =
+          (s.fitUnits || 0) > 0
+            ? `всего ${s.fitUnits} ${u}${s.withWeight && s.maxWeight > 0 ? ` · макс ${s.maxWeight} кг` : ''}`
+            : s.reasons
+              ? `пропусков: ${s.reasons}`
+              : 'нет данных';
+      }
       else if (s.kind === 'walk')
         extra = s.distance > 0 ? `${s.distance.toFixed(1)} км` : s.reasons ? `пропусков: ${s.reasons}` : 'нет данных';
       else extra = `готово ${s.done}`;
@@ -999,7 +1128,7 @@ export const TimeManagementPage = () => {
         if (!isExcluded(d, t.exclusions || [], t.excludeRule || 'none') && d <= today) {
           const wi = (parse(d).getDay() + 6) % 7;
           const mark = (t.marks || {})[d];
-          const pctVal = mark?.done ? (t.kind === 'walk' ? 100 : mark.percent || 0) : 0;
+          const pctVal = mark?.done ? (t.kind === 'fitness' || t.kind === 'walk' ? 100 : mark.percent || 0) : 0;
           wdSum[wi] += pctVal;
           wdCnt[wi] += 1;
         }
@@ -1176,6 +1305,14 @@ export const TimeManagementPage = () => {
         base.daysCount = String(days);
         base.planMode = 'days';
       }
+    } else if (kind === 'fitness') {
+      base.kind = 'fitness';
+      base.exercise = 'pushups';
+      base.name = 'Отжимания';
+      base.withWeight = false;
+      base.mode = 'percent';
+      base.plannedDays = 30;
+      base.plannedEnd = addDays(todayStr(), 29);
     } else if (kind === 'walk') {
       base.kind = 'walk';
       base.name = 'Ходьба';
@@ -1272,6 +1409,8 @@ export const TimeManagementPage = () => {
       planMode: taskForm.planMode,
       daysCount: taskForm.daysCount,
       excludeRule: taskForm.excludeRule,
+      exercise: taskForm.exercise,
+      withWeight: taskForm.withWeight,
     };
     setPlans(prev => [...prev, plan]);
     toast.success('Сохранено как план');
@@ -1293,6 +1432,8 @@ export const TimeManagementPage = () => {
       unitsPerDay: plan.unitsPerDay,
       planMode: plan.planMode,
       daysCount: plan.daysCount,
+      exercise: plan.exercise,
+      withWeight: plan.withWeight,
       start,
       plannedEnd,
       plannedDays: plan.planMode === 'days' ? days : 14,
@@ -1311,6 +1452,26 @@ export const TimeManagementPage = () => {
     let walkTime = m?.walkTime || '';
     let speed = m?.speed || '';
     let reason = m?.reason || '';
+    // Подходы дня: массив [{reps, weight}]. Старый плоский формат мигрируем на лету.
+    let setsList = [];
+    if (m && markSetsList(m).length) {
+      setsList = markSetsList(m).map(s => ({ reps: s.reps ?? '', weight: s.weight ?? '' }));
+    } else if (task.kind === 'fitness' && !m) {
+      // Шаблон из предыдущего выполненного дня (те же повторы/вес)
+      const past = Object.keys(task.marks || {})
+        .filter(d => d < date)
+        .sort();
+      for (let i = past.length - 1; i >= 0; i--) {
+        const pm = task.marks[past[i]];
+        if (pm && pm.done && markSetsList(pm).length) {
+          setsList = markSetsList(pm).map(s => ({ reps: s.reps ?? '', weight: s.weight ?? '' }));
+          break;
+        }
+      }
+    }
+    if (task.kind === 'fitness' && !setsList.length) setsList = [{ reps: '', weight: '' }];
+
+    // Для старой логики ходьбы (для совместимости)
     if (task.kind === 'walk' && !m) {
       const past = Object.keys(task.marks || {})
         .filter(d => d < date)
@@ -1361,11 +1522,14 @@ export const TimeManagementPage = () => {
       reason,
       emoji: m?.emoji || '',
       notes: m?.notes || '',
+      setsList,
+      withWeight: !!task.withWeight,
+      exercise: task.exercise || '',
     });
     setDayOpen(true);
   };
   const saveDay = () => {
-    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, pageFrom, pageTo, walkTime, speed, reason, emoji, notes } = dayForm;
+    const { taskId, date, mode, effStart, kind, exclude, done, percent, units, pageFrom, pageTo, walkTime, speed, reason, emoji, notes, setsList, withWeight } = dayForm;
     if (
       kind === 'book' &&
       mode === 'units' &&
@@ -1393,6 +1557,8 @@ export const TimeManagementPage = () => {
             const idx = diffDays(effStart, date);
             const pl = plannedUnits(t, idx);
             pct = pl > 0 ? Math.round((Number(units) || 0) / pl * 100) : done ? 100 : 0;
+          } else if (kind === 'fitness' && done) {
+            pct = 100;
           } else if (kind === 'walk' && done) {
             pct = 100;
           }
@@ -1407,6 +1573,15 @@ export const TimeManagementPage = () => {
             reason: kind === 'walk' && !done ? reason : undefined,
             emoji: kind === 'walk' && !done && emoji?.trim() ? emoji.trim() : undefined,
             notes: notes?.trim() ? notes.trim() : undefined,
+            sets:
+              kind === 'fitness'
+                ? (setsList || [])
+                    .filter(s => s.reps !== '' || s.weight !== '')
+                    .map(s => ({
+                      reps: Number(s.reps) || 0,
+                      ...(withWeight ? { weight: Number(s.weight) || 0 } : {}),
+                    }))
+                : undefined,
           };
         }
         return { ...t, exclusions, marks };
@@ -1606,8 +1781,8 @@ export const TimeManagementPage = () => {
             <Button size="small" variant="contained" onClick={() => openAdd('book')}>
               Книга
             </Button>
-            <Button size="small" variant="contained" onClick={() => openAdd('walk')}>
-              Ходьба
+            <Button size="small" variant="contained" onClick={() => openAdd('fitness')}>
+              Фитнес
             </Button>
             <Button size="small" variant="outlined" startIcon={<AddIcon />} onClick={() => openAdd('other')}>
               Другое
@@ -1978,6 +2153,20 @@ export const TimeManagementPage = () => {
                                 : `${m?.units || 0} стр.`;
                             const pl = plannedUnits(t, diffDays(row.effStart, d));
                             if (pl) title += ` · план ${pl}`;
+                          } else if (t.kind === 'fitness') {
+                            const parts = [];
+                            const exercise = exerciseByValue(t.exercise);
+                            if (exercise) parts.push(exercise.label);
+                            const sets = markSetsList(m);
+                            if (sets.length) {
+                              const total = markTotalReps(m);
+                              const u = unitLabelFor(t.exercise);
+                              parts.push(`${sets.length} подх. · ${total} ${u}`);
+                              const mw = markMaxWeight(m);
+                              if ((t.withWeight || sets.some(s => Number(s.weight) > 0)) && mw > 0)
+                                parts.push(`${mw} кг`);
+                            }
+                            title = parts.join(' • ') || `${Math.round(cell.fill)}%`;
                           } else if (t.kind === 'walk') {
                             const parts = [];
                             if (m?.walkTime) parts.push(`${m.walkTime} мин`);
@@ -2733,15 +2922,64 @@ export const TimeManagementPage = () => {
               </MenuItem>
             ))}
           </TextField>
-          <TextField
-            label="Название (тип задачи)"
-            value={taskForm.name}
-            onChange={e => setTaskForm(p => ({ ...p, name: e.target.value }))}
-            fullWidth
-            margin="dense"
-            autoFocus
-            placeholder="Книга: Название"
-          />
+          {taskForm.kind === 'fitness' ? (
+            <>
+              <TextField
+                label="Упражнение"
+                select
+                value={taskForm.exercise || 'pushups'}
+                onChange={e => {
+                  const v = e.target.value;
+                  const ex = exerciseByValue(v);
+                  setTaskForm(p => ({
+                    ...p,
+                    exercise: v,
+                    name: v === 'custom' ? p.name : ex?.label || p.name,
+                    withWeight: ex ? !!ex.withWeight : p.withWeight,
+                  }));
+                }}
+                fullWidth
+                margin="dense"
+                autoFocus
+              >
+                {EXERCISES.map(ex => (
+                  <MenuItem key={ex.value} value={ex.value}>
+                    {ex.label}
+                    {ex.withWeight ? ' (с весом)' : ex.unit === 'sec' ? ' (на время)' : ''}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {taskForm.exercise === 'custom' && (
+                <TextField
+                  label="Название упражнения"
+                  value={taskForm.name}
+                  onChange={e => setTaskForm(p => ({ ...p, name: e.target.value }))}
+                  fullWidth
+                  margin="dense"
+                  placeholder="Например: Берпи"
+                />
+              )}
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={!!taskForm.withWeight}
+                    onChange={e => setTaskForm(p => ({ ...p, withWeight: e.target.checked }))}
+                  />
+                }
+                label="С весом"
+              />
+            </>
+          ) : (
+            <TextField
+              label="Название (тип задачи)"
+              value={taskForm.name}
+              onChange={e => setTaskForm(p => ({ ...p, name: e.target.value }))}
+              fullWidth
+              margin="dense"
+              autoFocus
+              placeholder="Книга: Название"
+            />
+          )}
           <TextField
             label="Название"
             value={taskForm.info}
@@ -2784,7 +3022,7 @@ export const TimeManagementPage = () => {
               />
             </>
           ) : (
-            taskForm.kind !== 'walk' && (
+            taskForm.kind !== 'fitness' && taskForm.kind !== 'walk' && (
               <>
                 <TextField
                   label="Режим наполнения"
@@ -2881,10 +3119,13 @@ export const TimeManagementPage = () => {
               })()}
             </Box>
           )}
+          {taskForm.kind === 'fitness' && (
+            <div className="tm-hint">Фитнес отмечается по дням: упражнение, подходы, повторения, вес (или причина пропуска).</div>
+          )}
           {taskForm.kind === 'walk' && (
             <div className="tm-hint">Ходьба отмечается по дням: время и скорость (или причина пропуска).</div>
           )}
-          {taskForm.kind === 'book' ? (
+          {taskForm.kind === 'book' || taskForm.kind === 'fitness' || taskForm.kind === 'walk' ? (
             <TextField
               label="Дата начала"
               type="date"
@@ -3041,7 +3282,13 @@ export const TimeManagementPage = () => {
               <div className="tm-plan__body">
                 <div className="tm-plan__name">{p.name}</div>
                 <div className="tm-plan__meta">
-                  {p.kind === 'book' ? 'Книга' : p.kind === 'walk' ? 'Ходьба' : 'Другое'}
+                  {p.kind === 'book'
+                    ? 'Книга'
+                    : p.kind === 'fitness'
+                      ? `Фитнес${exerciseByValue(p.exercise)?.label ? `: ${exerciseByValue(p.exercise).label}` : ''}`
+                      : p.kind === 'walk'
+                        ? 'Ходьба'
+                        : 'Другое'}
                   {p.mode === 'units' ? ` · ${p.unitsTotal} стр.` : ''}
                   {p.planMode === 'days' ? ` · за ${p.daysCount || '?'} дн.` : ''}
                 </div>
@@ -3084,7 +3331,7 @@ export const TimeManagementPage = () => {
               />
               {!dayForm.exclude &&
                 dayForm.date <= today &&
-                (dayForm.kind === 'walk' ? (
+                (dayForm.kind === 'fitness' ? (
                   <div>
                     <FormControlLabel
                       control={
@@ -3096,21 +3343,81 @@ export const TimeManagementPage = () => {
                       label="Выполнено"
                     />
                     {dayForm.done ? (
-                      <div className="tm-dialog__row">
-                        <TextField
-                          label="Время хотьбы (мин)"
-                          type="number"
-                          value={dayForm.walkTime}
-                          onChange={e => setDayForm(p => ({ ...p, walkTime: e.target.value }))}
-                          margin="dense"
-                        />
-                        <TextField
-                          label="Скорость (км/ч)"
-                          type="number"
-                          value={dayForm.speed}
-                          onChange={e => setDayForm(p => ({ ...p, speed: e.target.value }))}
-                          margin="dense"
-                        />
+                      <div>
+                        <div className="tm-dialog__slider">
+                          <span>
+                            Подходы: {(dayForm.setsList || []).length} · всего{' '}
+                            {(dayForm.setsList || []).reduce((a, s) => a + (Number(s.reps) || 0), 0)}{' '}
+                            {unitLabelFor(dayForm.exercise)}
+                          </span>
+                        </div>
+                        {(dayForm.setsList || []).map((s, i) => (
+                          <div className="tm-dialog__row" key={i}>
+                            <TextField
+                              label={`${i + 1}-й: ${unitShortFor(dayForm.exercise)}`}
+                              type="number"
+                              value={s.reps}
+                              onChange={e => {
+                                const v = e.target.value;
+                                setDayForm(p => {
+                                  const next = (p.setsList || []).map((row, j) =>
+                                    j === i ? { ...row, reps: v } : row
+                                  );
+                                  const total = next.reduce((a, r) => a + (Number(r.reps) || 0), 0);
+                                  return { ...p, setsList: next, units: total, done: total > 0 };
+                                });
+                              }}
+                              margin="dense"
+                            />
+                            {dayForm.withWeight && (
+                              <TextField
+                                label="Вес, кг"
+                                type="number"
+                                value={s.weight}
+                                onChange={e => {
+                                  const v = e.target.value;
+                                  setDayForm(p => ({
+                                    ...p,
+                                    setsList: (p.setsList || []).map((row, j) =>
+                                      j === i ? { ...row, weight: v } : row
+                                    ),
+                                  }));
+                                }}
+                                margin="dense"
+                              />
+                            )}
+                            <IconButton
+                              size="small"
+                              color="error"
+                              aria-label="Убрать подход"
+                              onClick={() => {
+                                setDayForm(p => {
+                                  const next = (p.setsList || []).filter((_, j) => j !== i);
+                                  const total = next.reduce((a, r) => a + (Number(r.reps) || 0), 0);
+                                  return { ...p, setsList: next, units: total, done: total > 0 };
+                                });
+                              }}
+                              sx={{ alignSelf: 'center' }}
+                            >
+                              <DeleteOutlineIcon sx={{ fontSize: 18 }} />
+                            </IconButton>
+                          </div>
+                        ))}
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          startIcon={<AddIcon />}
+                          sx={{ mt: 1 }}
+                          onClick={() => {
+                            setDayForm(p => {
+                              const rows = p.setsList || [];
+                              const lastW = rows.length ? rows[rows.length - 1].weight || '' : '';
+                              return { ...p, setsList: [...rows, { reps: '', weight: lastW }] };
+                            });
+                          }}
+                        >
+                          Подход
+                        </Button>
                       </div>
                     ) : (
                       <>

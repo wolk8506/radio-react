@@ -1036,6 +1036,257 @@ body {
   
 }
 
+.MuiDialog-paper.standby-dialog-paper {
+  --sb: 1vmin;
+  border-radius: 0 !important;
+  background: radial-gradient(120% 90% at 68% 46%, #e2b84a 0%, #d4a53c 48%, #c4922c 100%) !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  color: #1a1408;
+}
+
+.standby-layout {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--sb) * 4);
+  gap: calc(var(--sb) * 3.5);
+  flex-direction: row;
+}
+
+.MuiModal-root.standby-modal .MuiTypography-root {
+  color: #1a1408;
+}
+
+.MuiModal-root.standby-modal .standby-muted {
+  color: rgba(26, 20, 8, 0.55);
+}
+
+.MuiModal-root.standby-modal .standby-faint {
+  color: rgba(26, 20, 8, 0.38);
+}
+
+.standby-side {
+  width: calc(var(--sb) * 28);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(var(--sb) * 4);
+  min-width: 0;
+}
+
+.standby-radio {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--sb) * 1.2);
+  width: 100%;
+  min-width: 0;
+}
+
+.standby-cover {
+  width: calc(var(--sb) * 9);
+  height: calc(var(--sb) * 9);
+  border-radius: calc(var(--sb) * 1.6);
+  object-fit: cover;
+  box-shadow: 0 calc(var(--sb) * 1) calc(var(--sb) * 2.4) rgba(0, 0, 0, 0.22);
+}
+
+.standby-title {
+  font-size: calc(var(--sb) * 1.7) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.standby-artist {
+  font-size: calc(var(--sb) * 1.45) !important;
+  font-weight: 500 !important;
+  margin-top: calc(var(--sb) * 0.25);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.standby-play {
+  align-self: flex-start;
+  margin-top: calc(var(--sb) * 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--sb) * 0.7);
+  border: 0;
+  border-radius: 999px;
+  padding: calc(var(--sb) * 0.75) calc(var(--sb) * 1.7);
+  background: rgba(0, 0, 0, 0.16);
+  color: #1a1408;
+  font-size: calc(var(--sb) * 1.5);
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+
+  &:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.24);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  .MuiSvgIcon-root {
+    font-size: calc(var(--sb) * 1.8) !important;
+  }
+}
+
+.standby-cal {
+  width: 100%;
+  user-select: none;
+}
+
+.standby-cal-month {
+  font-size: calc(var(--sb) * 1.2) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.16em;
+  margin-bottom: calc(var(--sb) * 1);
+}
+
+.standby-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: calc(var(--sb) * 0.35);
+  text-align: center;
+}
+
+.standby-cal-wd {
+  font-size: calc(var(--sb) * 1) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+}
+
+.standby-cal-cell {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+}
+
+.standby-cal-day {
+  width: 82%;
+  height: 82%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--sb) * 1.35);
+  font-weight: 500;
+  line-height: 1;
+  color: #1a1408;
+}
+
+.standby-cal-day.is-today {
+  background: rgba(255, 255, 255, 0.92);
+  font-weight: 700;
+}
+
+.standby-clock-host {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.standby-clock-face {
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.standby-clock-face .standby-clock-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+.standby-radio-ico {
+  position: absolute;
+  top: 12%;
+  left: 14%;
+  width: calc(var(--sb) * 2.6) !important;
+  height: calc(var(--sb) * 2.6) !important;
+  font-size: calc(var(--sb) * 2.6) !important;
+  color: rgba(26, 20, 8, 0.38);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.standby-close {
+  position: absolute !important;
+  top: calc(var(--sb) * 1.6) !important;
+  right: calc(var(--sb) * 1.6) !important;
+  z-index: 2;
+  width: calc(var(--sb) * 3.6) !important;
+  height: calc(var(--sb) * 3.6) !important;
+  color: rgba(26, 20, 8, 0.55) !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.16) !important;
+    color: #1a1408 !important;
+  }
+
+  .MuiSvgIcon-root {
+    font-size: calc(var(--sb) * 2) !important;
+  }
+}
+
+@media (orientation: portrait) {
+  .standby-layout {
+    flex-direction: column;
+    padding: calc(var(--sb) * 5.5) calc(var(--sb) * 5.5) calc(var(--sb) * 3) calc(var(--sb) * 4);
+    gap: calc(var(--sb) * 2.5);
+  }
+
+  .standby-side {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--sb) * 3);
+  }
+
+  .standby-radio {
+    flex: 1 1 0;
+    max-width: 48%;
+  }
+
+  .standby-cal {
+    flex: 0 1 auto;
+    width: calc(var(--sb) * 34);
+    max-width: 48%;
+  }
+}
+
 // .MuiDialogTitle-root {
 //   color: var(--color-02) !important;
 // }

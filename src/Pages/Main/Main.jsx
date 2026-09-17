@@ -45,7 +45,7 @@ export const Main = ({ onAudio }) => {
             ) : THEME_MAIN_CLOCK === 'timeHeroNewYear' ? (
               <TimeHeroNewYear />
             ) : (
-              <TimeHero />
+              <TimeHero onAudio={onAudio} />
             )}
           </div>
           <div className="grid-item weather-wrapper">
