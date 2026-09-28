@@ -271,17 +271,11 @@ const dayCell = (task, sch, effStart, d) => {
     return false;
   })();
 
-  // Находим дату последней отметки для завершенной книги
-  const lastMarkDate = isBookFinished ? (() => {
-    const marks = Object.keys(task.marks || {}).filter(d => task.marks[d]?.done);
-    return marks.length > 0 ? marks.sort().reverse()[0] : null;
-  })() : null;
-
   if (d < effStart || d > sch.end) {
     if (d > sch.end && d <= sch.origEnd) {
-      // Если книга полностью прочитана и день после последней отметки, помечаем как завершённую
-      if (isBookFinished && lastMarkDate && d > lastMarkDate) {
-        return { kind: 'cut', title: 'Книга завершена' };
+      // Книга полностью прочитана — остаток плана помечаем как завершённый
+      if (isBookFinished) {
+        return { kind: 'cut', title: 'Книга завершена', finished: true };
       }
       return { kind: 'cut', title: 'Сокращено (излишек)' };
     }
@@ -290,15 +284,19 @@ const dayCell = (task, sch, effStart, d) => {
   const { origEnd, excludedCount, carry } = sch;
   if (d <= origEnd) {
     if (isExcluded(d, task.exclusions || [], task.excludeRule || 'none')) return { kind: 'gap', title: 'Перенесён в конец' };
+    // Книга завершена — будущие дни плана тоже помечаем как завершённые, а не синим
+    if (isBookFinished && d > todayStr()) {
+      return { kind: 'cut', title: 'Книга завершена', finished: true };
+    }
 const past = d <= todayStr();
       const m = (task.marks || {})[d];
       if (past) {
         if (!m || !m.done) {
-          if (d === todayStr()) return { kind: 'current' };
-          // Если книга полностью прочитана и день после последней отметки, не помечаем как пропущенный
-          if (isBookFinished && lastMarkDate && d > lastMarkDate) {
-            return { kind: 'cut', title: 'Книга завершена' };
+          // Книга полностью прочитана — и сегодня тоже завершён, без синей подсветки
+          if (isBookFinished) {
+            return { kind: 'cut', title: 'Книга завершена', finished: true };
           }
+          if (d === todayStr()) return { kind: 'current' };
           // Фитнес: вместо крестика можно показать смайлик причины пропуска
           if (task.kind === 'fitness') {
             const emoji = m?.emoji || (m?.reason ? REASON_EMOJI[m.reason] : '');
@@ -315,9 +313,9 @@ const past = d <= todayStr();
   }
   const tailIdx = diffDays(origEnd, d); // 1 для первого хвостового дня
   if (tailIdx <= excludedCount) return { kind: 'relocated' };
-  // Если книга полностью прочитана и день после последней отметки, хвостовые дни тоже помечаем как сокращённые
-  if (isBookFinished && lastMarkDate && d > lastMarkDate) {
-    return { kind: 'cut', title: 'Книга завершена' };
+  // Книга полностью прочитана — хвостовые дни тоже помечаем как завершённые
+  if (isBookFinished) {
+    return { kind: 'cut', title: 'Книга завершена', finished: true };
   }
   const extIdx = tailIdx - excludedCount;
   return { kind: 'extension', fill: extIdx === 1 ? carry : 0 };
@@ -1313,6 +1311,8 @@ export const TimeManagementPage = () => {
       base.mode = 'percent';
       base.plannedDays = 30;
       base.plannedEnd = addDays(todayStr(), 29);
+      base.daysCount = '30';
+      base.planMode = 'days';
     } else if (kind === 'walk') {
       base.kind = 'walk';
       base.name = 'Ходьба';
@@ -1332,6 +1332,9 @@ export const TimeManagementPage = () => {
           ? String(Math.ceil(Number(task.unitsTotal) / task.plannedDays))
           : task.unitsPerDay);
       setTaskForm({ ...task, mode: 'units', unitsStrategy: 'fixed', planMode: 'days', unitsPerDay: perDay });
+    } else if (task.kind === 'fitness') {
+      // Фитнес: длительность правится полем «Количество дней»
+      setTaskForm({ ...task, planMode: 'days', daysCount: String(task.plannedDays || 30) });
     } else {
       setTaskForm({ ...task });
     }
@@ -1349,6 +1352,11 @@ export const TimeManagementPage = () => {
       const perDay = Number(taskForm.unitsPerDay) || 0;
       if (!perDay) return toast.warn('Укажите, сколько страниц читать в день');
       const days = Math.ceil(total / perDay);
+      plannedDays = days;
+      plannedEnd = addDays(taskForm.start, days - 1);
+    } else if (taskForm.kind === 'fitness') {
+      // Фитнес: длительность задаётся полем «Количество дней»
+      const days = Math.max(1, Number(taskForm.daysCount) || Number(taskForm.plannedDays) || 30);
       plannedDays = days;
       plannedEnd = addDays(taskForm.start, days - 1);
     } else {
@@ -1369,6 +1377,7 @@ export const TimeManagementPage = () => {
       ...(taskForm.kind === 'book'
         ? { mode: 'units', unitsStrategy: 'fixed', planMode: 'days', daysCount: String(plannedDays) }
         : {}),
+      ...(taskForm.kind === 'fitness' ? { planMode: 'days', daysCount: String(plannedDays) } : {}),
     };
     if (taskForm.id) {
       setTasks(prev => prev.map(t => (t.id === taskForm.id ? payload : t)));
@@ -2128,7 +2137,7 @@ export const TimeManagementPage = () => {
                     </div>
                     {days.map(d => {
                       const cell = dayCell(t, sch, row.effStart, d);
-                      const baseCls = `tm-cell ${d === today ? 'tm-col--today' : ''} ${isWeekend(d) ? 'tm-weekend' : ''} ${
+                      const baseCls = `tm-cell ${d === today && !cell.finished ? 'tm-col--today' : ''} ${isWeekend(d) ? 'tm-weekend' : ''} ${
                         isMonday(d) ? 'tm-weekstart' : ''
                       }`;
                       if (cell.kind === 'empty')
@@ -2195,6 +2204,10 @@ export const TimeManagementPage = () => {
                         cell.kind === 'missEmoji' ||
                         (cell.kind === 'extension' && cell.fill > 0);
                       const filled = (cell.kind === 'done' || cell.kind === 'extension') && cell.fill > 0;
+                      // Ходьба: в ячейке показываем время и дистанцию вместо процентов
+                      const walkMins = cell.kind === 'done' && t.kind === 'walk' ? Number(m?.walkTime) || 0 : 0;
+                      const walkDist = walkMins > 0 ? (walkMins / 60) * (Number(m?.speed) || 0) : 0;
+                      const showWalkStat = cell.kind === 'done' && t.kind === 'walk' && (walkDist > 0 || walkMins > 0);
                       const borderColor =
                         cell.kind === 'miss' || cell.kind === 'missEmoji'
                           ? '#f44336'
@@ -2222,16 +2235,25 @@ export const TimeManagementPage = () => {
                               style={{ width: `${pct}%` }}
                             />
                           )}
-                          {showText && (
-                            <span
-                              className={`tm-pct ${cell.kind === 'miss' ? 'tm-pct--miss' : ''} ${cell.kind === 'missEmoji' ? 'tm-emoji' : ''}`}
-                            >
-                              {cell.kind === 'miss'
-                                ? '✗'
-                                : cell.kind === 'missEmoji'
-                                  ? cell.emoji
-                                  : Math.round(cell.fill)}
+                          {showWalkStat ? (
+                            <span className="tm-walkstat">
+                              {walkDist > 0 && (
+                                <span className="tm-walkstat__dist">{walkDist.toFixed(1)} км</span>
+                              )}
+                              {walkMins > 0 && <span className="tm-walkstat__time">{walkMins} мин</span>}
                             </span>
+                          ) : (
+                            showText && (
+                              <span
+                                className={`tm-pct ${cell.kind === 'miss' ? 'tm-pct--miss' : ''} ${cell.kind === 'missEmoji' ? 'tm-emoji' : ''}`}
+                              >
+                                {cell.kind === 'miss'
+                                  ? '✗'
+                                  : cell.kind === 'missEmoji'
+                                    ? cell.emoji
+                                    : Math.round(cell.fill)}
+                              </span>
+                            )
                           )}
                           {t.marks?.[d]?.notes && (
                             <span className="tm-note-dot" title={t.marks[d].notes}>
@@ -3125,7 +3147,35 @@ export const TimeManagementPage = () => {
           {taskForm.kind === 'walk' && (
             <div className="tm-hint">Ходьба отмечается по дням: время и скорость (или причина пропуска).</div>
           )}
-          {taskForm.kind === 'book' || taskForm.kind === 'fitness' || taskForm.kind === 'walk' ? (
+          {taskForm.kind === 'fitness' ? (
+            <>
+              <div className="tm-dialog__row">
+                <TextField
+                  label="Дата начала"
+                  type="date"
+                  value={taskForm.start}
+                  onChange={e => setTaskForm(p => ({ ...p, start: e.target.value }))}
+                  InputLabelProps={{ shrink: true }}
+                  margin="dense"
+                />
+                <TextField
+                  label="Количество дней"
+                  type="number"
+                  value={taskForm.daysCount ?? taskForm.plannedDays ?? 30}
+                  onChange={e => setTaskForm(p => ({ ...p, daysCount: e.target.value }))}
+                  margin="dense"
+                />
+              </div>
+              {(() => {
+                const days = Math.max(1, Number(taskForm.daysCount) || Number(taskForm.plannedDays) || 30);
+                return (
+                  <Typography sx={{ fontSize: 11, color: '#8a8a8a', mt: 0.5 }}>
+                    Финиш: <b style={{ color: '#c2a85a' }}>{addDays(taskForm.start, days - 1)}</b> ({days} дн.)
+                  </Typography>
+                );
+              })()}
+            </>
+          ) : taskForm.kind === 'book' || taskForm.kind === 'walk' ? (
             <TextField
               label="Дата начала"
               type="date"
@@ -3480,6 +3530,39 @@ export const TimeManagementPage = () => {
                         </div>
                       </>
                     )}
+                  </div>
+                ) : dayForm.kind === 'walk' ? (
+                  <div>
+                    <div className="tm-dialog__slider">
+                      <span>
+                        {(() => {
+                          const wt = Number(dayForm.walkTime) || 0;
+                          const sp = Number(dayForm.speed) || 0;
+                          if (wt <= 0) return 'Укажи время и скорость';
+                          const dist = sp > 0 ? ((wt / 60) * sp).toFixed(1) : null;
+                          return `${wt} мин${sp > 0 ? ` • ${sp} км/ч` : ''}${dist ? ` = ${dist} км` : ''}`;
+                        })()}
+                      </span>
+                    </div>
+                    <div className="tm-dialog__row">
+                      <TextField
+                        label="Время, мин"
+                        type="number"
+                        value={dayForm.walkTime}
+                        onChange={e => {
+                          const v = e.target.value;
+                          setDayForm(p => ({ ...p, walkTime: v, done: Number(v) > 0 }));
+                        }}
+                        margin="dense"
+                      />
+                      <TextField
+                        label="Скорость, км/ч"
+                        type="number"
+                        value={dayForm.speed}
+                        onChange={e => setDayForm(p => ({ ...p, speed: e.target.value }))}
+                        margin="dense"
+                      />
+                    </div>
                   </div>
                 ) : (
                   <>
